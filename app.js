@@ -33,23 +33,12 @@
   }
 
   /* ---- Waitlist form ----
-     For now we persist locally and confirm. To go live, swap the
-     body of submitSignup() for a POST to your form backend
-     (Formspree, a serverless function, Airtable, etc.). */
+     Posts to the Vercel serverless function at /api/waitlist, which
+     validates and forwards the signup to a Google Sheet. See
+     api/waitlist.js and sheets-endpoint.gs. */
 
   function isValidEmail(email) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  }
-
-  function saveLocally(entry) {
-    try {
-      const key = "cwo_waitlist";
-      const existing = JSON.parse(localStorage.getItem(key) || "[]");
-      existing.push(entry);
-      localStorage.setItem(key, JSON.stringify(existing));
-    } catch (e) {
-      /* localStorage may be unavailable; non-fatal */
-    }
   }
 
   function setStatus(el, msg, kind) {
@@ -58,14 +47,18 @@
   }
 
   function submitSignup(data) {
-    // TODO: replace with a real backend call, e.g.:
-    // return fetch("https://formspree.io/f/XXXX", {
-    //   method: "POST",
-    //   headers: { "Content-Type": "application/json", Accept: "application/json" },
-    //   body: JSON.stringify(data),
-    // }).then(function (r) { if (!r.ok) throw new Error("network"); });
-    saveLocally(data);
-    return Promise.resolve();
+    return fetch("/api/waitlist", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify(data),
+    }).then(function (r) {
+      if (!r.ok) {
+        return r.json().catch(function () { return {}; }).then(function (body) {
+          throw new Error(body.error || "Request failed (" + r.status + ")");
+        });
+      }
+      return r.json().catch(function () { return {}; });
+    });
   }
 
   function initForm() {
@@ -82,6 +75,7 @@
         vertical: fd.get("vertical") || "",
         seniority: fd.get("seniority") || "",
         neighborhood: fd.get("neighborhood") || "",
+        company: (fd.get("company") || "").toString(), // honeypot — humans leave blank
         submittedAt: new Date().toISOString(),
       };
 

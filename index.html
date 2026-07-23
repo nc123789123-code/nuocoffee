@@ -131,6 +131,11 @@
         </div>
 
         <form class="form" id="waitlistForm" novalidate>
+          <!-- Honeypot: hidden from humans, catches bots. Do not remove. -->
+          <div class="hp" aria-hidden="true">
+            <label for="company">Company (leave this blank)</label>
+            <input id="company" name="company" type="text" tabindex="-1" autocomplete="off" />
+          </div>
           <div class="field">
             <label for="name">Name</label>
             <input id="name" name="name" type="text" autocomplete="name" placeholder="Alex Rivera" required />

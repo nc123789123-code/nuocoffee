@@ -15,12 +15,16 @@ building the matching engine. Its job is to explain the concept and capture
 demand *by vertical, seniority, and neighborhood* so we know which NYC cohorts
 to launch first.
 
-It's a fully self-contained static site — no build step, no dependencies.
+The site itself is a static page (no build step); signups are handled by a
+small Vercel serverless function that writes to a Google Sheet you own.
 
 ```
-index.html    Landing page (hero, how-it-works, verticals, waitlist, FAQ)
-styles.css    All styling (coffee-warm palette, fully responsive)
-app.js        Vertical grid rendering + waitlist form handling
+index.html          Landing page (hero, how-it-works, verticals, waitlist, FAQ)
+styles.css          All styling (coffee-warm palette, fully responsive)
+app.js              Vertical grid rendering + waitlist form handling
+api/waitlist.js     Vercel serverless function — validates & forwards signups
+sheets-endpoint.gs  Google Apps Script — appends each signup to your Sheet
+.env.example        Template for the two environment variables Vercel needs
 ```
 
 ## Run locally
@@ -32,22 +36,54 @@ python3 -m http.server 8000
 # then visit http://localhost:8000
 ```
 
-## Deploy
+## Deploy + wire up the waitlist (Vercel → Google Sheet)
 
-Any static host works — GitHub Pages, Vercel, Netlify, Cloudflare Pages.
-Point them at the repo root; there's nothing to build.
+The waitlist flow is:
 
-## Wiring up the waitlist
+```
+browser → /api/waitlist (Vercel function) → Google Apps Script → your Sheet
+```
 
-Signups are currently stored in the browser (`localStorage`) and confirmed
-client-side — enough to demo, but they don't reach you yet. To collect real
-signups, replace the body of `submitSignup()` in `app.js` with a POST to a
-backend. The easiest options:
+Routing through the function means no CORS issues, server-side validation, a
+spam honeypot, and your Google URL stays private. One-time setup:
 
-- **[Formspree](https://formspree.io)** — paste your form ID, no server needed
-- A serverless function (Vercel / Cloudflare) writing to Airtable, Sheets, or a DB
+### 1. Create the Google Sheet + endpoint
 
-A ready-to-uncomment `fetch()` example is included in `app.js`.
+1. Make a Google Sheet. In row 1, add headers:
+   `Timestamp | Name | Email | Vertical | Seniority | Neighborhood | Source`
+2. In the Sheet: **Extensions → Apps Script**. Paste all of
+   [`sheets-endpoint.gs`](./sheets-endpoint.gs) and save.
+3. *(Recommended)* Set a shared secret: **Project Settings → Script Properties**
+   → add `WAITLIST_TOKEN` = a long random string.
+4. **Deploy → New deployment → Web app**, *Execute as: Me*,
+   *Who has access: Anyone*. Copy the **Web app URL**.
+
+Full step-by-step is in the header comment of `sheets-endpoint.gs`.
+
+### 2. Deploy to Vercel
+
+1. Import this repo at [vercel.com/new](https://vercel.com/new). No build settings
+   needed — Vercel serves the static files and turns `api/waitlist.js` into a
+   function automatically.
+2. In **Settings → Environment Variables**, add (see `.env.example`):
+   - `SHEETS_WEBHOOK_URL` = the Web app URL from step 1.4
+   - `SHEETS_TOKEN` = the same value as `WAITLIST_TOKEN` (or leave blank if you skipped it)
+3. **Redeploy** so the env vars take effect, then point `coffeewithonlu.com`
+   at the Vercel project.
+
+That's it — submissions now land as rows in your Sheet.
+
+### Test it
+
+Submit the form on the live site (or `curl` it):
+
+```bash
+curl -X POST https://coffeewithonlu.com/api/waitlist \
+  -H "Content-Type: application/json" \
+  -d '{"name":"Test User","email":"test@firm.com","vertical":"Private Equity","seniority":"Associate","neighborhood":"Midtown"}'
+```
+
+A new row should appear in your Sheet within a second or two.
 
 ## The verticals
 

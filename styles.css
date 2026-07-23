@@ -229,6 +229,7 @@ a { color: inherit; text-decoration: none; }
   box-shadow: 0 0 0 3px rgba(201, 160, 106, 0.25);
 }
 .field__hint { display: block; color: var(--muted); font-size: 0.8rem; margin-top: 6px; }
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 .form__status { min-height: 1.2em; margin: 14px 0 0; font-size: 0.95rem; font-weight: 600; }
 .form__status--ok { color: var(--green); }
 .form__status--err { color: var(--danger); }
