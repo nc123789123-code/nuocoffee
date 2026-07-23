@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Coffee with Onlu — Group networking for NYC finance</title>
+  <meta name="description" content="Curated small-group coffee networking for finance professionals in New York City — matched by your vertical, from quant to private credit." />
+  <meta name="theme-color" content="#0f0b08" />
+
+  <!-- Open Graph / social -->
+  <meta property="og:title" content="Coffee with Onlu" />
+  <meta property="og:description" content="Curated small-group coffee networking for NYC finance professionals — matched by your vertical." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://coffeewithonlu.com" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%98%95%3C/text%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- ============ NAV ============ -->
+  <header class="nav" id="top">
+    <div class="wrap nav__inner">
+      <a class="brand" href="#top" aria-label="Coffee with Onlu home">
+        <span class="brand__mark" aria-hidden="true">☕</span>
+        <span class="brand__name">Coffee&nbsp;with&nbsp;Onlu</span>
+      </a>
+      <nav class="nav__links" aria-label="Primary">
+        <a href="#how">How it works</a>
+        <a href="#verticals">Verticals</a>
+        <a href="#faq">FAQ</a>
+        <a class="btn btn--sm" href="#waitlist">Join the waitlist</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- ============ HERO ============ -->
+    <section class="hero">
+      <div class="wrap hero__inner">
+        <p class="eyebrow">New York City · Finance</p>
+        <h1 class="hero__title">
+          The people worth knowing,<br />over a cup of coffee.
+        </h1>
+        <p class="hero__sub">
+          Coffee with Onlu puts you in a small, curated group of finance
+          professionals in <strong>your</strong> vertical — quant, banking,
+          private credit, PE, and more. No cold DMs. No awkward 1:1s. Just the
+          right four people, the right neighborhood, the right morning.
+        </p>
+        <div class="hero__cta">
+          <a class="btn btn--lg" href="#waitlist">Request early access</a>
+          <a class="btn btn--ghost btn--lg" href="#how">See how it works</a>
+        </div>
+        <p class="hero__note">Launching in NYC first. Free while in early access.</p>
+      </div>
+    </section>
+
+    <!-- ============ SOCIAL STRIP ============ -->
+    <section class="strip" aria-label="At a glance">
+      <div class="wrap strip__inner">
+        <div class="stat"><span class="stat__num">4–6</span><span class="stat__label">people per group</span></div>
+        <div class="stat"><span class="stat__num">1</span><span class="stat__label">shared vertical</span></div>
+        <div class="stat"><span class="stat__num">30 min</span><span class="stat__label">before your day starts</span></div>
+        <div class="stat"><span class="stat__num">NYC</span><span class="stat__label">and growing</span></div>
+      </div>
+    </section>
+
+    <!-- ============ HOW IT WORKS ============ -->
+    <section id="how" class="section">
+      <div class="wrap">
+        <p class="eyebrow eyebrow--center">How it works</p>
+        <h2 class="section__title">Peers, not strangers.</h2>
+        <div class="steps">
+          <div class="step">
+            <span class="step__num">1</span>
+            <h3>Tell us your lane</h3>
+            <p>Pick your vertical, seniority, and the neighborhoods you'd actually show up in. Verified by your work email.</p>
+          </div>
+          <div class="step">
+            <span class="step__num">2</span>
+            <h3>Get matched into a group</h3>
+            <p>We form a small group of 4–6 people in your vertical and level — the peers you'd want in the room, not a random mixer.</p>
+          </div>
+          <div class="step">
+            <span class="step__num">3</span>
+            <h3>Meet for coffee</h3>
+            <p>One easy morning, a good café near you. We handle the scheduling and the intro. You just show up.</p>
+          </div>
+          <div class="step">
+            <span class="step__num">4</span>
+            <h3>Grow the network</h3>
+            <p>Keep the ones worth keeping. New groups form on a cadence, so your circle compounds over time.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ VERTICALS ============ -->
+    <section id="verticals" class="section section--muted">
+      <div class="wrap">
+        <p class="eyebrow eyebrow--center">The verticals</p>
+        <h2 class="section__title">Networking is better among your own.</h2>
+        <p class="section__lede">
+          A quant and a first-year banker don't need the same room. Coffee with
+          Onlu groups you by what you actually do — so every conversation lands.
+        </p>
+        <div class="verticals" id="verticalGrid">
+          <!-- populated by app.js -->
+        </div>
+        <p class="verticals__foot">Don't see yours? <a href="#waitlist">Tell us on the waitlist</a> — new verticals open as demand builds.</p>
+      </div>
+    </section>
+
+    <!-- ============ WAITLIST ============ -->
+    <section id="waitlist" class="section section--cta">
+      <div class="wrap waitlist">
+        <div class="waitlist__copy">
+          <p class="eyebrow">Early access</p>
+          <h2 class="section__title">Get in before your vertical fills up.</h2>
+          <p>
+            We're seeding the first NYC cohorts now. Tell us your lane and we'll
+            reach out as soon as there's a group forming near you. Early members
+            help shape how it works — and get in free.
+          </p>
+          <ul class="checklist">
+            <li>Matched only with peers in your vertical &amp; level</li>
+            <li>Work-email verified — no recruiters, no cold pitches</li>
+            <li>You pick the neighborhoods and cadence</li>
+          </ul>
+        </div>
+
+        <form class="form" id="waitlistForm" novalidate>
+          <div class="field">
+            <label for="name">Name</label>
+            <input id="name" name="name" type="text" autocomplete="name" placeholder="Alex Rivera" required />
+          </div>
+          <div class="field">
+            <label for="email">Work email</label>
+            <input id="email" name="email" type="email" autocomplete="email" placeholder="you@firm.com" required />
+            <small class="field__hint">We verify with your work email — kept private.</small>
+          </div>
+          <div class="field">
+            <label for="vertical">Your vertical</label>
+            <select id="vertical" name="vertical" required>
+              <option value="" disabled selected>Choose one…</option>
+              <optgroup label="Buy side — public">
+                <option>Public Equity (Long/Short)</option>
+                <option>Public Equity (Long-only)</option>
+                <option>Public Credit</option>
+                <option>Macro / Global Rates</option>
+              </optgroup>
+              <optgroup label="Buy side — private">
+                <option>Private Equity</option>
+                <option>Private Credit</option>
+                <option>Venture Capital</option>
+                <option>Real Estate / Infra</option>
+              </optgroup>
+              <optgroup label="Systematic">
+                <option>Quant / Systematic</option>
+              </optgroup>
+              <optgroup label="Sell side & advisory">
+                <option>Investment Banking (M&amp;A / Coverage)</option>
+                <option>Sales &amp; Trading</option>
+                <option>Equity / Credit Research</option>
+              </optgroup>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="field field--row">
+            <div>
+              <label for="seniority">Seniority</label>
+              <select id="seniority" name="seniority" required>
+                <option value="" disabled selected>Level…</option>
+                <option>Analyst</option>
+                <option>Associate</option>
+                <option>VP / Principal</option>
+                <option>Director / SVP</option>
+                <option>MD / Partner / PM</option>
+                <option>Founder / C-suite</option>
+              </select>
+            </div>
+            <div>
+              <label for="neighborhood">Neighborhood</label>
+              <select id="neighborhood" name="neighborhood" required>
+                <option value="" disabled selected>Where…</option>
+                <option>Midtown</option>
+                <option>Financial District / Downtown</option>
+                <option>Flatiron / Union Sq</option>
+                <option>Hudson Yards</option>
+                <option>Brooklyn</option>
+                <option>Other NYC</option>
+              </select>
+            </div>
+          </div>
+          <button class="btn btn--lg btn--full" type="submit">Join the waitlist</button>
+          <p class="form__status" id="formStatus" role="status" aria-live="polite"></p>
+          <p class="form__fine">By joining you agree to be contacted about early access. No spam, ever.</p>
+        </form>
+      </div>
+    </section>
+
+    <!-- ============ FAQ ============ -->
+    <section id="faq" class="section">
+      <div class="wrap wrap--narrow">
+        <p class="eyebrow eyebrow--center">FAQ</p>
+        <h2 class="section__title">The details.</h2>
+        <div class="faq">
+          <details>
+            <summary>Is this 1:1 networking or groups?</summary>
+            <p>Groups — small ones, 4–6 people. Same vertical, similar level. Group settings are less awkward than a cold 1:1 and you walk away having met several peers, not one.</p>
+          </details>
+          <details>
+            <summary>How do you keep the quality high?</summary>
+            <p>Work-email verification, and we match by vertical <em>and</em> seniority so you're with genuine peers. No recruiters or vendors cold-pitching the room.</p>
+          </details>
+          <details>
+            <summary>Why start with NYC finance?</summary>
+            <p>It's dense, tight-knit, and networking-driven — the ideal place to prove that peer-matched group coffee actually works. Other cities and industries follow.</p>
+          </details>
+          <details>
+            <summary>What does it cost?</summary>
+            <p>Free during early access. Longer term we expect a light membership — priced to filter for people who actually show up, not to gate the community.</p>
+          </details>
+          <details>
+            <summary>My vertical isn't listed.</summary>
+            <p>Pick "Other" on the waitlist and tell us. New verticals open as soon as there's enough demand to form real groups.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer">
+    <div class="wrap footer__inner">
+      <div class="footer__brand">
+        <span class="brand__mark" aria-hidden="true">☕</span>
+        <span class="brand__name">Coffee with Onlu</span>
+        <p class="footer__tag">Group networking for finance professionals. NYC first.</p>
+      </div>
+      <div class="footer__meta">
+        <a href="#how">How it works</a>
+        <a href="#verticals">Verticals</a>
+        <a href="#waitlist">Join</a>
+      </div>
+    </div>
+    <div class="wrap footer__legal">
+      <span>© <span id="year"></span> Coffee with Onlu · An Onlu Intel project</span>
+      <span>Made in New York</span>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
