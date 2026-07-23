@@ -154,6 +154,35 @@ body > *:not(.fx) { position: relative; z-index: 1; }
   .rise--4 { animation-delay: 0.30s; }
 }
 
+/* ---------- This week's coffee (featured card) ---------- */
+.thisweek { padding: clamp(8px, 2vw, 20px) 0 clamp(28px, 5vw, 44px); }
+.tw-card {
+  --tw: var(--amber);
+  position: relative; border: 1px solid color-mix(in srgb, var(--tw) 45%, var(--line-2));
+  border-radius: var(--radius); padding: clamp(24px, 4vw, 36px);
+  background:
+    radial-gradient(120% 140% at 100% 0%, color-mix(in srgb, var(--tw) 16%, transparent), transparent 60%),
+    var(--surface);
+  box-shadow: 0 0 60px -22px color-mix(in srgb, var(--tw) 80%, transparent);
+}
+.tw-card__head { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.tw-pill {
+  display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono);
+  font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em;
+  color: var(--tw); border: 1px solid color-mix(in srgb, var(--tw) 40%, transparent);
+  padding: 6px 12px; border-radius: 999px;
+}
+.tw-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--tw); box-shadow: 0 0 10px var(--tw); }
+@media (prefers-reduced-motion: no-preference) { .tw-dot { animation: pulse 1.8s ease-in-out infinite; } }
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.35; } }
+.tw-icon { font-size: 1.9rem; filter: drop-shadow(0 0 14px color-mix(in srgb, var(--tw) 70%, transparent)); }
+.tw-vertical { font-size: clamp(1.8rem, 5vw, 3rem); margin: 16px 0 18px; color: var(--text); }
+.tw-meta { display: flex; flex-wrap: wrap; gap: 10px 22px; font-family: var(--font-mono); font-size: 0.9rem; color: var(--muted); }
+.tw-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; margin-top: 26px; }
+.tw-note { font-family: var(--font-mono); font-size: 0.82rem; color: var(--tw); letter-spacing: 0.02em; }
+.tw-foot .btn { background: var(--tw); color: #1a1020; box-shadow: 0 0 40px -8px var(--tw); }
+.tw-foot .btn:hover { box-shadow: 0 0 56px -6px var(--tw); }
+
 /* ---------- Marquee ---------- */
 .marquee { border-block: 1px solid var(--line); padding-block: 16px; overflow: hidden; background: rgba(255,255,255,0.02); }
 .marquee__track { display: flex; width: max-content; }

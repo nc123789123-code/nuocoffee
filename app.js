@@ -7,6 +7,77 @@
 (function () {
   "use strict";
 
+  /* ============================================================
+     THIS WEEK'S COFFEE — edit this each week (or set to null to hide).
+     `formVertical` must match one of the dropdown options exactly so the
+     RSVP button can pre-select it.
+     ============================================================ */
+  const THIS_WEEK = {
+    vertical: "Private Credit",
+    formVertical: "Private Credit",
+    date: "Thursday, July 31",
+    time: "8:00–8:45 AM",
+    place: "Blue Bottle, FiDi",
+    note: "6 seats · a few left",
+  };
+
+  // Accent colour + icon per vertical, kept in sync with the grid below.
+  function styleFor(name) {
+    var n = (name || "").toLowerCase();
+    if (n.indexOf("private equity") > -1) return { c: "var(--amber)", i: "🏛️" };
+    if (n.indexOf("private credit") > -1) return { c: "var(--amber)", i: "🧾" };
+    if (n.indexOf("banking") > -1)        return { c: "var(--pink)",  i: "🤝" };
+    if (n.indexOf("quant") > -1)          return { c: "var(--mint)",  i: "🧠" };
+    if (n.indexOf("public") > -1)         return { c: "var(--violet)", i: "📈" };
+    return { c: "var(--amber)", i: "☕" };
+  }
+
+  function renderThisWeek() {
+    var section = document.getElementById("thisweek");
+    var host = document.getElementById("thisweekInner");
+    if (!section || !host) return;
+    if (!THIS_WEEK) { section.hidden = true; return; }
+
+    var s = styleFor(THIS_WEEK.formVertical || THIS_WEEK.vertical);
+    host.innerHTML =
+      '<div class="tw-card" style="--tw:' + s.c + '">' +
+        '<div class="tw-card__head">' +
+          '<span class="tw-pill"><span class="tw-dot"></span>This week’s coffee</span>' +
+          '<span class="tw-icon" aria-hidden="true">' + s.i + "</span>" +
+        "</div>" +
+        '<h2 class="tw-vertical">' + THIS_WEEK.vertical + "</h2>" +
+        '<div class="tw-meta">' +
+          (THIS_WEEK.date  ? "<span>🗓️ " + THIS_WEEK.date + "</span>" : "") +
+          (THIS_WEEK.time  ? "<span>⏰ " + THIS_WEEK.time + "</span>" : "") +
+          (THIS_WEEK.place ? "<span>📍 " + THIS_WEEK.place + "</span>" : "") +
+        "</div>" +
+        '<div class="tw-foot">' +
+          (THIS_WEEK.note ? '<span class="tw-note">' + THIS_WEEK.note + "</span>" : "<span></span>") +
+          '<button class="btn" type="button" id="twRsvp">RSVP for this table</button>' +
+        "</div>" +
+      "</div>";
+    section.hidden = false;
+
+    var rsvp = document.getElementById("twRsvp");
+    if (rsvp) {
+      rsvp.addEventListener("click", function () {
+        var sel = document.getElementById("vertical");
+        if (sel && THIS_WEEK.formVertical) {
+          for (var i = 0; i < sel.options.length; i++) {
+            if (sel.options[i].value === THIS_WEEK.formVertical || sel.options[i].text === THIS_WEEK.formVertical) {
+              sel.selectedIndex = i;
+              break;
+            }
+          }
+        }
+        var target = document.getElementById("waitlist");
+        if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
+        var name = document.getElementById("name");
+        if (name) setTimeout(function () { name.focus(); }, 500);
+      });
+    }
+  }
+
   /* ---- Verticals: the taxonomy that defines the product ----
      Edit this list to add/remove/reorder verticals. The grid,
      and (eventually) matching, should read from here. */
@@ -122,6 +193,7 @@
   }
 
   document.addEventListener("DOMContentLoaded", function () {
+    renderThisWeek();
     renderVerticals();
     initForm();
     initYear();
