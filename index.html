@@ -146,7 +146,7 @@
           </p>
           <ul class="checklist">
             <li>Seated with peers in your vertical</li>
-            <li>No work email required — LinkedIn or email is enough</li>
+            <li>No work email required — a personal email is fine</li>
             <li>Tell us what you're after, and we seat you accordingly</li>
           </ul>
         </div>
@@ -186,23 +186,27 @@
             <input id="role" name="role" type="text" placeholder="e.g. PE Associate, Quant Researcher, IB Analyst" required />
           </div>
           <div class="field">
+            <label for="availableDate">Which dates work for you?</label>
+            <input id="availableDate" name="availableDate" type="text" placeholder="e.g. Thursday mornings, or Jul 31" required />
+          </div>
+          <div class="field">
             <label for="goals">What are you hoping to get out of it?</label>
             <textarea id="goals" name="goals" rows="3" placeholder="e.g. Meet people making the move from banking to buy-side, compare notes on private credit, or just good people in my space."></textarea>
             <small class="field__hint">Optional — but it's how we seat you with the right people.</small>
           </div>
           <div class="field field--row">
             <div>
-              <label for="linkedin">LinkedIn <span class="opt">optional</span></label>
-              <input id="linkedin" name="linkedin" type="url" inputmode="url" placeholder="linkedin.com/in/…" autocomplete="off" />
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" autocomplete="email" placeholder="you@email.com" required />
             </div>
             <div>
-              <label for="email">Email <span class="opt">optional</span></label>
-              <input id="email" name="email" type="email" autocomplete="email" placeholder="you@email.com" />
+              <label for="linkedin">LinkedIn <span class="opt">optional</span></label>
+              <input id="linkedin" name="linkedin" type="url" inputmode="url" placeholder="linkedin.com/in/…" autocomplete="off" />
             </div>
           </div>
           <button class="btn btn--lg btn--full" type="submit">Save my spot</button>
           <p class="form__status" id="formStatus" role="status" aria-live="polite"></p>
-          <p class="form__fine">Add your LinkedIn or email so we can confirm your spot — no work email needed.</p>
+          <p class="form__fine">We'll only use your email to confirm your spot — no work email needed.</p>
         </form>
       </div>
     </section>

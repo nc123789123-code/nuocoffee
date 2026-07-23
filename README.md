@@ -11,9 +11,9 @@ An [Onlu Intel](https://onluintel.com) project, live at
 ## What's here
 
 This is the early-access **signup landing site**. Its job is to explain the
-concept and capture interest — name, vertical, role, and what each person is
-hoping to get out of it (plus an optional LinkedIn or email) — so we know which
-verticals to run first and can seat each coffee well.
+concept and capture interest — name, vertical, role, which dates work, email
+(required; LinkedIn optional), and what each person is hoping to get out of it —
+so we know which verticals to run first and can seat each coffee well.
 
 The site itself is a static page (no build step); signups are handled by a
 small Vercel serverless function that writes to a Google Sheet you own.
@@ -50,7 +50,7 @@ spam honeypot, and your Google URL stays private. One-time setup:
 ### 1. Create the Google Sheet + endpoint
 
 1. Make a Google Sheet. In row 1, add headers:
-   `Timestamp | Name | Vertical | Role | Goals | LinkedIn | Email | Source`
+   `Timestamp | Name | Vertical | Role | Available | Goals | Email | LinkedIn | Source`
 2. In the Sheet: **Extensions → Apps Script**. Paste all of
    [`sheets-endpoint.gs`](./sheets-endpoint.gs) and save.
 3. *(Recommended)* Set a shared secret: **Project Settings → Script Properties**
@@ -80,7 +80,7 @@ Submit the form on the live site (or `curl` it):
 ```bash
 curl -X POST https://coffeewithonlu.com/api/waitlist \
   -H "Content-Type: application/json" \
-  -d '{"name":"Test User","vertical":"Private Equity","role":"Associate","goals":"Meet buy-side peers","email":"test@example.com"}'
+  -d '{"name":"Test User","vertical":"Private Equity","role":"Associate","availableDate":"Thursdays","goals":"Meet buy-side peers","email":"test@example.com"}'
 ```
 
 A new row should appear in your Sheet within a second or two.

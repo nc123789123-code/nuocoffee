@@ -30,20 +30,18 @@ module.exports = async (req, res) => {
   const name = String(body.name || "").trim();
   const vertical = String(body.vertical || "").trim();
   const role = String(body.role || "").trim();
+  const availableDate = String(body.availableDate || "").trim();
   const goals = String(body.goals || "").trim();
-  const linkedin = String(body.linkedin || "").trim();
   const email = String(body.email || "").trim();
+  const linkedin = String(body.linkedin || "").trim();
 
-  // Name, vertical, and role are required. Email and LinkedIn are each
-  // optional, but at least one is needed so we can reach them.
-  if (!name || !vertical || !role) {
-    return res.status(400).json({ error: "Missing name, vertical, or role" });
+  // Name, vertical, role, availability, and a valid email are required.
+  // LinkedIn is optional.
+  if (!name || !vertical || !role || !availableDate) {
+    return res.status(400).json({ error: "Missing name, vertical, role, or availability" });
   }
-  if (!email && !linkedin) {
-    return res.status(400).json({ error: "Provide an email or LinkedIn" });
-  }
-  if (email && !EMAIL_RE.test(email)) {
-    return res.status(400).json({ error: "Invalid email" });
+  if (!EMAIL_RE.test(email)) {
+    return res.status(400).json({ error: "A valid email is required" });
   }
 
   const webhook = process.env.SHEETS_WEBHOOK_URL;
@@ -61,9 +59,10 @@ module.exports = async (req, res) => {
         name,
         vertical,
         role,
+        availableDate,
         goals,
-        linkedin,
         email,
+        linkedin,
         submittedAt: new Date().toISOString(),
         source: req.headers["referer"] || "",
       }),
