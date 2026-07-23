@@ -11,15 +11,10 @@
      Edit this list to add/remove/reorder verticals. The grid,
      and (eventually) matching, should read from here. */
   const VERTICALS = [
-    { icon: "📈", name: "Public Equity", desc: "Long/short and long-only — fundamental stock pickers and PMs.", tag: "Buy side" },
-    { icon: "📊", name: "Public Credit", desc: "Corporate, high-yield, and distressed credit investors.", tag: "Buy side" },
-    { icon: "🏛️", name: "Private Equity", desc: "Buyout, growth, and secondaries — deal teams and operators.", tag: "Buy side" },
-    { icon: "🧾", name: "Private Credit", desc: "Direct lending, mezzanine, and special situations.", tag: "Buy side" },
-    { icon: "🧠", name: "Quant / Systematic", desc: "Researchers and PMs in systematic and high-frequency strategies.", tag: "Systematic" },
-    { icon: "🌐", name: "Macro / Rates", desc: "Global macro, rates, and cross-asset discretionary trading.", tag: "Buy side" },
+    { icon: "🏛️", name: "Private Equity & Credit", desc: "Buyout and growth investing, direct lending, mezzanine, and special situations.", tag: "Private markets" },
     { icon: "🤝", name: "Investment Banking", desc: "M&A and coverage — analysts through MDs across advisory.", tag: "Sell side" },
-    { icon: "💹", name: "Sales & Trading", desc: "Flow and structuring across equities, credit, and rates.", tag: "Sell side" },
-    { icon: "🚀", name: "Venture Capital", desc: "Early- and growth-stage investors and platform teams.", tag: "Buy side" },
+    { icon: "🧠", name: "Quant / Systematic", desc: "Researchers and PMs in systematic and high-frequency strategies.", tag: "Systematic" },
+    { icon: "📈", name: "Public Equity & Credit", desc: "Long/short and long-only equity, plus corporate, high-yield, and distressed credit.", tag: "Public markets" },
   ];
 
   function renderVerticals() {
