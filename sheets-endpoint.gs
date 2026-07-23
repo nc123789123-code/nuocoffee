@@ -6,7 +6,7 @@
  *
  * ── One-time setup ──────────────────────────────────────────────
  *  1. Create a Google Sheet. Put these headers in row 1:
- *       Timestamp | Name | Email | Vertical | Seniority | Neighborhood | Source
+ *       Timestamp | Name | Vertical | Role | Goals | LinkedIn | Email | Source
  *  2. In the Sheet: Extensions → Apps Script. Delete the sample code,
  *     paste this whole file, and Save.
  *  3. (Recommended) Set a shared secret so only your site can post:
@@ -43,10 +43,11 @@ function doPost(e) {
     sheet.appendRow([
       data.submittedAt || new Date().toISOString(),
       data.name || '',
-      data.email || '',
       data.vertical || '',
-      data.seniority || '',
-      data.neighborhood || '',
+      data.role || '',
+      data.goals || '',
+      data.linkedin || '',
+      data.email || '',
       data.source || ''
     ]);
 

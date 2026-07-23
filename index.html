@@ -75,7 +75,7 @@
           <div class="step">
             <span class="step__num">1</span>
             <h3>Tell us your lane</h3>
-            <p>Pick your vertical, seniority, and the neighborhoods you'd actually show up in. Verified by your work email.</p>
+            <p>Your vertical, your role, and what you're hoping to get out of it. That's it — no work email, no hoops.</p>
           </div>
           <div class="step">
             <span class="step__num">2</span>
@@ -124,9 +124,9 @@
             help shape how it works — and get in free.
           </p>
           <ul class="checklist">
-            <li>Matched only with peers in your vertical &amp; level</li>
-            <li>Work-email verified — no recruiters, no cold pitches</li>
-            <li>You pick the neighborhoods and cadence</li>
+            <li>Seated with peers in your vertical</li>
+            <li>No work email required — LinkedIn or email is enough</li>
+            <li>Tell us what you're after, and we seat you accordingly</li>
           </ul>
         </div>
 
@@ -139,11 +139,6 @@
           <div class="field">
             <label for="name">Name</label>
             <input id="name" name="name" type="text" autocomplete="name" placeholder="Alex Rivera" required />
-          </div>
-          <div class="field">
-            <label for="email">Work email</label>
-            <input id="email" name="email" type="email" autocomplete="email" placeholder="you@firm.com" required />
-            <small class="field__hint">We verify with your work email — kept private.</small>
           </div>
           <div class="field">
             <label for="vertical">Your vertical</label>
@@ -165,35 +160,28 @@
               </optgroup>
             </select>
           </div>
+          <div class="field">
+            <label for="role">Your role</label>
+            <input id="role" name="role" type="text" placeholder="e.g. PE Associate, Quant Researcher, IB Analyst" required />
+          </div>
+          <div class="field">
+            <label for="goals">What are you hoping to get out of it?</label>
+            <textarea id="goals" name="goals" rows="3" placeholder="e.g. Meet people making the move from banking to buy-side, compare notes on private credit, or just good people in my space."></textarea>
+            <small class="field__hint">Optional — but it's how we seat you with the right people.</small>
+          </div>
           <div class="field field--row">
             <div>
-              <label for="seniority">Seniority</label>
-              <select id="seniority" name="seniority" required>
-                <option value="" disabled selected>Level…</option>
-                <option>Analyst</option>
-                <option>Associate</option>
-                <option>VP / Principal</option>
-                <option>Director / SVP</option>
-                <option>MD / Partner / PM</option>
-                <option>Founder / C-suite</option>
-              </select>
+              <label for="linkedin">LinkedIn <span class="opt">optional</span></label>
+              <input id="linkedin" name="linkedin" type="url" inputmode="url" placeholder="linkedin.com/in/…" autocomplete="off" />
             </div>
             <div>
-              <label for="neighborhood">Neighborhood</label>
-              <select id="neighborhood" name="neighborhood" required>
-                <option value="" disabled selected>Where…</option>
-                <option>Midtown</option>
-                <option>Financial District / Downtown</option>
-                <option>Flatiron / Union Sq</option>
-                <option>Hudson Yards</option>
-                <option>Brooklyn</option>
-                <option>Other NYC</option>
-              </select>
+              <label for="email">Email <span class="opt">optional</span></label>
+              <input id="email" name="email" type="email" autocomplete="email" placeholder="you@email.com" />
             </div>
           </div>
-          <button class="btn btn--lg btn--full" type="submit">Join the waitlist</button>
+          <button class="btn btn--lg btn--full" type="submit">Save my spot</button>
           <p class="form__status" id="formStatus" role="status" aria-live="polite"></p>
-          <p class="form__fine">By joining you agree to be contacted about early access. No spam, ever.</p>
+          <p class="form__fine">Add your LinkedIn or email so we can confirm your spot — no work email needed.</p>
         </form>
       </div>
     </section>
@@ -210,7 +198,7 @@
           </details>
           <details>
             <summary>How do you keep the quality high?</summary>
-            <p>Work-email verification, and we match by vertical <em>and</em> seniority so you're with genuine peers. No recruiters or vendors cold-pitching the room.</p>
+            <p>We seat you by vertical and role, and everyone tells us what they're hoping to get out of it — so the table is people with real intent, not tourists. Share your LinkedIn if you'd like; no work email required.</p>
           </details>
           <details>
             <summary>Why start with NYC finance?</summary>

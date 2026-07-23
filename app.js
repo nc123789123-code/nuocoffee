@@ -71,19 +71,24 @@
       const fd = new FormData(form);
       const data = {
         name: (fd.get("name") || "").toString().trim(),
-        email: (fd.get("email") || "").toString().trim(),
         vertical: fd.get("vertical") || "",
-        seniority: fd.get("seniority") || "",
-        neighborhood: fd.get("neighborhood") || "",
+        role: (fd.get("role") || "").toString().trim(),
+        goals: (fd.get("goals") || "").toString().trim(),
+        linkedin: (fd.get("linkedin") || "").toString().trim(),
+        email: (fd.get("email") || "").toString().trim(),
         company: (fd.get("company") || "").toString(), // honeypot — humans leave blank
         submittedAt: new Date().toISOString(),
       };
 
-      if (!data.name || !data.email || !data.vertical || !data.seniority || !data.neighborhood) {
-        setStatus(status, "Please fill in every field so we can match you well.", "err");
+      if (!data.name || !data.vertical || !data.role) {
+        setStatus(status, "Please add your name, vertical, and role so we can seat you well.", "err");
         return;
       }
-      if (!isValidEmail(data.email)) {
+      if (!data.email && !data.linkedin) {
+        setStatus(status, "Add your email or LinkedIn so we can confirm your spot.", "err");
+        return;
+      }
+      if (data.email && !isValidEmail(data.email)) {
         setStatus(status, "That email doesn't look right — mind checking it?", "err");
         return;
       }
@@ -97,8 +102,8 @@
           form.reset();
           setStatus(
             status,
-            "You're on the list, " + data.name.split(" ")[0] + ". We'll reach out when a " +
-              data.vertical + " group is forming near " + data.neighborhood + ".",
+            "You're in, " + data.name.split(" ")[0] + ". We'll reach out about the next " +
+              data.vertical + " coffee.",
             "ok"
           );
         })

@@ -28,13 +28,22 @@ module.exports = async (req, res) => {
   }
 
   const name = String(body.name || "").trim();
-  const email = String(body.email || "").trim();
   const vertical = String(body.vertical || "").trim();
-  const seniority = String(body.seniority || "").trim();
-  const neighborhood = String(body.neighborhood || "").trim();
+  const role = String(body.role || "").trim();
+  const goals = String(body.goals || "").trim();
+  const linkedin = String(body.linkedin || "").trim();
+  const email = String(body.email || "").trim();
 
-  if (!name || !EMAIL_RE.test(email) || !vertical || !seniority || !neighborhood) {
-    return res.status(400).json({ error: "Missing or invalid fields" });
+  // Name, vertical, and role are required. Email and LinkedIn are each
+  // optional, but at least one is needed so we can reach them.
+  if (!name || !vertical || !role) {
+    return res.status(400).json({ error: "Missing name, vertical, or role" });
+  }
+  if (!email && !linkedin) {
+    return res.status(400).json({ error: "Provide an email or LinkedIn" });
+  }
+  if (email && !EMAIL_RE.test(email)) {
+    return res.status(400).json({ error: "Invalid email" });
   }
 
   const webhook = process.env.SHEETS_WEBHOOK_URL;
@@ -50,10 +59,11 @@ module.exports = async (req, res) => {
       body: JSON.stringify({
         token: process.env.SHEETS_TOKEN || "",
         name,
-        email,
         vertical,
-        seniority,
-        neighborhood,
+        role,
+        goals,
+        linkedin,
+        email,
         submittedAt: new Date().toISOString(),
         source: req.headers["referer"] || "",
       }),

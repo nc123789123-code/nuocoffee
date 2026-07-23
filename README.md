@@ -1,19 +1,19 @@
 # Coffee with Onlu ☕
 
 Group networking for finance professionals — starting with New York City.
-Small, curated groups matched by **vertical** (quant, investment banking,
-private equity, private credit, public equity, public credit, and more) and
-seniority, meeting over coffee.
+Small coffee tables seated by **vertical** (private equity & credit, investment
+banking, quant, public equity & credit) and what people are hoping to get out of
+the conversation.
 
 An [Onlu Intel](https://onluintel.com) project, live at
 **[coffeewithonlu.com](https://coffeewithonlu.com)**.
 
 ## What's here
 
-This is the early-access **waitlist landing site** — the first step before
-building the matching engine. Its job is to explain the concept and capture
-demand *by vertical, seniority, and neighborhood* so we know which NYC cohorts
-to launch first.
+This is the early-access **signup landing site**. Its job is to explain the
+concept and capture interest — name, vertical, role, and what each person is
+hoping to get out of it (plus an optional LinkedIn or email) — so we know which
+verticals to run first and can seat each coffee well.
 
 The site itself is a static page (no build step); signups are handled by a
 small Vercel serverless function that writes to a Google Sheet you own.
@@ -50,7 +50,7 @@ spam honeypot, and your Google URL stays private. One-time setup:
 ### 1. Create the Google Sheet + endpoint
 
 1. Make a Google Sheet. In row 1, add headers:
-   `Timestamp | Name | Email | Vertical | Seniority | Neighborhood | Source`
+   `Timestamp | Name | Vertical | Role | Goals | LinkedIn | Email | Source`
 2. In the Sheet: **Extensions → Apps Script**. Paste all of
    [`sheets-endpoint.gs`](./sheets-endpoint.gs) and save.
 3. *(Recommended)* Set a shared secret: **Project Settings → Script Properties**
@@ -80,7 +80,7 @@ Submit the form on the live site (or `curl` it):
 ```bash
 curl -X POST https://coffeewithonlu.com/api/waitlist \
   -H "Content-Type: application/json" \
-  -d '{"name":"Test User","email":"test@firm.com","vertical":"Private Equity","seniority":"Associate","neighborhood":"Midtown"}'
+  -d '{"name":"Test User","vertical":"Private Equity","role":"Associate","goals":"Meet buy-side peers","email":"test@example.com"}'
 ```
 
 A new row should appear in your Sheet within a second or two.
@@ -93,9 +93,9 @@ the `VERTICALS` array at the top of `app.js`, plus the `<select>` in
 
 ## Roadmap (suggested)
 
-1. **Waitlist** ← you are here — validate demand per vertical
-2. Work-email verification + seniority tiers
-3. Group formation (4–6 peers, matched by vertical + level + neighborhood)
-4. Scheduling + café suggestions
-5. Membership / billing
+1. **Signups** ← you are here — validate demand per vertical
+2. Run weekly themed coffees (one vertical at a time), open RSVP
+3. Add tables per vertical as volume grows; seat by role + stated goals
+4. Optional LinkedIn verification as a "verified" signal, once it's worth something
+5. Scheduling + café suggestions; light membership
 6. Expand verticals, then cities and industries
