@@ -5,8 +5,10 @@
  * This code is NOT deployed by the site — you paste it into Apps Script once.
  *
  * ── One-time setup ──────────────────────────────────────────────
- *  1. Create a Google Sheet. Put these headers in row 1:
- *       Timestamp | Name | Vertical | Role | Available | Goals | Email | LinkedIn | Source | Instagram | WeChat | Type | Event
+ *  1. Create a Google Sheet. Two tabs are used — "Waitlist" and "RSVP" —
+ *     each auto-created (with headers) the first time it receives a signup.
+ *     The header row for each tab is:
+ *       Timestamp | Name | Vertical | Role | Available | Goals | Email | LinkedIn | Source | Instagram | WeChat | Event
  *  2. In the Sheet: Extensions → Apps Script. Delete the sample code,
  *     paste this whole file, and Save.
  *  3. (Recommended) Set a shared secret so only your site can post:
@@ -39,7 +41,19 @@ function doPost(e) {
       return json({ error: 'unauthorized' });
     }
 
-    var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheets()[0];
+    // Route to a tab by type: RSVPs and waitlist signups land in separate
+    // tabs, each auto-created with a header row the first time it's used.
+    var HEADERS = ['Timestamp', 'Name', 'Vertical', 'Role', 'Available',
+                   'Goals', 'Email', 'LinkedIn', 'Source', 'Instagram',
+                   'WeChat', 'Event'];
+    var tabName = (data.type === 'rsvp') ? 'RSVP' : 'Waitlist';
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var sheet = ss.getSheetByName(tabName);
+    if (!sheet) {
+      sheet = ss.insertSheet(tabName);
+      sheet.appendRow(HEADERS);
+    }
+
     sheet.appendRow([
       data.submittedAt || new Date().toISOString(),
       data.name || '',
@@ -52,7 +66,6 @@ function doPost(e) {
       data.source || '',
       data.instagram || '',
       data.wechat || '',
-      data.type || '',
       data.event || ''
     ]);
 
