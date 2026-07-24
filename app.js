@@ -38,8 +38,8 @@
   const THIS_WEEK = {
     vertical: "Private Credit",
     formVertical: "Private Credit",
-    date: "Thursday, July 31",
-    time: "8:00–8:45 AM",
+    date: "Sunday, July 26",
+    time: "10:30 AM",
     place: "Blue Bottle, FiDi",
     note: "6 seats · a few left",
   };
