@@ -306,6 +306,8 @@
         instagram: (fd.get("instagram") || "").toString().trim(),
         wechat: (fd.get("wechat") || "").toString().trim(),
         goals: (fd.get("goals") || "").toString().trim(),
+        // stable tab name for this coffee (unaffected by time/venue edits)
+        eventTab: ev ? (ev.vertical + " · " + ev.date) : "RSVP",
         // carried from the chosen event so RSVPs are sortable like waitlist rows
         vertical: ev ? (ev.formVertical || ev.vertical || "") : "",
         availableDate: ev ? (ev.date || "") : "",

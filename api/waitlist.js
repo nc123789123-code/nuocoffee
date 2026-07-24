@@ -29,6 +29,7 @@ module.exports = async (req, res) => {
 
   const type = String(body.type || "waitlist").trim();
   const event = String(body.event || "").trim();
+  const eventTab = String(body.eventTab || "").trim();
   const name = String(body.name || "").trim();
   const vertical = String(body.vertical || "").trim();
   const role = String(body.role || "").trim();
@@ -66,6 +67,7 @@ module.exports = async (req, res) => {
         token: process.env.SHEETS_TOKEN || "",
         type,
         event,
+        eventTab,
         name,
         vertical,
         role,

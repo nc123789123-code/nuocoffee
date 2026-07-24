@@ -5,9 +5,9 @@
  * This code is NOT deployed by the site — you paste it into Apps Script once.
  *
  * ── One-time setup ──────────────────────────────────────────────
- *  1. Create a Google Sheet. Two tabs are used — "Waitlist" and "RSVP" —
- *     each auto-created (with headers) the first time it receives a signup.
- *     The header row for each tab is:
+ *  1. Create a Google Sheet. Tabs are auto-created (with headers) as signups
+ *     arrive: one "Waitlist" tab, plus one tab per coffee for its RSVPs
+ *     (e.g. "Quant · Aug 1"). The header row for every tab is:
  *       Timestamp | Name | Vertical | Role | Available | Goals | Email | LinkedIn | Source | Instagram | WeChat | Event
  *  2. In the Sheet: Extensions → Apps Script. Delete the sample code,
  *     paste this whole file, and Save.
@@ -41,12 +41,18 @@ function doPost(e) {
       return json({ error: 'unauthorized' });
     }
 
-    // Route to a tab by type: RSVPs and waitlist signups land in separate
-    // tabs, each auto-created with a header row the first time it's used.
+    // Routing: waitlist signups go to one "Waitlist" tab; each coffee's
+    // RSVPs go to their own tab (e.g. "Quant · Aug 1"). Tabs are auto-created
+    // with a header row the first time they're used.
     var HEADERS = ['Timestamp', 'Name', 'Vertical', 'Role', 'Available',
                    'Goals', 'Email', 'LinkedIn', 'Source', 'Instagram',
                    'WeChat', 'Event'];
-    var tabName = (data.type === 'rsvp') ? 'RSVP' : 'Waitlist';
+    var tabName;
+    if (data.type === 'rsvp') {
+      tabName = sanitizeTab(data.eventTab || data.event || 'RSVP');
+    } else {
+      tabName = 'Waitlist';
+    }
     var ss = SpreadsheetApp.getActiveSpreadsheet();
     var sheet = ss.getSheetByName(tabName);
     if (!sheet) {
@@ -78,6 +84,13 @@ function doPost(e) {
 // A quick health check you can open in a browser to confirm it's deployed.
 function doGet() {
   return json({ ok: true, service: 'coffee-with-onlu waitlist' });
+}
+
+// Make a string safe + short enough for a Google Sheets tab name.
+function sanitizeTab(name) {
+  var n = String(name || '').replace(/[:\\\/\?\*\[\]]/g, ' ').trim();
+  if (n.length > 90) n = n.slice(0, 90);
+  return n || 'RSVP';
 }
 
 function json(obj) {

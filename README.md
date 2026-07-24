@@ -49,9 +49,10 @@ spam honeypot, and your Google URL stays private. One-time setup:
 
 ### 1. Create the Google Sheet + endpoint
 
-1. Make a Google Sheet. The script uses two tabs — **Waitlist** and **RSVP** —
-   and auto-creates each (with headers) the first time it's used, so you don't
-   have to set them up. Each tab's header row is:
+1. Make a Google Sheet. The script auto-creates tabs (with headers) as signups
+   arrive: a **Waitlist** tab, plus **one tab per coffee** for its RSVPs
+   (e.g. `Quant · Aug 1`) — so each event has its own roster. Every tab's
+   header row is:
    `Timestamp | Name | Vertical | Role | Available | Goals | Email | LinkedIn | Source | Instagram | WeChat | Event`
 2. In the Sheet: **Extensions → Apps Script**. Paste all of
    [`sheets-endpoint.gs`](./sheets-endpoint.gs) and save.
