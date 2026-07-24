@@ -315,7 +315,12 @@ body > *:not(.fx) { position: relative; z-index: 1; }
 .footer { border-top: 1px solid var(--line); padding: 58px 0 32px; background: var(--bg-2); }
 .footer__inner { display: flex; justify-content: space-between; gap: 30px; flex-wrap: wrap; }
 .footer__brand .brand__name { font-family: var(--font-display); font-size: 1.06rem; }
-.footer__tag { color: var(--muted); font-size: 0.9rem; margin: 12px 0 0; max-width: 280px; }
+.footer__tag { color: var(--muted); font-size: 0.9rem; margin: 12px 0 0; max-width: 300px; line-height: 1.7; }
+
+/* Outbound links to the parent brand */
+.link-out { color: var(--amber-2); font-weight: 600; text-decoration: none; border-bottom: 1px solid color-mix(in srgb, var(--amber-2) 45%, transparent); transition: color 0.15s ease, border-color 0.15s ease; }
+.link-out:hover { color: var(--amber); border-color: var(--amber); }
+.nav__links .link-out { border-bottom: none; font-size: 0.92rem; }
 .footer__meta { display: flex; gap: 22px; align-items: flex-start; }
 .footer__meta a { color: var(--muted); font-size: 0.92rem; }
 .footer__meta a:hover { color: var(--amber-2); }
