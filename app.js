@@ -41,7 +41,8 @@
     date: "Sunday, July 26",
     time: "10:30 AM",
     place: "Madison Square Park",
-    note: "6 seats · a few left",
+    note: "First table's full — 10+ coming. Add your name for the next one.",
+    full: true,
   };
 
   // Accent colour + icon per vertical, kept in sync with the grid below.
@@ -66,7 +67,8 @@
     host.innerHTML =
       '<div class="tw-card" style="--tw:' + s.c + '">' +
         '<div class="tw-card__head">' +
-          '<span class="tw-pill"><span class="tw-dot"></span>This week’s coffee</span>' +
+          '<span class="tw-headleft"><span class="tw-pill"><span class="tw-dot"></span>This week’s coffee</span>' +
+          (THIS_WEEK.full ? '<span class="tw-badge">Full</span>' : "") + "</span>" +
           '<span class="tw-icon" aria-hidden="true">' + svg(s.i) + "</span>" +
         "</div>" +
         '<h2 class="tw-vertical">' + THIS_WEEK.vertical + "</h2>" +
@@ -77,7 +79,8 @@
         "</div>" +
         '<div class="tw-foot">' +
           (THIS_WEEK.note ? '<span class="tw-note">' + THIS_WEEK.note + "</span>" : "<span></span>") +
-          '<button class="btn" type="button" id="twRsvp">RSVP for this table</button>' +
+          '<button class="btn" type="button" id="twRsvp">' +
+            (THIS_WEEK.full ? "Join the next one →" : "RSVP for this table") + "</button>" +
         "</div>" +
       "</div>";
     section.hidden = false;

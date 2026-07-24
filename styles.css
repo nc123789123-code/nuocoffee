@@ -175,6 +175,12 @@ body > *:not(.fx) { position: relative; z-index: 1; }
   box-shadow: 0 0 60px -22px color-mix(in srgb, var(--tw) 80%, transparent);
 }
 .tw-card__head { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.tw-headleft { display: inline-flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.tw-badge {
+  font-family: var(--font-mono); font-size: 0.66rem; font-weight: 700; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--pink); border: 1px solid color-mix(in srgb, var(--pink) 45%, transparent);
+  padding: 4px 10px; border-radius: 999px; background: color-mix(in srgb, var(--pink) 12%, transparent);
+}
 .tw-pill {
   display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono);
   font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em;
