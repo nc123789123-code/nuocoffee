@@ -77,15 +77,21 @@
     <section id="rsvp" class="section rsvp-section" hidden>
       <div class="wrap wrap--narrow">
         <p class="eyebrow eyebrow--center">RSVP</p>
-        <h2 class="section__title" id="rsvpTitle">Grab a seat.</h2>
-        <p class="section__lede" id="rsvpEventLine"></p>
+        <h2 class="section__title">Save your seat.</h2>
+        <p class="section__lede">Pick a coffee and we'll hold you a spot. If it's full, you'll go on the waitlist for that table.</p>
         <form class="form" id="rsvpForm" novalidate>
           <!-- Honeypot -->
           <div class="hp" aria-hidden="true">
             <label for="rsvpCompany">Company (leave this blank)</label>
             <input id="rsvpCompany" name="company" type="text" tabindex="-1" autocomplete="off" />
           </div>
-          <input type="hidden" id="rsvpEvent" name="event" value="" />
+          <div class="field">
+            <label for="rsvpEvent">Which coffee?</label>
+            <select id="rsvpEvent" name="event" required>
+              <option value="" disabled selected>Choose a coffee…</option>
+              <!-- populated by app.js from EVENTS -->
+            </select>
+          </div>
           <div class="field">
             <label for="rsvpName">Name</label>
             <input id="rsvpName" name="name" type="text" autocomplete="name" placeholder="Alex Rivera" required />
@@ -128,7 +134,7 @@
       <div class="wrap strip__inner">
         <div class="stat"><span class="stat__num">4–6</span><span class="stat__label">at the table</span></div>
         <div class="stat"><span class="stat__num">1</span><span class="stat__label">shared vertical</span></div>
-        <div class="stat"><span class="stat__num">30 min</span><span class="stat__label">before your day</span></div>
+        <div class="stat"><span class="stat__num">Weekends</span><span class="stat__label">Sat &amp; Sun</span></div>
         <div class="stat"><span class="stat__num">NYC</span><span class="stat__label">and growing</span></div>
       </div>
     </section>
@@ -152,7 +158,7 @@
           <div class="step">
             <span class="step__num">3</span>
             <h3>Show up for coffee</h3>
-            <p>One easy morning, a good café near you. We handle the scheduling and the intro. You just bring yourself.</p>
+            <p>One easy weekend morning or afternoon, a good café near you. We handle the scheduling and the intro. You just bring yourself.</p>
           </div>
           <div class="step">
             <span class="step__num">4</span>
@@ -233,7 +239,7 @@
           </div>
           <div class="field">
             <label for="availableDate">Which dates work for you?</label>
-            <input id="availableDate" name="availableDate" type="text" placeholder="e.g. Thursday mornings, or Jul 31" required />
+            <input id="availableDate" name="availableDate" type="text" placeholder="e.g. Saturday afternoons, or Sun Aug 9" required />
           </div>
           <div class="field">
             <label for="goals">What are you hoping to get out of it?</label>

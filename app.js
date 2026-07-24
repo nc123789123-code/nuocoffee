@@ -31,19 +31,52 @@
   }
 
   /* ============================================================
-     THIS WEEK'S COFFEE — edit this each week (or set to null to hide).
-     `formVertical` must match one of the dropdown options exactly so the
-     RSVP button can pre-select it.
+     UPCOMING COFFEES — edit this list. Add/remove/reorder events.
+     Coffees run on weekends (Saturday or Sunday, morning or afternoon).
+     `formVertical` should match a waitlist dropdown option.
+     `time`  — e.g. "Saturday afternoon", "10:30 AM"
+     `full`  — true once a table is full (shows a badge, RSVP = waitlist)
+     Set EVENTS to [] to hide the upcoming section entirely.
      ============================================================ */
-  const THIS_WEEK = {
-    vertical: "Private Credit",
-    formVertical: "Private Credit",
-    date: "Sunday, July 26",
-    time: "10:30 AM",
-    place: "Madison Square Park",
-    note: "First table's full — 10+ coming. Add your name for the next one.",
-    full: true,
-  };
+  const EVENTS = [
+    {
+      vertical: "Private Credit",
+      formVertical: "Private Credit",
+      date: "Sunday, July 26",
+      time: "Morning · 10:30 AM",
+      place: "Madison Square Park",
+      note: "First table's full — join the waitlist.",
+      full: true,
+    },
+    {
+      vertical: "Quant",
+      formVertical: "Quant / Systematic",
+      date: "Saturday, Aug 1",
+      time: "Afternoon",
+      place: "",
+      note: "",
+      full: false,
+    },
+    {
+      vertical: "Investment Banking",
+      formVertical: "Investment Banking (M&A / Coverage)",
+      date: "Sunday, Aug 9",
+      time: "Afternoon",
+      place: "",
+      note: "",
+      full: false,
+    },
+  ];
+
+  // Lookup by label, populated during render, used by the RSVP handler.
+  var EVENT_INDEX = {};
+
+  function eventLabel(ev) {
+    return ev.vertical +
+      (ev.date ? " · " + ev.date : "") +
+      (ev.time ? " · " + ev.time : "") +
+      (ev.place ? " · " + ev.place : "");
+  }
 
   // Accent colour + icon per vertical, kept in sync with the grid below.
   function styleFor(name) {
@@ -57,64 +90,86 @@
     return { c: "var(--amber)", i: "coffee" };
   }
 
-  function renderThisWeek() {
+  // Move focus to the RSVP form with the given event pre-selected.
+  function jumpToRsvp(label) {
+    var sel = document.getElementById("rsvpEvent");
+    if (sel && label) {
+      for (var j = 0; j < sel.options.length; j++) {
+        if (sel.options[j].value === label) { sel.selectedIndex = j; break; }
+      }
+    }
+    var target = document.getElementById("rsvp");
+    if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
+    var nm = document.getElementById("rsvpName");
+    if (nm) setTimeout(function () { nm.focus(); }, 500);
+  }
+
+  function renderUpcoming() {
     var section = document.getElementById("thisweek");
     var host = document.getElementById("thisweekInner");
+    var rsvpSection = document.getElementById("rsvp");
     if (!section || !host) return;
-    if (!THIS_WEEK) { section.hidden = true; return; }
+    if (!EVENTS || !EVENTS.length) {
+      section.hidden = true;
+      if (rsvpSection) rsvpSection.hidden = true;
+      return;
+    }
 
-    var s = styleFor(THIS_WEEK.formVertical || THIS_WEEK.vertical);
+    EVENT_INDEX = {};
+    var cards = EVENTS.map(function (ev) {
+      var s = styleFor(ev.formVertical || ev.vertical);
+      var label = eventLabel(ev);
+      EVENT_INDEX[label] = ev;
+      var attr = encodeURIComponent(label);
+      return (
+        '<article class="tw-card" style="--tw:' + s.c + '">' +
+          '<div class="tw-card__head">' +
+            '<span class="tw-headleft"><span class="tw-pill"><span class="tw-dot"></span>' +
+              (ev.full ? "Waitlist" : "Open") + "</span>" +
+            (ev.full ? '<span class="tw-badge">Full</span>' : "") + "</span>" +
+            '<span class="tw-icon" aria-hidden="true">' + svg(s.i) + "</span>" +
+          "</div>" +
+          '<h3 class="tw-vertical">' + ev.vertical + " coffee</h3>" +
+          '<div class="tw-meta">' +
+            (ev.date  ? "<span>" + svg("calendar") + ev.date + "</span>" : "") +
+            (ev.time  ? "<span>" + svg("clock") + ev.time + "</span>" : "") +
+            (ev.place ? "<span>" + svg("pin") + ev.place + "</span>" : "") +
+          "</div>" +
+          '<div class="tw-foot">' +
+            (ev.note ? '<span class="tw-note">' + ev.note + "</span>" : "<span></span>") +
+            '<button class="btn tw-rsvp" type="button" data-label="' + attr + '">' +
+              (ev.full ? "Join waitlist →" : "RSVP →") + "</button>" +
+          "</div>" +
+        "</article>"
+      );
+    }).join("");
+
     host.innerHTML =
-      '<div class="tw-card" style="--tw:' + s.c + '">' +
-        '<div class="tw-card__head">' +
-          '<span class="tw-headleft"><span class="tw-pill"><span class="tw-dot"></span>This week’s coffee</span>' +
-          (THIS_WEEK.full ? '<span class="tw-badge">Full</span>' : "") + "</span>" +
-          '<span class="tw-icon" aria-hidden="true">' + svg(s.i) + "</span>" +
-        "</div>" +
-        '<h2 class="tw-vertical">' + THIS_WEEK.vertical + "</h2>" +
-        '<div class="tw-meta">' +
-          (THIS_WEEK.date  ? "<span>" + svg("calendar") + THIS_WEEK.date + "</span>" : "") +
-          (THIS_WEEK.time  ? "<span>" + svg("clock") + THIS_WEEK.time + "</span>" : "") +
-          (THIS_WEEK.place ? "<span>" + svg("pin") + THIS_WEEK.place + "</span>" : "") +
-        "</div>" +
-        '<div class="tw-foot">' +
-          (THIS_WEEK.note ? '<span class="tw-note">' + THIS_WEEK.note + "</span>" : "<span></span>") +
-          '<button class="btn" type="button" id="twRsvp">' +
-            (THIS_WEEK.full ? "Join the next one →" : "RSVP for this table") + "</button>" +
-        "</div>" +
-      "</div>";
+      '<p class="eyebrow eyebrow--center">Upcoming coffees</p>' +
+      '<h2 class="section__title">Pull up a chair.</h2>' +
+      '<p class="section__lede">Weekend mornings and afternoons in NYC. Pick your table.</p>' +
+      '<div class="tw-list">' + cards + "</div>";
     section.hidden = false;
 
-    // Populate the separate RSVP section from the same event config.
-    var eventLabel = THIS_WEEK.vertical +
-      (THIS_WEEK.date ? " · " + THIS_WEEK.date : "") +
-      (THIS_WEEK.time ? " · " + THIS_WEEK.time : "") +
-      (THIS_WEEK.place ? " · " + THIS_WEEK.place : "");
-    var rsvpSection = document.getElementById("rsvp");
-    var rsvpEvent = document.getElementById("rsvpEvent");
-    var rsvpTitle = document.getElementById("rsvpTitle");
-    var rsvpLine = document.getElementById("rsvpEventLine");
-    if (rsvpEvent) rsvpEvent.value = eventLabel;
-    if (rsvpTitle) {
-      rsvpTitle.textContent = THIS_WEEK.full
-        ? "This one's full — RSVP for the next."
-        : "Grab a seat at this week's coffee.";
-    }
-    if (rsvpLine) {
-      rsvpLine.textContent = THIS_WEEK.full
-        ? "The " + THIS_WEEK.vertical + " table on " + THIS_WEEK.date +
-          " is full. Leave your details and we'll hold you a spot at the next one."
-        : eventLabel;
+    // Populate the RSVP event dropdown.
+    var sel = document.getElementById("rsvpEvent");
+    if (sel) {
+      var opts = '<option value="" disabled selected>Choose a coffee…</option>';
+      EVENTS.forEach(function (ev) {
+        var label = eventLabel(ev);
+        var text = label.replace(/&/g, "&amp;").replace(/</g, "&lt;");
+        opts += '<option value="' + label.replace(/"/g, "&quot;") + '">' +
+          text + (ev.full ? " — full (waitlist)" : "") + "</option>";
+      });
+      sel.innerHTML = opts;
     }
     if (rsvpSection) rsvpSection.hidden = false;
 
-    var rsvpBtn = document.getElementById("twRsvp");
-    if (rsvpBtn) {
-      rsvpBtn.addEventListener("click", function () {
-        var target = document.getElementById("rsvp");
-        if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
-        var focusEl = document.getElementById("rsvpName");
-        if (focusEl) setTimeout(function () { focusEl.focus(); }, 500);
+    // Wire each card's button to the RSVP form.
+    var btns = host.querySelectorAll(".tw-rsvp");
+    for (var i = 0; i < btns.length; i++) {
+      btns[i].addEventListener("click", function () {
+        jumpToRsvp(decodeURIComponent(this.getAttribute("data-label")));
       });
     }
   }
@@ -241,21 +296,27 @@
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       const fd = new FormData(form);
+      const eventVal = (fd.get("event") || "").toString();
+      const ev = EVENT_INDEX[eventVal];
       const data = {
         type: "rsvp",
-        event: (fd.get("event") || "").toString(),
+        event: eventVal,
         name: (fd.get("name") || "").toString().trim(),
         email: (fd.get("email") || "").toString().trim(),
         instagram: (fd.get("instagram") || "").toString().trim(),
         wechat: (fd.get("wechat") || "").toString().trim(),
         goals: (fd.get("goals") || "").toString().trim(),
-        // carried from the featured event so RSVPs are sortable like waitlist rows
-        vertical: THIS_WEEK ? (THIS_WEEK.formVertical || THIS_WEEK.vertical || "") : "",
-        availableDate: THIS_WEEK ? (THIS_WEEK.date || "") : "",
+        // carried from the chosen event so RSVPs are sortable like waitlist rows
+        vertical: ev ? (ev.formVertical || ev.vertical || "") : "",
+        availableDate: ev ? (ev.date || "") : "",
         company: (fd.get("company") || "").toString(), // honeypot
         submittedAt: new Date().toISOString(),
       };
 
+      if (!data.event) {
+        setStatus(status, "Please choose which coffee you'd like to join.", "err");
+        return;
+      }
       if (!data.name) {
         setStatus(status, "Please add your name.", "err");
         return;
@@ -289,7 +350,7 @@
   }
 
   document.addEventListener("DOMContentLoaded", function () {
-    renderThisWeek();
+    renderUpcoming();
     renderVerticals();
     initForm();
     initRsvp();

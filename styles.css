@@ -201,6 +201,12 @@ body > *:not(.fx) { position: relative; z-index: 1; }
 .tw-foot .btn { background: var(--tw); color: #1a1020; box-shadow: 0 0 40px -8px var(--tw); }
 .tw-foot .btn:hover { box-shadow: 0 0 56px -6px var(--tw); }
 
+/* Upcoming coffees — list of event cards */
+.tw-list { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); margin-top: 4px; }
+.tw-list .tw-card { padding: clamp(22px, 3vw, 28px); }
+.tw-list .tw-vertical { font-size: clamp(1.35rem, 3vw, 1.9rem); margin: 14px 0 16px; }
+.thisweek .section__lede { margin-bottom: 36px; }
+
 /* ---------- Marquee ---------- */
 .marquee { border-block: 1px solid var(--line); padding-block: 16px; overflow: hidden; background: rgba(255,255,255,0.02); }
 .marquee__track { display: flex; width: max-content; }
