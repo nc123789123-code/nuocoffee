@@ -73,6 +73,48 @@
       <div class="wrap" id="thisweekInner"></div>
     </section>
 
+    <!-- ============ RSVP (event-specific, separate from the waitlist) ============ -->
+    <section id="rsvp" class="section rsvp-section" hidden>
+      <div class="wrap wrap--narrow">
+        <p class="eyebrow eyebrow--center">RSVP</p>
+        <h2 class="section__title" id="rsvpTitle">Grab a seat.</h2>
+        <p class="section__lede" id="rsvpEventLine"></p>
+        <form class="form" id="rsvpForm" novalidate>
+          <!-- Honeypot -->
+          <div class="hp" aria-hidden="true">
+            <label for="rsvpCompany">Company (leave this blank)</label>
+            <input id="rsvpCompany" name="company" type="text" tabindex="-1" autocomplete="off" />
+          </div>
+          <input type="hidden" id="rsvpEvent" name="event" value="" />
+          <div class="field">
+            <label for="rsvpName">Name</label>
+            <input id="rsvpName" name="name" type="text" autocomplete="name" placeholder="Alex Rivera" required />
+          </div>
+          <div class="field">
+            <label for="rsvpEmail">Email</label>
+            <input id="rsvpEmail" name="email" type="email" autocomplete="email" placeholder="you@email.com" required />
+          </div>
+          <div class="field field--row">
+            <div>
+              <label for="rsvpInstagram">Instagram <span class="opt">optional</span></label>
+              <input id="rsvpInstagram" name="instagram" type="text" placeholder="@handle" autocomplete="off" />
+            </div>
+            <div>
+              <label for="rsvpWechat">WeChat <span class="opt">optional</span></label>
+              <input id="rsvpWechat" name="wechat" type="text" placeholder="WeChat ID" autocomplete="off" />
+            </div>
+          </div>
+          <div class="field">
+            <label for="rsvpNote">Anything we should know? <span class="opt">optional</span></label>
+            <textarea id="rsvpNote" name="goals" rows="2" placeholder="Who you'd love to meet, dietary needs, etc."></textarea>
+          </div>
+          <button class="btn btn--lg btn--full" type="submit">Confirm RSVP</button>
+          <p class="form__status" id="rsvpStatus" role="status" aria-live="polite"></p>
+          <p class="form__fine">We'll email you the details. Instagram or WeChat optional.</p>
+        </form>
+      </div>
+    </section>
+
     <!-- ============ MARQUEE ============ -->
     <div class="marquee" aria-hidden="true">
       <div class="marquee__track">
@@ -206,6 +248,16 @@
             <div>
               <label for="linkedin">LinkedIn <span class="opt">optional</span></label>
               <input id="linkedin" name="linkedin" type="url" inputmode="url" placeholder="linkedin.com/in/…" autocomplete="off" />
+            </div>
+          </div>
+          <div class="field field--row">
+            <div>
+              <label for="instagram">Instagram <span class="opt">optional</span></label>
+              <input id="instagram" name="instagram" type="text" placeholder="@handle" autocomplete="off" />
+            </div>
+            <div>
+              <label for="wechat">WeChat <span class="opt">optional</span></label>
+              <input id="wechat" name="wechat" type="text" placeholder="WeChat ID" autocomplete="off" />
             </div>
           </div>
           <button class="btn btn--lg btn--full" type="submit">Save my spot</button>

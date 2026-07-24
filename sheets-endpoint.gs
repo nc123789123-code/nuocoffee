@@ -6,7 +6,7 @@
  *
  * ── One-time setup ──────────────────────────────────────────────
  *  1. Create a Google Sheet. Put these headers in row 1:
- *       Timestamp | Name | Vertical | Role | Available | Goals | Email | LinkedIn | Source
+ *       Timestamp | Name | Vertical | Role | Available | Goals | Email | LinkedIn | Source | Instagram | WeChat | Type | Event
  *  2. In the Sheet: Extensions → Apps Script. Delete the sample code,
  *     paste this whole file, and Save.
  *  3. (Recommended) Set a shared secret so only your site can post:
@@ -49,7 +49,11 @@ function doPost(e) {
       data.goals || '',
       data.email || '',
       data.linkedin || '',
-      data.source || ''
+      data.source || '',
+      data.instagram || '',
+      data.wechat || '',
+      data.type || '',
+      data.event || ''
     ]);
 
     return json({ ok: true });

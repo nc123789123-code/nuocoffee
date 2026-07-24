@@ -311,6 +311,10 @@ body > *:not(.fx) { position: relative; z-index: 1; }
 .form__fine { color: var(--dim); font-size: 0.8rem; margin: 12px 0 0; text-align: center; }
 .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 
+/* ---------- RSVP section ---------- */
+.rsvp-section .form { max-width: 540px; margin: 0 auto; }
+.rsvp-section .section__lede { margin-bottom: 32px; }
+
 /* ---------- FAQ ---------- */
 .faq { margin-top: 44px; display: grid; gap: 12px; }
 .faq details { border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface); padding: 4px 22px; }

@@ -50,7 +50,10 @@ spam honeypot, and your Google URL stays private. One-time setup:
 ### 1. Create the Google Sheet + endpoint
 
 1. Make a Google Sheet. In row 1, add headers:
-   `Timestamp | Name | Vertical | Role | Available | Goals | Email | LinkedIn | Source`
+   `Timestamp | Name | Vertical | Role | Available | Goals | Email | LinkedIn | Source | Instagram | WeChat | Type | Event`
+
+   Both forms write here; the **Type** column is `waitlist` or `rsvp`, and
+   **Event** names the coffee an RSVP is for — filter/sort by Type to split them.
 2. In the Sheet: **Extensions → Apps Script**. Paste all of
    [`sheets-endpoint.gs`](./sheets-endpoint.gs) and save.
 3. *(Recommended)* Set a shared secret: **Project Settings → Script Properties**
@@ -80,7 +83,7 @@ Submit the form on the live site (or `curl` it):
 ```bash
 curl -X POST https://coffeewithonlu.com/api/waitlist \
   -H "Content-Type: application/json" \
-  -d '{"name":"Test User","vertical":"Private Equity","role":"Associate","availableDate":"Thursdays","goals":"Meet buy-side peers","email":"test@example.com"}'
+  -d '{"type":"waitlist","name":"Test User","vertical":"Private Equity","role":"Associate","availableDate":"Thursdays","goals":"Meet buy-side peers","email":"test@example.com"}'
 ```
 
 A new row should appear in your Sheet within a second or two.

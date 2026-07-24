@@ -27,6 +27,8 @@ module.exports = async (req, res) => {
     return res.status(200).json({ ok: true });
   }
 
+  const type = String(body.type || "waitlist").trim();
+  const event = String(body.event || "").trim();
   const name = String(body.name || "").trim();
   const vertical = String(body.vertical || "").trim();
   const role = String(body.role || "").trim();
@@ -34,14 +36,20 @@ module.exports = async (req, res) => {
   const goals = String(body.goals || "").trim();
   const email = String(body.email || "").trim();
   const linkedin = String(body.linkedin || "").trim();
+  const instagram = String(body.instagram || "").trim();
+  const wechat = String(body.wechat || "").trim();
 
-  // Name, vertical, role, availability, and a valid email are required.
-  // LinkedIn is optional.
-  if (!name || !vertical || !role || !availableDate) {
-    return res.status(400).json({ error: "Missing name, vertical, role, or availability" });
+  // Name and a valid email are always required. The detailed waitlist form
+  // additionally requires vertical, role, and availability (enforced client-
+  // side); RSVPs carry those from the featured event.
+  if (!name) {
+    return res.status(400).json({ error: "Name is required" });
   }
   if (!EMAIL_RE.test(email)) {
     return res.status(400).json({ error: "A valid email is required" });
+  }
+  if (type === "waitlist" && (!vertical || !role || !availableDate)) {
+    return res.status(400).json({ error: "Missing vertical, role, or availability" });
   }
 
   const webhook = process.env.SHEETS_WEBHOOK_URL;
@@ -56,6 +64,8 @@ module.exports = async (req, res) => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         token: process.env.SHEETS_TOKEN || "",
+        type,
+        event,
         name,
         vertical,
         role,
@@ -63,6 +73,8 @@ module.exports = async (req, res) => {
         goals,
         email,
         linkedin,
+        instagram,
+        wechat,
         submittedAt: new Date().toISOString(),
         source: req.headers["referer"] || "",
       }),

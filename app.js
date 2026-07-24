@@ -85,22 +85,36 @@
       "</div>";
     section.hidden = false;
 
-    var rsvp = document.getElementById("twRsvp");
-    if (rsvp) {
-      rsvp.addEventListener("click", function () {
-        var sel = document.getElementById("vertical");
-        if (sel && THIS_WEEK.formVertical) {
-          for (var i = 0; i < sel.options.length; i++) {
-            if (sel.options[i].value === THIS_WEEK.formVertical || sel.options[i].text === THIS_WEEK.formVertical) {
-              sel.selectedIndex = i;
-              break;
-            }
-          }
-        }
-        var target = document.getElementById("waitlist");
+    // Populate the separate RSVP section from the same event config.
+    var eventLabel = THIS_WEEK.vertical +
+      (THIS_WEEK.date ? " · " + THIS_WEEK.date : "") +
+      (THIS_WEEK.time ? " · " + THIS_WEEK.time : "") +
+      (THIS_WEEK.place ? " · " + THIS_WEEK.place : "");
+    var rsvpSection = document.getElementById("rsvp");
+    var rsvpEvent = document.getElementById("rsvpEvent");
+    var rsvpTitle = document.getElementById("rsvpTitle");
+    var rsvpLine = document.getElementById("rsvpEventLine");
+    if (rsvpEvent) rsvpEvent.value = eventLabel;
+    if (rsvpTitle) {
+      rsvpTitle.textContent = THIS_WEEK.full
+        ? "This one's full — RSVP for the next."
+        : "Grab a seat at this week's coffee.";
+    }
+    if (rsvpLine) {
+      rsvpLine.textContent = THIS_WEEK.full
+        ? "The " + THIS_WEEK.vertical + " table on " + THIS_WEEK.date +
+          " is full. Leave your details and we'll hold you a spot at the next one."
+        : eventLabel;
+    }
+    if (rsvpSection) rsvpSection.hidden = false;
+
+    var rsvpBtn = document.getElementById("twRsvp");
+    if (rsvpBtn) {
+      rsvpBtn.addEventListener("click", function () {
+        var target = document.getElementById("rsvp");
         if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
-        var name = document.getElementById("name");
-        if (name) setTimeout(function () { name.focus(); }, 500);
+        var focusEl = document.getElementById("rsvpName");
+        if (focusEl) setTimeout(function () { focusEl.focus(); }, 500);
       });
     }
   }
@@ -168,6 +182,7 @@
       e.preventDefault();
       const fd = new FormData(form);
       const data = {
+        type: "waitlist",
         name: (fd.get("name") || "").toString().trim(),
         vertical: fd.get("vertical") || "",
         role: (fd.get("role") || "").toString().trim(),
@@ -175,6 +190,8 @@
         goals: (fd.get("goals") || "").toString().trim(),
         email: (fd.get("email") || "").toString().trim(),
         linkedin: (fd.get("linkedin") || "").toString().trim(),
+        instagram: (fd.get("instagram") || "").toString().trim(),
+        wechat: (fd.get("wechat") || "").toString().trim(),
         company: (fd.get("company") || "").toString(), // honeypot — humans leave blank
         submittedAt: new Date().toISOString(),
       };
@@ -210,7 +227,58 @@
           setStatus(status, "Something went wrong on our end. Please try again in a moment.", "err");
         })
         .finally(function () {
-          if (btn) { btn.disabled = false; btn.textContent = "Join the waitlist"; }
+          if (btn) { btn.disabled = false; btn.textContent = "Save my spot"; }
+        });
+    });
+  }
+
+  /* ---- RSVP form (event-specific, separate from the waitlist) ---- */
+  function initRsvp() {
+    const form = document.getElementById("rsvpForm");
+    const status = document.getElementById("rsvpStatus");
+    if (!form || !status) return;
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      const fd = new FormData(form);
+      const data = {
+        type: "rsvp",
+        event: (fd.get("event") || "").toString(),
+        name: (fd.get("name") || "").toString().trim(),
+        email: (fd.get("email") || "").toString().trim(),
+        instagram: (fd.get("instagram") || "").toString().trim(),
+        wechat: (fd.get("wechat") || "").toString().trim(),
+        goals: (fd.get("goals") || "").toString().trim(),
+        // carried from the featured event so RSVPs are sortable like waitlist rows
+        vertical: THIS_WEEK ? (THIS_WEEK.formVertical || THIS_WEEK.vertical || "") : "",
+        availableDate: THIS_WEEK ? (THIS_WEEK.date || "") : "",
+        company: (fd.get("company") || "").toString(), // honeypot
+        submittedAt: new Date().toISOString(),
+      };
+
+      if (!data.name) {
+        setStatus(status, "Please add your name.", "err");
+        return;
+      }
+      if (!data.email || !isValidEmail(data.email)) {
+        setStatus(status, "Please add a valid email so we can send you the details.", "err");
+        return;
+      }
+
+      const btn = form.querySelector('button[type="submit"]');
+      if (btn) { btn.disabled = true; btn.textContent = "Sending…"; }
+      setStatus(status, "", null);
+
+      submitSignup(data)
+        .then(function () {
+          form.reset();
+          setStatus(status, "You're in, " + data.name.split(" ")[0] + " — we'll email you the details.", "ok");
+        })
+        .catch(function () {
+          setStatus(status, "Something went wrong on our end. Please try again in a moment.", "err");
+        })
+        .finally(function () {
+          if (btn) { btn.disabled = false; btn.textContent = "Confirm RSVP"; }
         });
     });
   }
@@ -224,6 +292,7 @@
     renderThisWeek();
     renderVerticals();
     initForm();
+    initRsvp();
     initYear();
   });
 })();
