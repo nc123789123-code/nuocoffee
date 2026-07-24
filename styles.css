@@ -27,6 +27,10 @@
   --violet: #a970ff;   /* electric violet */
   --mint:   #5ff0c8;   /* cool pop */
 
+  /* Onlu Intel family tie — matches the parent brand */
+  --onlu-mint: #6aab8e;
+  --onlu-tan:  #c99a6a;
+
   --grad: linear-gradient(100deg, var(--amber-2), var(--pink) 52%, var(--violet));
   --grad-soft: linear-gradient(100deg, rgba(255,157,77,0.16), rgba(169,112,255,0.16));
 
@@ -328,6 +332,21 @@ body > *:not(.fx) { position: relative; z-index: 1; }
   display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-top: 42px; padding-top: 24px;
   border-top: 1px solid var(--line); font-family: var(--font-mono); font-size: 0.76rem; color: var(--dim); letter-spacing: 0.02em;
 }
+
+/* ---------- Onlu Intel lockup (shared parent-brand mark + wordmark) ---------- */
+.onlu-link, .onlu-lockup { display: inline-flex; align-items: center; gap: 7px; text-decoration: none; }
+.onlu-mark { line-height: 0; flex: none; filter: drop-shadow(0 0 8px rgba(106, 171, 142, 0.35)); }
+.onlu-link .onlu-mark svg { width: 22px; height: 22px; display: block; }
+.onlu-lockup .onlu-mark svg { width: 26px; height: 26px; display: block; }
+.onlu-lockup__txt { display: inline-flex; align-items: center; }
+.onlu-word { font-family: var(--font-display); font-weight: 700; font-size: 1rem; letter-spacing: -0.01em; color: var(--onlu-mint); }
+.onlu-intel { font-family: var(--font-mono); font-weight: 700; font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--onlu-tan); margin-left: 4px; }
+.onlu-arrow { color: var(--muted); font-size: 0.85rem; margin-left: 3px; }
+.onlu-link:hover .onlu-word { color: #86c4a6; }
+.onlu-link:hover .onlu-arrow { color: var(--text); }
+.nav__links .onlu-link .onlu-word { font-size: 0.94rem; }
+.footer__part { font-family: var(--font-mono); font-size: 0.72rem; color: var(--dim); margin: 9px 0 0; letter-spacing: 0.03em; }
+.footer__brand .onlu-lockup { margin-top: 16px; }
 
 /* ---------- Responsive ---------- */
 @media (max-width: 900px) {
