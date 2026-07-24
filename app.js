@@ -40,7 +40,7 @@
     formVertical: "Private Credit",
     date: "Sunday, July 26",
     time: "10:30 AM",
-    place: "Blue Bottle, FiDi",
+    place: "Madison Square Park",
     note: "6 seats · a few left",
   };
 
