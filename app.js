@@ -247,6 +247,8 @@
         linkedin: (fd.get("linkedin") || "").toString().trim(),
         instagram: (fd.get("instagram") || "").toString().trim(),
         wechat: (fd.get("wechat") || "").toString().trim(),
+        mbti: (fd.get("mbti") || "").toString().trim(),
+        topics: (fd.get("topics") || "").toString().trim(),
         company: (fd.get("company") || "").toString(), // honeypot — humans leave blank
         submittedAt: new Date().toISOString(),
       };
@@ -305,6 +307,8 @@
         email: (fd.get("email") || "").toString().trim(),
         instagram: (fd.get("instagram") || "").toString().trim(),
         wechat: (fd.get("wechat") || "").toString().trim(),
+        mbti: (fd.get("mbti") || "").toString().trim(),
+        topics: (fd.get("topics") || "").toString().trim(),
         goals: (fd.get("goals") || "").toString().trim(),
         // stable tab name for this coffee (unaffected by time/venue edits)
         eventTab: ev ? (ev.vertical + " · " + ev.date) : "RSVP",

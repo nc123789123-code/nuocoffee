@@ -39,6 +39,8 @@ module.exports = async (req, res) => {
   const linkedin = String(body.linkedin || "").trim();
   const instagram = String(body.instagram || "").trim();
   const wechat = String(body.wechat || "").trim();
+  const mbti = String(body.mbti || "").trim();
+  const topics = String(body.topics || "").trim();
 
   // Name and a valid email are always required. The detailed waitlist form
   // additionally requires vertical, role, and availability (enforced client-
@@ -77,6 +79,8 @@ module.exports = async (req, res) => {
         linkedin,
         instagram,
         wechat,
+        mbti,
+        topics,
         submittedAt: new Date().toISOString(),
         source: req.headers["referer"] || "",
       }),

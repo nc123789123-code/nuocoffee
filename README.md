@@ -53,7 +53,7 @@ spam honeypot, and your Google URL stays private. One-time setup:
    arrive: a **Waitlist** tab, plus **one tab per coffee** for its RSVPs
    (e.g. `Quant · Aug 1`) — so each event has its own roster. Every tab's
    header row is:
-   `Timestamp | Name | Vertical | Role | Available | Goals | Email | LinkedIn | Source | Instagram | WeChat | Event`
+   `Timestamp | Name | Vertical | Role | Available | Goals | Email | LinkedIn | Source | Instagram | WeChat | Event | MBTI | Topics`
 2. In the Sheet: **Extensions → Apps Script**. Paste all of
    [`sheets-endpoint.gs`](./sheets-endpoint.gs) and save.
 3. *(Recommended)* Set a shared secret: **Project Settings → Script Properties**
