@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Who's in the Room — Coffee with Onlu</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+
+:root{
+  --bg:#140f1c; --bg2:#0d0912; --surface:#1d1629;
+  --text:#f7efe7; --muted:#b6a6c6; --dim:#8b7da0; --line:rgba(255,255,255,.10);
+  --amber:#ff9d4d; --amber2:#ffc074; --pink:#ff4f9a; --violet:#a970ff; --mint:#5ff0c8;
+  --onlu-mint:#6aab8e; --onlu-tan:#c99a6a;
+  --display:'Unbounded',system-ui,sans-serif;
+  --body:'Outfit',system-ui,-apple-system,sans-serif;
+  --mono:'Space Mono',ui-monospace,'Courier New',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;}
+body{
+  background:var(--bg); color:var(--text); font-family:var(--body);
+  overflow:hidden; -webkit-font-smoothing:antialiased;
+}
+
+/* ambient glow */
+.fx{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
+.blob{position:absolute;border-radius:50%;filter:blur(90px);opacity:.5;}
+.b1{width:44vw;height:44vw;top:-12vw;right:-8vw;background:radial-gradient(circle,var(--amber),transparent 68%);}
+.b2{width:40vw;height:40vw;bottom:-14vw;left:-10vw;background:radial-gradient(circle,var(--violet),transparent 68%);opacity:.42;}
+.grain{position:absolute;inset:-50%;opacity:.05;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");}
+
+/* deck */
+.deck{position:relative;z-index:1;height:100vh;width:100vw;}
+.slide{
+  position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;
+  padding:clamp(28px,6vw,90px); opacity:0;visibility:hidden;
+  transform:translateY(14px);transition:opacity .45s ease,transform .45s ease,visibility .45s;
+}
+.slide.is-active{opacity:1;visibility:visible;transform:none;}
+.wrap{width:100%;max-width:1000px;margin-inline:auto;}
+
+.eyebrow{font-family:var(--mono);text-transform:uppercase;letter-spacing:.22em;
+  font-size:clamp(.7rem,1.4vw,.85rem);font-weight:700;color:var(--amber2);}
+.grad{background:linear-gradient(100deg,var(--amber2),var(--pink) 52%,var(--violet));
+  -webkit-background-clip:text;background-clip:text;color:transparent;}
+
+/* cover */
+.cover h1{font-family:var(--display);font-weight:800;line-height:1.02;letter-spacing:-.02em;
+  font-size:clamp(3rem,10vw,7rem);margin:.35em 0 .3em;}
+.cover p.sub{font-size:clamp(1.1rem,2.6vw,1.7rem);color:var(--muted);max-width:20ch;line-height:1.35;}
+.cover .mark{margin-top:clamp(28px,5vw,54px);display:flex;align-items:center;gap:10px;}
+.cover .cup{color:var(--amber2);filter:drop-shadow(0 0 12px rgba(255,157,77,.5));}
+.cover .cup svg{width:26px;height:26px;display:block;}
+.cover .brand{font-family:var(--display);font-weight:700;font-size:1.05rem;}
+.cover .tag{font-family:var(--mono);font-size:.8rem;color:var(--dim);letter-spacing:.03em;margin-top:4px;}
+
+/* category slide */
+.cat{--ac:var(--amber);}
+.cat .top{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;margin-bottom:clamp(20px,4vw,40px);}
+.cat .num{font-family:var(--display);font-weight:800;font-size:clamp(3rem,11vw,8rem);line-height:.8;
+  color:transparent;-webkit-text-stroke:2px color-mix(in srgb,var(--ac) 70%,transparent);opacity:.9;}
+.cat .ico{color:var(--ac);filter:drop-shadow(0 0 16px color-mix(in srgb,var(--ac) 70%,transparent));flex:none;}
+.cat .ico svg{width:clamp(40px,7vw,64px);height:clamp(40px,7vw,64px);display:block;}
+.cat h2{font-family:var(--display);font-weight:800;letter-spacing:-.02em;line-height:1.05;
+  font-size:clamp(1.9rem,5.2vw,3.6rem);margin-bottom:clamp(20px,3vw,34px);}
+.cat h2 .diamond{color:var(--ac);margin-right:.35em;}
+.roles{list-style:none;display:flex;flex-direction:column;gap:0;}
+.roles li{font-size:clamp(1.05rem,2.4vw,1.6rem);color:var(--text);font-weight:500;
+  padding:clamp(11px,1.6vw,18px) 0;border-top:1px solid var(--line);display:flex;align-items:center;gap:14px;}
+.roles li:last-child{border-bottom:1px solid var(--line);}
+.roles li::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--ac);
+  box-shadow:0 0 12px var(--ac);flex:none;}
+
+/* outro */
+.outro{text-align:center;align-items:center;}
+.outro h2{font-family:var(--display);font-weight:800;font-size:clamp(2rem,6vw,4rem);letter-spacing:-.02em;line-height:1.1;margin-bottom:.4em;}
+.outro p{font-family:var(--mono);color:var(--muted);font-size:clamp(.95rem,2vw,1.2rem);letter-spacing:.04em;}
+.outro .lock{margin-top:clamp(30px,5vw,56px);display:inline-flex;align-items:center;gap:9px;}
+.outro .lock .cup{color:var(--onlu-mint);}
+.outro .lock .cup svg{width:26px;height:26px;display:block;}
+.outro .ow{font-family:var(--display);font-weight:700;color:var(--onlu-mint);font-size:1.1rem;}
+.outro .oi{font-family:var(--mono);font-weight:700;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--onlu-tan);margin-left:4px;}
+
+/* chrome */
+.counter{position:fixed;bottom:22px;left:0;right:0;z-index:3;text-align:center;
+  font-family:var(--mono);font-size:.78rem;letter-spacing:.1em;color:var(--dim);}
+.dots{position:fixed;bottom:48px;left:0;right:0;z-index:3;display:flex;gap:8px;justify-content:center;flex-wrap:wrap;padding:0 20px;}
+.dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.18);border:none;cursor:pointer;padding:0;transition:background .2s,transform .2s;}
+.dot.on{background:var(--amber2);transform:scale(1.3);}
+.nav{position:fixed;top:0;bottom:0;z-index:2;width:22%;border:none;background:transparent;cursor:pointer;}
+.nav.prev{left:0;} .nav.next{right:0;}
+.hint{position:fixed;top:20px;right:24px;z-index:3;font-family:var(--mono);font-size:.72rem;color:var(--dim);letter-spacing:.06em;}
+@media (prefers-reduced-motion:reduce){.slide{transition:opacity .2s;}}
+</style>
+</head>
+<body>
+<div class="fx"><span class="blob b1"></span><span class="blob b2"></span><span class="grain"></span></div>
+
+<div class="deck" id="deck"></div>
+
+<button class="nav prev" id="prev" aria-label="Previous"></button>
+<button class="nav next" id="next" aria-label="Next"></button>
+<div class="dots" id="dots"></div>
+<div class="counter" id="counter"></div>
+<div class="hint">← → to move</div>
+
+<script>
+var CUP = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9h11v4a4 4 0 0 1-4 4H9a4 4 0 0 1-4-4V9Z"/><path d="M16 10h2.4a2.4 2.4 0 0 1 0 4.8H16"/><path d="M8 3.4c-.5 1 .5 1.6 0 2.6M11.5 3.4c-.5 1 .5 1.6 0 2.6"/></svg>';
+var ICONS = {
+  receipt:'<path d="M6 3h12v18l-2-1.3L14 21l-2-1.3L10 21l-2-1.3L6 21Z"/><path d="M9 8h6M9 12h5"/>',
+  percent:'<circle cx="7.5" cy="7.5" r="2.6"/><circle cx="16.5" cy="16.5" r="2.6"/><path d="M18 6 6 18"/>',
+  layers:'<path d="M12 3 3 8l9 5 9-5-9-5Z"/><path d="M3 13l9 5 9-5"/>',
+  briefcase:'<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5.5A2.5 2.5 0 0 1 10.5 3h3A2.5 2.5 0 0 1 16 5.5V7"/><path d="M3 12.5h18"/>',
+  coin:'<circle cx="12" cy="12" r="8.5"/><path d="M12 7v10M9.5 9.6h4a1.8 1.8 0 0 1 0 3.4h-3a1.8 1.8 0 0 0 0 3.4h4"/>',
+  barrel:'<ellipse cx="12" cy="5.5" rx="6" ry="2.2"/><path d="M6 5.5v13c0 1.2 2.7 2.2 6 2.2s6-1 6-2.2v-13"/><path d="M6 12c0 1.2 2.7 2.2 6 2.2s6-1 6-2.2"/>',
+  building:'<path d="M4 21V5a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v16"/><path d="M15 21V9h4a1 1 0 0 1 1 1v11"/><path d="M8 8h3M8 12h3M8 16h3"/><path d="M3 21h18"/>'
+};
+function svg(name){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">'+(ICONS[name]||'')+'</svg>';}
+
+var CATS = [
+  {n:'01',cat:'Direct & Private Credit',ac:'var(--amber)',icon:'receipt',roles:['Private credit origination','Private credit (general)','Opportunistic credit / direct lending']},
+  {n:'02',cat:'Valuation & Ratings',ac:'var(--pink)',icon:'percent',roles:['Credit valuation','Rating agency — project finance']},
+  {n:'03',cat:'Structured & Fund Financing',ac:'var(--violet)',icon:'layers',roles:['Structured finance — market risk','Fund back leverage / CLO warehousing']},
+  {n:'04',cat:'Deals & Capital',ac:'var(--mint)',icon:'briefcase',roles:['Private equity','M&A law','Infra debt']},
+  {n:'05',cat:'Digital Assets',ac:'var(--amber)',icon:'coin',roles:['Crypto exchange']},
+  {n:'06',cat:'Commodities',ac:'var(--pink)',icon:'barrel',roles:['Commodity investing']},
+  {n:'07',cat:'Real Estate',ac:'var(--violet)',icon:'building',roles:['Real estate investing']}
+];
+
+var slides = [];
+// cover
+slides.push('<section class="slide cover"><div class="wrap">'+
+  '<p class="eyebrow">NYC finance ✦ group coffee</p>'+
+  '<h1>Who\'s in <span class="grad">the Room</span></h1>'+
+  '<p class="sub">Seven corners of the market, meeting in one place tomorrow.</p>'+
+  '<div class="mark"><span class="cup">'+CUP+'</span><div><div class="brand">Coffee with Onlu</div><div class="tag">Sunday, July 26 · 10:30 AM · Madison Square Park</div></div></div>'+
+  '</div></section>');
+// categories
+CATS.forEach(function(c){
+  var roles = c.roles.map(function(r){return '<li>'+r+'</li>';}).join('');
+  slides.push('<section class="slide cat" style="--ac:'+c.ac+'"><div class="wrap">'+
+    '<div class="top"><span class="num">'+c.n+'</span><span class="ico">'+svg(c.icon)+'</span></div>'+
+    '<h2><span class="diamond">◈</span>'+c.cat+'</h2>'+
+    '<ul class="roles">'+roles+'</ul>'+
+  '</div></section>');
+});
+// outro
+slides.push('<section class="slide outro"><div class="wrap">'+
+  '<p class="eyebrow">One table at a time</p>'+
+  '<h2>See you tomorrow.</h2>'+
+  '<p>Coffee with Onlu · NYC finance, one table at a time</p>'+
+  '<div class="lock"><span class="cup">'+CUP+'</span><span class="ow">Onlu</span><span class="oi">Intel</span></div>'+
+  '</div></section>');
+
+var deck = document.getElementById('deck');
+deck.innerHTML = slides.join('');
+var els = deck.querySelectorAll('.slide');
+var dotsWrap = document.getElementById('dots');
+var counter = document.getElementById('counter');
+var i = 0;
+
+for(var d=0; d<els.length; d++){
+  var b = document.createElement('button');
+  b.className='dot'; b.setAttribute('aria-label','Slide '+(d+1));
+  (function(idx){ b.addEventListener('click',function(){go(idx);}); })(d);
+  dotsWrap.appendChild(b);
+}
+var dots = dotsWrap.querySelectorAll('.dot');
+
+function go(n){
+  i = Math.max(0, Math.min(els.length-1, n));
+  for(var k=0;k<els.length;k++){ els[k].classList.toggle('is-active', k===i); dots[k].classList.toggle('on', k===i); }
+  counter.textContent = String(i+1).padStart(2,'0') + ' / ' + String(els.length).padStart(2,'0');
+}
+document.getElementById('next').addEventListener('click',function(){go(i+1);});
+document.getElementById('prev').addEventListener('click',function(){go(i-1);});
+document.addEventListener('keydown',function(e){
+  if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){e.preventDefault();go(i+1);}
+  else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();go(i-1);}
+  else if(e.key==='Home'){go(0);} else if(e.key==='End'){go(els.length-1);}
+});
+go(0);
+</script>
+</body>
+</html>
