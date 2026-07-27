@@ -49,8 +49,8 @@
       full: true,
     },
     {
-      vertical: "Quant",
-      formVertical: "Quant / Systematic",
+      vertical: "Public Markets",
+      formVertical: "Public Markets",
       date: "Saturday, Aug 1",
       time: "Afternoon",
       place: "Midtown",
