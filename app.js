@@ -69,7 +69,7 @@
       place: "Midtown",
       note: "",
       full: false,
-      partiful: "",  // add this coffee's Partiful link here
+      partiful: "https://partiful.com/e/7NsXV90qdPXOfFBNf47k?c=NdK75lyX",
     },
   ];
 
