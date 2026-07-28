@@ -72,8 +72,10 @@
   ];
 
   // Keep only events today or later (events without an `iso` always show).
+  // "Today" is anchored to New York time so events stay listed through
+  // the whole NYC day, not the UTC day.
   function upcomingEvents() {
-    var todayISO = new Date().toISOString().slice(0, 10);
+    var todayISO = new Date().toLocaleDateString("en-CA", { timeZone: "America/New_York" });
     return EVENTS.filter(function (ev) { return !ev.iso || ev.iso >= todayISO; });
   }
 
