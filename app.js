@@ -58,6 +58,7 @@
       place: "Midtown",
       note: "",
       full: false,
+      partiful: "https://partiful.com/e/eoBkUCqT0DQWQ2SMddzn?c=tt3MB5_-",
     },
     {
       vertical: "Investment Banking",
@@ -68,6 +69,7 @@
       place: "Midtown",
       note: "",
       full: false,
+      partiful: "",  // add this coffee's Partiful link here
     },
   ];
 
@@ -149,8 +151,11 @@
           "</div>" +
           '<div class="tw-foot">' +
             (ev.note ? '<span class="tw-note">' + ev.note + "</span>" : "<span></span>") +
-            '<button class="btn tw-rsvp" type="button" data-label="' + attr + '">' +
-              (ev.full ? "Join waitlist →" : "RSVP →") + "</button>" +
+            (ev.partiful
+              ? '<a class="btn tw-rsvp" href="' + ev.partiful.replace(/"/g, "&quot;") +
+                '" target="_blank" rel="noopener">RSVP on Partiful →</a>'
+              : '<button class="btn tw-rsvp" type="button" data-label="' + attr + '">' +
+                (ev.full ? "Join waitlist →" : "RSVP →") + "</button>") +
           "</div>" +
         "</article>"
       );
@@ -177,8 +182,8 @@
     }
     if (rsvpSection) rsvpSection.hidden = false;
 
-    // Wire each card's button to the RSVP form.
-    var btns = host.querySelectorAll(".tw-rsvp");
+    // Wire each card's internal button (not the Partiful links) to the RSVP form.
+    var btns = host.querySelectorAll("button.tw-rsvp");
     for (var i = 0; i < btns.length; i++) {
       btns[i].addEventListener("click", function () {
         jumpToRsvp(decodeURIComponent(this.getAttribute("data-label")));
