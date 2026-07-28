@@ -151,11 +151,14 @@
           "</div>" +
           '<div class="tw-foot">' +
             (ev.note ? '<span class="tw-note">' + ev.note + "</span>" : "<span></span>") +
-            (ev.partiful
-              ? '<a class="btn tw-rsvp" href="' + ev.partiful.replace(/"/g, "&quot;") +
-                '" target="_blank" rel="noopener">RSVP on Partiful →</a>'
-              : '<button class="btn tw-rsvp" type="button" data-label="' + attr + '">' +
-                (ev.full ? "Join waitlist →" : "RSVP →") + "</button>") +
+            '<span class="tw-actions">' +
+              '<button class="btn tw-rsvp" type="button" data-label="' + attr + '">' +
+                (ev.full ? "Join waitlist →" : "RSVP →") + "</button>" +
+              (ev.partiful
+                ? '<a class="tw-partiful" href="' + ev.partiful.replace(/"/g, "&quot;") +
+                  '" target="_blank" rel="noopener">See it on Partiful ↗</a>'
+                : "") +
+            "</span>" +
           "</div>" +
         "</article>"
       );
