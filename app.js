@@ -42,6 +42,7 @@
     {
       vertical: "Private Credit",
       formVertical: "Private Credit",
+      iso: "2026-07-26",              // used to auto-hide once it's in the past
       date: "Sunday, July 26",
       time: "Morning · 10:30 AM",
       place: "Madison Square Park",
@@ -51,6 +52,7 @@
     {
       vertical: "Public Markets",
       formVertical: "Public Markets",
+      iso: "2026-08-01",
       date: "Saturday, Aug 1",
       time: "Afternoon",
       place: "Midtown",
@@ -60,6 +62,7 @@
     {
       vertical: "Investment Banking",
       formVertical: "Investment Banking (M&A / Coverage)",
+      iso: "2026-08-09",
       date: "Sunday, Aug 9",
       time: "Afternoon",
       place: "Midtown",
@@ -67,6 +70,12 @@
       full: false,
     },
   ];
+
+  // Keep only events today or later (events without an `iso` always show).
+  function upcomingEvents() {
+    var todayISO = new Date().toISOString().slice(0, 10);
+    return EVENTS.filter(function (ev) { return !ev.iso || ev.iso >= todayISO; });
+  }
 
   // Lookup by label, populated during render, used by the RSVP handler.
   var EVENT_INDEX = {};
@@ -109,14 +118,15 @@
     var host = document.getElementById("thisweekInner");
     var rsvpSection = document.getElementById("rsvp");
     if (!section || !host) return;
-    if (!EVENTS || !EVENTS.length) {
+    var events = upcomingEvents();
+    if (!events.length) {
       section.hidden = true;
       if (rsvpSection) rsvpSection.hidden = true;
       return;
     }
 
     EVENT_INDEX = {};
-    var cards = EVENTS.map(function (ev) {
+    var cards = events.map(function (ev) {
       var s = styleFor(ev.formVertical || ev.vertical);
       var label = eventLabel(ev);
       EVENT_INDEX[label] = ev;
@@ -155,7 +165,7 @@
     var sel = document.getElementById("rsvpEvent");
     if (sel) {
       var opts = '<option value="" disabled selected>Choose a coffee…</option>';
-      EVENTS.forEach(function (ev) {
+      events.forEach(function (ev) {
         var label = eventLabel(ev);
         var text = label.replace(/&/g, "&amp;").replace(/</g, "&lt;");
         opts += '<option value="' + label.replace(/"/g, "&quot;") + '">' +
