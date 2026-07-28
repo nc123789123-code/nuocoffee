@@ -167,7 +167,7 @@
     host.innerHTML =
       '<p class="eyebrow eyebrow--center">Upcoming coffees</p>' +
       '<h2 class="section__title">Pull up a chair.</h2>' +
-      '<p class="section__lede">Weekend mornings and afternoons in NYC. Pick your table.</p>' +
+      '<p class="section__lede">Weekend mornings and afternoons in NYC — always small tables of 4–6, however many show up. Pick your table.</p>' +
       '<div class="tw-list">' + cards + "</div>";
     section.hidden = false;
 
