@@ -309,7 +309,7 @@
         wechat: (fd.get("wechat") || "").toString().trim(),
         mbti: (fd.get("mbti") || "").toString().trim(),
         topics: (fd.get("topics") || "").toString().trim(),
-        goals: (fd.get("goals") || "").toString().trim(),
+        notes: (fd.get("notes") || "").toString().trim(),
         // stable tab name for this coffee (unaffected by time/venue edits)
         eventTab: ev ? (ev.vertical + " · " + ev.date) : "RSVP",
         // carried from the chosen event so RSVPs are sortable like waitlist rows

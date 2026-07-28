@@ -8,7 +8,7 @@
  *  1. Create a Google Sheet. Tabs are auto-created (with headers) as signups
  *     arrive: one "Waitlist" tab, plus one tab per coffee for its RSVPs
  *     (e.g. "Quant · Aug 1"). The header row for every tab is:
- *       Timestamp | Name | Vertical | Role | Available | Goals | Email | LinkedIn | Source | Instagram | WeChat | Event | MBTI | Topics
+ *       Timestamp | Name | Vertical | Role | Available | Goals | Email | LinkedIn | Source | Instagram | WeChat | Event | MBTI | Topics | Notes
  *  2. In the Sheet: Extensions → Apps Script. Delete the sample code,
  *     paste this whole file, and Save.
  *  3. (Recommended) Set a shared secret so only your site can post:
@@ -46,7 +46,7 @@ function doPost(e) {
     // with a header row the first time they're used.
     var HEADERS = ['Timestamp', 'Name', 'Vertical', 'Role', 'Available',
                    'Goals', 'Email', 'LinkedIn', 'Source', 'Instagram',
-                   'WeChat', 'Event', 'MBTI', 'Topics'];
+                   'WeChat', 'Event', 'MBTI', 'Topics', 'Notes'];
     var tabName;
     if (data.type === 'rsvp') {
       tabName = sanitizeTab(data.eventTab || data.event || 'RSVP');
@@ -74,7 +74,8 @@ function doPost(e) {
       data.wechat || '',
       data.event || '',
       data.mbti || '',
-      data.topics || ''
+      data.topics || '',
+      data.notes || ''
     ]);
 
     return json({ ok: true });
