@@ -40,27 +40,6 @@
      ============================================================ */
   const EVENTS = [
     {
-      vertical: "Private Credit",
-      formVertical: "Private Credit",
-      iso: "2026-07-26",              // used to auto-hide once it's in the past
-      date: "Sunday, July 26",
-      time: "Morning · 10:30 AM",
-      place: "Madison Square Park",
-      note: "First table's full — join the waitlist.",
-      full: true,
-    },
-    {
-      vertical: "Public Markets",
-      formVertical: "Public Markets",
-      iso: "2026-08-01",
-      date: "Saturday, Aug 1",
-      time: "Afternoon",
-      place: "Midtown",
-      note: "",
-      full: false,
-      partiful: "https://partiful.com/e/eoBkUCqT0DQWQ2SMddzn?c=tt3MB5_-",
-    },
-    {
       vertical: "Investment Banking",
       formVertical: "Investment Banking (M&A / Coverage)",
       iso: "2026-08-09",
