@@ -71,6 +71,17 @@
       full: false,
       partiful: "https://partiful.com/e/7NsXV90qdPXOfFBNf47k?c=NdK75lyX",
     },
+    {
+      vertical: "Quant",
+      formVertical: "Quant / Systematic",
+      iso: "2026-08-16",
+      date: "Sunday, Aug 16",
+      time: "Afternoon",
+      place: "Midtown",
+      note: "",
+      full: false,
+      partiful: "",  // add this coffee's Partiful link here
+    },
   ];
 
   // Keep only events today or later (events without an `iso` always show).
