@@ -52,14 +52,14 @@
       partiful: "https://partiful.com/e/7NsXV90qdPXOfFBNf47k?c=NdK75lyX",
     },
     {
-      title: "Finance Dinner",         // overrides the "<vertical> coffee" heading
-      vertical: "Finance Dinner",
-      formVertical: "Finance Dinner",
+      title: "Finance Lunch",          // overrides the "<vertical> coffee" heading
+      vertical: "Finance Lunch",
+      formVertical: "Finance Lunch",
       iso: "2026-08-22",
       date: "Saturday, Aug 22",
-      time: "Saturday night",
+      time: "12:30 PM",
       place: "West Chelsea restaurant",
-      note: "Max 6 · dinner",
+      note: "Max 6 · lunch",
       full: false,
       partiful: "",  // add this dinner's Partiful link here
     },
@@ -108,7 +108,7 @@
   // Accent colour + icon per vertical, kept in sync with the grid below.
   function styleFor(name) {
     var n = (name || "").toLowerCase();
-    if (n.indexOf("dinner") > -1)         return { c: "var(--pink)",  i: "dinner" };
+    if (n.indexOf("dinner") > -1 || n.indexOf("lunch") > -1) return { c: "var(--pink)",  i: "dinner" };
     if (n.indexOf("private equity") > -1) return { c: "var(--amber)", i: "bank" };
     if (n.indexOf("private credit") > -1) return { c: "var(--amber)", i: "receipt" };
     if (n.indexOf("banking") > -1)        return { c: "var(--pink)",  i: "briefcase" };
