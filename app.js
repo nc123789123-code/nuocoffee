@@ -58,7 +58,7 @@
       iso: "2026-08-22",
       date: "Saturday, Aug 22",
       time: "Saturday night",
-      place: "West Chelsea (Asian restaurant)",
+      place: "West Chelsea restaurant",
       note: "Max 6 · dinner",
       full: false,
       partiful: "",  // add this dinner's Partiful link here
