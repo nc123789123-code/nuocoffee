@@ -52,14 +52,14 @@
       partiful: "https://partiful.com/e/7NsXV90qdPXOfFBNf47k?c=NdK75lyX",
     },
     {
-      title: "Finance Lunch",          // overrides the "<vertical> coffee" heading
-      vertical: "Finance Lunch",
-      formVertical: "Finance Lunch",
+      title: "Finance Dinner",         // overrides the "<vertical> coffee" heading
+      vertical: "Finance Dinner",
+      formVertical: "Finance Dinner",
       iso: "2026-08-22",
       date: "Saturday, Aug 22",
-      time: "12:30 PM",
+      time: "6:00 PM",
       place: "West Chelsea restaurant",
-      note: "Max 6 · lunch",
+      note: "Max 6 · dinner",
       full: false,
       partiful: "",  // add this dinner's Partiful link here
     },
