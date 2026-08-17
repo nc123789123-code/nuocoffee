@@ -78,6 +78,8 @@ function doPost(e) {
       data.notes || ''
     ]);
 
+    notifyHost(data, tabName);
+
     return json({ ok: true });
   } catch (err) {
     return json({ error: String(err) });
@@ -87,6 +89,37 @@ function doPost(e) {
 // A quick health check you can open in a browser to confirm it's deployed.
 function doGet() {
   return json({ ok: true, service: 'coffee-with-onlu waitlist' });
+}
+
+// Email the host a summary of each new signup. Wrapped so a mail
+// failure never blocks the signup from being saved.
+function notifyHost(data, tabName) {
+  try {
+    var to = Session.getEffectiveUser().getEmail();
+    if (!to) return;
+    var isRsvp = data.type === 'rsvp';
+    var subject = 'New ' + (isRsvp ? 'RSVP' : 'waitlist signup') +
+      ' — ' + (data.name || 'someone') +
+      (isRsvp && data.event ? ' (' + data.event + ')' : '');
+    var lines = [
+      'Tab: ' + tabName,
+      data.event ? 'Event: ' + data.event : '',
+      'Name: ' + (data.name || ''),
+      'Email: ' + (data.email || ''),
+      data.vertical ? 'Vertical: ' + data.vertical : '',
+      data.role ? 'Role: ' + data.role : '',
+      data.availableDate ? 'Available: ' + data.availableDate : '',
+      data.instagram ? 'Instagram: ' + data.instagram : '',
+      data.wechat ? 'WeChat: ' + data.wechat : '',
+      data.mbti ? 'MBTI: ' + data.mbti : '',
+      data.topics ? 'Topics: ' + data.topics : '',
+      data.goals ? 'Goals: ' + data.goals : '',
+      data.notes ? 'Notes: ' + data.notes : ''
+    ].filter(function (l) { return l; });
+    MailApp.sendEmail(to, subject, lines.join('\n'));
+  } catch (mailErr) {
+    // ignore — the row is already saved
+  }
 }
 
 // Make a string safe + short enough for a Google Sheets tab name.
