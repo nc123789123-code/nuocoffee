@@ -63,6 +63,17 @@
       full: false,
       partiful: "",  // add this dinner's Partiful link here
     },
+    {
+      vertical: "Public Credit & Equity",
+      formVertical: "Public Credit & Equity",
+      iso: "2026-08-30",
+      date: "Sunday, Aug 30",
+      time: "Afternoon",
+      place: "Midtown",
+      note: "",
+      full: false,
+      partiful: "",  // add this coffee's Partiful link here
+    },
   ];
 
   // Keep only events today or later (events without an `iso` always show).
