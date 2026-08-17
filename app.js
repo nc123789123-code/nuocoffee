@@ -20,6 +20,7 @@
     calendar:  '<rect x="3.5" y="5" width="17" height="15.5" rx="2"/><path d="M3.5 9.5h17M8 3v4M16 3v4"/>',
     clock:     '<circle cx="12" cy="12" r="8.4"/><path d="M12 7.6V12l3 1.8"/>',
     pin:       '<path d="M12 21s6.8-5.4 6.8-11A6.8 6.8 0 1 0 5.2 10c0 5.6 6.8 11 6.8 11Z"/><circle cx="12" cy="10" r="2.4"/>',
+    dinner:    '<path d="M6 3v6a1.9 1.9 0 0 0 3.8 0V3"/><path d="M7.9 9v12"/><path d="M16.6 3c-1.4 0-2.4 1.9-2.4 4.6s1 3.9 2.4 3.9v9.5"/>',
   };
 
   function svg(name, cls) {
@@ -51,15 +52,16 @@
       partiful: "https://partiful.com/e/7NsXV90qdPXOfFBNf47k?c=NdK75lyX",
     },
     {
-      vertical: "Quant",
-      formVertical: "Quant / Systematic",
-      iso: "2026-08-16",
-      date: "Sunday, Aug 16",
-      time: "Afternoon",
-      place: "Midtown",
-      note: "",
+      title: "Finance Dinner",         // overrides the "<vertical> coffee" heading
+      vertical: "Finance Dinner",
+      formVertical: "Finance Dinner",
+      iso: "2026-08-22",
+      date: "Saturday, Aug 22",
+      time: "Saturday night",
+      place: "West Chelsea (Asian restaurant)",
+      note: "Max 6 · dinner",
       full: false,
-      partiful: "",  // add this coffee's Partiful link here
+      partiful: "",  // add this dinner's Partiful link here
     },
   ];
 
@@ -84,6 +86,7 @@
   // Accent colour + icon per vertical, kept in sync with the grid below.
   function styleFor(name) {
     var n = (name || "").toLowerCase();
+    if (n.indexOf("dinner") > -1)         return { c: "var(--pink)",  i: "dinner" };
     if (n.indexOf("private equity") > -1) return { c: "var(--amber)", i: "bank" };
     if (n.indexOf("private credit") > -1) return { c: "var(--amber)", i: "receipt" };
     if (n.indexOf("banking") > -1)        return { c: "var(--pink)",  i: "briefcase" };
@@ -133,7 +136,7 @@
             (ev.full ? '<span class="tw-badge">Full</span>' : "") + "</span>" +
             '<span class="tw-icon" aria-hidden="true">' + svg(s.i) + "</span>" +
           "</div>" +
-          '<h3 class="tw-vertical">' + ev.vertical + " coffee</h3>" +
+          '<h3 class="tw-vertical">' + (ev.title || (ev.vertical + " coffee")) + "</h3>" +
           '<div class="tw-meta">' +
             (ev.date  ? "<span>" + svg("calendar") + ev.date + "</span>" : "") +
             (ev.time  ? "<span>" + svg("clock") + ev.time + "</span>" : "") +
@@ -155,9 +158,9 @@
     }).join("");
 
     host.innerHTML =
-      '<p class="eyebrow eyebrow--center">Upcoming coffees</p>' +
+      '<p class="eyebrow eyebrow--center">Upcoming</p>' +
       '<h2 class="section__title">Pull up a chair.</h2>' +
-      '<p class="section__lede">Weekend mornings and afternoons in NYC — always small tables of 4–6, however many show up. Pick your table.</p>' +
+      '<p class="section__lede">Coffees and dinners in NYC — always small groups of 4–6, however many show up. Grab a seat.</p>' +
       '<div class="tw-list">' + cards + "</div>";
     section.hidden = false;
 
