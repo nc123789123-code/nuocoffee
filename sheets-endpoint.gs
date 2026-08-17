@@ -79,6 +79,7 @@ function doPost(e) {
     ]);
 
     notifyHost(data, tabName);
+    sendConfirmation(data);
 
     return json({ ok: true });
   } catch (err) {
@@ -117,6 +118,32 @@ function notifyHost(data, tabName) {
       data.notes ? 'Notes: ' + data.notes : ''
     ].filter(function (l) { return l; });
     MailApp.sendEmail(to, subject, lines.join('\n'));
+  } catch (mailErr) {
+    // ignore — the row is already saved
+  }
+}
+
+// Send a friendly confirmation to the person who signed up.
+function sendConfirmation(data) {
+  try {
+    var email = (data.email || '').trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return;
+    var first = (data.name || 'there').split(' ')[0];
+    var subject, body;
+    if (data.type === 'rsvp') {
+      subject = "You're in — " + (data.event || 'Coffee with Onlu');
+      body = 'Hi ' + first + ",\n\n" +
+        "You're confirmed for " + (data.event || 'the coffee') + ". " +
+        "We'll send the final details closer to the day.\n\n" +
+        "See you there,\nCoffee with Onlu";
+    } else {
+      subject = "You're on the list — Coffee with Onlu";
+      body = 'Hi ' + first + ",\n\n" +
+        "Thanks for joining — you're on the list. We'll reach out when " +
+        "there's a coffee forming for you.\n\n" +
+        "Talk soon,\nCoffee with Onlu";
+    }
+    MailApp.sendEmail(email, subject, body, { name: 'Coffee with Onlu' });
   } catch (mailErr) {
     // ignore — the row is already saved
   }
