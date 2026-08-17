@@ -74,6 +74,17 @@
       full: false,
       partiful: "",  // add this coffee's Partiful link here
     },
+    {
+      vertical: "Private Credit & Equity",
+      formVertical: "Private Credit & Equity",
+      iso: "2026-09-13",
+      date: "Sunday, Sep 13",
+      time: "Afternoon",
+      place: "Midtown",
+      note: "",
+      full: false,
+      partiful: "",  // add this coffee's Partiful link here
+    },
   ];
 
   // Keep only events today or later (events without an `iso` always show).
