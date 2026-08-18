@@ -111,7 +111,7 @@
     if (n.indexOf("dinner") > -1 || n.indexOf("lunch") > -1) return { c: "var(--pink)",  i: "dinner" };
     if (n.indexOf("private equity") > -1) return { c: "var(--tiffany)", i: "bank" };
     if (n.indexOf("private credit") > -1) return { c: "var(--tiffany)", i: "receipt" };
-    if (n.indexOf("banking") > -1)        return { c: "var(--pink)",  i: "briefcase" };
+    if (n.indexOf("banking") > -1)        return { c: "var(--tiffany-3)", i: "briefcase" };
     if (n.indexOf("quant") > -1)          return { c: "var(--mint)",  i: "cpu" };
     if (n.indexOf("public credit") > -1)  return { c: "var(--violet)", i: "percent" };
     if (n.indexOf("public") > -1)         return { c: "var(--violet)", i: "chart" };
