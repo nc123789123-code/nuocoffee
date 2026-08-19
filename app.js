@@ -64,8 +64,9 @@
       partiful: "",  // add this dinner's Partiful link here
     },
     {
-      vertical: "Public Credit & Equity",
-      formVertical: "Public Credit & Equity",
+      title: "AI / Finance coffee",
+      vertical: "AI / Finance",
+      formVertical: "AI / Finance",
       iso: "2026-08-30",
       date: "Sunday, Aug 30",
       time: "Afternoon",
@@ -108,13 +109,14 @@
   // Accent colour + icon per vertical, kept in sync with the grid below.
   function styleFor(name) {
     var n = (name || "").toLowerCase();
-    if (n.indexOf("dinner") > -1 || n.indexOf("lunch") > -1) return { c: "var(--pink)",  i: "dinner" };
-    if (n.indexOf("private equity") > -1) return { c: "var(--tiffany)", i: "bank" };
-    if (n.indexOf("private credit") > -1) return { c: "var(--tiffany)", i: "receipt" };
-    if (n.indexOf("banking") > -1)        return { c: "var(--tiffany-3)", i: "briefcase" };
-    if (n.indexOf("quant") > -1)          return { c: "var(--mint)",  i: "cpu" };
-    if (n.indexOf("public credit") > -1)  return { c: "var(--violet)", i: "percent" };
-    if (n.indexOf("public") > -1)         return { c: "var(--violet)", i: "chart" };
+    if (n.indexOf("dinner") > -1 || n.indexOf("lunch") > -1) return { c: "var(--indigo)", i: "dinner" };
+    if (/\bai\b/.test(n))                 return { c: "var(--sky)",       i: "cpu" };
+    if (n.indexOf("private equity") > -1) return { c: "var(--tiffany)",   i: "bank" };
+    if (n.indexOf("private credit") > -1) return { c: "var(--tiffany)",   i: "receipt" };
+    if (n.indexOf("banking") > -1)        return { c: "var(--azure)",     i: "briefcase" };
+    if (n.indexOf("quant") > -1)          return { c: "var(--sky)",       i: "cpu" };
+    if (n.indexOf("public credit") > -1)  return { c: "var(--tiffany-3)", i: "percent" };
+    if (n.indexOf("public") > -1)         return { c: "var(--tiffany-3)", i: "chart" };
     return { c: "var(--tiffany)", i: "coffee" };
   }
 

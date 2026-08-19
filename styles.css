@@ -7,24 +7,27 @@
 @import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
 
 :root {
-  /* Ground — deep teal-navy, biased toward the accent */
-  --bg:        #08191d;   /* deep teal-black */
-  --bg-2:      #041013;   /* darker pour */
-  --surface:   #0e2429;
-  --surface-2: #143036;
-  --line:      rgba(134, 226, 218, 0.12);
-  --line-2:    rgba(134, 226, 218, 0.22);
+  /* Ground — deep blue-navy, cooler and calmer than full teal */
+  --bg:        #0a1520;   /* deep navy */
+  --bg-2:      #060e16;   /* darker pour */
+  --surface:   #101d2b;
+  --surface-2: #16283a;
+  --line:      rgba(150, 200, 230, 0.12);
+  --line-2:    rgba(150, 200, 230, 0.22);
 
   /* Ink */
-  --text:  #eefbf9;   /* cool foam white */
-  --muted: #92bdb8;   /* teal-grey (accent-biased neutral) */
-  --dim:   #6b9a95;
+  --text:  #eef6fb;   /* cool white */
+  --muted: #93aec4;   /* blue-grey (accent-biased neutral) */
+  --dim:   #6d8aa3;
 
-  /* Neon — Tiffany leads, pink/violet support */
+  /* Blue family — Tiffany leads, other blues differentiate */
   --tiffany:   #2ee0d0;   /* tiffany blue */
   --tiffany-2: #9befe4;   /* light tiffany */
   --tiffany-3: #0fa89f;   /* deep tiffany */
-  --pink:   #ff4f9a;   /* hot pink */
+  --sky:       #4cc4ff;   /* bright sky */
+  --azure:     #4d84ff;   /* true blue */
+  --indigo:    #8a9bff;   /* periwinkle */
+  --pink:   #ff4f9a;   /* hot pink (rare warm pop) */
   --violet: #a970ff;   /* electric violet */
   --mint:   #5ff0c8;   /* cool pop */
 
@@ -32,8 +35,8 @@
   --onlu-mint: #6aab8e;
   --onlu-tan:  #c99a6a;
 
-  --grad: linear-gradient(100deg, var(--tiffany-2), var(--tiffany) 45%, var(--tiffany-3) 78%, var(--violet));
-  --grad-soft: linear-gradient(100deg, rgba(46,224,208,0.20), rgba(46,224,208,0.06));
+  --grad: linear-gradient(100deg, var(--tiffany-2), var(--tiffany) 38%, var(--sky) 70%, var(--azure));
+  --grad-soft: linear-gradient(100deg, rgba(46,224,208,0.16), rgba(77,132,255,0.14));
 
   --maxw: 1140px;
   --radius: 18px;
@@ -81,9 +84,9 @@ a { color: inherit; text-decoration: none; }
 /* ---------- Decorative FX layer ---------- */
 .fx { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
 .blob { position: absolute; border-radius: 50%; filter: blur(90px); opacity: 0.55; }
-.blob--tiffany  { width: 56vw; height: 56vw; top: -16vw; right: -10vw; background: radial-gradient(circle, #2ee0d0, transparent 68%); opacity: 0.6; }
-.blob--pink   { width: 40vw; height: 40vw; top: 34vh; left: -12vw; background: radial-gradient(circle, #2ee0d0, transparent 68%); opacity: 0.34; }
-.blob--violet { width: 44vw; height: 44vw; bottom: -16vw; right: -6vw; background: radial-gradient(circle, #a970ff, transparent 68%); opacity: 0.26; }
+.blob--tiffany  { width: 52vw; height: 52vw; top: -16vw; right: -10vw; background: radial-gradient(circle, #2ee0d0, transparent 68%); opacity: 0.45; }
+.blob--pink   { width: 42vw; height: 42vw; top: 34vh; left: -12vw; background: radial-gradient(circle, #4cc4ff, transparent 68%); opacity: 0.3; }
+.blob--violet { width: 44vw; height: 44vw; bottom: -16vw; right: -6vw; background: radial-gradient(circle, #4d84ff, transparent 68%); opacity: 0.28; }
 .grain {
   position: absolute; inset: -50%;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
@@ -266,9 +269,9 @@ body > *:not(.fx) { position: relative; z-index: 1; }
   background: var(--accent); opacity: 0.85;
 }
 .vert:nth-child(1) { --accent: var(--tiffany); }
-.vert:nth-child(2) { --accent: var(--tiffany-3); }
-.vert:nth-child(3) { --accent: var(--tiffany-2); }
-.vert:nth-child(4) { --accent: var(--violet); }
+.vert:nth-child(2) { --accent: var(--azure); }
+.vert:nth-child(3) { --accent: var(--sky); }
+.vert:nth-child(4) { --accent: var(--indigo); }
 .vert:hover { transform: translateY(-4px); border-color: color-mix(in srgb, var(--accent) 60%, transparent); box-shadow: 0 0 44px -10px color-mix(in srgb, var(--accent) 70%, transparent); }
 .vert__icon { color: var(--accent); line-height: 0; filter: drop-shadow(0 0 12px color-mix(in srgb, var(--accent) 70%, transparent)); }
 .vert__icon .ico { width: 30px; height: 30px; }
