@@ -109,13 +109,13 @@
   // Accent colour + icon per vertical, kept in sync with the grid below.
   function styleFor(name) {
     var n = (name || "").toLowerCase();
-    if (n.indexOf("dinner") > -1 || n.indexOf("lunch") > -1) return { c: "var(--indigo)", i: "dinner" };
+    if (n.indexOf("dinner") > -1 || n.indexOf("lunch") > -1) return { c: "var(--pink)", i: "dinner" };
     if (/\bai\b/.test(n))                 return { c: "var(--sky)",       i: "cpu" };
     if (n.indexOf("private equity") > -1) return { c: "var(--tiffany)",   i: "bank" };
     if (n.indexOf("private credit") > -1) return { c: "var(--tiffany)",   i: "receipt" };
     if (n.indexOf("banking") > -1)        return { c: "var(--azure)",     i: "briefcase" };
     if (n.indexOf("quant") > -1)          return { c: "var(--sky)",       i: "cpu" };
-    if (n.indexOf("public credit") > -1)  return { c: "var(--tiffany-3)", i: "percent" };
+    if (n.indexOf("public credit") > -1)  return { c: "var(--indigo)",    i: "percent" };
     if (n.indexOf("public") > -1)         return { c: "var(--tiffany-3)", i: "chart" };
     return { c: "var(--tiffany)", i: "coffee" };
   }
