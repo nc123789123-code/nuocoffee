@@ -92,6 +92,18 @@ function doGet() {
   return json({ ok: true, service: 'coffee-with-onlu waitlist' });
 }
 
+/**
+ * Run this once from the Apps Script editor (pick it in the function
+ * dropdown, then Run) to trigger Google's authorization prompt for
+ * sending mail. Web-app runs never show that prompt, so without this
+ * the emails fail silently. You should receive a test email.
+ */
+function testEmail() {
+  var to = Session.getEffectiveUser().getEmail();
+  MailApp.sendEmail(to, 'Coffee with Onlu — test', 'Email notifications are working.');
+  Logger.log('Sent test email to ' + to + '. Remaining quota: ' + MailApp.getRemainingDailyQuota());
+}
+
 // Email the host a summary of each new signup. Wrapped so a mail
 // failure never blocks the signup from being saved.
 function notifyHost(data, tabName) {
