@@ -81,6 +81,18 @@ h1,h2{font-family:var(--display);font-weight:800;letter-spacing:-.02em;line-heig
   display:grid;place-items:center;-webkit-tap-highlight-color:transparent;}
 .dot::after{content:"";width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.22);transition:background .2s,transform .2s;}
 .dot.on::after{background:var(--tiffany2);transform:scale(1.45);}
+
+/* slide 3 — topics */
+.topics h2{font-size:clamp(1.5rem,6.8vw,2.7rem);margin:.35em 0 .75em;}
+.tlist{display:flex;flex-direction:column;gap:clamp(9px,2.2vw,13px);}
+.topic{display:flex;gap:12px;align-items:flex-start;
+  padding:clamp(10px,2.4vw,14px) clamp(12px,3vw,16px);
+  border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.03);}
+.topic .n{font-family:var(--mono);font-size:clamp(.68rem,2.7vw,.78rem);font-weight:700;
+  color:var(--ac);flex:none;padding-top:.2em;letter-spacing:.06em;}
+.topic .t{font-size:clamp(.9rem,3.7vw,1.05rem);line-height:1.4;}
+.topic .t em{display:block;font-style:normal;color:var(--muted);
+  font-size:clamp(.8rem,3.2vw,.92rem);margin-top:3px;}
 </style>
 </head>
 <body>
@@ -109,6 +121,18 @@ var SEATS=[
   {name:'Students & Interns',     ac:'var(--pink)'}
 ];
 
+
+var TOPICS=[
+  {n:'01', ac:'var(--sky)',     t:'Is AI capex a bubble?',
+   sub:'Are we overbuilding? What happens to the spend — and to the startups riding it. 泡沫还是刚开始？'},
+  {n:'02', ac:'var(--azure)',   t:'US vs. China',
+   sub:'Who is actually ahead, and what the competition means for capital and talent. 中美竞争'},
+  {n:'03', ac:'var(--tiffany)', t:'What AI is doing to our jobs',
+   sub:'How daily workflows have already changed — and moving from traditional finance into AI/tech (strategic finance, biz ops). 传统 finance 转 AI startup'},
+  {n:'04', ac:'var(--pink)',    t:'If nobody has to work',
+   sub:'Jobs eliminated vs. cheaper everything. Long term — where does meaning come from? 不用工作了，幸福感从哪来？'}
+];
+
 var slides=[
   '<section class="slide about"><div class="wrap">'+
     '<p class="eyebrow">Onlu AI × Finance ✦ NYC</p>'+
@@ -132,6 +156,18 @@ var slides=[
       return '<div class="seat" style="--ac:'+s.ac+'"><span class="dot"></span><span>'+s.name+'</span></div>';
     }).join('')+'</div>'+
     '<p class="foot">Sunday, Aug 30 · 2:30 PM · NYC</p>'+
+  '</div></section>',
+
+  '<section class="slide topics"><div class="wrap">'+
+    '<p class="eyebrow">On the table</p>'+
+    '<h2>What we’ll get into.</h2>'+
+    '<div class="tlist">'+TOPICS.map(function(t){
+      return '<div class="topic" style="--ac:'+t.ac+'">'+
+        '<span class="n">'+t.n+'</span>'+
+        '<span class="t">'+t.t+'<em>'+t.sub+'</em></span>'+
+      '</div>';
+    }).join('')+'</div>'+
+    '<p class="foot">Bring your own — we’ll follow the room.</p>'+
   '</div></section>'
 ];
 
