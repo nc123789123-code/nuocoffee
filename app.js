@@ -78,8 +78,8 @@
     {
       vertical: "Private Credit & Equity",
       formVertical: "Private Credit & Equity",
-      iso: "2026-09-13",
-      date: "Sunday, Sep 13",
+      iso: "2026-09-20",
+      date: "Sunday, Sep 20",
       time: "Afternoon",
       place: "Midtown",
       note: "",
