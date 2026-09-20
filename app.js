@@ -83,7 +83,7 @@
       date: "Saturday, Sep 26",
       time: "4:00–7:00 PM",
       place: "West Chelsea",
-      note: "",
+      note: "35 seats · tables of 4–6",
       full: false,
       partiful: "",  // add this coffee's Partiful link here
     },
