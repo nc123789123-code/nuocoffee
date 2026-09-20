@@ -82,7 +82,7 @@
       iso: "2026-09-26",
       date: "Saturday, Sep 26",
       time: "4:00–7:00 PM",
-      place: "Midtown",
+      place: "West Chelsea",
       note: "",
       full: false,
       partiful: "",  // add this coffee's Partiful link here
