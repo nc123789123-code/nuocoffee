@@ -76,11 +76,12 @@
       partiful: "",  // add this coffee's Partiful link here
     },
     {
-      vertical: "Private Credit & Equity",
-      formVertical: "Private Credit & Equity",
-      iso: "2026-09-20",
-      date: "Sunday, Sep 20",
-      time: "Afternoon",
+      title: "Credit coffee chat",
+      vertical: "Credit",
+      formVertical: "Credit",
+      iso: "2026-09-26",
+      date: "Saturday, Sep 26",
+      time: "4:00–7:00 PM",
       place: "Midtown",
       note: "",
       full: false,
@@ -117,6 +118,7 @@
     if (n.indexOf("quant") > -1)          return { c: "var(--sky)",       i: "cpu" };
     if (n.indexOf("public credit") > -1)  return { c: "var(--indigo)",    i: "percent" };
     if (n.indexOf("public") > -1)         return { c: "var(--tiffany-3)", i: "chart" };
+    if (n.indexOf("credit") > -1)         return { c: "var(--tiffany)",   i: "receipt" };
     return { c: "var(--tiffany)", i: "coffee" };
   }
 
