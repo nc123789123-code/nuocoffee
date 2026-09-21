@@ -9,7 +9,8 @@ Requires Node and Playwright's Chromium (both preinstalled in the dev container)
 
 ```sh
 node embed-fonts.js   # once — inlines the web fonts into fonts.css (gitignored)
-node shoot.js         # writes the PNGs into ./out
+node shoot.js         # event cards  → ./out
+node shoot-logo.js    # logo marks   → ./out
 ```
 
 `embed-fonts.js` needs `fonts/gf.css`, the Google Fonts stylesheet for Unbounded /
@@ -39,3 +40,20 @@ rerun `shoot.js`. The sizes are:
 
 The Chinese card uses whatever CJK face the machine has (WenQuanYi Zen Hei in the
 container). Swap in a nicer one via the `.zh` rule in `poster.html` if you have it.
+
+## Logo marks
+
+`logo.html` holds four square marks, all 1000×1000, drawn from the same cup icon
+the site uses in `ICONS.coffee`:
+
+| File | What it is | Use it for |
+|---|---|---|
+| `onlu-logo-avatar-1000.png` | gradient cup on navy | default profile / host avatar |
+| `onlu-logo-avatar-gradient-1000.png` | navy cup on gradient | when you need it to pop in a crowded list |
+| `onlu-logo-mark-transparent-1000.png` | cup alone, alpha channel | over a photo, or on a light background |
+| `onlu-logo-lockup-1000.png` | cup + "Coffee with Onlu" | anywhere with room for the wordmark |
+
+The marks sit inside the centre ~84% of the square, so a circular crop takes
+nothing off. `logo.html` draws that safe circle as a guide; `shoot-logo.js` hides
+it before the screenshot.
+

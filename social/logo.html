@@ -1,0 +1,102 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Coffee with Onlu — logo marks</title>
+<link rel="stylesheet" href="fonts.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;800&family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap">
+<style>
+:root{
+  --bg:#0a1520;
+  --text:#eef6fb; --muted:#93aec4; --dim:#6d8aa3;
+  --tiffany:#2ee0d0; --tiffany2:#9befe4; --sky:#4cc4ff; --pink:#ff4f9a;
+  --display:'Unbounded',system-ui,sans-serif;
+  --mono:'Space Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#2a2a2a;display:flex;flex-wrap:wrap;gap:40px;padding:40px;align-items:flex-start;}
+
+.mark{position:relative;width:1000px;height:1000px;overflow:hidden;
+  display:grid;place-items:center;isolation:isolate;}
+.mark.navy{background:var(--bg);}
+.mark.grad{background:linear-gradient(135deg,var(--tiffany2) 0%,var(--tiffany) 28%,var(--sky) 60%,var(--pink) 100%);}
+.mark.clear{background:transparent;}
+
+/* glow behind the cup on the navy marks */
+.mark.navy::before{content:"";position:absolute;width:820px;height:820px;border-radius:50%;
+  background:radial-gradient(circle,rgba(46,224,208,.34),transparent 62%);filter:blur(60px);z-index:-1;}
+/* the circle Luma crops to — keeps the mark inside the safe area */
+.ring{position:absolute;width:840px;height:840px;border-radius:50%;
+  border:3px solid rgba(150,200,230,.16);}
+
+.cup{width:520px;height:520px;display:block;}
+.mark.grad .cup{width:500px;height:500px;}
+
+/* lockup: mark over a wordmark, for spots with more room */
+.mark.lock{background:var(--bg);}
+.stack{display:flex;flex-direction:column;align-items:center;gap:34px;z-index:1;}
+.stack .cup{width:360px;height:360px;}
+.word{font-family:var(--display);font-weight:800;letter-spacing:-.02em;
+  font-size:92px;line-height:1;text-align:center;color:var(--text);}
+.word .g{background:linear-gradient(100deg,var(--tiffany2),var(--tiffany) 30%,var(--sky) 58%,var(--pink) 92%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;}
+.kicker{font-family:var(--mono);font-weight:700;text-transform:uppercase;letter-spacing:.34em;
+  font-size:30px;color:var(--dim);margin-top:26px;text-align:center;text-indent:.34em;}
+</style>
+
+<!-- ===== A · primary avatar — navy ground, gradient cup ===== -->
+<div class="mark navy" id="navy">
+  <span class="ring"></span>
+  <svg class="cup" viewBox="3.6 2.0 16.8 16.6" fill="none" stroke="url(#gA)"
+       stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round">
+    <defs><linearGradient id="gA" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%"   stop-color="#9befe4"/><stop offset="32%"  stop-color="#2ee0d0"/>
+      <stop offset="66%"  stop-color="#4cc4ff"/><stop offset="100%" stop-color="#ff4f9a"/>
+    </linearGradient></defs>
+    <path d="M5 9h11v4a4 4 0 0 1-4 4H9a4 4 0 0 1-4-4V9Z"/>
+    <path d="M16 10h2.4a2.4 2.4 0 0 1 0 4.8H16"/>
+    <path d="M8 3.4c-.5 1 .5 1.6 0 2.6M11.5 3.4c-.5 1 .5 1.6 0 2.6"/>
+  </svg>
+</div>
+
+<!-- ===== B · bold alt — gradient ground, navy cup ===== -->
+<div class="mark grad" id="gradient">
+  <svg class="cup" viewBox="3.6 2.0 16.8 16.6" fill="none" stroke="#081019"
+       stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 9h11v4a4 4 0 0 1-4 4H9a4 4 0 0 1-4-4V9Z"/>
+    <path d="M16 10h2.4a2.4 2.4 0 0 1 0 4.8H16"/>
+    <path d="M8 3.4c-.5 1 .5 1.6 0 2.6M11.5 3.4c-.5 1 .5 1.6 0 2.6"/>
+  </svg>
+</div>
+
+<!-- ===== C · transparent cup, for light or unknown backgrounds ===== -->
+<div class="mark clear" id="clear">
+  <svg class="cup" viewBox="3.6 2.0 16.8 16.6" fill="none" stroke="url(#gC)"
+       stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round">
+    <defs><linearGradient id="gC" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%"   stop-color="#9befe4"/><stop offset="32%"  stop-color="#2ee0d0"/>
+      <stop offset="66%"  stop-color="#4cc4ff"/><stop offset="100%" stop-color="#ff4f9a"/>
+    </linearGradient></defs>
+    <path d="M5 9h11v4a4 4 0 0 1-4 4H9a4 4 0 0 1-4-4V9Z"/>
+    <path d="M16 10h2.4a2.4 2.4 0 0 1 0 4.8H16"/>
+    <path d="M8 3.4c-.5 1 .5 1.6 0 2.6M11.5 3.4c-.5 1 .5 1.6 0 2.6"/>
+  </svg>
+</div>
+
+<!-- ===== D · lockup — mark plus wordmark ===== -->
+<div class="mark lock" id="lockup">
+  <div class="stack">
+    <svg class="cup" viewBox="3.6 2.0 16.8 16.6" fill="none" stroke="url(#gD)"
+         stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round">
+      <defs><linearGradient id="gD" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%"   stop-color="#9befe4"/><stop offset="32%"  stop-color="#2ee0d0"/>
+        <stop offset="66%"  stop-color="#4cc4ff"/><stop offset="100%" stop-color="#ff4f9a"/>
+      </linearGradient></defs>
+      <path d="M5 9h11v4a4 4 0 0 1-4 4H9a4 4 0 0 1-4-4V9Z"/>
+      <path d="M16 10h2.4a2.4 2.4 0 0 1 0 4.8H16"/>
+      <path d="M8 3.4c-.5 1 .5 1.6 0 2.6M11.5 3.4c-.5 1 .5 1.6 0 2.6"/>
+    </svg>
+    <div>
+      <div class="word">Coffee<br><span class="g">with Onlu</span></div>
+      <div class="kicker">NYC</div>
+    </div>
+  </div>
+</div>
