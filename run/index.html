@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Run of show — Credit coffee, Sep 26</title>
+<meta name="description" content="Internal run of show for the Sep 26 credit coffee chat." />
+<meta name="robots" content="noindex, nofollow" />
+<meta name="theme-color" content="#0a1520" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%232ee0d0%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M5%209h11v4a4%204%200%200%201-4%204H9a4%204%200%200%201-4-4V9Z%22%2F%3E%3Cpath%20d%3D%22M16%2010h2.4a2.4%202.4%200%200%201%200%204.8H16%22%2F%3E%3Cpath%20d%3D%22M8%203.4c-.5%201%20.5%201.6%200%202.6M11.5%203.4c-.5%201%20.5%201.6%200%202.6%22%2F%3E%3C%2Fsvg%3E" />
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@600;800&family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+
+:root{
+  --bg:#0a1520; --bg2:#060e16;
+  --surface:rgba(255,255,255,.035); --surface2:rgba(255,255,255,.06);
+  --text:#eef6fb; --muted:#93aec4; --dim:#6d8aa3; --line:rgba(150,200,230,.14);
+  --tiffany:#2ee0d0; --tiffany2:#9befe4; --tiffany3:#0fa89f;
+  --sky:#4cc4ff; --azure:#4d84ff; --indigo:#8a9bff; --pink:#ff4f9a;
+  --display:'Unbounded',system-ui,sans-serif;
+  --body:'Outfit',system-ui,-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
+  --mono:'Space Mono',ui-monospace,'Courier New',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:var(--body);font-size:16px;
+  line-height:1.55;-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%;
+  padding-bottom:64px;overflow-x:hidden;}
+
+.fx{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
+.blob{position:absolute;border-radius:50%;filter:blur(90px);}
+.b1{width:80vw;height:80vw;top:-26vh;right:-30vw;
+  background:radial-gradient(circle,var(--tiffany),transparent 68%);opacity:.24;}
+.b2{width:75vw;height:75vw;bottom:-14vh;left:-30vw;
+  background:radial-gradient(circle,var(--pink),transparent 68%);opacity:.14;}
+
+.wrap{position:relative;z-index:1;max-width:680px;margin-inline:auto;padding:0 18px;}
+
+/* ---------- sticky now-bar ---------- */
+.nowbar{position:sticky;top:0;z-index:20;
+  background:rgba(6,14,22,.88);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line);}
+.nowbar__in{max-width:680px;margin-inline:auto;padding:11px 18px;
+  display:flex;align-items:center;justify-content:space-between;gap:14px;}
+.nowbar .clock{font-family:var(--mono);font-weight:700;font-size:.95rem;color:var(--tiffany2);
+  flex:none;letter-spacing:.02em;}
+.nowbar .seg{font-size:.86rem;color:var(--muted);text-align:right;line-height:1.3;min-width:0;}
+.nowbar .seg b{display:block;color:var(--text);font-weight:600;font-size:.95rem;}
+
+/* ---------- header ---------- */
+header{padding:30px 0 8px;}
+.eyebrow{font-family:var(--mono);text-transform:uppercase;letter-spacing:.18em;
+  font-size:.68rem;font-weight:700;color:var(--tiffany2);}
+h1{font-family:var(--display);font-weight:800;letter-spacing:-.02em;line-height:1.08;
+  font-size:clamp(1.7rem,7.4vw,2.5rem);margin:.32em 0 .3em;}
+.grad{background:linear-gradient(100deg,var(--tiffany2),var(--tiffany) 30%,var(--sky) 58%,var(--pink) 92%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;}
+.facts{font-family:var(--mono);font-size:.78rem;color:var(--dim);letter-spacing:.04em;line-height:1.7;}
+.internal{margin-top:16px;padding:11px 14px;border-radius:12px;
+  border:1px solid rgba(255,79,154,.3);background:rgba(255,79,154,.08);
+  font-size:.84rem;color:#ffc2da;}
+
+h2{font-family:var(--display);font-weight:600;letter-spacing:-.015em;
+  font-size:1.12rem;margin:38px 0 14px;display:flex;align-items:center;gap:9px;}
+h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
+  background:var(--ac,var(--tiffany));box-shadow:0 0 12px var(--ac,var(--tiffany));}
+
+/* ---------- timeline ---------- */
+.seg-card{border:1px solid var(--line);border-radius:14px;background:var(--surface);
+  margin-bottom:10px;overflow:hidden;border-left:3px solid var(--ac,var(--tiffany));
+  transition:background .2s,border-color .2s;}
+.seg-card.is-now{background:rgba(46,224,208,.09);border-color:rgba(46,224,208,.45);
+  box-shadow:0 0 30px -10px rgba(46,224,208,.5);}
+.seg-card.is-done{opacity:.44;}
+.seg-head{width:100%;background:none;border:none;color:inherit;font:inherit;text-align:left;
+  padding:14px 15px;display:flex;align-items:center;gap:13px;cursor:pointer;
+  -webkit-tap-highlight-color:transparent;}
+.seg-time{font-family:var(--mono);font-weight:700;font-size:.8rem;color:var(--ac,var(--tiffany));
+  flex:none;width:96px;letter-spacing:.01em;}
+.seg-name{flex:1;font-weight:600;font-size:1rem;min-width:0;}
+.seg-name span{display:block;font-weight:400;font-size:.8rem;color:var(--dim);margin-top:1px;}
+.seg-chev{flex:none;color:var(--dim);font-size:.85rem;transition:transform .2s;}
+.seg-card.open .seg-chev{transform:rotate(180deg);}
+.seg-body{padding:0 15px 15px 15px;}
+.seg-card:not(.open) .seg-body{display:none;}
+.seg-body ul{list-style:none;display:flex;flex-direction:column;gap:9px;
+  padding-top:4px;border-top:1px solid var(--line);margin-top:2px;}
+.seg-body li{position:relative;padding-left:16px;font-size:.92rem;color:var(--muted);line-height:1.5;}
+.seg-body li::before{content:"";position:absolute;left:0;top:.62em;width:5px;height:5px;
+  border-radius:50%;background:var(--ac,var(--tiffany));opacity:.75;}
+.seg-body li b{color:var(--text);font-weight:600;}
+.say{margin-top:11px;padding:11px 13px;border-radius:10px;background:rgba(255,255,255,.05);
+  border-left:2px solid var(--ac,var(--tiffany));font-size:.92rem;color:var(--text);line-height:1.55;}
+.say em{display:block;font-style:normal;font-family:var(--mono);font-size:.64rem;
+  text-transform:uppercase;letter-spacing:.16em;color:var(--dim);margin-bottom:6px;}
+
+/* ---------- generic card ---------- */
+.card{border:1px solid var(--line);border-radius:14px;background:var(--surface);
+  padding:15px;margin-bottom:10px;border-left:3px solid var(--ac,var(--tiffany));}
+.card h3{font-size:.98rem;font-weight:600;margin-bottom:8px;}
+.card h3 small{font-family:var(--mono);font-weight:400;font-size:.7rem;color:var(--dim);
+  margin-left:7px;letter-spacing:.04em;}
+.card ul{list-style:none;display:flex;flex-direction:column;gap:7px;}
+.card li{position:relative;padding-left:16px;font-size:.9rem;color:var(--muted);line-height:1.5;}
+.card li::before{content:"";position:absolute;left:0;top:.6em;width:5px;height:5px;
+  border-radius:50%;background:var(--ac,var(--tiffany));opacity:.75;}
+.card p{font-size:.9rem;color:var(--muted);}
+.note{font-size:.84rem;color:var(--dim);margin-top:9px;line-height:1.5;}
+
+/* ---------- checklist ---------- */
+.check{display:flex;align-items:flex-start;gap:12px;padding:12px 14px;
+  border:1px solid var(--line);border-radius:12px;background:var(--surface);
+  margin-bottom:8px;cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.check input{appearance:none;-webkit-appearance:none;flex:none;width:22px;height:22px;
+  border:2px solid var(--line);border-radius:7px;background:transparent;cursor:pointer;
+  margin-top:1px;position:relative;transition:background .15s,border-color .15s;}
+.check input:checked{background:var(--tiffany);border-color:var(--tiffany);}
+.check input:checked::after{content:"";position:absolute;left:6px;top:2px;width:5px;height:10px;
+  border:solid #061019;border-width:0 2.5px 2.5px 0;transform:rotate(43deg);}
+.check span{font-size:.93rem;line-height:1.45;}
+.check input:checked + span{color:var(--dim);text-decoration:line-through;}
+
+.foot{margin:44px 0 10px;padding-top:20px;border-top:1px solid var(--line);
+  font-family:var(--mono);font-size:.72rem;color:var(--dim);line-height:1.8;}
+.foot a{color:var(--tiffany2);}
+</style>
+</head>
+<body>
+<div class="fx"><span class="blob b1"></span><span class="blob b2"></span></div>
+
+<div class="nowbar">
+  <div class="nowbar__in">
+    <span class="clock" id="clock">--:--</span>
+    <span class="seg" id="nowseg"><b>Run of show</b>周六 9/26 · West Chelsea</span>
+  </div>
+</div>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">Run of show ✦ 内部用</p>
+    <h1>Credit <span class="grad">coffee chat</span></h1>
+    <p class="facts">
+      周六 9月26日 · 4:00–7:00 PM<br>
+      West Chelsea, NYC · 35 seats · 6–7 桌
+    </p>
+    <div class="internal">
+      这页是给你和帮手用的，没有从网站链过来，也不会被搜到。别发到大群里。
+    </div>
+  </header>
+
+  <h2 style="--ac:var(--tiffany)">时间线</h2>
+  <div id="timeline"></div>
+
+  <h2 style="--ac:var(--sky)">分桌</h2>
+  <div class="card" style="--ac:var(--sky)">
+    <h3>第一轮 <small>同子行业坐一起</small></h3>
+    <ul>
+      <li>私募信贷 / 直接借贷 —— 人最多，大概占 <b>2 桌</b></li>
+      <li>特殊机会 / distressed —— 1 桌</li>
+      <li>结构化 / securitized —— 1 桌</li>
+      <li>Public credit / research —— 1 桌</li>
+      <li>银行（lev fin、DCM、portfolio）—— 1 桌</li>
+      <li>Allocator + 转行的 + 学生 —— 1 桌</li>
+    </ul>
+    <p class="note">实际人数周五晚上按 Luma 名单定，别当天临时排。</p>
+  </div>
+  <div class="card" style="--ac:var(--indigo)">
+    <h3>第二轮 <small>打散</small></h3>
+    <ul>
+      <li>每桌抽 <b>2–3 个人</b>换到下一桌</li>
+      <li>让 private 碰 public、buy-side 碰 sell-side</li>
+    </ul>
+  </div>
+  <div class="card" style="--ac:var(--pink)">
+    <h3>两条硬规则</h3>
+    <ul>
+      <li>每桌最多 <b>1 个 senior</b>（VP+/PM/partner）。一桌一个 MD 加五个 analyst，没人敢说话。</li>
+      <li>新人每桌 <b>1–2 个，别扎堆</b>。一桌全新人会冷场。</li>
+    </ul>
+  </div>
+
+  <h2 style="--ac:var(--tiffany2)">话题卡</h2>
+  <div class="card" style="--ac:var(--tiffany)">
+    <h3>每桌先来一轮自我介绍 <small>每人 60 秒，硬控</small></h3>
+    <p>名字 + 做哪块 credit + 最近在看什么。不控时的话一个人能讲五分钟。</p>
+  </div>
+  <div class="card" style="--ac:var(--tiffany3)">
+    <h3>第一轮问题 <small>同行深聊</small></h3>
+    <ul>
+      <li>现在 direct lending 的 spread 还值得做吗？卷到什么程度了？</li>
+      <li>Private credit 里哪一块最被高估、哪一块最被低估？</li>
+      <li>你们 underwriting 上最不愿意妥协的一条是什么？</li>
+      <li>下一轮 default cycle 来的话，先崩的是哪类？</li>
+    </ul>
+  </div>
+  <div class="card" style="--ac:var(--azure)">
+    <h3>第二轮问题 <small>跨子行业</small></h3>
+    <ul>
+      <li>Public vs private credit，哪边现在更 mispriced？</li>
+      <li>AI 对 credit underwriting 的影响</li>
+      <li>职业路径：bank → fund、sell-side → buy-side，你会怎么走</li>
+      <li>未来 5 年的 credit 市场，你押哪个方向？</li>
+    </ul>
+  </div>
+
+  <h2 style="--ac:var(--pink)">帮手分工</h2>
+  <div class="card" style="--ac:var(--tiffany)">
+    <h3>A · 守门口</h3>
+    <ul>
+      <li>Luma 扫码签到</li>
+      <li><b>带人入座</b> —— 全场最关键的一件事</li>
+      <li>发名牌（只写名字 + 做哪块，<b>不写公司</b>）</li>
+    </ul>
+  </div>
+  <div class="card" style="--ac:var(--sky)">
+    <h3>B · 场内</h3>
+    <ul>
+      <li>巡场，哪桌冷了过去救</li>
+      <li>控时间，喊换桌</li>
+      <li>顺手收集各桌在聊什么 —— 万一全场回报做不成，你来串</li>
+    </ul>
+  </div>
+
+  <h2 style="--ac:var(--indigo)">最容易翻车的地方</h2>
+  <div class="card" style="--ac:var(--pink)">
+    <ul>
+      <li><b>绝对不能让人自己挑座位。</b>排好的分桌会瞬间作废。门口必须有人引导。</li>
+      <li><b>60 秒自我介绍要硬控。</b>不控的话一桌六个人半小时就没了。</li>
+      <li><b>换桌那 10 分钟别省。</b>那是真正加微信的时间。</li>
+      <li><b>No-show 要预留。</b>免费活动实际到场通常比报名少两三成，35 报名可能来 25–30。桌数当天定：宁可 6 桌坐满，不要 7 桌都空两个位子。</li>
+      <li><b>7 点准时收。</b>干净利落地结束，比拖到 8 点强。</li>
+    </ul>
+  </div>
+  <div class="card" style="--ac:var(--sky)">
+    <h3>声音 —— 周六之前先确认</h3>
+    <p>35 个人的场子如果没有麦，站在最远的角落听不见你说话，举手地图和全场回报就都做不成。提前去场地试一下，或者问店家有没有麦。</p>
+    <p class="note">没有麦的话：举手地图照做（是视觉的，不靠听）；全场回报改成每桌派人站到中间讲，或者取消，最后 5 分钟由你口头串一下各桌聊了什么。</p>
+  </div>
+
+  <h2 style="--ac:var(--tiffany2)">带什么</h2>
+  <div id="checklist"></div>
+  <p class="note">打勾只存在这台手机上，换个设备要重新勾。</p>
+
+  <p class="foot">
+    Coffee with Onlu · <a href="/">coffeewithonlu.com</a><br>
+    内部页面，noindex，未从站内链接。
+  </p>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  var EVENT_DAY = "2026-09-26";
+
+  // start/end are 24h NY-local times on EVENT_DAY.
+  var SEGMENTS = [
+    { s:"15:40", e:"16:00", n:"准备", sub:"你和帮手先到", ac:"var(--dim)", items:[
+      "摆桌号牌、话题卡",
+      "微信群二维码立在门口（A4）",
+      "确认咖啡/饮料到位，跟店家过一遍流程"
+    ]},
+    { s:"16:00", e:"16:25", n:"到场", sub:"陆续进场、拿咖啡", ac:"var(--tiffany3)", items:[
+      "<b>别准时开场</b> —— 总有人迟到，这 25 分钟是留给他们的",
+      "门口签到 + 直接带到座位，不要让人自己找位子",
+      "早到的人容易尴尬，你主动去介绍两三个给彼此"
+    ]},
+    { s:"16:25", e:"16:38", n:"开场", sub:"欢迎 2' + 举手地图 4' + 抛问题 2' + 规则 3'", ac:"var(--tiffany)", items:[
+      "<b>欢迎（2 分钟）</b>：你是谁、Onlu 是什么、今天怎么玩",
+      "<b>举手地图（4 分钟）</b>：全场 ROI 最高的环节，四分钟让每个人心里有这屋子的地图",
+      "<b>抛问题（2 分钟）</b>：抛一个有争议的问题，<b>不当场答</b>，让各桌带到桌上去聊",
+      "<b>规则（3 分钟）</b>：唯一一条 —— 不推销。再说明 5:38 会换桌，最后有全场回报"
+    ], say:{ label:"举手地图 · 按这个顺序问", text:"做 direct lending 的举手看看？ → 特殊机会 / distressed？ → 结构化？ → public credit？ → 银行那边的？ → 今天第一次来的？" }},
+    { s:"16:38", e:"17:38", n:"第一轮", sub:"60 分钟 · 同子行业", ac:"var(--sky)", items:[
+      "先一轮自我介绍，<b>每人 60 秒</b>，你或帮手盯着表",
+      "然后走桌上话题卡",
+      "巡场：哪桌沉默超过一分钟就过去坐下抛个问题"
+    ]},
+    { s:"17:38", e:"17:48", n:"换桌 + 续咖啡", sub:"10 分钟 —— 别省", ac:"var(--pink)", items:[
+      "<b>这是真正加微信的时间</b>，不是过场",
+      "每桌抽 2–3 个人换到下一桌",
+      "喊一声「趁现在加一下想聊的人」"
+    ]},
+    { s:"17:48", e:"18:38", n:"第二轮", sub:"50 分钟 · 打散", ac:"var(--azure)", items:[
+      "新桌不用再完整自我介绍，一句话带过就行",
+      "走第二轮话题卡（跨子行业的问题）",
+      "帮手开始收集「这桌在聊什么」，为全场回报做准备"
+    ]},
+    { s:"18:38", e:"18:55", n:"全场回报", sub:"每桌 1 人 × 90 秒", ac:"var(--indigo)", items:[
+      "每桌派一个人讲「我们这桌聊出了什么」",
+      "<b>90 秒硬控</b>，你拿手机计时，超时就打断",
+      "这环节的真正作用：让人发现「原来隔壁桌在聊这个，我该去找他」"
+    ]},
+    { s:"18:55", e:"19:00", n:"收尾", sub:"合影 + 群 + 预告", ac:"var(--tiffany2)", items:[
+      "合影（发朋友圈 / 小红书要用）",
+      "微信群二维码再放一次",
+      "预告下一场，让大家去网站报名",
+      "<b>7 点准时散</b> —— 想续摊的自己去，附近找好一家 bar 备着"
+    ]}
+  ];
+
+  var CHECKLIST = [
+    "桌号牌 ×7",
+    "话题卡 ×7（两轮问题都印上）",
+    "空白名牌 + 笔（只写名字 + 做哪块）",
+    "微信群二维码 A4 打印",
+    "手机充满电 + 充电宝（要计时、签到、拍照）",
+    "Luma 签到页面先打开好",
+    "分桌名单（打印一份，别只存手机里）"
+  ];
+
+  /* ---------- timeline ---------- */
+  function minutes(hhmm){
+    var p = hhmm.split(":");
+    return parseInt(p[0], 10) * 60 + parseInt(p[1], 10);
+  }
+
+  var host = document.getElementById("timeline");
+  host.innerHTML = SEGMENTS.map(function(g, i){
+    return '<div class="seg-card" style="--ac:' + g.ac + '" data-i="' + i + '">' +
+      '<button class="seg-head" type="button" aria-expanded="false">' +
+        '<span class="seg-time">' + g.s + "–" + g.e + "</span>" +
+        '<span class="seg-name">' + g.n + "<span>" + g.sub + "</span></span>" +
+        '<span class="seg-chev" aria-hidden="true">▾</span>' +
+      "</button>" +
+      '<div class="seg-body">' +
+        "<ul>" + g.items.map(function(x){ return "<li>" + x + "</li>"; }).join("") + "</ul>" +
+        (g.say ? '<div class="say"><em>' + g.say.label + "</em>" + g.say.text + "</div>" : "") +
+      "</div>" +
+    "</div>";
+  }).join("");
+
+  var cards = host.querySelectorAll(".seg-card");
+  for (var i = 0; i < cards.length; i++) {
+    (function(card){
+      var btn = card.querySelector(".seg-head");
+      btn.addEventListener("click", function(){
+        var open = card.classList.toggle("open");
+        btn.setAttribute("aria-expanded", open ? "true" : "false");
+      });
+    })(cards[i]);
+  }
+
+  /* ---------- checklist, remembered per device ---------- */
+  var KEY = "onlu-run-0926";
+  var saved = {};
+  try { saved = JSON.parse(localStorage.getItem(KEY) || "{}") || {}; } catch (err) { saved = {}; }
+
+  var clHost = document.getElementById("checklist");
+  clHost.innerHTML = CHECKLIST.map(function(txt, i){
+    var on = saved["c" + i] ? " checked" : "";
+    return '<label class="check"><input type="checkbox" data-k="c' + i + '"' + on + "><span>" + txt + "</span></label>";
+  }).join("");
+
+  clHost.addEventListener("change", function(ev){
+    var el = ev.target;
+    if (!el || el.tagName !== "INPUT") return;
+    saved[el.getAttribute("data-k")] = el.checked;
+    try { localStorage.setItem(KEY, JSON.stringify(saved)); } catch (err) { /* private mode — fine */ }
+  });
+
+  /* ---------- the now-bar, anchored to New York ---------- */
+  function nyParts(){
+    var now = new Date();
+    var day = now.toLocaleDateString("en-CA", { timeZone: "America/New_York" });
+    var hhmm = now.toLocaleTimeString("en-GB", {
+      timeZone: "America/New_York", hour: "2-digit", minute: "2-digit", hour12: false
+    });
+    return { day: day, hhmm: hhmm };
+  }
+
+  var clockEl = document.getElementById("clock");
+  var segEl = document.getElementById("nowseg");
+
+  function tick(){
+    var p = nyParts();
+    clockEl.textContent = p.hhmm;
+
+    if (p.day !== EVENT_DAY) {
+      var when = p.day < EVENT_DAY ? "还没到" : "已经结束";
+      segEl.innerHTML = "<b>9/26 " + when + "</b>纽约时间 " + p.hhmm;
+      for (var j = 0; j < cards.length; j++) {
+        cards[j].classList.remove("is-now", "is-done");
+      }
+      return;
+    }
+
+    var mins = minutes(p.hhmm);
+    var active = -1;
+    for (var k = 0; k < SEGMENTS.length; k++) {
+      var g = SEGMENTS[k];
+      var done = mins >= minutes(g.e);
+      var isNow = mins >= minutes(g.s) && !done;
+      cards[k].classList.toggle("is-now", isNow);
+      cards[k].classList.toggle("is-done", done);
+      if (isNow) active = k;
+    }
+
+    if (active > -1) {
+      var g2 = SEGMENTS[active];
+      var left = minutes(g2.e) - mins;
+      segEl.innerHTML = "<b>" + g2.n + "</b>还剩 " + left + " 分钟";
+      // Open the running segment once, so the page is useful without tapping.
+      if (!cards[active].dataset.autoOpened) {
+        cards[active].dataset.autoOpened = "1";
+        cards[active].classList.add("open");
+        cards[active].querySelector(".seg-head").setAttribute("aria-expanded", "true");
+      }
+    } else if (mins < minutes(SEGMENTS[0].s)) {
+      segEl.innerHTML = "<b>今天就是了</b>" + SEGMENTS[0].s + " 开始准备";
+    } else {
+      segEl.innerHTML = "<b>收工</b>辛苦了 ✦";
+    }
+  }
+
+  tick();
+  setInterval(tick, 20000);
+})();
+</script>
+</body>
+</html>
