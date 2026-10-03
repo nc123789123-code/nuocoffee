@@ -98,6 +98,17 @@ h1,h2{font-family:var(--display);font-weight:800;letter-spacing:-.02em;line-heig
   font-size:clamp(.82rem,3.3vw,.96rem);line-height:1.45;}
 .topic li::before{content:"";position:absolute;left:0;top:.62em;
   width:4px;height:4px;border-radius:50%;background:var(--ac);opacity:.8;}
+
+/* language toggle — above the invisible prev/next tap zones */
+.langbtn{position:fixed;z-index:6;
+  top:calc(env(safe-area-inset-top,0px) + 14px);
+  right:calc(env(safe-area-inset-right,0px) + 14px);
+  font-family:var(--mono);font-weight:700;font-size:.7rem;letter-spacing:.1em;
+  color:var(--muted);background:rgba(10,21,32,.72);
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  border:1px solid var(--line);border-radius:999px;padding:7px 13px;cursor:pointer;
+  -webkit-tap-highlight-color:transparent;}
+.langbtn:active{color:var(--text);border-color:var(--tiffany);}
 </style>
 </head>
 <body>
@@ -108,6 +119,7 @@ h1,h2{font-family:var(--display);font-weight:800;letter-spacing:-.02em;line-heig
 <button class="nav prev" id="prev" aria-label="Previous"></button>
 <button class="nav next" id="next" aria-label="Next"></button>
 <div class="dots" id="dots"></div>
+<button class="langbtn" id="lang" aria-label="Switch language">EN</button>
 
 <script>
 var CUP='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9h11v4a4 4 0 0 1-4 4H9a4 4 0 0 1-4-4V9Z"/><path d="M16 10h2.4a2.4 2.4 0 0 1 0 4.8H16"/><path d="M8 3.4c-.5 1 .5 1.6 0 2.6M11.5 3.4c-.5 1 .5 1.6 0 2.6"/></svg>';
@@ -130,45 +142,88 @@ var SEATS=[
 
 
 var TOPIC_SETS=[
-  { head:'市场', items:[
-    {n:'01', ac:'var(--tiffany)', t:'利率上行，利差收窄',
+  { head:'市场', head_en:'Market', items:[
+    {n:'01', ac:'var(--tiffany)',
+     t:'利率上行，利差收窄',
+     t_en:'Rates up, spreads tight',
      subs:['这两年利率对你手上的工作有哪些具体影响',
            '基准在涨而利差在收，这个组合还能维持多久',
-           '无风险收益到 5%，出资方为什么仍然接受七八年的锁定期']},
-    {n:'02', ac:'var(--tiffany2)', t:'私募信贷与公开市场',
+           '无风险收益到 5%，出资方为什么仍然接受七八年的锁定期'],
+     subs_en:['How rates have changed your day-to-day over the past two years',
+              'Base rates rising while spreads compress: how long that holds',
+              'With a 5% risk-free rate, why allocators still accept a seven-year lock-up']},
+    {n:'02', ac:'var(--tiffany2)',
+     t:'私募信贷与公开市场',
+     t_en:'Private credit and the public market',
      subs:['同一家公司，选私募信贷还是公开市场，取决于什么',
            'CLO 需求回升时，借款人会不会回到公开市场',
-           '两个市场目前的定价差']},
-    {n:'03', ac:'var(--pink)', t:'存量组合的压力',
+           '两个市场目前的定价差'],
+     subs_en:['What actually decides whether a borrower goes private or syndicated',
+              'If CLO demand recovers, whether borrowers move back to the public market',
+              'The pricing gap between the two today']},
+    {n:'03', ac:'var(--pink)',
+     t:'存量组合的压力',
+     t_en:'Stress in the existing book',
      subs:['你们如何评估组合内公司的压力水平',
            '是在解决问题，还是展期和修改条款',
-           '有没有出现新的处理方式']},
-    {n:'04', ac:'var(--azure)', t:'一级市场的竞争',
+           '有没有出现新的处理方式'],
+     subs_en:['How you assess stress levels across the portfolio',
+              'Fixing the problem, or extending and amending',
+              'Whether any genuinely new solutions have appeared']},
+    {n:'04', ac:'var(--azure)',
+     t:'一级市场的竞争',
+     t_en:'Competition in primary',
      subs:['新增交易和再融资各占多少',
            '竞争中实际让步的是定价、条款还是杠杆',
-           '什么条件下你会直接放弃一笔交易']}
+           '什么条件下你会直接放弃一笔交易'],
+     subs_en:['New deals versus refinancing, in what proportion',
+              'What actually gets conceded: price, terms, or leverage',
+              'What makes you walk away from a deal']}
   ]},
-  { head:'资产与路径', items:[
-    {n:'05', ac:'var(--sky)', t:'数据中心的融资',
+  { head:'资产与路径', head_en:'Assets and paths', items:[
+    {n:'05', ac:'var(--sky)',
+     t:'数据中心的融资',
+     t_en:'Financing the data centres',
      subs:['资金来源：银行、私募信贷，还是证券化',
            '股权方和债权方对同一个项目的判断差异',
-           '租约对手方和期限在多大程度上决定了这笔信用']},
-    {n:'06', ac:'var(--tiffany3)', t:'Infra、新兴市场与资产抵押',
+           '租约对手方和期限在多大程度上决定了这笔信用'],
+     subs_en:['Where the money comes from: banks, private credit, or securitisation',
+              'Where equity and debt disagree on the same project',
+              'How much of the credit rests on the tenant and the lease term']},
+    {n:'06', ac:'var(--tiffany3)',
+     t:'Infra、新兴市场与资产抵押',
+     t_en:'Infra, emerging markets, asset-based',
      subs:['私募信贷对 infra 的配置意愿',
            '新兴市场信用的风险溢价是否充分',
-           '资产抵押是独立的增长方向，还是既有业务的延伸']},
-    {n:'07', ac:'var(--indigo)', t:'信用判断',
+           '资产抵押是独立的增长方向，还是既有业务的延伸'],
+     subs_en:['Private credit’s appetite for infrastructure',
+              'Whether the emerging-market risk premium is adequate',
+              'Asset-based: a separate growth area, or an extension of the same book']},
+    {n:'07', ac:'var(--indigo)',
+     t:'信用判断',
+     t_en:'Credit judgement',
      subs:['研究、承做、风控三类岗位的判断逻辑差异',
            '如何估计最坏情况下的回收',
-           '一次判断失误的复盘']},
-    {n:'08', ac:'var(--pink)', t:'职业路径',
+           '一次判断失误的复盘'],
+     subs_en:['How research, underwriting and risk differ in what they are judging',
+              'Estimating recovery in the worst case',
+              'A call that went wrong, and what was missed']},
+    {n:'08', ac:'var(--pink)',
+     t:'职业路径',
+     t_en:'Career paths',
      subs:['你进入信贷领域的过程，与当初预期的差异',
            '交易、研究、承做三条路径的发展空间',
-           '中国背景在美国信贷市场的实际路径与限制']}
+           '中国背景在美国信贷市场的实际路径与限制'],
+     subs_en:['How you got into credit, and how it differed from what you expected',
+              'Trading, research, underwriting: where each one leads',
+              'A Chinese background in US credit: which routes work, where they stall']}
   ]}
 ];
 
-var slides=[
+/* Only the topic slides are bilingual; the rest of the deck is already English. */
+function buildSlides(lang){
+  var en = lang === 'en';
+  return [
   '<section class="slide about"><div class="wrap">'+
     '<p class="eyebrow">Onlu Credit Coffee ✦ NYC</p>'+
     '<h1>Coffee <span class="grad">with Onlu</span></h1>'+
@@ -195,36 +250,60 @@ var slides=[
 
   TOPIC_SETS.map(function(set){
     return '<section class="slide topics"><div class="wrap">'+
-      '<p class="eyebrow">On the table · '+set.head+'</p>'+
+      '<p class="eyebrow">On the table · '+(en ? set.head_en : set.head)+'</p>'+
       '<h2>What we’ll get into.</h2>'+
       '<div class="tlist">'+set.items.map(function(t){
+        var subs = en ? t.subs_en : t.subs;
         return '<div class="topic" style="--ac:'+t.ac+'">'+
-          '<div class="hd"><span class="n">'+t.n+'</span><span class="t">'+t.t+'</span></div>'+
-          '<ul>'+t.subs.map(function(x){return '<li>'+x+'</li>';}).join('')+'</ul>'+
+          '<div class="hd"><span class="n">'+t.n+'</span>'+
+            '<span class="t">'+(en ? t.t_en : t.t)+'</span></div>'+
+          '<ul>'+subs.map(function(x){return '<li>'+x+'</li>';}).join('')+'</ul>'+
         '</div>';
       }).join('')+'</div>'+
-      '<p class="foot">以上为备选，按现场讨论的方向推进</p>'+
+      '<p class="foot">'+(en ? 'A menu, not an agenda.' : '以上为备选，按现场讨论的方向推进')+'</p>'+
     '</div></section>';
   }).join('')
-];
+  ];
+}
 
 var deck=document.getElementById('deck');
-deck.innerHTML=slides.join('');
-var els=deck.querySelectorAll('.slide');
 var dotsWrap=document.getElementById('dots');
-var i=0;
-for(var d=0;d<els.length;d++){
-  var b=document.createElement('button');
-  b.className='dot'; b.setAttribute('aria-label','Slide '+(d+1));
-  (function(idx){b.addEventListener('click',function(){go(idx);});})(d);
-  dotsWrap.appendChild(b);
+var i=0, els, dots;
+
+var lang='zh';
+try{ if(localStorage.getItem('onlu-credit-lang')==='en') lang='en'; }catch(e){}
+
+function paint(){
+  deck.innerHTML=buildSlides(lang).join('');
+  els=deck.querySelectorAll('.slide');
+  if(!dots){
+    for(var d=0;d<els.length;d++){
+      var b=document.createElement('button');
+      b.className='dot'; b.setAttribute('aria-label','Slide '+(d+1));
+      (function(idx){b.addEventListener('click',function(){go(idx);});})(d);
+      dotsWrap.appendChild(b);
+    }
+    dots=dotsWrap.querySelectorAll('.dot');
+  }
+  go(i);
 }
-var dots=dotsWrap.querySelectorAll('.dot');
 function go(n){
   i=Math.max(0,Math.min(els.length-1,n));
   for(var k=0;k<els.length;k++){els[k].classList.toggle('is-active',k===i);dots[k].classList.toggle('on',k===i);}
   els[i].scrollTop=0;
 }
+
+var langBtn=document.getElementById('lang');
+function labelLang(){ langBtn.textContent = lang==='en' ? '中文' : 'EN'; }
+langBtn.addEventListener('click',function(ev){
+  ev.stopPropagation();
+  lang = lang==='en' ? 'zh' : 'en';
+  try{ localStorage.setItem('onlu-credit-lang',lang); }catch(e){}
+  labelLang();
+  paint();
+});
+labelLang();
+
 document.getElementById('next').addEventListener('click',function(){go(i+1);});
 document.getElementById('prev').addEventListener('click',function(){go(i-1);});
 document.addEventListener('keydown',function(e){
@@ -239,7 +318,7 @@ document.addEventListener('touchend',function(e){
   if(Math.abs(dx)>50 && Math.abs(dx)>Math.abs(dy)) go(dx<0 ? i+1 : i-1);
   x0=null;y0=null;
 },{passive:true});
-go(0);
+paint();
 </script>
 
 </body>
