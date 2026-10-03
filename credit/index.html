@@ -130,41 +130,41 @@ var SEATS=[
 
 
 var TOPIC_SETS=[
-  { head:'市场在发生什么', items:[
-    {n:'01', ac:'var(--tiffany)', t:'5% 的利率，把这行改变了什么',
-     subs:['先从各自的经验说起：你那边的工作，最近两年因为利率具体变了什么？',
-           '利率在往上走，spread 却越来越紧 —— 这个组合能持续多久？',
-           '站在出资方的角度：无风险都有 5% 了，为什么还要锁七八年？']},
-    {n:'02', ac:'var(--tiffany2)', t:'Private credit 和公开市场，这个跷跷板',
-     subs:['最基础的一个问题：同一家公司，为什么有的选 private credit，有的选公开市场？',
-           'CLO 买得多的时候公开市场就便宜 —— 借款人会回流吗？',
-           '两边的定价差，现在还剩多少？']},
-    {n:'03', ac:'var(--pink)', t:'组合里的公司，现在到底多大压力',
-     subs:['放贷的那边：你们怎么看自己 portfolio 的 stress level？',
-           '是在真解决问题，还是在 kick the can —— 展期、改条款、先拖过去？',
-           '有没有看到什么新的 solution，还是老一套？']},
-    {n:'04', ac:'var(--azure)', t:'Deal 现在到底好不好做',
-     subs:['大家手上的活，是新 deal 多，还是基本都在 refi？',
-           '抢 deal 的时候实际在让什么步 —— 价格、条款，还是杠杆？',
-           '什么样的 deal，你现在会直接 pass？']}
+  { head:'市场', items:[
+    {n:'01', ac:'var(--tiffany)', t:'利率上行，利差收窄',
+     subs:['这两年利率对你手上的工作有哪些具体影响',
+           '基准在涨而利差在收，这个组合还能维持多久',
+           '无风险收益到 5%，出资方为什么仍然接受七八年的锁定期']},
+    {n:'02', ac:'var(--tiffany2)', t:'私募信贷与公开市场',
+     subs:['同一家公司，选私募信贷还是公开市场，取决于什么',
+           'CLO 需求回升时，借款人会不会回到公开市场',
+           '两个市场目前的定价差']},
+    {n:'03', ac:'var(--pink)', t:'存量组合的压力',
+     subs:['你们如何评估组合内公司的压力水平',
+           '是在解决问题，还是展期和修改条款',
+           '有没有出现新的处理方式']},
+    {n:'04', ac:'var(--azure)', t:'一级市场的竞争',
+     subs:['新增交易和再融资各占多少',
+           '竞争中实际让步的是定价、条款还是杠杆',
+           '什么条件下你会直接放弃一笔交易']}
   ]},
-  { head:'钱往哪去，人往哪走', items:[
-    {n:'05', ac:'var(--sky)', t:'AI 的数据中心，谁在放这个款',
-     subs:['这波钱到底是谁出的 —— 银行、私募信贷，还是证券化？',
-           '做股权的和放债的，看同一个数据中心项目，分歧在哪？',
-           '真正决定这笔信用的，是不是租约的对手方和年限？']},
-    {n:'06', ac:'var(--tiffany3)', t:'新的地方：infra、新兴市场、资产抵押',
-     subs:['私募信贷对 infra 的胃口，现在到底怎么样？',
-           '新兴市场的 credit：多出来的那点风险溢价，够不够补偿？',
-           '资产抵押（ABF）是不是下一个增长点，还是只是换个说法？']},
-    {n:'07', ac:'var(--indigo)', t:'怎么真的看懂一个借款人',
-     subs:['Credit research、underwriting、credit risk，这三个到底差在哪？（入行的人最常问的一个）',
-           '做久了的人怎么判断 downside —— 最坏情况下能收回多少？',
-           '你见过最大的一次看走眼，当时漏了什么？']},
-    {n:'08', ac:'var(--pink)', t:'Credit 这条路怎么走',
-     subs:['你是怎么进 credit 的？当时想进的和现在做的一样吗？',
-           'Trading、research、underwriting，这三条路后面长什么样？',
-           '中国背景的人在美国做 credit：哪些路走得通，实际卡在哪？']}
+  { head:'资产与路径', items:[
+    {n:'05', ac:'var(--sky)', t:'数据中心的融资',
+     subs:['资金来源：银行、私募信贷，还是证券化',
+           '股权方和债权方对同一个项目的判断差异',
+           '租约对手方和期限在多大程度上决定了这笔信用']},
+    {n:'06', ac:'var(--tiffany3)', t:'Infra、新兴市场与资产抵押',
+     subs:['私募信贷对 infra 的配置意愿',
+           '新兴市场信用的风险溢价是否充分',
+           '资产抵押是独立的增长方向，还是既有业务的延伸']},
+    {n:'07', ac:'var(--indigo)', t:'信用判断',
+     subs:['研究、承做、风控三类岗位的判断逻辑差异',
+           '如何估计最坏情况下的回收',
+           '一次判断失误的复盘']},
+    {n:'08', ac:'var(--pink)', t:'职业路径',
+     subs:['你进入信贷领域的过程，与当初预期的差异',
+           '交易、研究、承做三条路径的发展空间',
+           '中国背景在美国信贷市场的实际路径与限制']}
   ]}
 ];
 
@@ -175,7 +175,7 @@ var slides=[
     '<p class="sub">Small-group coffees and dinners for people in finance — grouped by what you actually do.</p>'+
     '<ul class="facts">'+
       '<li>Tables of 4–6, never a random mixer</li>'+
-      '<li>从刚入行到做了十年的都有 —— 不懂就问</li>'+
+      '<li>Weekend coffees by vertical, plus dinners</li>'+
       '<li>No pitching — just the people worth knowing</li>'+
     '</ul>'+
     '<div class="mark"><span class="cup">'+CUP+'</span><div>'+
@@ -203,7 +203,7 @@ var slides=[
           '<ul>'+t.subs.map(function(x){return '<li>'+x+'</li>';}).join('')+'</ul>'+
         '</div>';
       }).join('')+'</div>'+
-      '<p class="foot">每个话题都从「你的经验」开始 · 不用都懂，不懂就问</p>'+
+      '<p class="foot">以上为备选，按现场讨论的方向推进</p>'+
     '</div></section>';
   }).join('')
 ];
