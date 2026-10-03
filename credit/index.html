@@ -114,7 +114,7 @@ var CUP='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width
 
 var SEATS=[
   {name:'Private Credit / Growth Credit',      ac:'var(--tiffany)'},
-  {name:'Private Credit · DL · Lev Fin',       ac:'var(--tiffany)'},
+  {name:'Private Credit · Direct Lending',    ac:'var(--tiffany)'},
   {name:'Structured Credit',                   ac:'var(--tiffany3)'},
   {name:'Public Credit',                       ac:'var(--azure)'},
   {name:'Financials',                          ac:'var(--azure)'},
@@ -130,38 +130,38 @@ var SEATS=[
 
 var TOPIC_SETS=[
   { head:'The market', items:[
-    {n:'01', ac:'var(--tiffany)', t:'5% 的国债利率，private credit 怎么办？',
-     subs:['利率在这个水平，direct lending 的 spread 还剩多少真实超额收益？',
-           '浮动利率的 borrower 撑得住吗 —— 哪些行业先出问题？',
-           '募资端：LP 拿得到 5% 无风险，还会配 private credit 吗？',
-           'Where does the yield actually come from now — spread, leverage, or credit risk?']},
-    {n:'02', ac:'var(--tiffany2)', t:'CLO 多了，BSL 回来了吗？',
-     subs:['今年的 issuance 和 CLO formation，数据实际在说什么？',
-           'Repricing wave：borrower 从 private credit 回流到 BSL 了吗？',
-           'Private credit 下一步往哪走 —— ABF？Investment grade？零售资金？',
-           '两个市场之间的定价差，还剩多少？']},
-    {n:'03', ac:'var(--azure)', t:'Deal trend 与 spread compression',
-     subs:['现在的 deal flow 是真回暖，还是基本都在 refi？',
-           'Spread 卷到什么程度了 —— 哪些 structure 开始松动？',
-           'Covenant 和 documentation 上，大家在让什么步？',
-           'Credit issuance 的节奏，说明市场在预期什么？']}
+    {n:'01', ac:'var(--tiffany)', t:'5% 的利率，把这行改变了什么',
+     subs:['先从各自的经验说起：你那边的工作，最近两年因为利率具体变了什么？',
+           '浮动利率意味着借款人的利息跟着基准走 —— 现在他们还扛得住吗？',
+           '站在出资方的角度：无风险都有 5% 了，为什么还要锁七八年？',
+           '利率高 → 并购少 → 能放的 deal 少。钱多、deal 少，接下来会发生什么？']},
+    {n:'02', ac:'var(--tiffany2)', t:'Private credit 和公开市场，这个跷跷板',
+     subs:['最基础的一个问题：同一家公司，为什么有的选 private credit，有的选公开市场？',
+           'CLO 买得多的时候公开市场就便宜 —— 借款人会回流吗？',
+           'Private credit 下一步往哪走：资产抵押（ABF）？投资级？零售资金？',
+           '两边的定价差，现在还剩多少？']},
+    {n:'03', ac:'var(--azure)', t:'Deal 现在到底好不好做',
+     subs:['大家手上的活，是新 deal 多，还是基本都在 refi？',
+           '抢 deal 的时候实际在让什么步 —— 价格、条款，还是杠杆？',
+           '什么样的 deal，你现在会直接 pass？',
+           '发行的节奏，说明市场在预期什么？']}
   ]},
   { head:'下一个东西，和这份工作', items:[
-    {n:'04', ac:'var(--sky)', t:'AI infra financing 与 LME',
-     subs:['Data center 的融资结构 —— 谁在放这个款，怎么 underwrite？',
-           '这是新的资产类别，还是换个名字的 specialty finance？',
-           'LME 趋势：liability management 现在玩到哪一步了？',
-           '如果下一轮 distress 要来，会从哪里先开始？']},
-    {n:'05', ac:'var(--indigo)', t:'怎么真的看懂一个 borrower',
-     subs:['Credit research、underwriting、credit risk 到底差在哪？',
-           '做久了的人怎么评估 downside 和 recovery？',
-           '哪些 red flag 是模型看不出来、只能靠经验的？',
-           'Quant 背景转 credit：哪些能直接用，哪些得重学？']},
+    {n:'04', ac:'var(--sky)', t:'AI 的数据中心，谁在放这个款',
+     subs:['这波钱到底是谁出的 —— 银行、私募信贷，还是证券化？',
+           '抵押品是专用建筑加折旧很快的设备。这算房地产风险、企业风险，还是技术过时风险？',
+           '真正决定这笔信用的，是不是租约的对手方和年限？',
+           '如果下一轮出问题，会从哪里先开始？']},
+    {n:'05', ac:'var(--indigo)', t:'怎么真的看懂一个借款人',
+     subs:['Credit research、underwriting、credit risk，这三个到底差在哪？（入行的人最常问的一个）',
+           '做久了的人怎么判断 downside —— 最坏情况下能收回多少？',
+           '哪些 red flag 是数字看不出来、只能靠经验的？',
+           '你见过最大的一次看走眼，当时漏了什么？']},
     {n:'06', ac:'var(--pink)', t:'Credit 这条路怎么走',
-     subs:['Sell-side → buy-side，PC 基金求职实际是怎么走的？',
-           'Trading / research / underwriting 三条路，天花板各在哪？',
-           'Generalist 还是专精一个 sector —— 哪个更经得起周期？',
-           '五年之后，这个行业还需要什么样的人？']}
+     subs:['你是怎么进 credit 的？当时想进的和现在做的一样吗？',
+           'Trading、research、underwriting，这三条路后面长什么样？',
+           '从卖方到买方、进 private credit 基金，实际是怎么走的？',
+           'Generalist 还是专精一个 sector，哪个更经得起周期？']}
   ]}
 ];
 
@@ -172,7 +172,7 @@ var slides=[
     '<p class="sub">Small-group coffees and dinners for people in finance — grouped by what you actually do.</p>'+
     '<ul class="facts">'+
       '<li>Tables of 4–6, never a random mixer</li>'+
-      '<li>Weekend coffees by vertical, plus dinners</li>'+
+      '<li>从刚入行到做了十年的都有 —— 不懂就问</li>'+
       '<li>No pitching — just the people worth knowing</li>'+
     '</ul>'+
     '<div class="mark"><span class="cup">'+CUP+'</span><div>'+
@@ -200,7 +200,7 @@ var slides=[
           '<ul>'+t.subs.map(function(x){return '<li>'+x+'</li>';}).join('')+'</ul>'+
         '</div>';
       }).join('')+'</div>'+
-      '<p class="foot">Bring your own — we’ll follow the room.</p>'+
+      '<p class="foot">每个话题都从「你的经验」开始 · 不用都懂，不懂就问</p>'+
     '</div></section>';
   }).join('')
 ];
