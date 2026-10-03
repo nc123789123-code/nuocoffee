@@ -116,6 +116,7 @@ var SEATS=[
   {name:'Private Credit / Growth Credit',      ac:'var(--tiffany)'},
   {name:'Private Credit · Direct Lending',    ac:'var(--tiffany)'},
   {name:'Structured Credit',                   ac:'var(--tiffany3)'},
+  {name:'Infrastructure PE',                   ac:'var(--tiffany3)'},
   {name:'Public Credit',                       ac:'var(--azure)'},
   {name:'Financials',                          ac:'var(--azure)'},
   {name:'Credit Trading',                      ac:'var(--sky)'},
@@ -149,6 +150,7 @@ var TOPIC_SETS=[
   { head:'下一个东西，和这份工作', items:[
     {n:'04', ac:'var(--sky)', t:'AI 的数据中心，谁在放这个款',
      subs:['这波钱到底是谁出的 —— 银行、私募信贷，还是证券化？',
+           '做股权的和放债的，看同一个数据中心项目，分歧在哪？',
            '抵押品是专用建筑加折旧很快的设备。这算房地产风险、企业风险，还是技术过时风险？',
            '真正决定这笔信用的，是不是租约的对手方和年限？',
            '如果下一轮出问题，会从哪里先开始？']},
@@ -183,7 +185,7 @@ var slides=[
 
   '<section class="slide all"><div class="wrap">'+
     '<p class="eyebrow">The table</p>'+
-    '<h2>Twelve corners of credit.</h2>'+
+    '<h2>Thirteen corners of credit.</h2>'+
     '<div class="seats">'+SEATS.map(function(s){
       return '<div class="seat" style="--ac:'+s.ac+'"><span class="dot"></span><span>'+s.name+'</span></div>';
     }).join('')+'</div>'+
