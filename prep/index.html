@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>主持准备 — Credit coffee</title>
+<meta name="description" content="Internal host prep for the credit coffee chat." />
+<meta name="robots" content="noindex, nofollow" />
+<meta name="theme-color" content="#0a1520" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%232ee0d0%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M5%209h11v4a4%204%200%200%201-4%204H9a4%204%200%200%201-4-4V9Z%22%2F%3E%3Cpath%20d%3D%22M16%2010h2.4a2.4%202.4%200%200%201%200%204.8H16%22%2F%3E%3Cpath%20d%3D%22M8%203.4c-.5%201%20.5%201.6%200%202.6M11.5%203.4c-.5%201%20.5%201.6%200%202.6%22%2F%3E%3C%2Fsvg%3E" />
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@600;800&family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+
+:root{
+  --bg:#0a1520;
+  --surface:rgba(255,255,255,.035);
+  --text:#eef6fb; --muted:#93aec4; --dim:#6d8aa3; --line:rgba(150,200,230,.14);
+  --tiffany:#2ee0d0; --tiffany2:#9befe4; --tiffany3:#0fa89f;
+  --sky:#4cc4ff; --azure:#4d84ff; --indigo:#8a9bff; --pink:#ff4f9a;
+  --display:'Unbounded',system-ui,sans-serif;
+  --body:'Outfit',system-ui,-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
+  --mono:'Space Mono',ui-monospace,'Courier New',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:var(--body);font-size:16px;
+  line-height:1.55;-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%;
+  padding-bottom:64px;overflow-x:hidden;}
+
+.fx{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
+.blob{position:absolute;border-radius:50%;filter:blur(90px);}
+.b1{width:80vw;height:80vw;top:-26vh;right:-30vw;
+  background:radial-gradient(circle,var(--tiffany),transparent 68%);opacity:.22;}
+.b2{width:75vw;height:75vw;bottom:-14vh;left:-30vw;
+  background:radial-gradient(circle,var(--pink),transparent 68%);opacity:.13;}
+.wrap{position:relative;z-index:1;max-width:680px;margin-inline:auto;padding:0 18px;}
+
+/* jump chips */
+.jump{position:sticky;top:0;z-index:20;background:rgba(6,14,22,.9);
+  -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line);}
+.jump__in{max-width:680px;margin-inline:auto;padding:10px 18px;
+  display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;}
+.jump__in::-webkit-scrollbar{display:none;}
+.jump a{flex:none;font-family:var(--mono);font-size:.72rem;font-weight:700;letter-spacing:.06em;
+  color:var(--muted);text-decoration:none;padding:7px 13px;border-radius:999px;
+  border:1px solid var(--line);background:var(--surface);-webkit-tap-highlight-color:transparent;}
+.jump a:active{color:var(--text);border-color:var(--tiffany);}
+
+header{padding:30px 0 6px;}
+.eyebrow{font-family:var(--mono);text-transform:uppercase;letter-spacing:.18em;
+  font-size:.68rem;font-weight:700;color:var(--tiffany2);}
+h1{font-family:var(--display);font-weight:800;letter-spacing:-.02em;line-height:1.1;
+  font-size:clamp(1.6rem,7vw,2.3rem);margin:.34em 0 .32em;}
+.grad{background:linear-gradient(100deg,var(--tiffany2),var(--tiffany) 30%,var(--sky) 58%,var(--pink) 92%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;}
+.lede{color:var(--muted);font-size:.98rem;}
+.lede b{color:var(--text);}
+
+h2{font-family:var(--display);font-weight:600;letter-spacing:-.015em;font-size:1.1rem;
+  margin:38px 0 13px;display:flex;align-items:center;gap:9px;scroll-margin-top:62px;}
+h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
+  background:var(--ac,var(--tiffany));box-shadow:0 0 12px var(--ac,var(--tiffany));}
+
+.card{border:1px solid var(--line);border-radius:14px;background:var(--surface);
+  padding:15px;margin-bottom:10px;border-left:3px solid var(--ac,var(--tiffany));}
+.card h3{font-size:.98rem;font-weight:600;margin-bottom:7px;}
+.card h3 small{font-family:var(--mono);font-weight:400;font-size:.7rem;color:var(--dim);
+  margin-left:7px;letter-spacing:.04em;}
+.card p{font-size:.92rem;color:var(--muted);}
+.card p + p{margin-top:8px;}
+.card b{color:var(--text);font-weight:600;}
+.card ul{list-style:none;display:flex;flex-direction:column;gap:7px;margin-top:4px;}
+.card li{position:relative;padding-left:16px;font-size:.9rem;color:var(--muted);line-height:1.5;}
+.card li::before{content:"";position:absolute;left:0;top:.6em;width:5px;height:5px;
+  border-radius:50%;background:var(--ac,var(--tiffany));opacity:.75;}
+
+/* the thing you actually say */
+.say{margin-top:11px;padding:12px 14px;border-radius:11px;background:rgba(255,255,255,.055);
+  border-left:2px solid var(--ac,var(--tiffany));font-size:.95rem;color:var(--text);line-height:1.6;}
+.say em{display:block;font-style:normal;font-family:var(--mono);font-size:.63rem;
+  text-transform:uppercase;letter-spacing:.16em;color:var(--dim);margin-bottom:6px;}
+
+.warn{padding:13px 15px;border-radius:13px;margin-bottom:10px;
+  border:1px solid rgba(255,79,154,.3);background:rgba(255,79,154,.09);
+  font-size:.9rem;color:#ffc9de;line-height:1.55;}
+.warn b{color:#fff;}
+
+/* collapsible term */
+.term{border:1px solid var(--line);border-radius:13px;background:var(--surface);
+  margin-bottom:8px;overflow:hidden;border-left:3px solid var(--ac,var(--tiffany));}
+.term__head{width:100%;background:none;border:none;color:inherit;font:inherit;text-align:left;
+  padding:13px 15px;display:flex;align-items:center;gap:11px;cursor:pointer;
+  -webkit-tap-highlight-color:transparent;}
+.term__t{flex:1;font-weight:600;font-size:.96rem;min-width:0;}
+.term__t span{display:block;font-weight:400;font-size:.78rem;color:var(--dim);margin-top:1px;}
+.term__c{flex:none;color:var(--dim);font-size:.8rem;transition:transform .2s;}
+.term.open .term__c{transform:rotate(180deg);}
+.term__b{padding:0 15px 14px;}
+.term:not(.open) .term__b{display:none;}
+.term__b p{font-size:.9rem;color:var(--muted);line-height:1.55;
+  padding-top:11px;border-top:1px solid var(--line);}
+.term__b p + p{border-top:0;padding-top:8px;}
+.term__b b{color:var(--text);font-weight:600;}
+
+/* two-layer topic */
+.two{border:1px solid var(--line);border-radius:14px;background:var(--surface);
+  padding:15px;margin-bottom:10px;border-left:3px solid var(--ac,var(--tiffany));}
+.two__n{font-family:var(--mono);font-size:.64rem;font-weight:700;letter-spacing:.14em;
+  color:var(--ac,var(--tiffany));text-transform:uppercase;}
+.two__t{font-weight:600;font-size:1rem;margin:5px 0 11px;}
+.lvl{display:flex;gap:11px;align-items:flex-start;padding:9px 0;}
+.lvl + .lvl{border-top:1px dashed var(--line);}
+.lvl__k{flex:none;font-family:var(--mono);font-size:.62rem;font-weight:700;letter-spacing:.1em;
+  padding:3px 8px;border-radius:999px;margin-top:2px;}
+.lvl__k.hi{color:#06131c;background:var(--tiffany2);}
+.lvl__k.deep{color:var(--muted);border:1px solid var(--line);}
+.lvl__q{font-size:.93rem;line-height:1.5;}
+.lvl.is-deep .lvl__q{color:var(--muted);}
+
+.foot{margin:44px 0 10px;padding-top:20px;border-top:1px solid var(--line);
+  font-family:var(--mono);font-size:.72rem;color:var(--dim);line-height:1.8;}
+.foot a{color:var(--tiffany2);}
+</style>
+</head>
+<body>
+<div class="fx"><span class="blob b1"></span><span class="blob b2"></span></div>
+
+<nav class="jump">
+  <div class="jump__in">
+    <a href="#role">你的角色</a>
+    <a href="#room">房间水平</a>
+    <a href="#terms">术语</a>
+    <a href="#topics">话题两层</a>
+    <a href="#moves">现场动作</a>
+  </div>
+</nav>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">主持准备 ✦ 内部用</p>
+    <h1>Credit <span class="grad">coffee chat</span></h1>
+    <p class="lede">12 人，水平混合。<b>不要按最深的那个人定调，也不要按最浅的——按中间定，让两边自己往中间靠。</b></p>
+  </header>
+
+  <h2 id="role" style="--ac:var(--tiffany)">你的角色不是专家</h2>
+  <div class="card" style="--ac:var(--tiffany)">
+    <p>你不需要比屋里任何人更懂 credit。你的工作就四件事：<b>提问、翻译、点名、控时。</b></p>
+    <p>而且你手上有一张好牌：<b>早期的人提问，是在给资深的人表演机会。</b>人最爱的事就是把自己懂的讲给真心想听的人。新人问「credit research 和 underwriting 差在哪」不是拖后腿，那是全场最好的话头。</p>
+    <div class="say"><em>开场就说这一句</em>
+      「今天屋里有做了十年的，也有刚入行的。谁用了行话，我可能会打断问一句『这个一句话怎么解释』——不是考你，是让所有人跟得上。」</div>
+    <p style="margin-top:11px;">这一句值整场。<b>它让新人敢问，也让老手知道要翻译。</b></p>
+  </div>
+  <div class="warn">
+    真正的失败模式不是「太浅」，是<b>有人飙术语、没人翻译</b>，然后一半人默默掏手机。
+  </div>
+
+  <h2 id="room" style="--ac:var(--sky)">房间水平</h2>
+  <div class="card" style="--ac:var(--tiffany)">
+    <h3>真懂的 <small>约 4 人</small></h3>
+    <p>做数据研究的、restructuring 的、structured credit 的、private credit 原生的。<b>这几个人能带话题，但也最容易讲太久。</b></p>
+  </div>
+  <div class="card" style="--ac:var(--sky)">
+    <h3>中间 <small>约 4 人</small></h3>
+    <p>public credit、credit trading、CDS、financials。<b>自己那块懂，别人那块不懂</b>——他们是你定调的基准线。</p>
+  </div>
+  <div class="card" style="--ac:var(--indigo)">
+    <h3>在学的 <small>约 4 人</small></h3>
+    <p>学生 / quant 背景的、generalist，还有两个主要冲着职业来的。<b>他们的问题是全场最好的润滑剂</b>，别让他们不敢开口。</p>
+  </div>
+
+  <h2 id="terms" style="--ac:var(--tiffany3)">术语速成</h2>
+  <p class="lede" style="font-size:.88rem;margin-bottom:12px;">不用能讲，听得懂、接得上就行。点开看。</p>
+  <div id="terms-list"></div>
+  <div class="warn">
+    <b>别报数字。</b>现在的 spread 水平、发行量、CLO formation 实际数据，你没核实过就别说。
+    屋里那位做数据研究的手上有真数据——<b>需要数字的时候点她</b>，这也正好是给她的表演时间。
+  </div>
+
+  <h2 id="topics" style="--ac:var(--azure)">每个话题准备两层</h2>
+  <p class="lede" style="font-size:.88rem;margin-bottom:12px;">
+    注意高位那层的共同点：<b>全是「你的经验是什么」，不是「你怎么看市场」。</b>
+    经验题人人能答，观点题只有自信的人敢答。开场永远用经验题。
+  </p>
+  <div id="topics-list"></div>
+
+  <h2 id="moves" style="--ac:var(--pink)">现场动作</h2>
+  <div class="card" style="--ac:var(--tiffany)">
+    <h3>1 · 术语出现就拦一下</h3>
+    <div class="say"><em>这样说</em>「打断一下——SOFR spread 这个，给没做过的人一句话解释？」</div>
+    <p style="margin-top:10px;"><b>拦的是最懂的那个人，不是新人。</b>不尴尬，而且他会很乐意讲。</p>
+  </div>
+  <div class="card" style="--ac:var(--sky)">
+    <h3>2 · 别让一个人连讲超过两分钟</h3>
+    <div class="say"><em>这样切</em>「这个点好——有做 public 的吗，你们那边看到的一样吗？」</div>
+  </div>
+  <div class="card" style="--ac:var(--indigo)">
+    <h3>3 · 冷场了就回到分歧</h3>
+    <p>观点一致就没得聊。<b>「刚才有人说 X，有没有人不同意？」</b>永远能救场。</p>
+  </div>
+  <div class="card" style="--ac:var(--pink)">
+    <h3>4 · 职业话题别排最后</h3>
+    <p>有四个人明确说想聊职业，其中两个<b>只</b>写了职业。排在最后很可能时间不够被砍掉——而那正是这四个人来的全部原因。<b>给它一个明确时段，别当备胎。</b></p>
+  </div>
+  <div class="card" style="--ac:var(--tiffany3)">
+    <h3>5 · 12 个人可以不分桌</h3>
+    <p>坐得下一桌的话，<b>整场一个圈反而更好</b>：不用换桌，没人被困在不感兴趣的桌上，而且大家互相听得见，翻译规矩才生效。</p>
+    <p>要分两桌的话：<b>把做数据的和做 restructuring 的分开</b>——这两个最能带话题，别浪费在同一桌。</p>
+  </div>
+
+  <p class="foot">
+    Coffee with Onlu · <a href="/">coffeewithonlu.com</a><br>
+    内部页面，noindex，未从站内链接。
+  </p>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  var TERMS = [
+    { t:"Private credit / direct lending", s:"基金直接放贷", ac:"var(--tiffany)", b:[
+      "基金（不是银行）直接借钱给中型公司，通常是 PE 控股的。浮动利率（SOFR + spread），<b>持有到期，不在二级市场交易</b>。",
+      "借款人付得更贵，换来快、确定、不公开。"
+    ]},
+    { t:"BSL（broadly syndicated loan）", s:"银行牵头、可交易", ac:"var(--tiffany2)", b:[
+      "银行牵头做一笔大贷款，分销给一堆投资人，<b>有二级市场可以交易</b>。最大的买家是 CLO。",
+      "市场开着的时候，比 private credit 便宜。"
+    ]},
+    { t:"两者是个跷跷板", s:"理解今天一半话题的钥匙", ac:"var(--sky)", b:[
+      "CLO 发得多 → 对贷款的需求大 → BSL 的 spread 被压低 → <b>借款人从 private credit refi 回 BSL</b>。",
+      "反过来市场一波动、BSL 发不出去，private credit 就赢。所以「CLO 多了 BSL 是不是回来了」问的就是这个跷跷板现在偏哪边。"
+    ]},
+    { t:"Spread compression", s:"「卷」在 credit 里的具体含义", ac:"var(--azure)", b:[
+      "太多钱追太少 deal，放贷方只能靠<b>降 spread、放松 covenant、接受更高杠杆</b>来抢。",
+      "所以聊「卷」的时候，具体问的是这三样里哪一样在让步。"
+    ]},
+    { t:"5% 利率怎么影响 private credit", s:"三条路径", ac:"var(--indigo)", b:[
+      "<b>① 借款人端</b>：浮动利率，基准高 = 票息高 = 利息负担重，coverage ratio 被压缩，PIK 和违约上升。",
+      "<b>② LP 端</b>：无风险都有 5% 了，再配一个锁七八年、流动性差的东西，得多给多少才划算。",
+      "<b>③ 交易端</b>：利率高 → PE 并购少 → 新放贷机会少 → 更多钱抢更少 deal → 回到 spread compression。"
+    ]},
+    { t:"LME（liability management exercise）", s:"restructuring 那位的主场", ac:"var(--pink)", b:[
+      "困境公司<b>不走破产法庭</b>，靠钻文件漏洞重组：把抵押品挪到不受限子公司，或者搞 non-pro-rata 的 uptier 把一部分债权人踩到后面。",
+      "业内叫 <b>lender-on-lender violence</b>。"
+    ]},
+    { t:"Research / underwriting / credit risk", s:"学生那位的问题，你先能答", ac:"var(--tiffany3)", b:[
+      "<b>Research</b>（偏公开市场）：研究发行人，形成观点，给买卖建议。产出是<b>观点</b>。",
+      "<b>Underwriting</b>（偏私募/origination）：这笔钱借不借、什么条件、怎么设计结构。产出是<b>决定和 term sheet</b>。",
+      "<b>Credit risk</b>（机构内部）：盯本机构的敞口，设限额、评级、审批、贷后。产出是<b>约束</b>。",
+      "一句话：research 是「买不买」，underwriting 是「借不借、怎么借」，risk 是「我们扛得住多少」。"
+    ]},
+    { t:"AI infra financing", s:"数据中心的债", ac:"var(--sky)", b:[
+      "核心争论：这到底是<b>房地产风险、企业风险，还是技术过时风险</b>？",
+      "抵押品是专用建筑 + 折旧很快的设备，真正的信用其实取决于<b>租约对手方是谁、租多久</b>。"
+    ]},
+    { t:"ABF（asset-based finance）", s:"private credit 的下一站", ac:"var(--tiffany)", b:[
+      "不看公司现金流，<b>看一池资产</b>（设备、应收、版税、消费贷）。",
+      "private credit 下一步的增长，很多人押在这里。"
+    ]}
+  ];
+
+  var TOPICS = [
+    { n:"01 · 5% 利率", ac:"var(--tiffany)",
+      hi:"你那边的工作，最近两年因为利率变了什么？",
+      deep:"浮动利率下 coverage 压到什么程度了？PIK 的比例呢？" },
+    { n:"02 · CLO / BSL", ac:"var(--tiffany2)",
+      hi:"先问个基础的——private credit 和 BSL，借款人到底为什么选其中一个？",
+      deep:"现在这个 repricing wave，回流的规模有多大？" },
+    { n:"03 · Deal trend", ac:"var(--azure)",
+      hi:"大家手上的活，是新 deal 多还是 refi 多？",
+      deep:"Covenant 和文件上，现在实际在让什么步？" },
+    { n:"04 · AI infra", ac:"var(--sky)",
+      hi:"这波 data center 的钱，到底是谁在放？",
+      deep:"你会把它归成 real estate、corporate 还是 project finance？" },
+    { n:"05 · 看懂 borrower", ac:"var(--indigo)",
+      hi:"你见过最大的一次看走眼，是漏了什么？",
+      deep:"哪些 red flag 是模型看不出来、只能靠经验的？" },
+    { n:"06 · 职业路径", ac:"var(--pink)",
+      hi:"你是怎么进 credit 的？当时想进的和现在做的一样吗？",
+      deep:"PC 基金招人实际看什么？" }
+  ];
+
+  var tHost = document.getElementById("terms-list");
+  tHost.innerHTML = TERMS.map(function(x){
+    return '<div class="term" style="--ac:' + x.ac + '">' +
+      '<button class="term__head" type="button" aria-expanded="false">' +
+        '<span class="term__t">' + x.t + "<span>" + x.s + "</span></span>" +
+        '<span class="term__c" aria-hidden="true">▾</span>' +
+      "</button>" +
+      '<div class="term__b">' + x.b.map(function(p){ return "<p>" + p + "</p>"; }).join("") + "</div>" +
+    "</div>";
+  }).join("");
+
+  var terms = tHost.querySelectorAll(".term");
+  for (var i = 0; i < terms.length; i++) {
+    (function(el){
+      var btn = el.querySelector(".term__head");
+      btn.addEventListener("click", function(){
+        var open = el.classList.toggle("open");
+        btn.setAttribute("aria-expanded", open ? "true" : "false");
+      });
+    })(terms[i]);
+  }
+
+  document.getElementById("topics-list").innerHTML = TOPICS.map(function(x){
+    return '<div class="two" style="--ac:' + x.ac + '">' +
+      '<div class="two__n">' + x.n + "</div>" +
+      '<div class="lvl"><span class="lvl__k hi">高位</span><span class="lvl__q">' + x.hi + "</span></div>" +
+      '<div class="lvl is-deep"><span class="lvl__k deep">深一层</span><span class="lvl__q">' + x.deep + "</span></div>" +
+    "</div>";
+  }).join("");
+})();
+</script>
+</body>
+</html>
