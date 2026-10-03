@@ -119,6 +119,33 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
 .lvl__q{font-size:.93rem;line-height:1.5;}
 .lvl.is-deep .lvl__q{color:var(--muted);}
 
+/* language toggle, sits in the section heading */
+.lang{margin-left:auto;font-family:var(--mono);font-weight:700;font-size:.66rem;
+  letter-spacing:.1em;color:var(--muted);background:var(--surface);
+  border:1px solid var(--line);border-radius:999px;padding:5px 11px;cursor:pointer;
+  -webkit-tap-highlight-color:transparent;}
+.lang:active{color:var(--text);border-color:var(--tiffany);}
+
+/* collapsible topic brief */
+.brief{border:1px solid var(--line);border-radius:13px;background:var(--surface);
+  margin-bottom:8px;overflow:hidden;border-left:3px solid var(--ac,var(--tiffany));}
+.brief__head{width:100%;background:none;border:none;color:inherit;font:inherit;text-align:left;
+  padding:13px 15px;display:flex;align-items:center;gap:11px;cursor:pointer;
+  -webkit-tap-highlight-color:transparent;}
+.brief__n{flex:none;font-family:var(--mono);font-size:.64rem;font-weight:700;
+  letter-spacing:.12em;color:var(--ac,var(--tiffany));}
+.brief__t{flex:1;font-weight:600;font-size:.96rem;min-width:0;}
+.brief__c{flex:none;color:var(--dim);font-size:.8rem;transition:transform .2s;}
+.brief.open .brief__c{transform:rotate(180deg);}
+.brief__b{padding:0 15px 14px;}
+.brief:not(.open) .brief__b{display:none;}
+.blk{padding-top:11px;border-top:1px solid var(--line);}
+.blk + .blk{border-top:0;padding-top:10px;}
+.blk__k{font-family:var(--mono);font-size:.6rem;font-weight:700;text-transform:uppercase;
+  letter-spacing:.15em;color:var(--dim);margin-bottom:4px;}
+.blk__p{font-size:.9rem;color:var(--muted);line-height:1.55;}
+.blk__p b{color:var(--text);font-weight:600;}
+
 .foot{margin:44px 0 10px;padding-top:20px;border-top:1px solid var(--line);
   font-family:var(--mono);font-size:.72rem;color:var(--dim);line-height:1.8;}
 .foot a{color:var(--tiffany2);}
@@ -133,6 +160,7 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
     <a href="#room">房间水平</a>
     <a href="#terms">术语</a>
     <a href="#topics">话题两层</a>
+    <a href="#briefs">话题深度</a>
     <a href="#moves">现场动作</a>
   </div>
 </nav>
@@ -190,6 +218,15 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
     经验题人人能答，观点题只有自信的人敢答。开场永远用经验题。
   </p>
   <div id="topics-list"></div>
+
+  <h2 id="briefs" style="--ac:var(--tiffany2)">话题深度
+    <button class="lang" id="lang" type="button" aria-label="Switch language">EN</button>
+  </h2>
+  <div class="warn">
+    <b>以下没有任何当前数字。</b>利差水平、发行量、PIK 占比、违约率都要现场找做数据研究那位要 ——
+    既是准确性问题，也正好是给她的表演时间。
+  </div>
+  <div id="briefs-list"></div>
 
   <h2 id="moves" style="--ac:var(--pink)">现场动作</h2>
   <div class="card" style="--ac:var(--tiffany)">
@@ -323,6 +360,208 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
       '<div class="lvl is-deep"><span class="lvl__k deep">深一层</span><span class="lvl__q">' + x.deep + "</span></div>" +
     "</div>";
   }).join("");
+
+  /* ---------- topic briefs, zh / en ---------- */
+  var K = {
+    arg:  { zh:"争论在哪",   en:"What is contested" },
+    two:  { zh:"两边的立场", en:"The two positions" },
+    land: { zh:"大概率落点", en:"Where it lands" },
+    miss: { zh:"容易被忽略", en:"Often skipped" },
+    say:  { zh:"你可以说的一句", en:"The line to use" }
+  };
+
+  var BRIEFS = [
+    { n:"01", ac:"var(--tiffany)",
+      t:{ zh:"利率上行，利差收窄", en:"Rates up, spreads tight" },
+      blocks:[
+        { k:K.arg, p:{
+          zh:"基准和利差由两件不同的事决定。基准来自宏观，利差是风险的价格，由多少资本在抢多少项目决定。私募信贷募的钱远超并购活动的增长，所以两者可以反向走。",
+          en:"Base rates and spreads are set by different things. The base rate comes from macro policy; the spread is the price of risk, set by how much capital competes for how few deals. Private credit's dry powder outran sponsor activity, so the two can move in opposite directions."}},
+        { k:K.two, p:{
+          zh:"乐观方：<b>全口径收益率</b>仍在历史高位，违约可控，干火药多是结构性特征。谨慎方：利差压缩加条款松动，等于<b>每单位风险拿到的补偿变少</b>，绝对票息掩盖了这一点。",
+          en:"Constructive: <b>all-in yields</b> remain historically attractive and defaults manageable; large dry powder is structural. Cautious: compression plus looser documentation means <b>less compensation per unit of risk</b>, with the absolute coupon flattering it."}},
+        { k:K.land, p:{
+          zh:"两边都对，但说的是组合的不同部分。要担心的是<b>高杠杆、低利差做的那几个 vintage</b>，现在扛着高得多的基准。",
+          en:"Both are right about different parts of a book. The exposure to worry about is the <b>vintage struck at high leverage and tight spreads</b>, now carrying a much higher base rate."}},
+        { k:K.miss, p:{
+          zh:"浮动利率是双刃剑。基准涨、票息涨，但借款人的利息负担同步涨，收益于是变成自己账上的信用问题。<b>Interest coverage 是捕捉这件事的那个数字</b>，比收益率更该问。",
+          en:"Floating rate cuts both ways. The coupon rises with the base rate, but so does the borrower's interest burden, converting the gain into a credit problem in the same book. <b>Interest coverage is the ratio that captures it</b>, and the better thing to ask about than yield."}}
+      ],
+      say:{ zh:"问题不是收益率够不够高，而是每单位风险的补偿是不是变少了。",
+            en:"The question isn't whether the yield is high enough, but whether compensation per unit of risk has fallen."}},
+
+    { n:"02", ac:"var(--tiffany2)",
+      t:{ zh:"私募信贷与公开市场", en:"Private credit and the public market" },
+      blocks:[
+        { k:K.arg, p:{
+          zh:"借款人用利差换的是速度、交割确定性、不公开、债权人少（后面好改条款）、结构灵活。公开市场在窗口开着时更便宜、能做更大规模，代价是分销风险、要评级、几百个持有人之后极难修改。",
+          en:"A borrower pays the spread for speed, certainty of close, confidentiality, few lenders (easier to amend later) and structural flexibility. The public market is cheaper when open and takes bigger size, but carries syndication risk, needs ratings, and is far harder to amend across hundreds of holders."}},
+        { k:K.two, p:{
+          zh:"<b>跷跷板的驱动力是 CLO 形成量。</b>CLO 发得多，贷款需求大，公开市场利差收窄，借款人就 refi 回去；市场一波动，私募信贷成为唯一的出价。",
+          en:"<b>CLO formation drives the seesaw.</b> Strong CLO creation means strong loan demand, tighter public spreads, and borrowers refinancing out of private credit. When volatility shuts the market, private credit is the only bid."}},
+        { k:K.land, p:{
+          zh:"真正的结构性变化是<b>私募信贷已经大到能做大型交易</b>，两个市场从按规模分层变成正面竞争。定价差在收窄，剩下的问题是非价格优势还值多少。",
+          en:"The structural change is that <b>private credit is now large enough for big-cap deals</b>, so the two markets compete head-on rather than segment by size. The gap is narrowing; the open question is what the non-price advantages are still worth."}}
+      ],
+      say:{ zh:"确定性和灵活性值多少个 bp？这个溢价在被竞争掉吗？",
+            en:"What are certainty and flexibility worth in basis points, and is that premium being competed away?"}},
+
+    { n:"03", ac:"var(--pink)",
+      t:{ zh:"存量组合的压力", en:"Stress in the existing book" },
+      blocks:[
+        { k:K.arg, p:{
+          zh:"私募信贷不交易，<b>没有市场价格，估值是管理人自己打的标</b>。借款人出问题时有一整套不触发违约的工具：展期、修改条款、PIK toggle（利息计入本金而不付现金）、sponsor 注资、豁免 covenant。",
+          en:"Private credit doesn't trade, so <b>there is no market price; the mark is the manager's</b>. When a borrower struggles there is a toolkit that avoids recording a default: extensions, amendments, PIK toggles, sponsor equity cures, covenant waivers."}},
+        { k:K.two, p:{
+          zh:"放贷方：这些是正当工具，<b>单一债权人能做的事，两百个 CLO 持有人做不到</b>，这正是私募信贷的价值。怀疑方：PIK 占比和展期量上升，说明损失在被<b>递延</b>而不是被避免。",
+          en:"Lenders: these are legitimate tools, and <b>a single lender can work with a borrower where two hundred CLO holders cannot</b>. Sceptics: rising PIK share and amendment volume mean losses are being <b>deferred</b>, not avoided."}},
+        { k:K.land, p:{
+          zh:"真实但不均匀，集中在高点做的那几个 vintage 和被利率、需求双杀的行业。<b>是 vintage 问题，不是系统性危机。</b>",
+          en:"Real but uneven, concentrated in peak vintages and in sectors hit by both rates and demand. <b>A vintage problem rather than a systemic one.</b>"}},
+        { k:K.miss, p:{
+          zh:"该看的指标：<b>PIK 收入占总收入的比重</b>、non-accrual、修改条款的频率，以及管理人的标和可比交易债的价差。",
+          en:"The honest indicators: <b>PIK as a share of income</b>, non-accruals, amendment frequency, and whether a manager's marks diverge from comparable traded debt."}}
+      ],
+      say:{ zh:"PIK 占比在上升吗？这个数字比 default rate 诚实。",
+            en:"Is PIK rising as a share of income? That number is more honest than the default rate."}},
+
+    { n:"04", ac:"var(--azure)",
+      t:{ zh:"一级市场的竞争", en:"Competition in primary" },
+      blocks:[
+        { k:K.arg, p:{
+          zh:"让步分三类：定价、条款文件、杠杆。<b>定价是最无害的</b> —— 价格可以补偿风险。<b>文件不行</b>，弱文件正是后面抵押品被合法挪走的前提。",
+          en:"Concessions come in three kinds: price, documentation, leverage. <b>Price is the least damaging</b>, because risk can be priced. <b>Documentation is not</b> — weak documents are what later let collateral be moved away from you."}},
+        { k:K.two, p:{
+          zh:"所有人都承认在价格上让步，都声称守住了文件。实际竞标里文件一定会松。",
+          en:"Everyone admits conceding on price and claims to have held the line on documents. In competitive processes documents erode anyway."}},
+        { k:K.land, p:{
+          zh:"<b>说得出「我走开过」、并讲得出是因为哪一条的人，才是真的有纪律。</b>",
+          en:"<b>The credible answer is a specific deal walked away from, and the specific term that caused it.</b>"}},
+        { k:K.miss, p:{
+          zh:"EBITDA addback 值得解释给新人听：允许加回尚未实现的协同效应，杠杆就从 6.5 倍变成 5 倍。<b>债没变，变的是尺子。</b>",
+          en:"EBITDA addbacks are worth explaining to anyone new: allow unrealised synergies and leverage reads 5x instead of 6.5x. <b>The debt hasn't changed; the measuring stick has.</b>"}}
+      ],
+      say:{ zh:"有没有具体一笔你走开了？因为哪一条？",
+            en:"Is there a specific deal you walked away from, and which term caused it?"}},
+
+    { n:"05", ac:"var(--sky)",
+      t:{ zh:"数据中心的融资", en:"Financing the data centres" },
+      blocks:[
+        { k:K.arg, p:{
+          zh:"数据中心是专用建筑，里面的设备折旧极快，<b>最耐久的资产其实是电力接入</b> —— 稀缺且审批要数年。所以这笔信用本质上是<b>租约</b>：对手方是谁、评级多少、租期多长。",
+          en:"A data centre is purpose-built and its equipment depreciates fast; <b>the most durable asset is usually the power interconnect</b>, which is scarce and takes years to permit. So the credit is really <b>the lease</b>: who the tenant is, their rating, how long the term runs."}},
+        { k:K.two, p:{
+          zh:"<b>股权</b>赌残值和再出租，需要对第 15 年的资产价值有判断。<b>债权</b>买的是合约现金流，只要租期覆盖债期，理论上可以对 AI 不持观点。",
+          en:"<b>Equity</b> underwrites residual value and re-leasing, which requires a view on year fifteen. <b>Debt</b> buys contracted cash flow and can stay agnostic on AI, provided the lease covers the debt."}},
+        { k:K.land, p:{
+          zh:"<b>如果债的久期超过租约久期，债其实也在赌这个论点 —— 而且可能没对它定价。</b>",
+          en:"<b>Where debt tenor exceeds lease tenor, the debt is taking the AI thesis too, and may not be pricing it.</b>"}},
+        { k:K.miss, p:{
+          zh:"机架功率密度在快速变化（液冷、单机架功率翻倍）。按几年前标准建的楼未来可能租不出去 —— <b>过时风险是最没被定好价的那个</b>。",
+          en:"Rack power density is changing fast. A building designed to an earlier standard may be hard to re-lease. <b>Obsolescence is the risk least well priced.</b>"}}
+      ],
+      say:{ zh:"债的久期有没有超过租约久期？超了多少？",
+            en:"Does the debt tenor run past the lease, and by how much?"}},
+
+    { n:"06", ac:"var(--tiffany3)",
+      t:{ zh:"Infra、新兴市场与资产抵押", en:"Infra, emerging markets, asset-based" },
+      blocks:[
+        { k:K.arg, p:{
+          zh:"三件不相干的事。Infra 债收益低、久期长、违约低，<b>通常够不着企业直贷基金的回报目标</b>，所以专门的 infra 债基金是单独存在的。",
+          en:"Three separate things. Infrastructure debt is lower-yielding, longer-duration and lower-default, which <b>usually sits below a corporate direct lending fund's return target</b> — hence dedicated infra debt funds."}},
+        { k:K.two, p:{
+          zh:"所以真正的问题是：<b>企业端项目少了，直贷基金是不是在往 infra 伸手？</b>如果是，这叫 style drift。新兴市场的问题也不是违约率，是<b>回收</b> —— 债权人保护不可靠的法域，损失发生在违约之后。",
+          en:"Which makes the real question whether <b>corporate funds are reaching into infrastructure because corporate deals are scarce</b>. If so, that is style drift. For emerging markets the issue is <b>recovery</b> rather than default: where creditor rights are weak, the loss happens after the default."}},
+        { k:K.land, p:{
+          zh:"ABF 是真实的增长方向，但<b>它做得好不好取决于 servicing 能力，不是承做能力</b>。这是运营生意，跟企业信用分析是两套技能。",
+          en:"Asset-based is a real growth area, but <b>it is won on servicing capability rather than underwriting</b>. It is an operations business, a different skill from corporate credit analysis."}}
+      ],
+      say:{ zh:"ABF 拼的是 servicing，不是 underwriting。你们怎么解决这个能力缺口？",
+            en:"Asset-based is won on servicing, not underwriting. How are you covering that gap?"}},
+
+    { n:"07", ac:"var(--indigo)",
+      t:{ zh:"信用判断", en:"Credit judgement" },
+      blocks:[
+        { k:K.arg, p:{
+          zh:"<b>研究</b>对发行人形成观点，产出是观点，被「这笔债跑赢没有」考核。<b>承做</b>决定借不借、什么条件，产出是决定和文件，被几年后的表现考核。<b>风控</b>设限额和审批，产出是约束，被有没有踩到集中度的雷考核。",
+          en:"<b>Research</b> forms a view on an issuer; the output is a recommendation, judged on whether the paper outperforms. <b>Underwriting</b> decides whether to lend and on what terms; the output is a decision and a document, judged over years. <b>Risk</b> sets limits and approvals; the output is a constraint, judged on whether concentration losses were avoided."}},
+        { k:K.two, p:{
+          zh:"一句话：研究问<b>便不便宜</b>，承做问<b>借不借、怎么借</b>，风控问<b>能持有多少</b>。",
+          en:"In short: research asks <b>whether it is cheap</b>, underwriting asks <b>whether to lend and on what terms</b>, risk asks <b>how much can be held</b>."}},
+        { k:K.land, p:{
+          zh:"关键差别：研究可以方向判断对了但亏钱；<b>承做可以对公司判断全对，却因为文件写差了而亏钱</b>。回收是文件的函数，不是资产的函数。",
+          en:"The distinction that matters: research can be right on direction and still lose; <b>underwriting can be right about the company and still lose because the documents were weak</b>. Recovery is a function of documentation, not of assets."}},
+        { k:K.miss, p:{
+          zh:"经验才看得出的 red flag：addback 越来越激进、CFO 换人、反复修改条款、循环贷被提满、换审计师、<b>sponsor 在可以注资时选择不注资</b>。",
+          en:"The red flags experience teaches: increasingly aggressive addbacks, CFO turnover, repeated amendments, a fully drawn revolver, an auditor change, and <b>a sponsor declining to cure when it could</b>."}}
+      ],
+      say:{ zh:"回收是文件的函数，不是资产的函数。",
+            en:"Recovery is a function of the documents, not the assets."}},
+
+    { n:"08", ac:"var(--pink)",
+      t:{ zh:"职业路径", en:"Career paths" },
+      blocks:[
+        { k:K.arg, p:{
+          zh:"<b>交易</b>反馈快、P&amp;L 每天可见、技能可迁移，但依赖座位。<b>研究</b>有行业深度、可转买方，但卖方研究已是成本中心。<b>承做</b>积累 sponsor 关系 —— 三者里最耐久的资产 —— 但要好几年才知道对错。",
+          en:"<b>Trading</b> gives fast feedback and visible P&amp;L and the skill transfers, but it depends on the seat. <b>Research</b> builds sector depth and moves to the buy side, though sell-side research is now a cost centre. <b>Underwriting</b> accumulates sponsor relationships, the most durable asset of the three, but takes years to show whether a call was right."}},
+        { k:K.two, p:{
+          zh:"卖方到买方的常规路径：levfin、sponsors coverage 或重组做 2–4 年，然后进直贷或机会信贷。<b>重组进困境策略最顺</b>，技能基本重合。",
+          en:"The usual sell-side to buy-side route: two to four years in lev fin, sponsors coverage or restructuring, then into direct lending or opportunistic credit. <b>Restructuring is the cleanest entry to distressed</b>, since the skill is the same."}},
+        { k:K.land, p:{
+          zh:"中国背景这题：<b>身份是最实的约束</b> —— 大行常规支持签证，中小型信贷基金往往不办，恰好卡在买方路径上。岗位也有分流：origination 和 sponsor coverage 是关系生意，研究、结构化、量化、组合管理更吃分析能力。<b>背景是优势的地方是 EM、亚洲信用、跨境情形。</b>",
+          en:"On the Chinese-background question: <b>work authorisation is the hard constraint</b> — large banks sponsor routinely, smaller credit funds often do not, which bites precisely on the buy-side route. Role type sorts too: origination and sponsor coverage are relationship businesses, while research, structuring, quant and portfolio roles weight analytical skill. <b>The background is an advantage in EM, Asia credit and cross-border situations.</b>"}},
+        { k:K.miss, p:{
+          zh:"<b>这题让提出的那位先讲，你别替他总结。</b>他在 EM 台子上、之前做 quant，是全场最有资格说这个的人。",
+          en:"<b>Let the person who raised this answer first; don't summarise it for them.</b> They sit on an EM desk and were a quant before that — the most qualified voice in the room on it."}}
+      ],
+      say:{ zh:"先让他讲，你只负责接住和追问。",
+            en:"Let them speak first; your job is to catch it and follow up."}}
+  ];
+
+  var bLang = "zh";
+  try { if (localStorage.getItem("onlu-prep-lang") === "en") bLang = "en"; } catch (err) {}
+
+  var bHost = document.getElementById("briefs-list");
+  var langBtn = document.getElementById("lang");
+
+  function paintBriefs(){
+    var open = {};
+    bHost.querySelectorAll(".brief.open").forEach(function(el){ open[el.dataset.n] = 1; });
+
+    bHost.innerHTML = BRIEFS.map(function(x){
+      return '<div class="brief' + (open[x.n] ? " open" : "") + '" data-n="' + x.n +
+          '" style="--ac:' + x.ac + '">' +
+        '<button class="brief__head" type="button" aria-expanded="' + (open[x.n] ? "true" : "false") + '">' +
+          '<span class="brief__n">' + x.n + "</span>" +
+          '<span class="brief__t">' + x.t[bLang] + "</span>" +
+          '<span class="brief__c" aria-hidden="true">▾</span>' +
+        "</button>" +
+        '<div class="brief__b">' +
+          x.blocks.map(function(b){
+            return '<div class="blk"><div class="blk__k">' + b.k[bLang] + "</div>" +
+                   '<div class="blk__p">' + b.p[bLang] + "</div></div>";
+          }).join("") +
+          '<div class="say"><em>' + K.say[bLang] + "</em>" + x.say[bLang] + "</div>" +
+        "</div>" +
+      "</div>";
+    }).join("");
+
+    bHost.querySelectorAll(".brief").forEach(function(el){
+      var btn = el.querySelector(".brief__head");
+      btn.addEventListener("click", function(){
+        var o = el.classList.toggle("open");
+        btn.setAttribute("aria-expanded", o ? "true" : "false");
+      });
+    });
+    langBtn.textContent = bLang === "en" ? "中文" : "EN";
+  }
+
+  langBtn.addEventListener("click", function(){
+    bLang = bLang === "en" ? "zh" : "en";
+    try { localStorage.setItem("onlu-prep-lang", bLang); } catch (err) {}
+    paintBriefs();
+  });
+  paintBriefs();
 })();
 </script>
 </body>
