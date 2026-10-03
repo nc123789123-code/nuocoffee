@@ -119,7 +119,7 @@ var SEATS=[
   {name:'Infrastructure PE',                   ac:'var(--tiffany3)'},
   {name:'Public Credit',                       ac:'var(--azure)'},
   {name:'Financials',                          ac:'var(--azure)'},
-  {name:'Credit Trading',                      ac:'var(--sky)'},
+  {name:'Credit Trading · EM',                 ac:'var(--sky)'},
   {name:'CDS · Bonds & Credit',                ac:'var(--sky)'},
   {name:'Credit Generalist',                   ac:'var(--indigo)'},
   {name:'Restructuring Banking',               ac:'var(--pink)'},
@@ -130,40 +130,41 @@ var SEATS=[
 
 
 var TOPIC_SETS=[
-  { head:'The market', items:[
+  { head:'市场在发生什么', items:[
     {n:'01', ac:'var(--tiffany)', t:'5% 的利率，把这行改变了什么',
      subs:['先从各自的经验说起：你那边的工作，最近两年因为利率具体变了什么？',
-           '浮动利率意味着借款人的利息跟着基准走 —— 现在他们还扛得住吗？',
-           '站在出资方的角度：无风险都有 5% 了，为什么还要锁七八年？',
-           '利率高 → 并购少 → 能放的 deal 少。钱多、deal 少，接下来会发生什么？']},
+           '利率在往上走，spread 却越来越紧 —— 这个组合能持续多久？',
+           '站在出资方的角度：无风险都有 5% 了，为什么还要锁七八年？']},
     {n:'02', ac:'var(--tiffany2)', t:'Private credit 和公开市场，这个跷跷板',
      subs:['最基础的一个问题：同一家公司，为什么有的选 private credit，有的选公开市场？',
            'CLO 买得多的时候公开市场就便宜 —— 借款人会回流吗？',
-           'Private credit 下一步往哪走：资产抵押（ABF）？投资级？零售资金？',
            '两边的定价差，现在还剩多少？']},
-    {n:'03', ac:'var(--azure)', t:'Deal 现在到底好不好做',
+    {n:'03', ac:'var(--pink)', t:'组合里的公司，现在到底多大压力',
+     subs:['放贷的那边：你们怎么看自己 portfolio 的 stress level？',
+           '是在真解决问题，还是在 kick the can —— 展期、改条款、先拖过去？',
+           '有没有看到什么新的 solution，还是老一套？']},
+    {n:'04', ac:'var(--azure)', t:'Deal 现在到底好不好做',
      subs:['大家手上的活，是新 deal 多，还是基本都在 refi？',
            '抢 deal 的时候实际在让什么步 —— 价格、条款，还是杠杆？',
-           '什么样的 deal，你现在会直接 pass？',
-           '发行的节奏，说明市场在预期什么？']}
+           '什么样的 deal，你现在会直接 pass？']}
   ]},
-  { head:'下一个东西，和这份工作', items:[
-    {n:'04', ac:'var(--sky)', t:'AI 的数据中心，谁在放这个款',
+  { head:'钱往哪去，人往哪走', items:[
+    {n:'05', ac:'var(--sky)', t:'AI 的数据中心，谁在放这个款',
      subs:['这波钱到底是谁出的 —— 银行、私募信贷，还是证券化？',
            '做股权的和放债的，看同一个数据中心项目，分歧在哪？',
-           '抵押品是专用建筑加折旧很快的设备。这算房地产风险、企业风险，还是技术过时风险？',
-           '真正决定这笔信用的，是不是租约的对手方和年限？',
-           '如果下一轮出问题，会从哪里先开始？']},
-    {n:'05', ac:'var(--indigo)', t:'怎么真的看懂一个借款人',
+           '真正决定这笔信用的，是不是租约的对手方和年限？']},
+    {n:'06', ac:'var(--tiffany3)', t:'新的地方：infra、新兴市场、资产抵押',
+     subs:['私募信贷对 infra 的胃口，现在到底怎么样？',
+           '新兴市场的 credit：多出来的那点风险溢价，够不够补偿？',
+           '资产抵押（ABF）是不是下一个增长点，还是只是换个说法？']},
+    {n:'07', ac:'var(--indigo)', t:'怎么真的看懂一个借款人',
      subs:['Credit research、underwriting、credit risk，这三个到底差在哪？（入行的人最常问的一个）',
            '做久了的人怎么判断 downside —— 最坏情况下能收回多少？',
-           '哪些 red flag 是数字看不出来、只能靠经验的？',
            '你见过最大的一次看走眼，当时漏了什么？']},
-    {n:'06', ac:'var(--pink)', t:'Credit 这条路怎么走',
+    {n:'08', ac:'var(--pink)', t:'Credit 这条路怎么走',
      subs:['你是怎么进 credit 的？当时想进的和现在做的一样吗？',
            'Trading、research、underwriting，这三条路后面长什么样？',
-           '从卖方到买方、进 private credit 基金，实际是怎么走的？',
-           'Generalist 还是专精一个 sector，哪个更经得起周期？']}
+           '中国背景的人在美国做 credit：哪些路走得通，实际卡在哪？']}
   ]}
 ];
 

@@ -170,6 +170,11 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
     <h3>在学的 <small>约 4 人</small></h3>
     <p>学生 / quant 背景的、generalist，还有两个主要冲着职业来的。<b>他们的问题是全场最好的润滑剂</b>，别让他们不敢开口。</p>
   </div>
+  <div class="card" style="--ac:var(--pink)">
+    <h3>⚠️ 至少两位明说了「只想听」</h3>
+    <p>微信里有人原话是<b>「我主要也是学习学习」</b>，另一位是<b>「我主要对别人做的东西比较感兴趣」</b>。</p>
+    <p><b>这两位不会主动开口 —— 必须点名。</b>而且他们都不是新人，是有东西可讲但不好意思抢话的那种。点到了往往是全场最有料的发言。</p>
+  </div>
 
   <h2 id="terms" style="--ac:var(--tiffany3)">术语速成</h2>
   <p class="lede" style="font-size:.88rem;margin-bottom:12px;">不用能讲，听得懂、接得上就行。点开看。</p>
@@ -265,22 +270,28 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
   var TOPICS = [
     { n:"01 · 5% 利率", ac:"var(--tiffany)",
       hi:"你那边的工作，最近两年因为利率变了什么？",
-      deep:"浮动利率下 coverage 压到什么程度了？PIK 的比例呢？" },
-    { n:"02 · CLO / BSL", ac:"var(--tiffany2)",
-      hi:"先问个基础的——private credit 和 BSL，借款人到底为什么选其中一个？",
+      deep:"利率在涨、spread 反而更紧 —— 这个组合能持续多久？" },
+    { n:"02 · 私募 vs 公开市场", ac:"var(--tiffany2)",
+      hi:"先问个基础的——private credit 和公开市场，借款人到底为什么选其中一个？",
       deep:"现在这个 repricing wave，回流的规模有多大？" },
-    { n:"03 · Deal trend", ac:"var(--azure)",
+    { n:"03 · 组合压力", ac:"var(--pink)",
+      hi:"你们组合里的公司，现在压力大吗？",
+      deep:"是真在解决，还是在 kick the can？有没有新的 solution？" },
+    { n:"04 · Deal trend", ac:"var(--azure)",
       hi:"大家手上的活，是新 deal 多还是 refi 多？",
-      deep:"Covenant 和文件上，现在实际在让什么步？" },
-    { n:"04 · AI infra", ac:"var(--sky)",
+      deep:"抢 deal 的时候实际在让什么步 —— 价格、条款，还是杠杆？" },
+    { n:"05 · AI 数据中心", ac:"var(--sky)",
       hi:"这波 data center 的钱，到底是谁在放？",
-      deep:"你会把它归成 real estate、corporate 还是 project finance？" },
-    { n:"05 · 看懂 borrower", ac:"var(--indigo)",
+      deep:"做股权的和放债的，看同一个项目，分歧在哪？" },
+    { n:"06 · 新的地方", ac:"var(--tiffany3)",
+      hi:"除了传统的企业放贷，你们现在还看哪些方向？",
+      deep:"私募信贷对 infra 的胃口怎么样？新兴市场的风险溢价够不够？" },
+    { n:"07 · 看懂 borrower", ac:"var(--indigo)",
       hi:"你见过最大的一次看走眼，是漏了什么？",
-      deep:"哪些 red flag 是模型看不出来、只能靠经验的？" },
-    { n:"06 · 职业路径", ac:"var(--pink)",
+      deep:"research、underwriting、credit risk 三个岗，判断逻辑差在哪？" },
+    { n:"08 · 职业路径", ac:"var(--pink)",
       hi:"你是怎么进 credit 的？当时想进的和现在做的一样吗？",
-      deep:"PC 基金招人实际看什么？" }
+      deep:"中国背景在美国做 credit，哪些路走得通、实际卡在哪？" }
   ];
 
   var tHost = document.getElementById("terms-list");
