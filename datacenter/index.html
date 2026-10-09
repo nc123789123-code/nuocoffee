@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="en">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
@@ -96,6 +96,23 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
 .foot{margin:44px 0 10px;padding-top:20px;border-top:1px solid var(--line);
   font-family:var(--mono);font-size:.72rem;color:var(--dim);line-height:1.8;}
 .foot a{color:var(--tiffany2);}
+
+/* Onlu intro */
+.about{border:1px solid var(--line);border-radius:16px;background:var(--surface);
+  padding:18px 17px;margin-top:22px;}
+.about__p{font-size:.95rem;color:var(--muted);line-height:1.5;}
+.about__p b{color:var(--text);font-weight:600;}
+.about ul{list-style:none;display:flex;flex-direction:column;gap:9px;margin:14px 0 0;}
+.about li{display:flex;align-items:flex-start;gap:11px;font-size:.9rem;line-height:1.45;}
+.about li::before{content:"";width:7px;height:7px;border-radius:50%;flex:none;margin-top:.5em;
+  background:var(--tiffany);box-shadow:0 0 10px var(--tiffany);}
+.lock{display:flex;align-items:center;gap:12px;margin-top:17px;
+  padding-top:15px;border-top:1px solid var(--line);}
+.cup{color:var(--tiffany2);line-height:0;flex:none;
+  filter:drop-shadow(0 0 10px rgba(46,224,208,.5));}
+.cup svg{width:30px;height:30px;display:block;}
+.brand{font-family:var(--display);font-weight:600;font-size:.95rem;letter-spacing:-.01em;}
+.tagline{font-family:var(--mono);font-size:.68rem;color:var(--dim);margin-top:3px;}
 </style>
 </head>
 <body>
@@ -103,8 +120,8 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
 
 <nav class="jump">
   <div class="jump__in">
-    <a href="#news" id="j1">市场</a>
-    <a href="#topics" id="j2">话题</a>
+    <a href="#news" id="j1">Market</a>
+    <a href="#topics" id="j2">Topics</a>
     <button class="lang" id="lang" type="button">EN</button>
   </div>
 </nav>
@@ -113,16 +130,28 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
   <header>
     <p class="eyebrow">Coffee with Onlu ✦ NYC</p>
     <h1>AI data center<br><span class="grad">financing</span></h1>
-    <p class="facts" id="facts">周日 10月11日 · 2:00–4:00 PM · Midtown<br>coffeewithonlu.com</p>
+    <p class="facts" id="facts">Sunday, Oct 11 · 2:00–4:00 PM · Midtown<br>coffeewithonlu.com</p>
+
+    <div class="about">
+      <p class="about__p" id="a-lede"></p>
+      <ul id="a-list"></ul>
+      <div class="lock">
+        <span class="cup" id="cup"></span>
+        <div>
+          <div class="brand">coffeewithonlu.com</div>
+          <div class="tagline" id="a-tag"></div>
+        </div>
+      </div>
+    </div>
   </header>
 
-  <h2 id="news" style="--ac:var(--sky)"><span id="h-news">先看市场</span></h2>
-  <p class="intro" id="i-news">聊之前先对齐事实。以下都标了来源和日期，不是观点。</p>
+  <h2 id="news" style="--ac:var(--sky)"><span id="h-news">The market first</span></h2>
+  <p class="intro" id="i-news">Shared facts before opinions. Everything below is sourced and dated.</p>
   <div class="warn" id="w-news"></div>
   <div id="news-list"></div>
 
-  <h2 id="topics" style="--ac:var(--tiffany)"><span id="h-topics">讨论话题</span></h2>
-  <p class="intro" id="i-topics">六个方向，按现场兴趣推进，不用全讲。</p>
+  <h2 id="topics" style="--ac:var(--tiffany)"><span id="h-topics">Topics</span></h2>
+  <p class="intro" id="i-topics">Six directions. We’ll follow the room; no need to cover them all.</p>
   <div id="topics-list"></div>
 
   <p class="foot">
@@ -148,8 +177,24 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
               en:"Six directions. We'll follow the room; no need to cover them all." },
     j1:     { zh:"市场", en:"Market" },
     j2:     { zh:"话题", en:"Topics" },
-    src:    { zh:"来源", en:"Source" }
+    src:    { zh:"来源", en:"Source" },
+    aLede:  { zh:"<b>Coffee with Onlu</b> 是纽约金融圈的小桌咖啡局，按各自真正在做的事分桌。",
+              en:"<b>Coffee with Onlu</b> runs small-group coffees and dinners for people in finance in New York, grouped by what you actually do." },
+    aList:  { zh:["每桌 4–6 人，不是大型 mixer",
+                  "按子行业的周末咖啡，外加不定期的晚餐",
+                  "不推销，只认识真正值得认识的人"],
+              en:["Tables of 4–6, never a random mixer",
+                  "Weekend coffees by vertical, plus dinners",
+                  "No pitching — just the people worth knowing"] },
+    aTag:   { zh:"An Onlu Intel project · 从纽约开始",
+              en:"An Onlu Intel project · NYC first" }
   };
+
+  var CUP = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" ' +
+    'stroke-linecap="round" stroke-linejoin="round">' +
+    '<path d="M5 9h11v4a4 4 0 0 1-4 4H9a4 4 0 0 1-4-4V9Z"/>' +
+    '<path d="M16 10h2.4a2.4 2.4 0 0 1 0 4.8H16"/>' +
+    '<path d="M8 3.4c-.5 1 .5 1.6 0 2.6M11.5 3.4c-.5 1 .5 1.6 0 2.6"/></svg>';
 
   var NEWS = [
     { ac:"var(--pink)", fig:{zh:"5× → 2×", en:"5x → 2x"},
@@ -269,11 +314,17 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
               "How is this like a past CRE cycle, and how is it not"] }}
   ];
 
-  var lang = "zh";
-  try { if (localStorage.getItem("onlu-dc-lang") === "en") lang = "en"; } catch (e) {}
+  var lang = "en";
+  try { if (localStorage.getItem("onlu-dc-lang") === "zh") lang = "zh"; } catch (e) {}
+
+  document.getElementById("cup").innerHTML = CUP;
 
   function paint(){
     document.getElementById("facts").innerHTML   = UI.facts[lang];
+    document.getElementById("a-lede").innerHTML  = UI.aLede[lang];
+    document.getElementById("a-tag").textContent = UI.aTag[lang];
+    document.getElementById("a-list").innerHTML  =
+      UI.aList[lang].map(function(x){ return "<li>" + x + "</li>"; }).join("");
     document.getElementById("h-news").textContent = UI.hNews[lang];
     document.getElementById("i-news").textContent = UI.iNews[lang];
     document.getElementById("w-news").innerHTML   = UI.wNews[lang];
