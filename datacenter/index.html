@@ -92,6 +92,20 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
 .topic li{position:relative;padding-left:16px;font-size:.9rem;color:var(--muted);line-height:1.5;}
 .topic li::before{content:"";position:absolute;left:0;top:.6em;width:5px;height:5px;
   border-radius:50%;background:var(--ac,var(--tiffany));opacity:.75;}
+.topic__bg{margin-top:12px;}
+.topic__btn{width:100%;background:none;border:1px solid var(--line);border-radius:10px;
+  color:var(--dim);font:inherit;font-size:.76rem;font-family:var(--mono);letter-spacing:.1em;
+  text-transform:uppercase;padding:8px 12px;text-align:left;cursor:pointer;
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  -webkit-tap-highlight-color:transparent;}
+.topic__btn:active{color:var(--text);border-color:var(--ac,var(--tiffany));}
+.topic__btn span{transition:transform .2s;}
+.topic__bg.open .topic__btn span{transform:rotate(180deg);}
+.topic__body{padding:12px 2px 2px;}
+.topic__bg:not(.open) .topic__body{display:none;}
+.topic__body p{font-size:.88rem;color:var(--muted);line-height:1.6;}
+.topic__body p + p{margin-top:10px;}
+.topic__body b{color:var(--text);font-weight:600;}
 
 .foot{margin:44px 0 10px;padding-top:20px;border-top:1px solid var(--line);
   font-family:var(--mono);font-size:.72rem;color:var(--dim);line-height:1.8;}
@@ -187,7 +201,8 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
                   "Weekend coffees by vertical, plus dinners",
                   "No pitching — just the people worth knowing"] },
     aTag:   { zh:"An Onlu Intel project · 从纽约开始",
-              en:"An Onlu Intel project · NYC first" }
+              en:"An Onlu Intel project · NYC first" },
+    bg:     { zh:"背景", en:"Background" }
   };
 
   var CUP = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" ' +
@@ -286,60 +301,119 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
            en:"The legal critique is that these structures <b>separate economic risk from operational control</b>, obscure the true leverage of the underlying technology companies, and spread exposure across a long chain of lenders and intermediaries." },
          { zh:"<b>这个数字是二手转引，现场要用的话值得先核一下原始报告。</b>",
            en:"<b>This figure is second-hand; worth checking against the original report before anyone quotes it.</b>" }],
-      src:{ label:"Quinn Emanuel · Moody's (secondary)", url:"https://www.quinnemanuel.com/the-firm/publications/client-alert-emerging-litigation-risks-in-financing-ai-data-centers-boom/" }}
+      src:{ label:"Quinn Emanuel · Moody's (secondary)", url:"https://www.quinnemanuel.com/the-firm/publications/client-alert-emerging-litigation-risks-in-financing-ai-data-centers-boom/" }},
+
+    { ac:"var(--azure)", fig:{zh:"3–5 年", en:"3–5 years"},
+      t:{ zh:"约束可能是电，不是钱",
+          en:"The binding constraint may be power, not capital" },
+      p:[{ zh:"CREFC 的数据中心初级读本把两件事列为主要风险：<b>租户集中度（前五名约占需求的 73%）</b>，以及电力可得性 —— <b>并网排队 3–5 年</b>。",
+           en:"CREFC's data centre primer flags two principal risks: <b>tenant concentration, with the top five at about 73% of demand</b>, and power availability, with <b>interconnection queues of 3–5 years</b>." },
+         { zh:"企业申报文件里的数字更长：多数美国地区<b>排队 5–10 年</b>，一级市场 5–6 年。部分开发商转向<b>表后自发电</b>绕开电网队列。",
+           en:"Corporate filings cite longer: <b>five to ten years in most US regions</b>, five to six in primary markets. Some developers are turning to <b>behind-the-meter generation</b> to bypass the grid queue altogether." },
+         { zh:"<b>这改变了「残值」这个问题的性质。</b>如果电力接入要排五年，那已经拿到并网的场地，即使楼本身过时，也仍然稀缺。",
+           en:"<b>This changes what residual value means.</b> If an interconnect takes five years to secure, a site that already has one stays scarce even when the building itself is dated." }],
+      src:{ label:"CREFC data center e-primer", url:"https://www.crefc.org/common/Uploaded%20files/Learn/DataCenters-eprimer-2026.02.25.pdf" }},
+
+    { ac:"var(--indigo)", fig:{zh:"ABS ≠ CMBS", en:"ABS ≠ CMBS"},
+      t:{ zh:"同一个资产，两种失败方式",
+          en:"Same asset, two different failure modes" },
+      p:[{ zh:"<b>CMBS 以物业作押</b>，所以再融资取决于<b>估值</b>。<b>ABS 以租金收入作押</b>，所以再融资取决于<b>现金流是否延续</b>。同一栋楼，爆的方式不一样。超大规模厂商的 CMBS 通常只有一到两个租户。",
+           en:"<b>CMBS is secured by the property</b>, so refinancing turns on <b>valuation</b>. <b>ABS is backed by lease revenue</b>, so refinancing turns on <b>whether the cash flow continues</b>. Same building, different way of breaking. Hyperscale CMBS deals typically have one or two tenants." },
+         { zh:"评级机构各有一套：KBRA 2026 年 1 月的数据中心 ABS 方法论围绕净现金流、<b>租户违约与续租模拟</b>和摊还压力测试；穆迪另有一套 ABS 方法论，用<b>蒙特卡洛模拟租户违约</b>。",
+           en:"The agencies differ: KBRA's January 2026 data-centre ABS methodology is built on net cash flow, <b>tenant default and rollover simulation</b>, and amortisation stress; Moody's runs a separate ABS framework using <b>Monte Carlo simulation of tenant defaults</b>." },
+         { zh:"<b>一个值得注意的监管落差</b>：有 SEC 工作人员意见函把某些数据中心证券化<b>排除在《交易法》ABS 制度之外</b>（含风险自留和信息披露要求），而同样资产上的 SASB CMBS 仍受完整监管。<b>这是二手描述，要用请先核原文。</b>",
+           en:"<b>A regulatory gap worth noting</b>: an SEC staff letter reportedly places certain data-centre securitisations <b>outside the Exchange Act ABS regime</b>, including risk retention and reporting, while SASB CMBS on the same assets stays fully regulated. <b>This is a second-hand description; check the primary letter.</b>" },
+         { zh:"摩根士丹利预计 2026–28 美国数据中心证券化<b>净发行约 1300 亿美元，其中 ABS 约占 75%</b>。2026 年到 2 月的 ABS 发行为 41 亿。",
+           en:"Morgan Stanley projects about <b>$130bn of US data-centre securitised net issuance across 2026–28, roughly 75% of it ABS</b>. Issuance through February 2026 was $4.1bn." }],
+      src:{ label:"CREFC · Morgan Stanley · Alston", url:"https://www.alston.com/en/insights/publications/2026/08/data-center-securitizations-sec-regulations" }}
+
   ];
 
   var TOPICS = [
     { n:"01", ac:"var(--tiffany)",
       t:{ zh:"谁在放这个款", en:"Who is actually lending" },
+      bg:{ zh:["<b>这一摞资本各有各的退出方式。</b>银行做建设期贷款 —— 期限短、有抵押、资产稳定后就退出。私募信贷接那块更大、更长、结构更灵活的，并且持有到期。证券化把已经稳定出租的资产长期化。公司债则是超大规模厂商用自己的资产负债表直接借。",
+              "<b>两种解读。</b>私募信贷一方说，它赢在速度、规模和确定性，而且银行受资本规则限制本来就拿不住这类资产。怀疑的一方说，它赢只是因为它是唯一愿意接下这种流动性差、集中度高、久期长的敞口的资金池 —— 而且现在拿到的补偿比一年前还少。"],
+           en:["<b>Each layer of the stack has a different exit.</b> Banks do construction lending: short, secured, out at stabilisation. Private credit takes the larger, longer, structurally flexible piece and holds it. Securitisation terms out assets that are already leased and stabilised. Corporate bonds are the hyperscaler borrowing on its own balance sheet.",
+               "<b>Two readings.</b> Private credit says it wins on speed, size and certainty, for assets banks cannot hold under capital rules anyway. Sceptics say it wins because it is the only pool willing to take illiquid, concentrated, long-dated exposure — and is being paid less for it than a year ago."] },
       q:{ zh:["银行、私募信贷、证券化、公司债 —— 各自在这个资本结构的哪一层",
               "私募信贷拿到 8000 亿这一块，是因为更擅长，还是因为银行不能做",
               "你们机构碰这类资产吗？如果不碰，卡在哪一条"],
           en:["Banks, private credit, securitisation, corporate bonds: which layer does each sit in",
               "Is private credit's $800bn share about capability, or about what banks can't hold",
               "Does your shop touch this at all, and if not, what is the blocker"] }},
+
     { n:"02", ac:"var(--sky)",
       t:{ zh:"租约就是信用", en:"The lease is the credit" },
+      bg:{ zh:["<b>楼是专用的，所以违约时它值多少，取决于有没有另一个租客要这个地方、这个功率、这个密度。</b>债是按合约现金流来 size 的，不是按砖头。超大规模厂商承租和 neocloud 承租之间两三百 bp 的差，就是这句话的价格。",
+              "<b>两种解读。</b>乐观方：一份十五年的投资级租约，是企业信用里最接近基础设施的东西。怀疑方：租约的质量不会超过租客本身 —— 而这些租客里有几家的前瞻自由现金流已经转负。"],
+           en:["<b>The building is purpose-built, so what it is worth in a default depends on whether another tenant wants that location, that power, at that density.</b> The debt is sized against contracted cash flow, not against bricks. The two-to-three-hundred basis points between hyperscaler and neocloud paper is that sentence, priced.",
+               "<b>Two readings.</b> Optimists: a fifteen-year investment-grade lease is as close to infrastructure as corporate credit gets. Sceptics: a lease is never better than the tenant behind it, and several of these tenants now report negative forward free cash flow."] },
       q:{ zh:["同样的资产，超大规模厂商承租和 neocloud 承租差两三百 bp —— 这个差够不够",
               "租期和债期错配多少算可以接受",
               "如果租客违约，这栋楼能再租给谁"],
           en:["Two to three hundred basis points between a hyperscaler tenant and a neocloud: is that enough",
               "How much mismatch between lease term and debt tenor is acceptable",
               "If the tenant walks, who is the next tenant for that building"] }},
+
     { n:"03", ac:"var(--azure)",
       t:{ zh:"这到底是什么风险", en:"What kind of risk is this" },
+      bg:{ zh:["<b>你把它归成哪一类，决定了你盯哪个数字。</b>当房地产看：盯位置、电力、再出租。当 project finance 看：盯合约，并要求在租期内摊完。当技术资产看：盯机柜功率密度 —— 按几年前标准建的楼，可能根本等不到下一个租客。",
+              "<b>结构上这个分类不是空谈。</b>CMBS 以物业作押，再融资卡在估值；ABS 以租金作押，再融资卡在现金流。同一栋楼，两种爆法。评级机构已经分开建模：KBRA 做租户违约与续租模拟，穆迪用蒙特卡洛。"],
+           en:["<b>Which box you put it in decides which number you watch.</b> As real estate: location, power, re-leasing. As project finance: the contract, and amortising inside the lease. As a technology asset: rack density, where a building built to an older spec may never find its next tenant.",
+               "<b>The classification is not academic.</b> CMBS is secured by the property, so refinancing turns on valuation; ABS is backed by rent, so it turns on cash flow. Same building, two ways of breaking. The agencies already model them apart: KBRA simulates tenant default and rollover, Moody's runs Monte Carlo."] },
       q:{ zh:["房地产风险、企业风险，还是技术过时风险",
               "最耐久的资产其实是电力接入吗 —— 机柜功率密度在变，楼会不会提前过时",
               "你们内部是按 project finance、CRE 还是 corporate 来归类的"],
           en:["Real estate risk, corporate risk, or technology obsolescence risk",
               "Is the power interconnect the durable asset, given how fast rack density is moving",
               "Internally, do you book this as project finance, CRE, or corporate"] }},
+
     { n:"04", ac:"var(--indigo)",
       t:{ zh:"表外、SPV 与真实杠杆", en:"Off balance sheet, SPVs, real leverage" },
+      bg:{ zh:["<b>结构长这样：</b>一个 SPV 持有资产，科技公司拿少数股权外加一份长租约，基金方拿多数股权。债留在 SPV 里，不上科技公司的表 —— 但那份租约承诺是实打实的义务。按穆迪（二手转引）的数，这类承诺约 6620 亿，相当于这些公司调整后表内债务的 113%。",
+              "<b>两种解读。</b>发行方：经济实质是披露过的，租约也在报表附注里。批评方（含律所警示函）：这类结构把经济风险和运营控制权分开，掩盖了底层公司的真实杠杆，并把敞口摊到一长串放贷方和中介手上。"],
+           en:["<b>The shape of it:</b> an SPV holds the asset, the technology company takes a minority stake plus a long lease, the fund partner takes the majority. The debt stays in the SPV and off the technology company's balance sheet — but the lease commitment is a real obligation. Moody's, second-hand, puts those commitments near $662bn, or 113% of the same companies' adjusted on-balance-sheet debt.",
+               "<b>Two readings.</b> Issuers: the economics are disclosed and the lease is in the notes. Critics, including a law-firm alert: the structure separates economic risk from operational control, obscures true leverage, and spreads exposure across a long chain of lenders and intermediaries."] },
       q:{ zh:["Beignet 那种 80/20 的 SPV，经济实质上算谁的债",
               "6620 亿表外租赁承诺，分析师该怎么还原",
               "把经济风险和运营控制权分开，对债权人是好事还是坏事"],
           en:["In an 80/20 SPV like Beignet, whose debt is this in economic substance",
               "How should an analyst add back $662bn of off-balance-sheet lease commitments",
               "Separating economic risk from operational control: better or worse for a lender"] }},
+
     { n:"05", ac:"var(--tiffany3)",
       t:{ zh:"股权方和债权方的分歧", en:"Where equity and debt disagree" },
+      bg:{ zh:["<b>两边买的根本不是同一样东西。</b>股权买的是残值和再出租的选择权，所以必须对第 15 年有判断。债权买的是合约现金流，希望在租期之内摊完。只要债的久期不超过租期，债理论上可以对 AI 这个论点不持观点。",
+              "<b>分歧出现在久期错配的那一刻。</b>债权说只要租约覆盖就行；股权说债其实也在赌 AI，只是没承认、也没定价。<b>真正的检验不是名义期限，是摊还曲线</b> —— 到期时还剩多少本金要靠再融资。"],
+           en:["<b>They are not buying the same thing.</b> Equity buys residual value and re-leasing optionality, so it has to have a view on year fifteen. Debt buys contracted cash flow and wants to amortise inside the lease. As long as debt tenor stays within lease term, debt can genuinely stay agnostic on AI.",
+               "<b>The disagreement starts at the mismatch.</b> Debt says the lease covers it. Equity says debt is long the AI thesis too and has neither admitted nor priced it. <b>The real test is not the stated tenor but the amortisation profile</b> — how much principal is still outstanding when the lease runs out."] },
       q:{ zh:["股权要赌第 15 年的残值，债权只要租期覆盖债期 —— 两边谁更乐观",
               "做 infra PE 的怎么看现在的入场估值",
               "债的久期一旦超过租约，债其实也在赌 AI，这个有没有被定价"],
           en:["Equity underwrites year-fifteen residual, debt just wants the lease to cover: who is more optimistic",
               "From the infra PE side, what do entry valuations look like now",
               "Once debt tenor passes the lease, debt is taking the AI thesis too. Is that priced"] }},
+
     { n:"06", ac:"var(--pink)",
       t:{ zh:"如果出问题，从哪里先开始", en:"Where it breaks first" },
+      bg:{ zh:["<b>三个候选触发点。</b>再融资：某笔 ABS 因为收入没达标而长期化失败。租客：某个 neocloud 付不出租金。电力：项目没能按期并网 —— CREFC 说排队 3–5 年，有申报文件说多数美国地区要 5–10 年。",
+              "<b>两种解读。</b>需求侧读法：认购倍数从 5 倍到 2 倍，说明这是融资条件的问题，会重新定价但不至于违约。资产侧读法：前五大租户约占需求的 73%，<b>集中度意味着一个租客的麻烦就是整个市场的麻烦</b>。"],
+           en:["<b>Three candidate triggers.</b> Refinancing: an ABS that cannot term out because revenue fell short. Tenant: a neocloud that cannot pay. Power: a project that cannot energise on schedule — CREFC puts queues at 3–5 years, and filings cite five to ten in most US regions.",
+               "<b>Two readings.</b> The demand-side read: cover ratios going 5x to 2x is a financing-conditions problem that reprices rather than defaults. The asset-side read: with the top five tenants at roughly 73% of demand, <b>concentration means one tenant's trouble is the market's trouble</b>."] },
       q:{ zh:["Cover ratio 从 5 倍掉到 2 倍，是估值问题还是流动性问题",
               "先出事的会是 neocloud 承租的资产、二线运营商，还是某个具体地区的电力",
               "这轮和过去的 CRE 周期，像在哪、不像在哪"],
           en:["Cover ratios from 5x to 2x: a valuation problem or a liquidity problem",
               "Does it start with neocloud-leased assets, second-tier operators, or power in one region",
               "How is this like a past CRE cycle, and how is it not"] }},
+
     { n:"07", ac:"var(--tiffany2)",
       t:{ zh:"谁在给谁兜底", en:"Who is backstopping whom" },
+      bg:{ zh:["<b>兜底的作用是把一个投机级的信用变成可融资的信用。</b>供应商承诺按约定价租回闲置算力，等于给放贷方一个现金流地板 —— 而供应商自己账上不记这笔贷款。正在谈的保险安排会再推一步：把这个风险从供应商的资产负债表挪到保险公司的。",
+              "<b>两种解读。</b>支持方：这是常规的供应商支持，帮一个全新的资产类别降低融资门槛。批评方：同一方同时是芯片供应商、股东、需求兜底方和最后贷款人，<b>对冲和敞口压在同一个地方</b> —— 真出事的时候，兜底的人和需要被兜底的人是同一批。"],
+           en:["<b>A backstop turns a speculative credit into a financeable one.</b> The supplier promises to rent back idle capacity at an agreed rate, which gives the lender a cash-flow floor — while the supplier books no loan. The insurance discussions would push it one step further, moving the risk from the supplier's balance sheet onto insurers'.",
+               "<b>Two readings.</b> Supporters: ordinary vendor support, lowering the cost of capital for a genuinely new asset class. Critics: one party is at once chip supplier, shareholder, demand backstop and lender of last resort, so <b>the hedge and the exposure sit in the same place</b> — in a real downturn, the backstop and the thing needing backstopping are the same balance sheet."] },
       q:{ zh:["供应商承诺租回闲置 GPU，放贷方才敢放 —— 这算信用增级，还是只是把风险挪了个位置",
               "如果需求真的掉下来，兜底的那一方自己扛得住吗",
               "让保险公司承担 neocloud 的贷款损失，这个结构成立吗",
@@ -379,13 +453,31 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
       "</div>";
     }).join("");
 
+    var openBg = {};
+    document.querySelectorAll(".topic__bg.open").forEach(function(el){ openBg[el.dataset.n] = 1; });
+
     document.getElementById("topics-list").innerHTML = TOPICS.map(function(x){
       return '<div class="topic" style="--ac:' + x.ac + '">' +
         '<div class="topic__n">' + x.n + "</div>" +
         '<div class="topic__t">' + x.t[lang] + "</div>" +
         "<ul>" + x.q[lang].map(function(q){ return "<li>" + q + "</li>"; }).join("") + "</ul>" +
+        '<div class="topic__bg' + (openBg[x.n] ? " open" : "") + '" data-n="' + x.n + '">' +
+          '<button class="topic__btn" type="button" aria-expanded="' + (openBg[x.n] ? "true" : "false") + '">' +
+            UI.bg[lang] + "<span aria-hidden=\"true\">▾</span></button>" +
+          '<div class="topic__body">' +
+            x.bg[lang].map(function(p){ return "<p>" + p + "</p>"; }).join("") +
+          "</div>" +
+        "</div>" +
       "</div>";
     }).join("");
+
+    document.querySelectorAll(".topic__bg").forEach(function(el){
+      var btn = el.querySelector(".topic__btn");
+      btn.addEventListener("click", function(){
+        var o = el.classList.toggle("open");
+        btn.setAttribute("aria-expanded", o ? "true" : "false");
+      });
+    });
 
     document.getElementById("lang").textContent = lang === "en" ? "中文" : "EN";
     document.documentElement.lang = lang === "en" ? "en" : "zh";
