@@ -215,6 +215,32 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
            en:"Same concrete, same power. <b>Two to three hundred basis points of difference, all of it the counterparty on the lease.</b> The clearest evidence that the credit is the lease." }],
       src:{ label:"CCIR research", url:"https://ccir.io/research/data-center-bonds-price-the-tenant" }},
 
+    { ac:"var(--pink)", fig:{zh:"145 bp vs 95 bp", en:"145bp vs 95bp"},
+      t:{ zh:"Oracle：单一名字版本的同一个问题",
+          en:"Oracle: the same question at issuer level" },
+      p:[{ zh:"Oracle 2026 年 2 月 1 日公告，计划在 2026 自然年<b>筹集 450–500 亿美元</b>，债和股大致各半，用于给 OpenAI 等大客户建产能。2025 年 9 月它曾<b>一天之内卖掉 180 亿美元债券</b>。",
+           en:"Oracle disclosed on February 1, 2026 a plan to raise <b>$45–50bn in gross proceeds</b> during calendar 2026, roughly half debt and half equity, to build capacity for large customers including OpenAI. In September 2025 it had sold <b>$18bn of bonds in a single day</b>." },
+         { zh:"代价是明确的：十年期那一档预计<b>比美债高约 145 个 bp</b>，而同为 BBB 的公司平均约 95 个。<b>穆迪对其 Baa2 评级给了负面展望</b>，警告债务可能升到盈利的 4 倍。",
+           en:"The cost is visible: the ten-year tranche was expected to price about <b>145bp over Treasuries</b> against roughly 95bp for the average BBB name. <b>Moody's has a negative outlook on its Baa2 rating</b>, warning debt could reach 4x earnings." },
+         { zh:"市场的反应：据 Axios 引 PitchBook 数据，Oracle <b>2055 年到期的债在 77 美分</b>附近交易。另有二手来源称其 CDS 在 2026 年 7 月升到约 2.03%，接近 18 年高位 —— <b>这个数字是二手的，要用先核。</b>",
+           en:"The market's answer: Axios, citing PitchBook, reports Oracle's <b>2055 maturities trading near 77 cents</b>. Secondary sources put its CDS around 2.03% in July 2026, near an 18-year high — <b>that one is second-hand; check it before quoting.</b>" },
+         { zh:"2026 年 1 月 14 日，一群债券持有人在纽约州法院提起集体诉讼，指控那笔 180 亿发行文件<b>未披露后续还需大举举债</b>。Oracle 回应称新融资并非只为 OpenAI。",
+           en:"On January 14, 2026 a proposed class of bondholders sued in New York state court, alleging the $18bn offering documents <b>failed to disclose that more debt would be needed</b>. Oracle says the new raises are not solely for OpenAI." }],
+      src:{ label:"Oracle IR · Axios · 2026-09-25", url:"https://www.axios.com/2026/09/25/oracle-debt-data-centers" }},
+
+    { ac:"var(--tiffany2)", fig:{zh:"Nvidia 兜底", en:"Nvidia backstops"},
+      t:{ zh:"供应商在给自己的客户做担保",
+          en:"The supplier is backstopping its own customers" },
+      p:[{ zh:"机制很直接：如果 neocloud 的客户没填满算力，<b>Nvidia 按约定价格把闲置 GPU 租回来</b>。这等于给放贷方一个地板价，小运营商因此借得到钱。作为交换，Nvidia 在地板价之上<b>分走一部分云收入</b>。",
+           en:"The mechanism is simple: if a neocloud's customers do not fill the capacity, <b>Nvidia rents the idle GPUs back at an agreed rate</b>. That gives lenders a floor, which is what lets smaller operators borrow at all. In exchange Nvidia takes <b>a share of cloud revenue above that floor</b>." },
+         { zh:"另据 FT（经 Bisnow 转引），Nvidia 正在<b>和保险公司谈，由保险方承担 neocloud 购卡贷款的损失</b>。谈判处于早期，目前没有达成的协议。",
+           en:"Separately, the FT (via Bisnow) reports Nvidia is <b>in talks with insurers to have them absorb losses on loans made to neoclouds to buy its GPUs</b>. The talks are early and no agreements are in place." },
+         { zh:"争论点：Nvidia 同时是<b>芯片供应商、股东、最后贷款人和需求兜底方</b>。黄仁勋被问到这算不算循环融资时回答不算。批评者认为，就算单笔安排不构成，整个闭环是。",
+           en:"The argument: Nvidia is simultaneously <b>chip supplier, equity holder, lender of last resort and demand backstop</b>. Asked whether this is circular financing, Jensen Huang said no. Critics accept that for any single arrangement while calling the overall loop exactly that." },
+         { zh:"<b>规模数字不要引用。</b>公开流传的版本从 63 亿（CoreWeave 申报文件里的上限，至 2032 年）到 1050 亿（担保）到 1250 亿（某平台中 Nvidia 可能承担的部分）都有 —— <b>这些在量的不是同一件事</b>，而且多数来自博客和论坛。要用请回到 Nvidia 的 10-Q 和 CoreWeave 的申报文件。",
+           en:"<b>Do not quote the headline numbers.</b> Figures in circulation run from $6.3bn (a cap in CoreWeave's filings, through 2032) to $105bn (guarantees) to $125bn (Nvidia's possible share of one financing platform). <b>These measure different things</b>, and most come from blogs and forums. Go to Nvidia's 10-Q and CoreWeave's filings before relying on any of them." }],
+      src:{ label:"DCD · Bisnow / FT", url:"https://www.datacenterdynamics.com/en/news/nvidia-acts-as-backstop-for-customer-gpus-in-return-for-cut-of-cloud-revenue/" }},
+
     { ac:"var(--azure)", fig:{zh:"$194B / 半年", en:"$194bn / half-year"},
       t:{ zh:"发行量的量级",
           en:"The scale of issuance" },
@@ -311,7 +337,17 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
               "这轮和过去的 CRE 周期，像在哪、不像在哪"],
           en:["Cover ratios from 5x to 2x: a valuation problem or a liquidity problem",
               "Does it start with neocloud-leased assets, second-tier operators, or power in one region",
-              "How is this like a past CRE cycle, and how is it not"] }}
+              "How is this like a past CRE cycle, and how is it not"] }},
+    { n:"07", ac:"var(--tiffany2)",
+      t:{ zh:"谁在给谁兜底", en:"Who is backstopping whom" },
+      q:{ zh:["供应商承诺租回闲置 GPU，放贷方才敢放 —— 这算信用增级，还是只是把风险挪了个位置",
+              "如果需求真的掉下来，兜底的那一方自己扛得住吗",
+              "让保险公司承担 neocloud 的贷款损失，这个结构成立吗",
+              "Oracle 这种押在少数几个客户承诺上的发行人，集中度该怎么定价"],
+          en:["A supplier promising to rent back idle GPUs is what makes lenders lend. Credit enhancement, or risk moved sideways",
+              "If demand actually falls, is the party providing the backstop good for it",
+              "Asking insurers to absorb neocloud loan losses: does that structure hold",
+              "For an issuer borrowing against a few customers' commitments, how do you price the concentration"] }}
   ];
 
   var lang = "en";
