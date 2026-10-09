@@ -87,6 +87,18 @@
       full: false,
       partiful: "",  // add this coffee's Partiful link here
     },
+    {
+      title: "AI data center financing",
+      vertical: "AI / Infra Financing",
+      formVertical: "AI / Infra Financing",
+      iso: "2026-10-11",
+      date: "Sunday, Oct 11",
+      time: "2:00–4:00 PM",
+      place: "",                        // add the neighbourhood once it's set
+      note: "",
+      full: false,
+      partiful: "",  // add this coffee's Partiful link here
+    },
   ];
 
   // Keep only events today or later (events without an `iso` always show).

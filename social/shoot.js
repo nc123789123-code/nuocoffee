@@ -6,10 +6,10 @@ const OUT = process.argv[2] || path.join(__dirname, "out");
 fs.mkdirSync(OUT, { recursive: true });
 
 const SHOTS = [
-  { id: "square",   file: "onlu-credit-0926-square-1080.png" },
-  { id: "portrait", file: "onlu-credit-0926-portrait-1080x1350.png" },
-  { id: "story",    file: "onlu-credit-0926-story-1080x1920.png" },
-  { id: "cn",       file: "onlu-credit-0926-cn-1080x1350.png" },
+  { id: "square",   file: "onlu-aidc-1011-square-1080.png" },
+  { id: "portrait", file: "onlu-aidc-1011-portrait-1080x1350.png" },
+  { id: "story",    file: "onlu-aidc-1011-story-1080x1920.png" },
+  { id: "cn",       file: "onlu-aidc-1011-cn-1080x1350.png" },
 ];
 
 (async () => {
