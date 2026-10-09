@@ -1,0 +1,113 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Coffee with Onlu — Instagram avatar</title>
+<link rel="stylesheet" href="fonts.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;800&family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap">
+<style>
+:root{
+  --bg:#0a1520; --text:#eef6fb; --muted:#93aec4; --dim:#6d8aa3;
+  --tiffany:#2ee0d0; --tiffany2:#9befe4; --sky:#4cc4ff; --pink:#ff4f9a;
+  --display:'Unbounded',system-ui,sans-serif;
+  --mono:'Space Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#2a2a2a;display:flex;flex-wrap:wrap;gap:40px;padding:40px;align-items:flex-start;
+  font-family:'Outfit',system-ui,sans-serif;}
+
+/* Instagram crops a square avatar to a circle, so the corners are thrown
+   away. The cup can run larger here than on a square-cropped avatar. */
+.mark{position:relative;width:1000px;height:1000px;overflow:hidden;
+  display:grid;place-items:center;isolation:isolate;}
+.mark.navy{background:var(--bg);}
+.mark.navy::before{content:"";position:absolute;width:900px;height:900px;border-radius:50%;
+  background:radial-gradient(circle,rgba(46,224,208,.4),transparent 62%);filter:blur(55px);z-index:-1;}
+.mark.grad{background:linear-gradient(135deg,var(--tiffany2) 0%,var(--tiffany) 28%,var(--sky) 60%,var(--pink) 100%);}
+.cup{width:640px;height:640px;display:block;}
+
+/* proof sheet: the mark at the sizes Instagram actually renders it */
+.proof{width:1000px;height:400px;background:#12161b;display:flex;align-items:center;
+  justify-content:center;gap:60px;padding:40px;}
+.spec{display:flex;flex-direction:column;align-items:center;gap:18px;}
+.circle{border-radius:50%;overflow:hidden;display:grid;place-items:center;flex:none;}
+.circle.navy{background:var(--bg);}
+.circle.grad{background:linear-gradient(135deg,var(--tiffany2) 0%,var(--tiffany) 28%,var(--sky) 60%,var(--pink) 100%);}
+.circle svg{display:block;}
+.ring{padding:4px;border-radius:50%;
+  background:linear-gradient(135deg,#f9ce34,#ee2a7b 55%,#6228d7);}
+.cap{font-family:var(--mono);font-size:15px;color:var(--dim);letter-spacing:.06em;text-align:center;}
+.cap b{display:block;color:var(--muted);font-size:16px;margin-bottom:3px;}
+</style>
+
+<!-- A · navy ground — matches the site -->
+<div class="mark navy" id="ig-navy">
+  <svg class="cup" viewBox="3.4 1.8 17.2 17" fill="none" stroke="url(#gN)"
+       stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <defs><linearGradient id="gN" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#9befe4"/><stop offset="32%" stop-color="#2ee0d0"/>
+      <stop offset="66%" stop-color="#4cc4ff"/><stop offset="100%" stop-color="#ff4f9a"/>
+    </linearGradient></defs>
+    <path d="M5 9h11v4a4 4 0 0 1-4 4H9a4 4 0 0 1-4-4V9Z"/>
+    <path d="M16 10h2.4a2.4 2.4 0 0 1 0 4.8H16"/>
+    <path d="M8 3.4c-.5 1 .5 1.6 0 2.6M11.5 3.4c-.5 1 .5 1.6 0 2.6"/>
+  </svg>
+</div>
+
+<!-- B · gradient ground — carries furthest at thumbnail size -->
+<div class="mark grad" id="ig-grad">
+  <svg class="cup" viewBox="3.4 1.8 17.2 17" fill="none" stroke="#081019"
+       stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 9h11v4a4 4 0 0 1-4 4H9a4 4 0 0 1-4-4V9Z"/>
+    <path d="M16 10h2.4a2.4 2.4 0 0 1 0 4.8H16"/>
+    <path d="M8 3.4c-.5 1 .5 1.6 0 2.6M11.5 3.4c-.5 1 .5 1.6 0 2.6"/>
+  </svg>
+</div>
+
+<!-- C · proof sheet at real Instagram sizes -->
+<div class="proof" id="ig-proof">
+  <div class="spec">
+    <div class="circle navy" style="width:150px;height:150px;"></div>
+    <div class="cap"><b>Profile</b>150px · navy</div>
+  </div>
+  <div class="spec">
+    <div class="circle grad" style="width:150px;height:150px;"></div>
+    <div class="cap"><b>Profile</b>150px · gradient</div>
+  </div>
+  <div class="spec">
+    <span class="ring"><span class="circle grad" style="width:64px;height:64px;"></span></span>
+    <div class="cap"><b>Story ring</b>64px</div>
+  </div>
+  <div class="spec">
+    <div class="circle navy" style="width:34px;height:34px;"></div>
+    <div class="cap"><b>In feed</b>34px · navy</div>
+  </div>
+  <div class="spec">
+    <div class="circle grad" style="width:34px;height:34px;"></div>
+    <div class="cap"><b>In feed</b>34px · gradient</div>
+  </div>
+</div>
+
+<script>
+var CUP='<path d="M5 9h11v4a4 4 0 0 1-4 4H9a4 4 0 0 1-4-4V9Z"/>'+
+        '<path d="M16 10h2.4a2.4 2.4 0 0 1 0 4.8H16"/>'+
+        '<path d="M8 3.4c-.5 1 .5 1.6 0 2.6M11.5 3.4c-.5 1 .5 1.6 0 2.6"/>';
+
+// Fill each preview circle with the mark at ~64% of the circle, as on the
+// full-size avatars, so the proof sheet shows the real proportions.
+document.querySelectorAll('.proof .circle').forEach(function(el, i){
+  var d = parseInt(el.style.width, 10);
+  var s = Math.round(d * 0.64);
+  var dark = el.classList.contains('grad');
+  var id = 'pg' + i;
+  el.innerHTML =
+    '<svg width="'+s+'" height="'+s+'" viewBox="3.4 1.8 17.2 17" fill="none" ' +
+      'stroke="'+(dark ? '#081019' : 'url(#'+id+')')+'" stroke-width="1.6" ' +
+      'stroke-linecap="round" stroke-linejoin="round">' +
+      (dark ? '' :
+        '<defs><linearGradient id="'+id+'" x1="0" y1="0" x2="1" y2="1">' +
+        '<stop offset="0%" stop-color="#9befe4"/><stop offset="32%" stop-color="#2ee0d0"/>' +
+        '<stop offset="66%" stop-color="#4cc4ff"/><stop offset="100%" stop-color="#ff4f9a"/>' +
+        '</linearGradient></defs>') +
+      CUP +
+    '</svg>';
+});
+</script>

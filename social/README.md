@@ -57,3 +57,19 @@ The marks sit inside the centre ~84% of the square, so a circular crop takes
 nothing off. `logo.html` draws that safe circle as a guide; `shoot-logo.js` hides
 it before the screenshot.
 
+## Instagram avatar
+
+`logo-ig.html` is a separate set, because Instagram crops to a circle and throws
+the corners away — so the cup runs larger than it can on a square-cropped avatar.
+
+| File | What it is |
+|---|---|
+| `onlu-ig-avatar-gradient-1000.png` | navy cup on gradient — the one to use |
+| `onlu-ig-avatar-1000.png` | gradient cup on navy, matching the site |
+| `onlu-ig-sizes-preview.png` | proof sheet: the mark circle-cropped at 150px, 64px and 34px |
+
+The gradient ground wins because an Instagram avatar is rendered at roughly 34px
+in the feed, where a dark mark on a dark ground stops reading. Render all three
+with the inline script in the repo history, or screenshot `#ig-navy`,
+`#ig-grad` and `#ig-proof` from `logo-ig.html`.
+
