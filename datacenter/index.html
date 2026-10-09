@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>AI Data Center Financing — Coffee with Onlu</title>
+<meta name="description" content="Discussion topics and recent market context for the Onlu AI data centre financing coffee, NYC." />
+<meta name="robots" content="noindex" />
+<meta name="theme-color" content="#0a1520" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%232ee0d0%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M5%209h11v4a4%204%200%200%201-4%204H9a4%204%200%200%201-4-4V9Z%22%2F%3E%3Cpath%20d%3D%22M16%2010h2.4a2.4%202.4%200%200%201%200%204.8H16%22%2F%3E%3Cpath%20d%3D%22M8%203.4c-.5%201%20.5%201.6%200%202.6M11.5%203.4c-.5%201%20.5%201.6%200%202.6%22%2F%3E%3C%2Fsvg%3E" />
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@600;800&family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+
+:root{
+  --bg:#0a1520; --surface:rgba(255,255,255,.035);
+  --text:#eef6fb; --muted:#93aec4; --dim:#6d8aa3; --line:rgba(150,200,230,.14);
+  --tiffany:#2ee0d0; --tiffany2:#9befe4; --tiffany3:#0fa89f;
+  --sky:#4cc4ff; --azure:#4d84ff; --indigo:#8a9bff; --pink:#ff4f9a;
+  --display:'Unbounded',system-ui,sans-serif;
+  --body:'Outfit',system-ui,-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
+  --mono:'Space Mono',ui-monospace,'Courier New',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:var(--body);font-size:16px;
+  line-height:1.55;-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%;
+  padding-bottom:60px;overflow-x:hidden;}
+
+.fx{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
+.blob{position:absolute;border-radius:50%;filter:blur(90px);}
+.b1{width:80vw;height:80vw;top:-26vh;right:-30vw;
+  background:radial-gradient(circle,var(--tiffany),transparent 68%);opacity:.22;}
+.b2{width:75vw;height:75vw;bottom:-14vh;left:-30vw;
+  background:radial-gradient(circle,var(--pink),transparent 68%);opacity:.13;}
+.wrap{position:relative;z-index:1;max-width:680px;margin-inline:auto;padding:0 18px;}
+
+.jump{position:sticky;top:0;z-index:20;background:rgba(6,14,22,.9);
+  -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line);}
+.jump__in{max-width:680px;margin-inline:auto;padding:10px 18px;
+  display:flex;gap:8px;align-items:center;}
+.jump a{font-family:var(--mono);font-size:.72rem;font-weight:700;letter-spacing:.06em;
+  color:var(--muted);text-decoration:none;padding:7px 13px;border-radius:999px;
+  border:1px solid var(--line);background:var(--surface);-webkit-tap-highlight-color:transparent;}
+.jump a:active{color:var(--text);border-color:var(--tiffany);}
+.jump .lang{margin-left:auto;font-family:var(--mono);font-weight:700;font-size:.7rem;
+  letter-spacing:.1em;color:var(--muted);background:var(--surface);
+  border:1px solid var(--line);border-radius:999px;padding:7px 13px;cursor:pointer;
+  -webkit-tap-highlight-color:transparent;}
+
+header{padding:32px 0 6px;}
+.eyebrow{font-family:var(--mono);text-transform:uppercase;letter-spacing:.18em;
+  font-size:.68rem;font-weight:700;color:var(--tiffany2);}
+h1{font-family:var(--display);font-weight:800;letter-spacing:-.025em;line-height:1.06;
+  font-size:clamp(1.8rem,8vw,2.6rem);margin:.32em 0 .34em;}
+.grad{background:linear-gradient(100deg,var(--tiffany2),var(--tiffany) 30%,var(--sky) 58%,var(--pink) 92%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;}
+.facts{font-family:var(--mono);font-size:.78rem;color:var(--dim);letter-spacing:.04em;line-height:1.7;}
+
+h2{font-family:var(--display);font-weight:600;letter-spacing:-.015em;font-size:1.1rem;
+  margin:40px 0 8px;display:flex;align-items:center;gap:9px;scroll-margin-top:60px;}
+h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
+  background:var(--ac,var(--tiffany));box-shadow:0 0 12px var(--ac,var(--tiffany));}
+.intro{font-size:.9rem;color:var(--muted);margin-bottom:14px;}
+
+.warn{padding:13px 15px;border-radius:13px;margin-bottom:12px;
+  border:1px solid rgba(255,79,154,.3);background:rgba(255,79,154,.09);
+  font-size:.86rem;color:#ffc9de;line-height:1.55;}
+.warn b{color:#fff;}
+
+/* news item */
+.news{border:1px solid var(--line);border-radius:14px;background:var(--surface);
+  padding:15px;margin-bottom:10px;border-left:3px solid var(--ac,var(--tiffany));}
+.news__fig{font-family:var(--display);font-weight:800;letter-spacing:-.02em;
+  font-size:1.5rem;line-height:1.1;color:var(--ac,var(--tiffany));margin-bottom:5px;}
+.news__t{font-weight:600;font-size:.98rem;margin-bottom:7px;}
+.news__p{font-size:.9rem;color:var(--muted);line-height:1.55;}
+.news__p + .news__p{margin-top:7px;}
+.news__p b{color:var(--text);font-weight:600;}
+.news__src{margin-top:10px;font-family:var(--mono);font-size:.68rem;letter-spacing:.03em;
+  color:var(--dim);}
+.news__src a{color:var(--tiffany3);text-decoration:none;border-bottom:1px solid rgba(15,168,159,.4);}
+
+/* topic */
+.topic{border:1px solid var(--line);border-radius:14px;background:var(--surface);
+  padding:15px;margin-bottom:10px;border-left:3px solid var(--ac,var(--tiffany));}
+.topic__n{font-family:var(--mono);font-size:.64rem;font-weight:700;letter-spacing:.14em;
+  color:var(--ac,var(--tiffany));}
+.topic__t{font-weight:600;font-size:1rem;margin:5px 0 9px;}
+.topic ul{list-style:none;display:flex;flex-direction:column;gap:7px;}
+.topic li{position:relative;padding-left:16px;font-size:.9rem;color:var(--muted);line-height:1.5;}
+.topic li::before{content:"";position:absolute;left:0;top:.6em;width:5px;height:5px;
+  border-radius:50%;background:var(--ac,var(--tiffany));opacity:.75;}
+
+.foot{margin:44px 0 10px;padding-top:20px;border-top:1px solid var(--line);
+  font-family:var(--mono);font-size:.72rem;color:var(--dim);line-height:1.8;}
+.foot a{color:var(--tiffany2);}
+</style>
+</head>
+<body>
+<div class="fx"><span class="blob b1"></span><span class="blob b2"></span></div>
+
+<nav class="jump">
+  <div class="jump__in">
+    <a href="#news" id="j1">市场</a>
+    <a href="#topics" id="j2">话题</a>
+    <button class="lang" id="lang" type="button">EN</button>
+  </div>
+</nav>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">Coffee with Onlu ✦ NYC</p>
+    <h1>AI data center<br><span class="grad">financing</span></h1>
+    <p class="facts" id="facts">周日 10月11日 · 2:00–4:00 PM · Midtown<br>coffeewithonlu.com</p>
+  </header>
+
+  <h2 id="news" style="--ac:var(--sky)"><span id="h-news">先看市场</span></h2>
+  <p class="intro" id="i-news">聊之前先对齐事实。以下都标了来源和日期，不是观点。</p>
+  <div class="warn" id="w-news"></div>
+  <div id="news-list"></div>
+
+  <h2 id="topics" style="--ac:var(--tiffany)"><span id="h-topics">讨论话题</span></h2>
+  <p class="intro" id="i-topics">六个方向，按现场兴趣推进，不用全讲。</p>
+  <div id="topics-list"></div>
+
+  <p class="foot">
+    Coffee with Onlu · <a href="/">coffeewithonlu.com</a><br>
+    An Onlu Intel project · NYC
+  </p>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  var UI = {
+    facts:  { zh:"周日 10月11日 · 2:00–4:00 PM · Midtown<br>coffeewithonlu.com",
+              en:"Sunday, Oct 11 · 2:00–4:00 PM · Midtown<br>coffeewithonlu.com" },
+    hNews:  { zh:"先看市场", en:"The market first" },
+    iNews:  { zh:"聊之前先对齐事实。以下都标了来源和日期，不是观点。",
+              en:"Shared facts before opinions. Everything below is sourced and dated." },
+    wNews:  { zh:"<b>数字按来源原样引用。</b>口径不一，同一个 2025 年发行总额不同机构报出 1080 亿、1090 亿、1210 亿美元三个版本，差别多半在统计了哪些公司和哪类债。当成量级看，别当精确值引用。",
+              en:"<b>Figures are quoted as reported.</b> Definitions differ: 2025 issuance appears as $108bn, $109bn and $121bn depending on the source, mostly reflecting which companies and which instruments were counted. Treat these as orders of magnitude, not precise values." },
+    hTop:   { zh:"讨论话题", en:"Topics" },
+    iTop:   { zh:"六个方向，按现场兴趣推进，不用全讲。",
+              en:"Six directions. We'll follow the room; no need to cover them all." },
+    j1:     { zh:"市场", en:"Market" },
+    j2:     { zh:"话题", en:"Topics" },
+    src:    { zh:"来源", en:"Source" }
+  };
+
+  var NEWS = [
+    { ac:"var(--pink)", fig:{zh:"5× → 2×", en:"5x → 2x"},
+      t:{ zh:"需求侧的缓冲在变薄",
+          en:"The demand buffer is thinning" },
+      p:[{ zh:"超大规模厂商发债的 <b>cover ratio</b>（认购倍数）从 2026 年 2 月的约 5 倍降到 7 月的约 2 倍。同一批债，愿意接的钱少了一半还多。",
+           en:"Cover ratios on hyperscaler bond deals fell from roughly <b>5x in February 2026 to about 2x in July</b>. The same paper, less than half the demand behind it." },
+         { zh:"9 月 16 日 Apollo 进一步警告，超大规模厂商债务的 <b>CDS 定价显示风险在上升</b>，而且有几家的前瞻自由现金流已经转负。",
+           en:"On September 16 Apollo warned that <b>credit default swaps on hyperscaler debt are pricing more risk</b>, and that several of these companies now report negative forward free cash flow." }],
+      src:{ label:"CNBC / Apollo · 2026-09-16", url:"https://www.cnbc.com/2026/09/16/hyperscaler-debt-signals-warning-sign-apollo-cautions.html" }},
+
+    { ac:"var(--tiffany)", fig:{zh:"5.70% – 9.875%", en:"5.70% – 9.875%"},
+      t:{ zh:"定价直接由租客决定",
+          en:"The tenant sets the coupon" },
+      p:[{ zh:"2025 年 10 月到 2026 年 9 月定价的数据中心债里，<b>超大规模厂商承租的票息在 5.70%–7.875%</b>，而 <b>CoreWeave 承租的在 7.00%–9.875%</b>。",
+           en:"Across data-centre bonds priced October 2025 to September 2026, <b>hyperscaler-leased paper came at 5.70%–7.875%</b> while <b>CoreWeave-leased paper came at 7.00%–9.875%</b>." },
+         { zh:"同样的钢筋水泥、同样的电力接入，<b>差两三百个 bp，差的全是租约对手方</b>。这是「信用就是租约」最直接的证据。",
+           en:"Same concrete, same power. <b>Two to three hundred basis points of difference, all of it the counterparty on the lease.</b> The clearest evidence that the credit is the lease." }],
+      src:{ label:"CCIR research", url:"https://ccir.io/research/data-center-bonds-price-the-tenant" }},
+
+    { ac:"var(--azure)", fig:{zh:"$194B / 半年", en:"$194bn / half-year"},
+      t:{ zh:"发行量的量级",
+          en:"The scale of issuance" },
+      p:[{ zh:"超大规模厂商的债券总发行从 2025 全年约 <b>1090 亿美元</b>，到 <b>2026 上半年就约 1940 亿</b>。高盛预计 2027 年达到约 <b>4200 亿</b>，比 2026 再增六成。",
+           en:"Hyperscaler gross bond issuance went from about <b>$109bn in all of 2025</b> to roughly <b>$194bn in the first half of 2026 alone</b>. Goldman expects about <b>$420bn in 2027</b>, up 60% on 2026." },
+         { zh:"有估算认为未来五年这个行业需要约 <b>4 万亿美元</b>的债务 —— 相当于全球私募信贷规模的 143%、美国公司债市场的 34%。<b>这个量级的供给本身就是利差的驱动因素。</b>",
+           en:"One estimate puts the five-year debt need at about <b>$4 trillion</b>, equal to 143% of global private credit and 34% of the US corporate bond market. <b>Supply at that scale is itself a spread driver.</b>" }],
+      src:{ label:"Sage Advisory · Tunguz", url:"https://www.sageadvisory.com/article/hyperscaler-debt-deluge-the-new-driver-of-ig-spread-pressure" }},
+
+    { ac:"var(--indigo)", fig:{zh:"$800B", en:"$800bn"},
+      t:{ zh:"私募信贷是最大的一块",
+          en:"Private credit is the biggest piece" },
+      p:[{ zh:"摩根士丹利对约 1.5 万亿美元外部融资缺口的拆分：<b>私募信贷约 8000 亿</b>，公司债约 2000 亿，证券化约 1500 亿。",
+           en:"Morgan Stanley's split of the roughly $1.5tn external financing gap: <b>about $800bn from private credit</b>, around $200bn from corporate bonds, about $150bn from securitised products." },
+         { zh:"主要放款方是 Blackstone、Blue Owl、Apollo、Pimco、BlackRock —— 走表外 SPV 和直贷两条路。",
+           en:"The main originators are Blackstone, Blue Owl, Apollo, Pimco and BlackRock, lending through off-balance-sheet SPVs and direct facilities." }],
+      src:{ label:"iCapital", url:"https://icapital.com/insights/investment-market-strategy/icapital-market-pulse-data-center-infrastructure-moving-from-cash-to-debt/" }},
+
+    { ac:"var(--tiffany3)", fig:{zh:"$30B", en:"$30bn"},
+      t:{ zh:"两笔标志性交易",
+          en:"The two landmark deals" },
+      p:[{ zh:"<b>Meta Hyperion（路易斯安那，2025 年 10 月）</b>：史上最大的私募信贷数据中心交易。设了一个叫 Beignet Investor 的 SPV，Blue Owl 持 80%、Meta 持 20%，约 270 亿债务来自 Pimco、BlackRock、Apollo 等，30 亿股权来自 Blue Owl。",
+           en:"<b>Meta's Hyperion campus (Louisiana, October 2025)</b>: the largest private credit data-centre deal on record. An SPV called Beignet Investor, 80% Blue Owl and 20% Meta, with roughly $27bn of debt from Pimco, BlackRock, Apollo and others plus $3bn of Blue Owl equity." },
+         { zh:"<b>Blackstone / QTS（2025 年 11 月）</b>：35 亿美元 CMBS 单一资产单一借款人交易，当年最大的一笔 CMBS，背后约 10 个 QTS 的 AI 数据中心。",
+           en:"<b>Blackstone / QTS (November 2025)</b>: a $3.5bn single-asset single-borrower CMBS, the largest CMBS of the year, backed by around ten QTS AI data centres." }],
+      src:{ label:"Quinn Emanuel client alert", url:"https://www.quinnemanuel.com/the-firm/publications/client-alert-emerging-litigation-risks-in-financing-ai-data-centers-boom/" }},
+
+    { ac:"var(--sky)", fig:{zh:"$27B → $30–40B", en:"$27bn → $30–40bn"},
+      t:{ zh:"证券化在长，但还是小众",
+          en:"Securitisation is growing, still niche" },
+      p:[{ zh:"数据中心证券化年发行量 2025 年约 <b>270 亿美元</b>，摩根大通预计 2026 和 2027 都在 <b>300–400 亿</b>。放在整个融资缺口里仍是小头。",
+           en:"Annual data-centre securitisation ran near <b>$27bn in 2025</b>; JPMorgan projects <b>$30–40bn</b> in both 2026 and 2027. Still a small share of the overall gap." },
+         { zh:"几乎全是 <b>144A 私募</b>，因为 SEC 的 Reg AB 定义套不上运营方偏好的 master trust 结构。SEC 正在考虑改定义，<b>但还没有最终规则</b> —— 真改了，公开发行的门会打开。",
+           en:"Nearly all of it is <b>144A private placement</b>, because the SEC's Regulation AB definition does not fit the master trust structure operators prefer. The SEC is weighing a change, <b>but no final rule exists</b>. If it lands, registered public offerings open up." }],
+      src:{ label:"L&G America", url:"https://am.landg.us.com/insights/insights-blog/2026/securitized-credit-financing-data-centers/" }},
+
+    { ac:"var(--pink)", fig:{zh:"113%", en:"113%"},
+      t:{ zh:"表外的那部分",
+          en:"What sits off balance sheet" },
+      p:[{ zh:"据穆迪（经二手来源转引），超大规模厂商有约 <b>6620 亿美元</b>的数据中心租赁承诺在表外，相当于这些公司<b>调整后表内债务的 113%</b>。",
+           en:"Moody's, as relayed by secondary sources, puts hyperscaler data-centre lease commitments off balance sheet at about <b>$662bn</b> — equal to <b>113% of those companies' adjusted on-balance-sheet debt</b>." },
+         { zh:"法律界的批评是，这类结构<b>把经济风险和运营控制权分开</b>，掩盖了底层科技公司的真实杠杆，并把敞口分散到一长串放贷方和中介手里。",
+           en:"The legal critique is that these structures <b>separate economic risk from operational control</b>, obscure the true leverage of the underlying technology companies, and spread exposure across a long chain of lenders and intermediaries." },
+         { zh:"<b>这个数字是二手转引，现场要用的话值得先核一下原始报告。</b>",
+           en:"<b>This figure is second-hand; worth checking against the original report before anyone quotes it.</b>" }],
+      src:{ label:"Quinn Emanuel · Moody's (secondary)", url:"https://www.quinnemanuel.com/the-firm/publications/client-alert-emerging-litigation-risks-in-financing-ai-data-centers-boom/" }}
+  ];
+
+  var TOPICS = [
+    { n:"01", ac:"var(--tiffany)",
+      t:{ zh:"谁在放这个款", en:"Who is actually lending" },
+      q:{ zh:["银行、私募信贷、证券化、公司债 —— 各自在这个资本结构的哪一层",
+              "私募信贷拿到 8000 亿这一块，是因为更擅长，还是因为银行不能做",
+              "你们机构碰这类资产吗？如果不碰，卡在哪一条"],
+          en:["Banks, private credit, securitisation, corporate bonds: which layer does each sit in",
+              "Is private credit's $800bn share about capability, or about what banks can't hold",
+              "Does your shop touch this at all, and if not, what is the blocker"] }},
+    { n:"02", ac:"var(--sky)",
+      t:{ zh:"租约就是信用", en:"The lease is the credit" },
+      q:{ zh:["同样的资产，超大规模厂商承租和 neocloud 承租差两三百 bp —— 这个差够不够",
+              "租期和债期错配多少算可以接受",
+              "如果租客违约，这栋楼能再租给谁"],
+          en:["Two to three hundred basis points between a hyperscaler tenant and a neocloud: is that enough",
+              "How much mismatch between lease term and debt tenor is acceptable",
+              "If the tenant walks, who is the next tenant for that building"] }},
+    { n:"03", ac:"var(--azure)",
+      t:{ zh:"这到底是什么风险", en:"What kind of risk is this" },
+      q:{ zh:["房地产风险、企业风险，还是技术过时风险",
+              "最耐久的资产其实是电力接入吗 —— 机柜功率密度在变，楼会不会提前过时",
+              "你们内部是按 project finance、CRE 还是 corporate 来归类的"],
+          en:["Real estate risk, corporate risk, or technology obsolescence risk",
+              "Is the power interconnect the durable asset, given how fast rack density is moving",
+              "Internally, do you book this as project finance, CRE, or corporate"] }},
+    { n:"04", ac:"var(--indigo)",
+      t:{ zh:"表外、SPV 与真实杠杆", en:"Off balance sheet, SPVs, real leverage" },
+      q:{ zh:["Beignet 那种 80/20 的 SPV，经济实质上算谁的债",
+              "6620 亿表外租赁承诺，分析师该怎么还原",
+              "把经济风险和运营控制权分开，对债权人是好事还是坏事"],
+          en:["In an 80/20 SPV like Beignet, whose debt is this in economic substance",
+              "How should an analyst add back $662bn of off-balance-sheet lease commitments",
+              "Separating economic risk from operational control: better or worse for a lender"] }},
+    { n:"05", ac:"var(--tiffany3)",
+      t:{ zh:"股权方和债权方的分歧", en:"Where equity and debt disagree" },
+      q:{ zh:["股权要赌第 15 年的残值，债权只要租期覆盖债期 —— 两边谁更乐观",
+              "做 infra PE 的怎么看现在的入场估值",
+              "债的久期一旦超过租约，债其实也在赌 AI，这个有没有被定价"],
+          en:["Equity underwrites year-fifteen residual, debt just wants the lease to cover: who is more optimistic",
+              "From the infra PE side, what do entry valuations look like now",
+              "Once debt tenor passes the lease, debt is taking the AI thesis too. Is that priced"] }},
+    { n:"06", ac:"var(--pink)",
+      t:{ zh:"如果出问题，从哪里先开始", en:"Where it breaks first" },
+      q:{ zh:["Cover ratio 从 5 倍掉到 2 倍，是估值问题还是流动性问题",
+              "先出事的会是 neocloud 承租的资产、二线运营商，还是某个具体地区的电力",
+              "这轮和过去的 CRE 周期，像在哪、不像在哪"],
+          en:["Cover ratios from 5x to 2x: a valuation problem or a liquidity problem",
+              "Does it start with neocloud-leased assets, second-tier operators, or power in one region",
+              "How is this like a past CRE cycle, and how is it not"] }}
+  ];
+
+  var lang = "zh";
+  try { if (localStorage.getItem("onlu-dc-lang") === "en") lang = "en"; } catch (e) {}
+
+  function paint(){
+    document.getElementById("facts").innerHTML   = UI.facts[lang];
+    document.getElementById("h-news").textContent = UI.hNews[lang];
+    document.getElementById("i-news").textContent = UI.iNews[lang];
+    document.getElementById("w-news").innerHTML   = UI.wNews[lang];
+    document.getElementById("h-topics").textContent = UI.hTop[lang];
+    document.getElementById("i-topics").textContent = UI.iTop[lang];
+    document.getElementById("j1").textContent = UI.j1[lang];
+    document.getElementById("j2").textContent = UI.j2[lang];
+
+    document.getElementById("news-list").innerHTML = NEWS.map(function(x){
+      return '<div class="news" style="--ac:' + x.ac + '">' +
+        '<div class="news__fig">' + x.fig[lang] + "</div>" +
+        '<div class="news__t">' + x.t[lang] + "</div>" +
+        x.p.map(function(p){ return '<div class="news__p">' + p[lang] + "</div>"; }).join("") +
+        '<div class="news__src">' + UI.src[lang] + ": " +
+          '<a href="' + x.src.url + '" target="_blank" rel="noopener">' + x.src.label + "</a></div>" +
+      "</div>";
+    }).join("");
+
+    document.getElementById("topics-list").innerHTML = TOPICS.map(function(x){
+      return '<div class="topic" style="--ac:' + x.ac + '">' +
+        '<div class="topic__n">' + x.n + "</div>" +
+        '<div class="topic__t">' + x.t[lang] + "</div>" +
+        "<ul>" + x.q[lang].map(function(q){ return "<li>" + q + "</li>"; }).join("") + "</ul>" +
+      "</div>";
+    }).join("");
+
+    document.getElementById("lang").textContent = lang === "en" ? "中文" : "EN";
+    document.documentElement.lang = lang === "en" ? "en" : "zh";
+  }
+
+  document.getElementById("lang").addEventListener("click", function(){
+    lang = lang === "en" ? "zh" : "en";
+    try { localStorage.setItem("onlu-dc-lang", lang); } catch (e) {}
+    paint();
+  });
+  paint();
+})();
+</script>
+</body>
+</html>
