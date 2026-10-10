@@ -107,6 +107,15 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
 .topic__body p + p{margin-top:10px;}
 .topic__body b{color:var(--text);font-weight:600;}
 
+/* the table */
+.seats{display:grid;grid-template-columns:1fr;gap:8px;}
+@media (min-width:520px){ .seats{grid-template-columns:1fr 1fr;} }
+.seat{display:flex;align-items:center;gap:11px;padding:11px 14px;
+  border:1px solid var(--line);border-radius:12px;background:var(--surface);
+  font-size:.92rem;line-height:1.35;}
+.seat .dot{width:8px;height:8px;border-radius:50%;flex:none;
+  background:var(--ac);box-shadow:0 0 10px var(--ac);}
+
 .foot{margin:44px 0 10px;padding-top:20px;border-top:1px solid var(--line);
   font-family:var(--mono);font-size:.72rem;color:var(--dim);line-height:1.8;}
 .foot a{color:var(--tiffany2);}
@@ -135,6 +144,7 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
 <nav class="jump">
   <div class="jump__in">
     <a href="#news" id="j1">Market</a>
+    <a href="#room" id="j0">Room</a>
     <a href="#topics" id="j2">Topics</a>
     <button class="lang" id="lang" type="button">EN</button>
   </div>
@@ -158,6 +168,10 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
       </div>
     </div>
   </header>
+
+  <h2 id="room" style="--ac:var(--tiffany2)"><span id="h-room">The table</span></h2>
+  <p class="intro" id="i-room">Twelve seats, by what people do.</p>
+  <div class="seats" id="seats"></div>
 
   <h2 id="news" style="--ac:var(--sky)"><span id="h-news">The market first</span></h2>
   <p class="intro" id="i-news">Shared facts before opinions. Everything below is sourced and dated.</p>
@@ -202,8 +216,26 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
                   "No pitching — just the people worth knowing"] },
     aTag:   { zh:"An Onlu Intel project · 从纽约开始",
               en:"An Onlu Intel project · NYC first" },
-    bg:     { zh:"背景", en:"Background" }
+    bg:     { zh:"背景", en:"Background" },
+    hRoom:  { zh:"同桌的人", en:"The table" },
+    iRoom:  { zh:"十二个位子，只写各自在做什么。", en:"Twelve seats, by what people do." },
+    j0:     { zh:"同桌", en:"Room" }
   };
+
+  var SEATS = [
+    { ac:"var(--pink)",     n:{ zh:"投行 · 金融机构组",   en:"Investment Banking · FIG" } },
+    { ac:"var(--pink)",     n:{ zh:"投行 · 结构化融资",   en:"Investment Banking · Structured Finance" } },
+    { ac:"var(--indigo)",   n:{ zh:"工业 PE · 数据中心",  en:"Industrial PE · Data Center Infra" } },
+    { ac:"var(--tiffany3)", n:{ zh:"地产金融 · 商业地产", en:"Real Estate Finance · CRE" } },
+    { ac:"var(--tiffany)",  n:{ zh:"私募资本 · 项目承揽", en:"Private Capital Origination" } },
+    { ac:"var(--sky)",      n:{ zh:"AI 投资",             en:"AI Investing" } },
+    { ac:"var(--sky)",      n:{ zh:"TMT · 数据中心投资",  en:"TMT · Data Center Investing" } },
+    { ac:"var(--tiffany)",  n:{ zh:"私募信贷 · 资产抵押", en:"Private Credit · Asset-Based" } },
+    { ac:"var(--tiffany)",  n:{ zh:"私募信贷",            en:"Private Credit" } },
+    { ac:"var(--azure)",    n:{ zh:"消费信贷",            en:"Consumer Credit" } },
+    { ac:"var(--tiffany3)", n:{ zh:"地产",                en:"Real Estate" } },
+    { ac:"var(--azure)",    n:{ zh:"项目融资 · 新人",     en:"Project Finance · Early Career" } }
+  ];
 
   var CUP = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" ' +
     'stroke-linecap="round" stroke-linejoin="round">' +
@@ -442,6 +474,14 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
     document.getElementById("i-topics").textContent = UI.iTop[lang];
     document.getElementById("j1").textContent = UI.j1[lang];
     document.getElementById("j2").textContent = UI.j2[lang];
+    document.getElementById("j0").textContent = UI.j0[lang];
+    document.getElementById("h-room").textContent = UI.hRoom[lang];
+    document.getElementById("i-room").textContent = UI.iRoom[lang];
+
+    document.getElementById("seats").innerHTML = SEATS.map(function(s){
+      return '<div class="seat" style="--ac:' + s.ac + '">' +
+        '<span class="dot"></span><span>' + s.n[lang] + "</span></div>";
+    }).join("");
 
     document.getElementById("news-list").innerHTML = NEWS.map(function(x){
       return '<div class="news" style="--ac:' + x.ac + '">' +
