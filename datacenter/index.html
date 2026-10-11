@@ -39,13 +39,14 @@ body{background:var(--bg);color:var(--text);font-family:var(--body);font-size:16
   -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
   border-bottom:1px solid var(--line);}
 .jump__in{max-width:680px;margin-inline:auto;padding:10px 18px;
-  display:flex;gap:8px;align-items:center;}
-.jump a{font-family:var(--mono);font-size:.72rem;font-weight:700;letter-spacing:.06em;
-  color:var(--muted);text-decoration:none;padding:7px 13px;border-radius:999px;
+  display:flex;gap:8px;align-items:center;overflow-x:auto;scrollbar-width:none;}
+.jump__in::-webkit-scrollbar{display:none;}
+.jump a{flex:none;white-space:nowrap;font-family:var(--mono);font-size:.72rem;font-weight:700;
+  letter-spacing:.06em;color:var(--muted);text-decoration:none;padding:7px 13px;border-radius:999px;
   border:1px solid var(--line);background:var(--surface);-webkit-tap-highlight-color:transparent;}
 .jump a:active{color:var(--text);border-color:var(--tiffany);}
-.jump .lang{margin-left:auto;font-family:var(--mono);font-weight:700;font-size:.7rem;
-  letter-spacing:.1em;color:var(--muted);background:var(--surface);
+.jump .lang{margin-left:auto;flex:none;white-space:nowrap;font-family:var(--mono);font-weight:700;
+  font-size:.7rem;letter-spacing:.1em;color:var(--muted);background:var(--surface);
   border:1px solid var(--line);border-radius:999px;padding:7px 13px;cursor:pointer;
   -webkit-tap-highlight-color:transparent;}
 
@@ -143,8 +144,9 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
 
 <nav class="jump">
   <div class="jump__in">
-    <a href="#news" id="j1">Market</a>
     <a href="#room" id="j0">Room</a>
+    <a href="#chain" id="j3">Chain</a>
+    <a href="#news" id="j1">Market</a>
     <a href="#topics" id="j2">Topics</a>
     <button class="lang" id="lang" type="button">EN</button>
   </div>
@@ -172,6 +174,13 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
   <h2 id="room" style="--ac:var(--tiffany2)"><span id="h-room">The table</span></h2>
   <p class="intro" id="i-room">Twelve seats, by what people do.</p>
   <div class="seats" id="seats"></div>
+
+  <h2 id="chain" style="--ac:var(--indigo)"><span id="h-chain">The chain</span></h2>
+  <p class="intro" id="i-chain">Who owns what, and where the money enters.</p>
+  <div id="chain-list"></div>
+
+  <h2 id="geo" style="--ac:var(--tiffany3)"><span id="h-geo">Where, in the US</span></h2>
+  <div id="geo-list"></div>
 
   <h2 id="news" style="--ac:var(--sky)"><span id="h-news">The market first</span></h2>
   <p class="intro" id="i-news">Shared facts before opinions. Everything below is sourced and dated.</p>
@@ -219,8 +228,68 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
     bg:     { zh:"背景", en:"Background" },
     hRoom:  { zh:"同桌的人", en:"The table" },
     iRoom:  { zh:"十二个位子，只写各自在做什么。", en:"Twelve seats, by what people do." },
-    j0:     { zh:"同桌", en:"Room" }
+    j0:     { zh:"同桌", en:"Room" },
+    j3:     { zh:"产业链", en:"Chain" },
+    hChain: { zh:"产业链", en:"The chain" },
+    iChain: { zh:"谁拥有什么，钱从哪一环进去。", en:"Who owns what, and where the money enters." },
+    hGeo:   { zh:"在美国哪里", en:"Where, in the US" }
   };
+
+  var CHAIN = [
+    { ac:"var(--tiffany3)", k:{ zh:"01", en:"01" },
+      t:{ zh:"土地与开发商", en:"Land and developers" },
+      p:{ zh:"拿地、拿电、拿许可，把壳建起来，然后卖给运营方或做 build-to-suit。<b>最稀缺的从来不是地，是电力接入。</b>",
+          en:"Secure the land, the power and the permits, build the shell, then sell to an operator or deliver build-to-suit. <b>The scarce input is never the land, it is the interconnect.</b>" }},
+    { ac:"var(--tiffany)", k:{ zh:"02", en:"02" },
+      t:{ zh:"运营方 / 托管商", en:"Operators and colocation" },
+      p:{ zh:"建好并运营带电的空间，租给多个租户，负责让基础设施一直跑着。所有权结构通常是 REIT 或基础设施组合。",
+          en:"Build and run powered space, lease it to multiple tenants, and keep the base facility running. Ownership is typically a REIT or an infrastructure portfolio." }},
+    { ac:"var(--tiffany2)", k:{ zh:"03", en:"03" },
+      t:{ zh:"REIT / 房东层", en:"The landlord layer" },
+      p:{ zh:"靠长期租约收租。租户付的是机柜空间、电力和互联三样东西 —— <b>这一层就是「租约即信用」那句话的实体。</b>",
+          en:"Collects rent on long leases. Tenants pay for rack space, power and connectivity — <b>this layer is where the lease-is-the-credit point physically lives.</b>" }},
+    { ac:"var(--azure)", k:{ zh:"04", en:"04" },
+      t:{ zh:"超大规模厂商", en:"Hyperscalers" },
+      p:{ zh:"自建和租赁并用 —— 有来源说 AWS 大致自有与租赁各半。他们<b>既是最大的租户，也是最大的自建方</b>，所以在这条链上同时出现在好几个位置。",
+          en:"Own much of their capacity and lease the rest; one source puts AWS at roughly half and half. They are <b>both the largest tenant and the largest builder</b>, which is why they appear at several points in the chain at once." }},
+    { ac:"var(--sky)", k:{ zh:"05", en:"05" },
+      t:{ zh:"Neocloud", en:"Neoclouds" },
+      p:{ zh:"专做 GPU 云。有的自建园区，有的是轻资产、直接向超大规模厂商或第三方租算力。<b>信用质量跨度极大 —— 债券上那两三百 bp 的差，差的就是这一格里的谁。</b>",
+          en:"Specialist GPU clouds. Some build their own campuses; the asset-light ones rent capacity from hyperscalers or third parties. <b>Credit quality varies enormously — the two-to-three-hundred basis points in the bond market is which name sits in this box.</b>" }},
+    { ac:"var(--indigo)", k:{ zh:"06", en:"06" },
+      t:{ zh:"芯片与设备", en:"Chips and equipment" },
+      p:{ zh:"名义上是卖方，实际上<b>同时是股东、需求兜底方和最后贷款人</b>。这一格在传统基建链条里本来不该承担信用风险 —— 现在它承担了。",
+          en:"Nominally the seller, in practice <b>also shareholder, demand backstop and lender of last resort</b>. In a conventional infrastructure chain this box carries no credit risk. Here it does." }},
+    { ac:"var(--pink)", k:{ zh:"07", en:"07" },
+      t:{ zh:"电力", en:"Power" },
+      p:{ zh:"公用事业、输电、变电站。超大规模厂商会直接跟公用事业谈高压输电和变电站。<b>整条链上最堵的一环，而且堵的方式是排队，不是涨价。</b>",
+          en:"Utilities, transmission, substations. Hyperscalers negotiate high-voltage transmission and substation work with utilities directly. <b>The tightest link in the chain — and it binds as a queue, not as a price.</b>" }}
+  ];
+
+  var GEO = [
+    { ac:"var(--tiffany)", fig:{ zh:"0.2%", en:"0.2%" },
+      t:{ zh:"北弗吉尼亚：最大，也最满", en:"Northern Virginia: the largest, and the fullest" },
+      p:[{ zh:"CBRE 2026 上半年：存量约 <b>4,496 MW</b>，<b>空置率 0.2%</b>，净吸纳 467.6 MW（全美最高），在建 2,420 MW。2025 年底时，2026 年的新增供给已经<b>预租掉 96%</b>。",
+           en:"CBRE, H1 2026: about <b>4,496 MW</b> of inventory, <b>0.2% vacancy</b>, 467.6 MW of net absorption (the most of any market), 2,420 MW under construction. At the end of 2025, <b>96% of 2026 supply was already pre-committed</b>." },
+         { zh:"JLL 的口径更宽，说北弗接近 <b>7 GW</b>，是全球最大的单一数据中心市场。<b>两家差这么多是因为统计范围不同，别混用。</b>",
+           en:"JLL counts a wider footprint and puts it near <b>7 GW</b>, the world's largest single data centre market. <b>The gap is definitional; do not mix the two.</b>" }] },
+    { ac:"var(--azure)", fig:{ zh:"TX 26 GW · VA 13 GW", en:"TX 26GW · VA 13GW" },
+      t:{ zh:"州层面：德州已经超过弗吉尼亚", en:"By state: Texas has passed Virginia" },
+      p:[{ zh:"JLL 口径下，<b>德州以 26 GW 总容量居首，弗吉尼亚 13 GW 第二</b>。单一市场看北弗最大，但按州算，重心已经在往南、往西移。",
+           en:"On JLL's numbers, <b>Texas leads with 26 GW of total capacity and Virginia follows at 13 GW</b>. Northern Virginia is still the biggest single market, but at state level the centre of gravity has moved south and west." }] },
+    { ac:"var(--sky)", fig:{ zh:"亚特兰大 2,882 MW", en:"Atlanta 2,882 MW" },
+      t:{ zh:"增长在往外扩散", en:"Growth is spreading out" },
+      p:[{ zh:"CBRE 2026 Q2 的存量排名是<b>北弗吉尼亚 → 亚特兰大 → 达拉斯-沃斯堡 → 凤凰城 → 芝加哥</b>。但看在建：<b>亚特兰大 2026 上半年在建 2,882 MW，比北弗还多。</b>",
+           en:"CBRE ranks existing markets <b>Northern Virginia, Atlanta, Dallas-Fort Worth, Phoenix, Chicago</b>. But on construction: <b>Atlanta had 2,882 MW underway in H1 2026, more than Northern Virginia's pipeline.</b>" },
+         { zh:"JLL 说 2026 上半年全美吸纳量创纪录 <b>25 GW</b>。",
+           en:"JLL puts H1 2026 absorption at a record <b>25 GW</b> nationally." }] },
+    { ac:"var(--pink)", fig:{ zh:"反直觉的一点", en:"The counter-intuitive bit" },
+      t:{ zh:"这跟传统地产周期是反的", en:"This is the inverse of a normal property cycle" },
+      p:[{ zh:"<b>空置率 0.2%、新增供给预租 96%，意味着现在的风险不在「租不出去」，而在「建不出来」。</b>电、变电站、并网排队 —— 瓶颈全在供给侧。",
+           en:"<b>At 0.2% vacancy with 96% of new supply pre-let, the risk is not failing to lease — it is failing to build.</b> Power, substations, interconnection queues: the bottleneck is entirely on the supply side." },
+         { zh:"普通 CRE 周期里，爆点是需求消失、楼空了。这里恰好相反 —— <b>所以把 CRE 那套框架直接套过来，可能会盯错指标。</b>",
+           en:"In an ordinary CRE cycle the break comes from demand vanishing and buildings emptying. Here it is the other way round — <b>so a CRE framework applied unchanged may have you watching the wrong number.</b>" }] }
+  ];
 
   var SEATS = [
     { ac:"var(--pink)",     n:{ zh:"投行 · 金融机构组",   en:"Investment Banking · FIG" } },
@@ -481,6 +550,26 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
     document.getElementById("j1").textContent = UI.j1[lang];
     document.getElementById("j2").textContent = UI.j2[lang];
     document.getElementById("j0").textContent = UI.j0[lang];
+    document.getElementById("j3").textContent = UI.j3[lang];
+    document.getElementById("h-chain").textContent = UI.hChain[lang];
+    document.getElementById("i-chain").textContent = UI.iChain[lang];
+    document.getElementById("h-geo").textContent = UI.hGeo[lang];
+
+    document.getElementById("chain-list").innerHTML = CHAIN.map(function(x){
+      return '<div class="news" style="--ac:' + x.ac + '">' +
+        '<div class="topic__n">' + x.k[lang] + "</div>" +
+        '<div class="news__t" style="margin-top:4px;">' + x.t[lang] + "</div>" +
+        '<div class="news__p">' + x.p[lang] + "</div>" +
+      "</div>";
+    }).join("");
+
+    document.getElementById("geo-list").innerHTML = GEO.map(function(x){
+      return '<div class="news" style="--ac:' + x.ac + '">' +
+        '<div class="news__fig">' + x.fig[lang] + "</div>" +
+        '<div class="news__t">' + x.t[lang] + "</div>" +
+        x.p.map(function(p){ return '<div class="news__p">' + p[lang] + "</div>"; }).join("") +
+      "</div>";
+    }).join("");
     document.getElementById("h-room").textContent = UI.hRoom[lang];
     document.getElementById("i-room").textContent = UI.iRoom[lang];
 
