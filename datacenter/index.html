@@ -117,6 +117,12 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
 .seat .dot{width:8px;height:8px;border-radius:50%;flex:none;
   background:var(--ac);box-shadow:0 0 10px var(--ac);}
 
+/* upstream layer list */
+.uplist{list-style:none;display:flex;flex-direction:column;gap:6px;}
+.uplist li{position:relative;padding-left:15px;font-size:.86rem;color:var(--muted);line-height:1.45;}
+.uplist li::before{content:"";position:absolute;left:0;top:.58em;width:4px;height:4px;
+  border-radius:50%;background:var(--ac,var(--tiffany));opacity:.8;}
+
 .foot{margin:44px 0 10px;padding-top:20px;border-top:1px solid var(--line);
   font-family:var(--mono);font-size:.72rem;color:var(--dim);line-height:1.8;}
 .foot a{color:var(--tiffany2);}
@@ -179,6 +185,11 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
   <p class="intro" id="i-chain">Who owns what, and where the money enters.</p>
   <div id="chain-list"></div>
 
+  <h2 id="up" style="--ac:var(--azure)"><span id="h-up">Further upstream</span></h2>
+  <p class="intro" id="i-up">Where the hardware itself is designed and made.</p>
+  <div id="up-list"></div>
+  <p class="news__src" id="up-note" style="margin:4px 2px 0;"></p>
+
   <h2 id="geo" style="--ac:var(--tiffany3)"><span id="h-geo">Where, in the US</span></h2>
   <div id="geo-list"></div>
 
@@ -232,8 +243,67 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
     j3:     { zh:"产业链", en:"Chain" },
     hChain: { zh:"产业链", en:"The chain" },
     iChain: { zh:"谁拥有什么，钱从哪一环进去。", en:"Who owns what, and where the money enters." },
-    hGeo:   { zh:"在美国哪里", en:"Where, in the US" }
+    hGeo:   { zh:"在美国哪里", en:"Where, in the US" },
+    hUp:    { zh:"再往上游", en:"Further upstream" },
+    iUp:    { zh:"硬件本身在哪里设计、在哪里造。", en:"Where the hardware itself is designed and made." },
+    upNote: { zh:"分层与地点取自群里流传的一张产业链图（2026.10.10，标注为「区域示意」）。公司与设施为代表性举例，不是完整名单，位置到城市/区域级。",
+              en:"Layers and locations follow a supply-chain chart circulating in the group (dated 2026.10.10, marked as schematic). Companies and sites are representative examples rather than a complete list, located to city or region level." }
   };
+
+  var UPSTREAM = [
+    { ac:"var(--indigo)",
+      t:{ zh:"设计与工具", en:"Design and tools" },
+      d:{ zh:"AI 芯片设计、EDA 与核心 IP", en:"AI chip design, EDA and core IP" },
+      l:{ zh:["NVIDIA、AMD、Intel、Broadcom、Marvell —— 加州湾区",
+              "Synopsys、Cadence（EDA）—— 加州湾区",
+              "Qualcomm —— 圣迭戈",
+              "Apple —— Cupertino"],
+          en:["NVIDIA, AMD, Intel, Broadcom, Marvell — Bay Area, CA",
+              "Synopsys, Cadence (EDA) — Bay Area, CA",
+              "Qualcomm — San Diego",
+              "Apple — Cupertino"] }},
+    { ac:"var(--tiffany)",
+      t:{ zh:"制造与存储", en:"Fabrication and memory" },
+      d:{ zh:"晶圆制造、工艺研发、先进封装与存储器", en:"Wafer fabrication, process R&D, advanced packaging and memory" },
+      l:{ zh:["TSMC、Intel —— 亚利桑那 Phoenix / Chandler（晶圆）",
+              "Intel —— 俄勒冈 Hillsboro（工艺研发与制造）",
+              "Intel —— 新墨西哥 Rio Rancho（先进封装）",
+              "Micron —— 爱达荷 Boise（总部与研发），纽约 Clay（项目）",
+              "GlobalFoundries —— 纽约 Malta",
+              "SK hynix —— 印第安纳 West Lafayette（项目）",
+              "Samsung —— 得州 Austin、Taylor（项目）"],
+          en:["TSMC, Intel — Phoenix / Chandler, AZ (wafer)",
+              "Intel — Hillsboro, OR (process R&D and manufacturing)",
+              "Intel — Rio Rancho, NM (advanced packaging)",
+              "Micron — Boise, ID (HQ and R&D); Clay, NY (project)",
+              "GlobalFoundries — Malta, NY",
+              "SK hynix — West Lafayette, IN (project)",
+              "Samsung — Austin and Taylor, TX (project)"] }},
+    { ac:"var(--sky)",
+      t:{ zh:"系统与互连", en:"Systems and interconnect" },
+      d:{ zh:"服务器、网络设备与高速光互连", en:"Servers, networking and high-speed optical interconnect" },
+      l:{ zh:["Supermicro、Cisco、Arista、Lumentum —— 加州湾区",
+              "Dell、HPE —— 得州 Round Rock / Spring",
+              "Samsung —— 得州 Austin",
+              "Texas Instruments —— 得州 Dallas / Richardson / Sherman"],
+          en:["Supermicro, Cisco, Arista, Lumentum — Bay Area, CA",
+              "Dell, HPE — Round Rock / Spring, TX",
+              "Samsung — Austin, TX",
+              "Texas Instruments — Dallas / Richardson / Sherman, TX"] }},
+    { ac:"var(--pink)",
+      t:{ zh:"能源与热管理", en:"Power and thermal" },
+      d:{ zh:"供电、配电、液冷及相关电力设备", en:"Power supply and distribution, liquid cooling and related electrical equipment" },
+      l:{ zh:["Vertiv —— 俄亥俄（供电与液冷）",
+              "GE Vernova —— 马萨诸塞，波士顿周边",
+              "Hubbell —— 康涅狄格 Shelton",
+              "Coherent —— 宾夕法尼亚 Saxonburg（光器件）",
+              "Teradyne、Analog Devices —— 马萨诸塞，波士顿周边"],
+          en:["Vertiv — Ohio (power and liquid cooling)",
+              "GE Vernova — Greater Boston, MA",
+              "Hubbell — Shelton, CT",
+              "Coherent — Saxonburg, PA (optical components)",
+              "Teradyne, Analog Devices — Greater Boston, MA"] }}
+  ];
 
   var CHAIN = [
     { ac:"var(--tiffany3)", k:{ zh:"01", en:"01" },
@@ -283,6 +353,12 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
            en:"CBRE ranks existing markets <b>Northern Virginia, Atlanta, Dallas-Fort Worth, Phoenix, Chicago</b>. But on construction: <b>Atlanta had 2,882 MW underway in H1 2026, more than Northern Virginia's pipeline.</b>" },
          { zh:"JLL 说 2026 上半年全美吸纳量创纪录 <b>25 GW</b>。",
            en:"JLL puts H1 2026 absorption at a record <b>25 GW</b> nationally." }] },
+    { ac:"var(--indigo)", fig:{ zh:"TX · AZ · OH · NY", en:"TX · AZ · OH · NY" },
+      t:{ zh:"上游和下游在抢同一张电网", en:"Upstream and downstream want the same grid" },
+      p:[{ zh:"把两张地图叠起来会发现几个州重复出现：<b>得州</b>（晶圆厂、服务器、模拟芯片，同时是全美容量最大的州，达拉斯是前三市场）、<b>亚利桑那</b>（TSMC 与 Intel 的晶圆厂，凤凰城是前五市场）、<b>俄亥俄</b>（供电与液冷设备，也是数据中心重地）、<b>纽约州</b>（Micron 与 GlobalFoundries 的项目）。",
+           en:"Overlay the two maps and the same states keep appearing: <b>Texas</b> (fabs, servers, analog, and the largest state by capacity with Dallas a top-three market), <b>Arizona</b> (TSMC and Intel fabs, Phoenix a top-five market), <b>Ohio</b> (power and liquid-cooling equipment, and a major data centre state), <b>New York</b> (the Micron and GlobalFoundries projects)." },
+         { zh:"<b>晶圆厂和数据中心争的是同样两件稀缺品：电力接入和熟练的施工人力。</b>所以并网排队的问题不只是数据中心自己的问题 —— 在这几个州，它是两个行业共同的约束。",
+           en:"<b>Fabs and data centres compete for the same two scarce inputs: interconnection and skilled construction labour.</b> So the queue is not only a data centre problem — in these states it is a constraint shared by two industries." }] },
     { ac:"var(--pink)", fig:{ zh:"反直觉的一点", en:"The counter-intuitive bit" },
       t:{ zh:"这跟传统地产周期是反的", en:"This is the inverse of a normal property cycle" },
       p:[{ zh:"<b>空置率 0.2%、新增供给预租 96%，意味着现在的风险不在「租不出去」，而在「建不出来」。</b>电、变电站、并网排队 —— 瓶颈全在供给侧。",
@@ -554,6 +630,17 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
     document.getElementById("h-chain").textContent = UI.hChain[lang];
     document.getElementById("i-chain").textContent = UI.iChain[lang];
     document.getElementById("h-geo").textContent = UI.hGeo[lang];
+    document.getElementById("h-up").textContent = UI.hUp[lang];
+    document.getElementById("i-up").textContent = UI.iUp[lang];
+    document.getElementById("up-note").textContent = UI.upNote[lang];
+
+    document.getElementById("up-list").innerHTML = UPSTREAM.map(function(x){
+      return '<div class="news" style="--ac:' + x.ac + '">' +
+        '<div class="news__t">' + x.t[lang] + "</div>" +
+        '<div class="news__p" style="margin-bottom:8px;">' + x.d[lang] + "</div>" +
+        '<ul class="uplist">' + x.l[lang].map(function(i){ return "<li>" + i + "</li>"; }).join("") + "</ul>" +
+      "</div>";
+    }).join("");
 
     document.getElementById("chain-list").innerHTML = CHAIN.map(function(x){
       return '<div class="news" style="--ac:' + x.ac + '">' +
