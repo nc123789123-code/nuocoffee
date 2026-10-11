@@ -152,6 +152,7 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
   <div class="jump__in">
     <a href="#room" id="j0">Room</a>
     <a href="#chain" id="j3">Chain</a>
+    <a href="#hyper" id="j4">Hyperscalers</a>
     <a href="#news" id="j1">Market</a>
     <a href="#topics" id="j2">Topics</a>
     <button class="lang" id="lang" type="button">EN</button>
@@ -184,6 +185,11 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
   <h2 id="chain" style="--ac:var(--indigo)"><span id="h-chain">The chain</span></h2>
   <p class="intro" id="i-chain">Who owns what, and where the money enters.</p>
   <div id="chain-list"></div>
+
+  <h2 id="hyper" style="--ac:var(--azure)"><span id="h-hyper">The hyperscalers</span></h2>
+  <p class="intro" id="i-hyper">One name, several roles in the same deal.</p>
+  <div id="hyper-list"></div>
+  <p class="news__src" id="hyper-note" style="margin:4px 2px 0;"></p>
 
   <h2 id="up" style="--ac:var(--azure)"><span id="h-up">Further upstream</span></h2>
   <p class="intro" id="i-up">Where the hardware itself is designed and made.</p>
@@ -245,10 +251,51 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
     iChain: { zh:"谁拥有什么，钱从哪一环进去。", en:"Who owns what, and where the money enters." },
     hGeo:   { zh:"在美国哪里", en:"Where, in the US" },
     hUp:    { zh:"再往上游", en:"Further upstream" },
+    j4:     { zh:"超大厂商", en:"Hyperscalers" },
+    hHyp:   { zh:"超大规模厂商", en:"The hyperscalers" },
+    iHyp:   { zh:"同一个名字，在同一笔交易里有好几重身份。", en:"One name, several roles in the same deal." },
+    hypNote:{ zh:"这一节的机制细节主要来自行业评论和 Substack 分析，不是申报文件。具体公司的处理方式要看各自 10-K 的租赁附注和 VIE 披露，以及评级机构对单笔 SPV 交易的报告。",
+              en:"The mechanics here come mostly from trade commentary and Substack analysis rather than filings. For how any single company treats this, go to the lease footnotes and VIE disclosures in its 10-K, and to rating agency reports on the individual SPV deals." },
     iUp:    { zh:"硬件本身在哪里设计、在哪里造。", en:"Where the hardware itself is designed and made." },
     upNote: { zh:"分层与地点取自群里流传的一张产业链图（2026.10.10，标注为「区域示意」）。公司与设施为代表性举例，不是完整名单，位置到城市/区域级。",
               en:"Layers and locations follow a supply-chain chart circulating in the group (dated 2026.10.10, marked as schematic). Companies and sites are representative examples rather than a complete list, located to city or region level." }
   };
+
+  var HYPER = [
+    { ac:"var(--azure)", fig:{ zh:"五重身份", en:"Five roles" },
+      t:{ zh:"同一个名字出现在好几个位置", en:"The same name sits in several boxes" },
+      p:[{ zh:"<b>租户</b> —— 签长租约，而这份租约就是 SPV 还款的来源。<b>自建方</b> —— 自有与租赁并用，有来源说 AWS 大致各半。<b>发行人</b> —— 在公司债市场直接发债（2026 上半年这一群体毛发行约 1940 亿美元）。",
+           en:"<b>Tenant</b> — signs the long lease, and that lease is what repays the SPV. <b>Owner</b> — builds and owns alongside what it leases; one source puts AWS at roughly half and half. <b>Issuer</b> — borrows directly in the corporate bond market, where this group's gross issuance ran about $194bn in H1 2026." },
+         { zh:"<b>SPV 股东</b> —— 在 Hyperion 那种结构里拿少数股权（Meta 20%，Blue Owl 管理的基金 80%）。<b>残值担保方</b> —— 这一条才是真正的信用增级，见下一张卡。",
+           en:"<b>Equity in the SPV</b> — a minority stake in structures like Hyperion (Meta 20%, Blue Owl-managed funds 80%). <b>Residual value guarantor</b> — the one that actually provides the credit enhancement, below." },
+         { zh:"<b>所以「对某家公司的敞口」不是一个数字。</b>同一个名字可能同时是你的租户、你的发行人、你交易对手的股东，以及残值的兜底方 —— 而其中只有一部分在它自己的资产负债表上。",
+           en:"<b>So exposure to any one of these names is not a single number.</b> The same company can be your tenant, your issuer, your counterparty's equity partner and the backstop on residual value at once — and only some of that sits on its own balance sheet." }] },
+
+    { ac:"var(--tiffany)", fig:{ zh:"残值担保", en:"Residual value" },
+      t:{ zh:"真正的信用支持不是担保，是租约加残值", en:"The credit support is the lease plus a residual value guarantee" },
+      p:[{ zh:"超大规模厂商一般<b>不直接担保 SPV 的债</b>。它做的是把「直接还债」换成「付租金」，由租金去还 SPV 的债。",
+           en:"The hyperscaler usually <b>does not guarantee the SPV's debt directly</b>. It substitutes servicing the debt with paying rent, and the rent repays the SPV." },
+         { zh:"<b>真正的保护是残值担保</b>：如果租客走了、楼卖掉的钱不够还清未偿债务，租客补上差额。这是债权人最实在的一层。",
+           en:"<b>The real protection is the residual value guarantee</b>: if the tenant leaves and the building sells for less than the debt outstanding, the tenant covers the shortfall. That is the lender's most concrete layer." },
+         { zh:"<b>但这层保护会被租约结构削弱。</b>有报道称，部分 20 年的租约承诺被拆成<b>五个四年期</b>，等于给了租客中途退出的节点。<b>问题就变成：残值担保跟着哪一段走？</b>",
+           en:"<b>But lease structure can weaken it.</b> Some twenty-year commitments are reported to have been split into <b>five four-year terms</b>, which hands the tenant exit points along the way. <b>The question becomes: which term does the residual value guarantee attach to?</b>" }] },
+
+    { ac:"var(--pink)", fig:{ zh:"9% → 32%", en:"9% → 32%" },
+      t:{ zh:"资本开支里借来的部分在快速上升", en:"A fast-rising share of capex is borrowed" },
+      p:[{ zh:"据行业统计，债务占这群公司资本开支的比重<b>从 2024 财年的 9% 升到 2026 年中的约 32%</b>（滚动口径）。同期有报道称某家的表外融资租赁从两年前的约 260 亿升到约 <b>1080 亿美元</b>。",
+           en:"On trade estimates, debt went from <b>9% of this group's capex in fiscal 2024 to about 32% on a trailing basis by mid-2026</b>. Over the same period one company's off-balance-sheet finance leases are reported to have gone from about $26bn to roughly <b>$108bn</b>." },
+         { zh:"摩根士丹利预计到 2028 年，AI 基础设施在<b>资产层和 SPV 层</b>的融资需求约 8000 亿美元。",
+           en:"Morgan Stanley projects roughly $800bn of <b>asset-level and SPV</b> financing need for AI infrastructure by 2028." },
+         { zh:"<b>这些数字都来自行业评论而非申报文件，别直接引用。</b>要用请查各家 10-K 的租赁附注。",
+           en:"<b>These come from trade commentary rather than filings; do not quote them directly.</b> Go to the lease footnotes in each 10-K." }] },
+
+    { ac:"var(--indigo)", fig:{ zh:"VIE", en:"VIE" },
+      t:{ zh:"会计上它算谁的", en:"Whose entity is it, in the accounts" },
+      p:[{ zh:"有分析指出，这些 SPV 常被当作<b>可变利益实体（VIE）</b>处理，因为作为唯一租户的敞口大于其股权比例 —— 20% 的股权，100% 的使用。",
+           en:"Analysts note these SPVs are often treated as <b>variable interest entities</b>, because exposure as the sole tenant exceeds the equity stake — 20% of the equity, 100% of the use." },
+         { zh:"<b>所以这一节真正的问题不是「表内还是表外」，而是「并表的判断踩在哪条线上」</b> —— 这条线一动，整个行业的杠杆读数就变了。",
+           en:"<b>So the live question is not on or off balance sheet, but where the consolidation line is drawn</b> — move that line and the sector's reported leverage changes with it." }] }
+  ];
 
   var UPSTREAM = [
     { ac:"var(--indigo)",
@@ -631,6 +678,18 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
     document.getElementById("i-chain").textContent = UI.iChain[lang];
     document.getElementById("h-geo").textContent = UI.hGeo[lang];
     document.getElementById("h-up").textContent = UI.hUp[lang];
+    document.getElementById("j4").textContent = UI.j4[lang];
+    document.getElementById("h-hyper").textContent = UI.hHyp[lang];
+    document.getElementById("i-hyper").textContent = UI.iHyp[lang];
+    document.getElementById("hyper-note").textContent = UI.hypNote[lang];
+
+    document.getElementById("hyper-list").innerHTML = HYPER.map(function(x){
+      return '<div class="news" style="--ac:' + x.ac + '">' +
+        '<div class="news__fig">' + x.fig[lang] + "</div>" +
+        '<div class="news__t">' + x.t[lang] + "</div>" +
+        x.p.map(function(p){ return '<div class="news__p">' + p[lang] + "</div>"; }).join("") +
+      "</div>";
+    }).join("");
     document.getElementById("i-up").textContent = UI.iUp[lang];
     document.getElementById("up-note").textContent = UI.upNote[lang];
 
