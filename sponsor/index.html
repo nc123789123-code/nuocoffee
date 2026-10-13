@@ -136,6 +136,9 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
   <p class="intro" id="i-tiers"></p>
   <div id="tier-list"></div>
 
+  <h2 id="reach" style="--ac:var(--sky)"><span id="h-reach"></span></h2>
+  <div class="card" style="--ac:var(--sky)" id="reach-card"></div>
+
   <h2 id="not" style="--ac:var(--indigo)"><span id="h-not"></span></h2>
   <div class="card" style="--ac:var(--indigo)" id="not-card"></div>
 
@@ -163,6 +166,15 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
     hTier: { zh:"赞助方案", en:"Sponsorship" },
     iTier: { zh:"规模小、定价低，因此一个人就能拍板，不用走采购流程。",
              en:"Small and inexpensive on purpose: one person can approve it without going through procurement." },
+    hReach:{ zh:"赞助方买到的是什么", en:"What the money actually buys" },
+    reach: { zh:["我们在咖啡馆见面，<b>没有场地费，所以赞助不是在替我们付账单</b>。你买到的是两样东西：",
+                 "<b>一、在场的那个小时。</b>全场的咖啡由你请，主持会在开场说明。十几个人、两小时、一个主题——这比任何展位都近。",
+                 "<b>二、围绕这场活动的传播。</b>活动页、宣传图、微信群、小红书与 Instagram 的发布，以及常驻在网站上的署名。<span class=\"todo\">[填：微信群人数 / 社交粉丝数 / 页面访问量]</span>",
+                 "<b>说实话：如果你要的是短期转化，这不是合适的渠道。</b>如果你要的是在一个特定人群里被反复看见、并且被看见的方式是「请大家喝咖啡的那家」，那它很划算。"],
+           en:["We meet in coffee shops. <b>There is no venue cost, so sponsorship is not covering our bills.</b> It buys two things:",
+               "<b>One, the hour itself.</b> You buy the room its coffee and the host says so at the open. A dozen people, two hours, one subject — closer than any booth gets.",
+               "<b>Two, the announcement around it.</b> The event page, the cards, the WeChat group, Xiaohongshu and Instagram, plus a standing credit on the site. <span class=\"todo\">[fill: group size / social following / page views]</span>",
+               "<b>Honestly: if you want short-term conversion, this is the wrong channel.</b> If you want to be seen repeatedly by a specific group, and seen as the firm that bought everyone coffee, it is cheap."] },
     hNot:  { zh:"赞助不包含什么", en:"What sponsorship does not include" },
     cta:   { zh:"联系主办方 →", en:"Get in touch →" },
     j1:    { zh:"房间", en:"Room" },
@@ -204,32 +216,24 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
   var TIERS = [
     { ac:"var(--tiffany)", n:{ zh:"单场", en:"Single session" }, p:{ zh:"$300", en:"$300" },
       s:{ zh:"一次活动", en:"one event" },
-      l:{ zh:["活动页与宣传图上的 logo 与一句话介绍",
-              "开场由主持口头致谢（15 秒，不是 pitch）",
-              "微信群与小红书/IG 发布时署名",
+      l:{ zh:["<b>全场的咖啡由你请</b> —— 开场时主持会说明这一点，这是在场每个人都会记住的部分",
+              "活动页与宣传图上的 logo 与一句话介绍",
+              "微信群、小红书、Instagram 发布时署名",
               "可派 1–2 人以普通参与者身份到场"],
-          en:["Logo and one line on the event page and the cards",
-              "A fifteen-second thank-you from the host at the open, not a pitch",
-              "Named in the WeChat and social announcements",
+          en:["<b>You buy the room its coffee</b> — the host says so at the open, and it is the part everyone in the room actually remembers",
+              "Logo and one line on the event page and the cards",
+              "Named in the WeChat, Xiaohongshu and Instagram posts",
               "One or two seats, attending as participants like everyone else"] } },
     { ac:"var(--pink)", n:{ zh:"四场", en:"Four sessions" }, p:{ zh:"$800", en:"$800" },
       s:{ zh:"一个季度", en:"a season" },
       l:{ zh:["单场所有权益 × 4",
               "coffeewithonlu.com 上的常驻署名",
-              "每季度一份参与者构成小结（<b>只有汇总，无个人信息</b>）",
-              "优先选择赞助哪几场主题"],
+              "优先选择赞助哪几场主题",
+              "每季度一份参与者构成小结（<b>只有汇总，无个人信息</b>）"],
           en:["Everything in the single tier, four times",
               "A standing credit on coffeewithonlu.com",
-              "A quarterly summary of who attended (<b>aggregate only, no individual data</b>)",
-              "First choice of which themes to sponsor"] } },
-    { ac:"var(--sky)", n:{ zh:"场地赞助", en:"Venue partner" }, p:{ zh:"In-kind", en:"In-kind" },
-      s:{ zh:"提供场地", en:"host it at your office" },
-      l:{ zh:["提供可容纳 10–15 人的空间与咖啡",
-              "权益等同单场赞助",
-              "<b>对想做招聘品牌的公司，这通常比付现金更划算</b>"],
-          en:["Space for ten to fifteen people, and the coffee",
-              "Same recognition as a paid single session",
-              "<b>Usually better value than cash for a firm building a recruiting brand</b>"] } }
+              "First choice of which themes to sponsor",
+              "A quarterly summary of who attended (<b>aggregate only, no individual data</b>)"] } }
   ];
 
   var NOT = { zh:["<b>不卖参与者名单。</b>任何赞助层级都不提供姓名、邮箱、微信或联系方式。",
@@ -254,6 +258,9 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
     document.getElementById("h-tiers").textContent = T.hTier[lang];
     document.getElementById("i-tiers").textContent = T.iTier[lang];
     document.getElementById("h-not").textContent = T.hNot[lang];
+    document.getElementById("h-reach").textContent = T.hReach[lang];
+    document.getElementById("reach-card").innerHTML =
+      T.reach[lang].map(function(x){ return "<p>" + x + "</p>"; }).join("");
     document.getElementById("cta").textContent = T.cta[lang];
     document.getElementById("j1").textContent = T.j1[lang];
     document.getElementById("j2").textContent = T.j2[lang];
