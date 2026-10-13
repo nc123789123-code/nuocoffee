@@ -137,10 +137,7 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
   <div id="tier-list"></div>
 
 
-  <h2 id="not" style="--ac:var(--indigo)"><span id="h-not"></span></h2>
-  <div class="card" style="--ac:var(--indigo)" id="not-card"></div>
-
-  <a class="cta" id="cta" href="/sponsor/example/"></a>
+<a class="cta" id="cta" href="/sponsor/example/"></a>
 
   <p class="foot">
     Coffee with Onlu · <a href="/">coffeewithonlu.com</a><br>
@@ -161,7 +158,6 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
     iRec:  { zh:"", en:"" },
     hTier: { zh:"赞助方案", en:"Sponsorship" },
     iTier: { zh:"", en:"" },
-    hNot:  { zh:"赞助不包含什么", en:"What sponsorship does not include" },
     cta:   { zh:"看一个实际的例子 →", en:"See a live example →" },
     j1:    { zh:"房间", en:"Room" },
     j2:    { zh:"记录", en:"Record" },
@@ -222,13 +218,6 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
               "A quarterly summary of who attended (<b>aggregate only, no individual data</b>)"] } }
   ];
 
-  var NOT = { zh:["<b>不卖参与者名单。</b>任何赞助层级都不提供姓名、邮箱、微信或联系方式。",
-                  "<b>不安排 pitch 时段、不摆展台、不发宣传物料。</b>",
-                  "<b>不参与选人。</b>赞助方不能指定谁来、谁不来。"],
-              en:["<b>The attendee list is not for sale.</b> No tier includes names, emails, WeChat IDs or any contact details.",
-                  "<b>No pitch slot, no booth, no collateral on the table.</b>",
-                  "<b>No say over the guest list.</b> Sponsors do not choose who attends."] };
-
   var lang = "zh";
   try { if (localStorage.getItem("onlu-sponsor-lang") === "en") lang = "en"; } catch(e){}
   var q = (location.search.match(/[?&]lang=(en|zh)/) || [])[1];
@@ -245,7 +234,6 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
     document.getElementById("h-tiers").textContent = T.hTier[lang];
     document.getElementById("i-tiers").textContent = T.iTier[lang];
     ["i-room","i-record","i-tiers"].forEach(function(id){ var e=document.getElementById(id); e.hidden = !e.textContent; });
-    document.getElementById("h-not").textContent = T.hNot[lang];
     document.getElementById("cta").textContent = T.cta[lang];
     document.getElementById("j1").textContent = T.j1[lang];
     document.getElementById("j2").textContent = T.j2[lang];
@@ -272,8 +260,6 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
         '<ul>'+x.l[lang].map(function(i){return '<li>'+i+'</li>';}).join('')+'</ul></div>';
     }).join("");
 
-    document.getElementById("not-card").innerHTML =
-      '<ul>'+NOT[lang].map(function(i){return '<li>'+i+'</li>';}).join('')+'</ul>';
 
     document.getElementById("lang").innerHTML = lang === "en" ? '中文 / <b style="color:#eef6fb">EN</b>' : '<b style="color:#eef6fb">中文</b> / EN';
     document.documentElement.lang = lang === "en" ? "en" : "zh";
