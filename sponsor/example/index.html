@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-<title>Sponsor placement — example</title>
-<meta name="description" content="What a sponsor placement looks like across Coffee with Onlu." />
+<title>ABC Co. — Coffee with Onlu</title>
+<meta name="description" content="ABC Co. supports Coffee with Onlu." />
 <meta name="robots" content="noindex" />
 <meta name="theme-color" content="#0a1520" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -15,239 +15,154 @@
 :root{
   --bg:#0a1520; --surface:rgba(255,255,255,.035);
   --text:#eef6fb; --muted:#93aec4; --dim:#6d8aa3; --line:rgba(150,200,230,.14);
-  --tiffany:#2ee0d0; --tiffany2:#9befe4; --tiffany3:#0fa89f;
-  --sky:#4cc4ff; --azure:#4d84ff; --indigo:#8a9bff; --pink:#ff4f9a;
+  --tiffany:#2ee0d0; --tiffany2:#9befe4; --sky:#4cc4ff; --pink:#ff4f9a;
   --display:'Unbounded',system-ui,sans-serif;
   --body:'Outfit',system-ui,-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
   --mono:'Space Mono',ui-monospace,'Courier New',monospace;
   --grad:linear-gradient(100deg,var(--tiffany2),var(--tiffany) 30%,var(--sky) 58%,var(--pink) 92%);
 }
 *{box-sizing:border-box;margin:0;padding:0;}
-body{background:var(--bg);color:var(--text);font-family:var(--body);font-size:16px;line-height:1.55;
-  -webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%;padding-bottom:60px;overflow-x:hidden;}
+body{background:var(--bg);color:var(--text);font-family:var(--body);font-size:16px;line-height:1.6;
+  -webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%;padding-bottom:50px;overflow-x:hidden;}
 .fx{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
 .blob{position:absolute;border-radius:50%;filter:blur(90px);}
-.b1{width:80vw;height:80vw;top:-26vh;right:-30vw;background:radial-gradient(circle,var(--tiffany),transparent 68%);opacity:.2;}
-.b2{width:75vw;height:75vw;bottom:-14vh;left:-30vw;background:radial-gradient(circle,var(--pink),transparent 68%);opacity:.12;}
-.wrap{position:relative;z-index:1;max-width:680px;margin-inline:auto;padding:0 18px;}
+.b1{width:85vw;height:85vw;top:-30vh;right:-32vw;background:radial-gradient(circle,var(--tiffany),transparent 68%);opacity:.22;}
+.b2{width:75vw;height:75vw;bottom:-16vh;left:-30vw;background:radial-gradient(circle,var(--pink),transparent 68%);opacity:.13;}
+.wrap{position:relative;z-index:1;max-width:620px;margin-inline:auto;padding:0 20px;}
 
-.bar{position:sticky;top:0;z-index:20;background:rgba(6,14,22,.9);
-  -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);}
-.bar__in{max-width:680px;margin-inline:auto;padding:10px 18px;display:flex;gap:10px;align-items:center;}
-.bar a{font-family:var(--mono);font-size:.72rem;font-weight:700;letter-spacing:.06em;color:var(--muted);
-  text-decoration:none;padding:7px 13px;border-radius:999px;border:1px solid var(--line);background:var(--surface);}
-.bar .lang{margin-left:auto;font-family:var(--mono);font-weight:700;font-size:.7rem;letter-spacing:.1em;
+/* the strip that says whose site you are on */
+.top{border-bottom:1px solid var(--line);background:rgba(6,14,22,.6);}
+.top__in{max-width:620px;margin-inline:auto;padding:13px 20px;display:flex;align-items:center;gap:10px;}
+.cup{color:var(--tiffany2);line-height:0;flex:none;}
+.cup svg{width:21px;height:21px;display:block;}
+.top__n{font-family:var(--display);font-weight:600;font-size:.88rem;letter-spacing:-.01em;}
+.top .lang{margin-left:auto;font-family:var(--mono);font-weight:700;font-size:.66rem;letter-spacing:.1em;
   color:var(--muted);background:var(--surface);border:1px solid var(--line);border-radius:999px;
-  padding:7px 13px;cursor:pointer;white-space:nowrap;}
+  padding:6px 11px;cursor:pointer;white-space:nowrap;}
 
-header{padding:30px 0 4px;}
-.eyebrow{font-family:var(--mono);text-transform:uppercase;letter-spacing:.18em;font-size:.68rem;
+.hero{padding:46px 0 0;}
+.kicker{font-family:var(--mono);text-transform:uppercase;letter-spacing:.2em;font-size:.68rem;
   font-weight:700;color:var(--tiffany2);}
+.mark{width:84px;height:84px;border-radius:21px;display:grid;place-items:center;margin:20px 0 20px;
+  background:var(--grad);color:#08131c;font-family:var(--display);font-weight:800;font-size:1.5rem;
+  letter-spacing:-.02em;box-shadow:0 0 50px -12px rgba(46,224,208,.6);}
 h1{font-family:var(--display);font-weight:800;letter-spacing:-.025em;line-height:1.08;
-  font-size:clamp(1.65rem,7.2vw,2.3rem);margin:.32em 0 .32em;}
-.grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;}
-.lede{font-size:.97rem;color:var(--muted);line-height:1.5;}
-.lede b{color:var(--text);}
+  font-size:clamp(2rem,9vw,2.9rem);}
+.tagline{font-family:var(--mono);font-size:.76rem;letter-spacing:.1em;color:var(--dim);
+  text-transform:uppercase;margin-top:11px;}
+.body{font-size:1rem;color:var(--muted);line-height:1.65;margin-top:22px;}
+.body + .body{margin-top:13px;}
+.btn{display:inline-block;margin-top:24px;font-family:var(--mono);font-weight:700;font-size:.74rem;
+  letter-spacing:.12em;text-transform:uppercase;color:#08131c;background:var(--grad);
+  padding:14px 24px;border-radius:999px;text-decoration:none;
+  box-shadow:0 0 40px -12px rgba(255,79,154,.6);}
 
-.sample{display:inline-flex;align-items:center;gap:7px;margin-top:14px;padding:7px 13px;
-  border-radius:999px;border:1px solid rgba(255,79,154,.35);background:rgba(255,79,154,.1);
-  font-family:var(--mono);font-size:.68rem;font-weight:700;letter-spacing:.1em;color:#ffb3d2;}
+h2{font-family:var(--display);font-weight:600;letter-spacing:-.015em;font-size:1.05rem;
+  margin:48px 0 14px;}
+.ev{display:flex;align-items:baseline;gap:14px;padding:13px 0;border-bottom:1px solid var(--line);}
+.ev:first-of-type{border-top:1px solid var(--line);}
+.ev__d{font-family:var(--mono);font-size:.7rem;color:var(--dim);letter-spacing:.04em;flex:none;width:76px;}
+.ev__n{font-size:.95rem;line-height:1.4;}
+.ev__p{font-size:.78rem;color:var(--dim);margin-top:2px;}
 
-h2{font-family:var(--display);font-weight:600;letter-spacing:-.015em;font-size:1.02rem;
-  margin:34px 0 4px;display:flex;align-items:center;gap:9px;}
-h2::before{content:"";width:8px;height:8px;border-radius:50%;flex:none;
-  background:var(--ac,var(--tiffany));box-shadow:0 0 12px var(--ac,var(--tiffany));}
-.where{font-family:var(--mono);font-size:.7rem;color:var(--dim);letter-spacing:.05em;margin:0 0 12px 17px;}
+.back{display:flex;align-items:center;gap:12px;margin-top:42px;padding:16px;border-radius:14px;
+  border:1px solid var(--line);background:var(--surface);text-decoration:none;color:inherit;}
+.back__t{font-size:.92rem;font-weight:600;}
+.back__s{font-size:.82rem;color:var(--muted);margin-top:2px;}
+.back__a{margin-left:auto;color:var(--tiffany2);flex:none;}
 
-/* a framed mock-up of a real placement */
-.mock{border:1px solid var(--line-2,rgba(150,200,230,.22));border-radius:16px;overflow:hidden;
-  background:#08121b;margin-bottom:6px;}
-.mock__bar{display:flex;align-items:center;gap:6px;padding:9px 13px;border-bottom:1px solid var(--line);
-  background:rgba(255,255,255,.025);}
-.mock__dot{width:9px;height:9px;border-radius:50%;background:rgba(150,200,230,.25);}
-.mock__url{margin-left:8px;font-family:var(--mono);font-size:.64rem;color:var(--dim);letter-spacing:.03em;}
-.mock__body{padding:16px 15px;}
-
-/* the sponsor lockup itself — this is the thing being sold */
-.sp{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:12px;
-  border:1px solid var(--line);background:rgba(255,255,255,.04);text-decoration:none;color:inherit;}
-.sp__mark{width:42px;height:42px;border-radius:11px;flex:none;display:grid;place-items:center;
-  background:var(--grad);color:#08131c;font-family:var(--display);font-weight:800;font-size:.8rem;
-  letter-spacing:-.02em;}
-.sp__k{font-family:var(--mono);font-size:.58rem;text-transform:uppercase;letter-spacing:.16em;color:var(--dim);}
-.sp__n{font-weight:600;font-size:.97rem;margin-top:1px;}
-.sp__l{font-size:.81rem;color:var(--muted);margin-top:2px;line-height:1.35;}
-.sp__go{margin-left:auto;flex:none;color:var(--tiffany2);font-size:1rem;}
-
-/* mini event card, as it appears on the homepage */
-.ev{border:1px solid var(--line);border-radius:14px;background:var(--surface);padding:14px;
-  border-left:3px solid var(--sky);}
-.ev__t{font-family:var(--display);font-weight:600;font-size:1rem;letter-spacing:-.01em;}
-.ev__m{font-family:var(--mono);font-size:.7rem;color:var(--dim);margin-top:7px;letter-spacing:.03em;line-height:1.7;}
-.ev__sp{margin-top:12px;padding-top:11px;border-top:1px solid var(--line);
-  font-family:var(--mono);font-size:.68rem;color:var(--muted);letter-spacing:.04em;}
-.ev__sp b{color:var(--tiffany2);font-weight:700;}
-
-/* social card credit strip */
-.card-mock{border-radius:14px;padding:16px;background:linear-gradient(145deg,#0c1a26,#0a1520 60%,#140d1c);
-  border:1px solid var(--line);}
-.card-mock__h{font-family:var(--display);font-weight:800;font-size:1.3rem;letter-spacing:-.02em;line-height:1.1;}
-.card-mock__f{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:22px;
-  padding-top:12px;border-top:1px solid var(--line);font-family:var(--mono);font-size:.62rem;
-  color:var(--dim);letter-spacing:.05em;}
-.card-mock__f b{color:var(--tiffany2);}
-
-/* the sponsor's own block — what a click leads to */
-.prof{border:1px solid var(--line);border-radius:16px;background:var(--surface);padding:17px;
-  border-left:3px solid var(--tiffany);}
-.prof__h{display:flex;align-items:center;gap:13px;}
-.prof__n{font-family:var(--display);font-weight:600;font-size:1.1rem;letter-spacing:-.01em;}
-.prof__t{font-family:var(--mono);font-size:.66rem;color:var(--dim);letter-spacing:.08em;margin-top:3px;}
-.prof p{font-size:.9rem;color:var(--muted);line-height:1.55;margin-top:13px;}
-.prof__b{display:inline-block;margin-top:14px;font-family:var(--mono);font-weight:700;font-size:.7rem;
-  letter-spacing:.1em;text-transform:uppercase;color:#08131c;background:var(--grad);
-  padding:10px 17px;border-radius:999px;text-decoration:none;}
-
-.note{font-size:.85rem;color:var(--dim);line-height:1.55;margin-top:10px;}
-.cta{display:block;margin-top:30px;text-align:center;font-family:var(--mono);font-weight:700;
-  text-transform:uppercase;letter-spacing:.14em;font-size:.78rem;color:#08131c;background:var(--grad);
-  padding:16px 22px;border-radius:999px;text-decoration:none;box-shadow:0 0 40px -10px rgba(255,79,154,.6);}
-.foot{margin:38px 0 10px;padding-top:18px;border-top:1px solid var(--line);
-  font-family:var(--mono);font-size:.7rem;color:var(--dim);line-height:1.8;}
+.foot{margin:34px 0 0;padding-top:18px;border-top:1px solid var(--line);
+  font-family:var(--mono);font-size:.68rem;color:var(--dim);line-height:1.8;}
 .foot a{color:var(--tiffany2);}
 </style>
 </head>
 <body>
 <div class="fx"><span class="blob b1"></span><span class="blob b2"></span></div>
 
-<nav class="bar"><div class="bar__in">
-  <a href="/sponsor/" id="back"></a>
+<div class="top"><div class="top__in">
+  <span class="cup" id="cup"></span>
+  <span class="top__n">Coffee with Onlu</span>
   <button class="lang" id="lang" type="button">EN</button>
-</div></nav>
+</div></div>
 
 <div class="wrap">
-  <header>
-    <p class="eyebrow">Coffee with Onlu ✦ NYC</p>
-    <h1 id="h1"></h1>
-    <p class="lede" id="lede"></p>
-    <span class="sample" id="sample"></span>
-  </header>
+  <section class="hero">
+    <p class="kicker" id="kicker"></p>
+    <div class="mark">ABC</div>
+    <h1>ABC Co.</h1>
+    <p class="tagline" id="tagline"></p>
+    <p class="body" id="p1"></p>
+    <p class="body" id="p2"></p>
+    <a class="btn" href="#" id="btn"></a>
+  </section>
 
-  <h2 style="--ac:var(--sky)"><span id="t1"></span></h2>
-  <p class="where" id="w1"></p>
-  <div class="mock">
-    <div class="mock__bar"><span class="mock__dot"></span><span class="mock__dot"></span><span class="mock__dot"></span>
-      <span class="mock__url">coffeewithonlu.com/datacenter</span></div>
-    <div class="mock__body">
-      <a class="sp" href="#profile">
-        <span class="sp__mark">ABC</span>
-        <span>
-          <span class="sp__k" id="sp-k1"></span>
-          <span class="sp__n">ABC Co.</span>
-          <span class="sp__l" id="sp-l1"></span>
-        </span>
-        <span class="sp__go">→</span>
-      </a>
+  <h2 id="h2"></h2>
+  <div id="events"></div>
+
+  <a class="back" href="/sponsor/">
+    <div>
+      <div class="back__t" id="back-t"></div>
+      <div class="back__s" id="back-s"></div>
     </div>
-  </div>
-
-  <h2 style="--ac:var(--tiffany)"><span id="t2"></span></h2>
-  <p class="where" id="w2"></p>
-  <div class="mock">
-    <div class="mock__bar"><span class="mock__dot"></span><span class="mock__dot"></span><span class="mock__dot"></span>
-      <span class="mock__url">coffeewithonlu.com</span></div>
-    <div class="mock__body">
-      <div class="ev">
-        <div class="ev__t" id="ev-t"></div>
-        <div class="ev__m" id="ev-m"></div>
-        <div class="ev__sp" id="ev-sp"></div>
-      </div>
-    </div>
-  </div>
-
-  <h2 style="--ac:var(--pink)"><span id="t3"></span></h2>
-  <p class="where" id="w3"></p>
-  <div class="card-mock">
-    <div class="card-mock__h" id="cm-h"></div>
-    <div class="card-mock__f"><span>coffeewithonlu.com</span><span id="cm-f"></span></div>
-  </div>
-
-  <h2 style="--ac:var(--indigo)" id="profile"><span id="t4"></span></h2>
-  <p class="where" id="w4"></p>
-  <div class="prof">
-    <div class="prof__h">
-      <span class="sp__mark" style="width:52px;height:52px;border-radius:13px;font-size:1rem;">ABC</span>
-      <div>
-        <div class="prof__n">ABC Co.</div>
-        <div class="prof__t" id="pr-t"></div>
-      </div>
-    </div>
-    <p id="pr-p"></p>
-    <a class="prof__b" href="#" id="pr-b"></a>
-  </div>
-  <p class="note" id="n4"></p>
-
-  <a class="cta" href="/sponsor/" id="cta"></a>
+    <span class="back__a">→</span>
+  </a>
 
   <p class="foot">
-    Coffee with Onlu · <a href="/">coffeewithonlu.com</a><br>
-    <span id="foot-note"></span>
+    <a href="/">coffeewithonlu.com</a> · An Onlu Intel project<br>
+    <span id="disc"></span>
   </p>
 </div>
 
 <script>
 (function(){
   "use strict";
+  document.getElementById("cup").innerHTML =
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" ' +
+    'stroke-linejoin="round"><path d="M5 9h11v4a4 4 0 0 1-4 4H9a4 4 0 0 1-4-4V9Z"/>' +
+    '<path d="M16 10h2.4a2.4 2.4 0 0 1 0 4.8H16"/>' +
+    '<path d="M8 3.4c-.5 1 .5 1.6 0 2.6M11.5 3.4c-.5 1 .5 1.6 0 2.6"/></svg>';
+
   var T = {
-    back:  { zh:"← 赞助方案", en:"← Sponsorship" },
-    h1:    { zh:'赞助方会<span class="grad">出现在哪里</span>', en:'Where a sponsor <span class="grad">appears</span>' },
-    lede:  { zh:"下面是四个实际位置的样子。品牌名为虚构，仅作展示。",
-             en:"The four placements, shown as they actually appear. The brand below is fictional, for display only." },
-    sample:{ zh:"示例 · SAMPLE", en:"SAMPLE · 示例" },
-
-    t1:{ zh:"活动页顶部", en:"Top of the event page" },
-    w1:{ zh:"每场活动都有自己的页面，参与者赛前都会看", en:"Every session has its own page; attendees read it beforehand" },
-    spK:{ zh:"本场支持", en:"Supported by" },
-    spL:{ zh:"一句话介绍，由赞助方自己提供", en:"One line, written by the sponsor" },
-
-    t2:{ zh:"首页的活动卡片", en:"The event card on the homepage" },
-    w2:{ zh:"coffeewithonlu.com 首页，活动结束前一直在", en:"On coffeewithonlu.com until the session is over" },
-    evT:{ zh:"AI data center financing", en:"AI data center financing" },
-    evM:{ zh:"周日 10月11日 · 2:00–4:00 PM · Midtown", en:"Sunday, Oct 11 · 2:00–4:00 PM · Midtown" },
-    evS:{ zh:'本场支持 · <b>ABC Co.</b>', en:'Supported by <b>ABC Co.</b>' },
-
-    t3:{ zh:"宣传图署名", en:"Credit on the cards" },
-    w3:{ zh:"微信群、小红书、Instagram 发布时用的图", en:"The cards posted to WeChat, Xiaohongshu and Instagram" },
-    cmH:{ zh:"AI data center<br>financing", en:"AI data center<br>financing" },
-    cmF:{ zh:'支持 · <b>ABC CO.</b>', en:'WITH <b>ABC CO.</b>' },
-
-    t4:{ zh:"点进去之后", en:"What a click leads to" },
-    w4:{ zh:"上面任何一处的署名，都链到这一块", en:"Every credit above links here" },
-    prT:{ zh:"示例品牌 · SAMPLE BRAND", en:"SAMPLE BRAND · 示例品牌" },
-    prP:{ zh:"赞助方自己写的一段介绍，三到四句，加一个链接。内容由赞助方提供，我们不代写，也不改。",
-           en:"Three or four sentences written by the sponsor, plus one link. The sponsor provides the copy; we neither write it nor edit it." },
-    prB:{ zh:"访问网站 →", en:"Visit site →" },
-    n4: { zh:"这个页面的链接可以直接发给参与者和群里。",
-           en:"This page's link can go straight to attendees and the group." },
-
-    cta:  { zh:"← 回到赞助方案与价格", en:"← Back to tiers and pricing" },
-    foot: { zh:"ABC Co. 为虚构品牌，仅用于展示版位。", en:"ABC Co. is a fictional brand, shown only to illustrate the placements." }
+    kicker: { zh:"2026 秋季系列支持方", en:"Supporting the autumn 2026 series" },
+    tagline:{ zh:"移民与跨境法律服务 · 纽约", en:"Immigration and cross-border legal services · New York" },
+    p1: { zh:"ABC Co. 是一家位于纽约的律师事务所，专注于金融与科技行业从业者的工作签证、绿卡与跨境税务安排。团队为中英双语执业，长期处理 H-1B、O-1 与 EB-1 相关申请。",
+          en:"ABC Co. is a New York law firm working on work visas, permanent residency and cross-border tax for people in finance and technology. The team practises in both English and Chinese, with a long record in H-1B, O-1 and EB-1 matters." },
+    p2: { zh:"我们支持 Coffee with Onlu，因为这里聚集的正是我们每天在服务的人 —— 在纽约做信贷、投行、量化与 AI 的华人从业者。欢迎在活动上直接找我们聊，也可以随时发邮件。",
+          en:"We support Coffee with Onlu because it gathers exactly the people we work with every day: Chinese professionals in credit, banking, quant and AI in New York. Find us at a session, or email any time." },
+    btn: { zh:"访问 ABC Co. →", en:"Visit ABC Co. →" },
+    h2:  { zh:"支持过的场次", en:"Sessions supported" },
+    backT:{ zh:"想成为下一季的支持方？", en:"Interested in sponsoring the next series?" },
+    backS:{ zh:"查看方案与价格", en:"See the tiers and pricing" },
+    disc:{ zh:"ABC Co. 为虚构品牌，此页用于展示赞助方页面的实际样式。",
+           en:"ABC Co. is a fictional brand; this page shows the actual format of a sponsor page." }
   };
+
+  var EVENTS = [
+    { d:{ zh:"10 月 17 日", en:"Oct 17" }, n:{ zh:"Finance × AI 创业 brainstorm", en:"Finance × AI startup brainstorm" },
+      p:{ zh:"12 人 · Midtown", en:"12 people · Midtown" } },
+    { d:{ zh:"10 月 11 日", en:"Oct 11" }, n:{ zh:"AI 数据中心融资", en:"AI data center financing" },
+      p:{ zh:"12 人 · Midtown", en:"12 people · Midtown" } },
+    { d:{ zh:"10 月 3 日",  en:"Oct 3" },  n:{ zh:"信贷 coffee chat", en:"Credit coffee chat" },
+      p:{ zh:"13 人 · West Chelsea", en:"13 people · West Chelsea" } },
+    { d:{ zh:"8 月 30 日",  en:"Aug 30" }, n:{ zh:"AI × 金融", en:"AI and finance" },
+      p:{ zh:"11 人 · Midtown", en:"11 people · Midtown" } }
+  ];
 
   var lang = "zh";
   try { if (localStorage.getItem("onlu-sponsor-lang") === "en") lang = "en"; } catch(e){}
 
-  function set(id, key, html){
-    var el = document.getElementById(id); if(!el) return;
-    if (html) el.innerHTML = T[key][lang]; else el.textContent = T[key][lang];
-  }
   function paint(){
-    set("back","back"); set("h1","h1",1); set("lede","lede"); set("sample","sample");
-    set("t1","t1"); set("w1","w1"); set("sp-k1","spK"); set("sp-l1","spL");
-    set("t2","t2"); set("w2","w2"); set("ev-t","evT"); set("ev-m","evM"); set("ev-sp","evS",1);
-    set("t3","t3"); set("w3","w3"); set("cm-h","cmH",1); set("cm-f","cmF",1);
-    set("t4","t4"); set("w4","w4"); set("pr-t","prT"); set("pr-p","prP"); set("pr-b","prB");
-    set("n4","n4"); set("cta","cta"); set("foot-note","foot");
+    ["kicker","tagline","p1","p2","btn","h2","disc"].forEach(function(k){
+      var id = k === "backT" ? "back-t" : k;
+      document.getElementById(id).textContent = T[k][lang];
+    });
+    document.getElementById("back-t").textContent = T.backT[lang];
+    document.getElementById("back-s").textContent = T.backS[lang];
+    document.getElementById("events").innerHTML = EVENTS.map(function(e){
+      return '<div class="ev"><span class="ev__d">' + e.d[lang] + "</span>" +
+             '<span><span class="ev__n">' + e.n[lang] + "</span>" +
+             '<div class="ev__p">' + e.p[lang] + "</div></span></div>";
+    }).join("");
     document.getElementById("lang").textContent = lang === "en" ? "中文" : "EN";
     document.documentElement.lang = lang === "en" ? "en" : "zh";
   }
