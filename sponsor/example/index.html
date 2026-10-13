@@ -72,7 +72,8 @@ h2::before{content:"";width:8px;height:8px;border-radius:50%;flex:none;
 .sp{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:12px;
   border:1px solid var(--line);background:rgba(255,255,255,.04);text-decoration:none;color:inherit;}
 .sp__mark{width:42px;height:42px;border-radius:11px;flex:none;display:grid;place-items:center;
-  background:var(--grad);color:#08131c;font-family:var(--display);font-weight:800;font-size:1.05rem;}
+  background:var(--grad);color:#08131c;font-family:var(--display);font-weight:800;font-size:.8rem;
+  letter-spacing:-.02em;}
 .sp__k{font-family:var(--mono);font-size:.58rem;text-transform:uppercase;letter-spacing:.16em;color:var(--dim);}
 .sp__n{font-weight:600;font-size:.97rem;margin-top:1px;}
 .sp__l{font-size:.81rem;color:var(--muted);margin-top:2px;line-height:1.35;}
@@ -139,10 +140,10 @@ h2::before{content:"";width:8px;height:8px;border-radius:50%;flex:none;
       <span class="mock__url">coffeewithonlu.com/datacenter</span></div>
     <div class="mock__body">
       <a class="sp" href="#profile">
-        <span class="sp__mark">EP</span>
+        <span class="sp__mark">ABC</span>
         <span>
           <span class="sp__k" id="sp-k1"></span>
-          <span class="sp__n">Example Partners</span>
+          <span class="sp__n">ABC Co.</span>
           <span class="sp__l" id="sp-l1"></span>
         </span>
         <span class="sp__go">→</span>
@@ -175,9 +176,9 @@ h2::before{content:"";width:8px;height:8px;border-radius:50%;flex:none;
   <p class="where" id="w4"></p>
   <div class="prof">
     <div class="prof__h">
-      <span class="sp__mark" style="width:52px;height:52px;border-radius:13px;font-size:1.25rem;">EP</span>
+      <span class="sp__mark" style="width:52px;height:52px;border-radius:13px;font-size:1rem;">ABC</span>
       <div>
-        <div class="prof__n">Example Partners</div>
+        <div class="prof__n">ABC Co.</div>
         <div class="prof__t" id="pr-t"></div>
       </div>
     </div>
@@ -213,12 +214,12 @@ h2::before{content:"";width:8px;height:8px;border-radius:50%;flex:none;
     w2:{ zh:"coffeewithonlu.com 首页，活动结束前一直在", en:"On coffeewithonlu.com until the session is over" },
     evT:{ zh:"AI data center financing", en:"AI data center financing" },
     evM:{ zh:"周日 10月11日 · 2:00–4:00 PM · Midtown", en:"Sunday, Oct 11 · 2:00–4:00 PM · Midtown" },
-    evS:{ zh:'本场支持 · <b>Example Partners</b>', en:'Supported by <b>Example Partners</b>' },
+    evS:{ zh:'本场支持 · <b>ABC Co.</b>', en:'Supported by <b>ABC Co.</b>' },
 
     t3:{ zh:"宣传图署名", en:"Credit on the cards" },
     w3:{ zh:"微信群、小红书、Instagram 发布时用的图", en:"The cards posted to WeChat, Xiaohongshu and Instagram" },
     cmH:{ zh:"AI data center<br>financing", en:"AI data center<br>financing" },
-    cmF:{ zh:'支持 · <b>EXAMPLE PARTNERS</b>', en:'WITH <b>EXAMPLE PARTNERS</b>' },
+    cmF:{ zh:'支持 · <b>ABC CO.</b>', en:'WITH <b>ABC CO.</b>' },
 
     t4:{ zh:"点进去之后", en:"What a click leads to" },
     w4:{ zh:"上面任何一处的署名，都链到这一块", en:"Every credit above links here" },
@@ -230,7 +231,7 @@ h2::before{content:"";width:8px;height:8px;border-radius:50%;flex:none;
            en:"This page's link can go straight to attendees and the group." },
 
     cta:  { zh:"← 回到赞助方案与价格", en:"← Back to tiers and pricing" },
-    foot: { zh:"Example Partners 为虚构品牌，仅用于展示版位。", en:"Example Partners is a fictional brand, shown only to illustrate the placements." }
+    foot: { zh:"ABC Co. 为虚构品牌，仅用于展示版位。", en:"ABC Co. is a fictional brand, shown only to illustrate the placements." }
   };
 
   var lang = "zh";
