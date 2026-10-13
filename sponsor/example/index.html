@@ -124,11 +124,11 @@ h2{font-family:var(--display);font-weight:600;letter-spacing:-.015em;font-size:1
 
   var T = {
     kicker: { zh:"2026 秋季系列支持方", en:"Supporting the autumn 2026 series" },
-    tagline:{ zh:"移民与跨境法律服务 · 纽约", en:"Immigration and cross-border legal services · New York" },
-    p1: { zh:"ABC Co. 是一家位于纽约的律师事务所，专注于金融与科技行业从业者的工作签证、绿卡与跨境税务安排。团队为中英双语执业，长期处理 H-1B、O-1 与 EB-1 相关申请。",
-          en:"ABC Co. is a New York law firm working on work visas, permanent residency and cross-border tax for people in finance and technology. The team practises in both English and Chinese, with a long record in H-1B, O-1 and EB-1 matters." },
-    p2: { zh:"我们支持 Coffee with Onlu，因为这里聚集的正是我们每天在服务的人 —— 在纽约做信贷、投行、量化与 AI 的华人从业者。欢迎在活动上直接找我们聊，也可以随时发邮件。",
-          en:"We support Coffee with Onlu because it gathers exactly the people we work with every day: Chinese professionals in credit, banking, quant and AI in New York. Find us at a session, or email any time." },
+    tagline:{ zh:"New York", en:"New York" },
+    p1: { zh:"ABC Co. 是一家总部位于纽约的公司，长期关注金融行业与在美华人专业人士社群。",
+          en:"ABC Co. is a New York company with a long-standing focus on the finance industry and the Chinese professional community in the US." },
+    p2: { zh:"我们支持 Coffee with Onlu，希望与纽约的金融从业者建立长期联系。欢迎在活动上找我们交流。",
+          en:"We support Coffee with Onlu to build lasting relationships with finance professionals in New York. Come and say hello at a session." },
     btn: { zh:"访问 ABC Co. →", en:"Visit ABC Co. →" },
     h2:  { zh:"支持过的场次", en:"Sessions supported" },
     backT:{ zh:"想成为下一季的支持方？", en:"Interested in sponsoring the next series?" },
@@ -139,17 +139,19 @@ h2{font-family:var(--display);font-weight:600;letter-spacing:-.015em;font-size:1
 
   var EVENTS = [
     { d:{ zh:"10 月 17 日", en:"Oct 17" }, n:{ zh:"Finance × AI 创业 brainstorm", en:"Finance × AI startup brainstorm" },
-      p:{ zh:"12 人 · Midtown", en:"12 people · Midtown" } },
+      p:{ zh:"即将举行", en:"Upcoming" } },
     { d:{ zh:"10 月 11 日", en:"Oct 11" }, n:{ zh:"AI 数据中心融资", en:"AI data center financing" },
       p:{ zh:"12 人 · Midtown", en:"12 people · Midtown" } },
     { d:{ zh:"10 月 3 日",  en:"Oct 3" },  n:{ zh:"信贷 coffee chat", en:"Credit coffee chat" },
-      p:{ zh:"13 人 · West Chelsea", en:"13 people · West Chelsea" } },
+      p:{ zh:"13 人", en:"13 people" } },
     { d:{ zh:"8 月 30 日",  en:"Aug 30" }, n:{ zh:"AI × 金融", en:"AI and finance" },
       p:{ zh:"11 人 · Midtown", en:"11 people · Midtown" } }
   ];
 
   var lang = "zh";
   try { if (localStorage.getItem("onlu-sponsor-lang") === "en") lang = "en"; } catch(e){}
+  var q = (location.search.match(/[?&]lang=(en|zh)/) || [])[1];
+  if (q) lang = q;   // a shared ?lang= link always wins
 
   function paint(){
     ["kicker","tagline","p1","p2","btn","h2","disc"].forEach(function(k){
@@ -163,7 +165,7 @@ h2{font-family:var(--display);font-weight:600;letter-spacing:-.015em;font-size:1
              '<span><span class="ev__n">' + e.n[lang] + "</span>" +
              '<div class="ev__p">' + e.p[lang] + "</div></span></div>";
     }).join("");
-    document.getElementById("lang").textContent = lang === "en" ? "中文" : "EN";
+    document.getElementById("lang").innerHTML = lang === "en" ? '中文 / <b style="color:#eef6fb">EN</b>' : '<b style="color:#eef6fb">中文</b> / EN';
     document.documentElement.lang = lang === "en" ? "en" : "zh";
   }
   document.getElementById("lang").addEventListener("click", function(){

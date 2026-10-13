@@ -153,17 +153,14 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
   "use strict";
   var T = {
     h1:    { zh:'赞助 <span class="grad">Coffee with Onlu</span>', en:'Sponsor <span class="grad">Coffee with Onlu</span>' },
-    lede:  { zh:"纽约金融圈的小桌咖啡局，按各自真正在做的事分桌。<b>每场 10–15 人，不是大型 mixer。</b>",
-             en:"A small-group coffee series for finance people in New York, grouped by what they actually do. <b>Ten to fifteen people a table, never a mixer.</b>" },
+    lede:  { zh:"纽约华人金融从业者的线下社群。每 1–2 周一场主题咖啡或晚餐，<b>每场约 10 人。</b>",
+             en:"An in-person community for Chinese finance professionals in New York. A themed coffee or dinner every one to two weeks, <b>about ten people each.</b>" },
     hRoom: { zh:"房间里是谁", en:"Who is in the room" },
-    iRoom: { zh:"这才是赞助方真正买的东西 —— 不是人数，是构成。",
-             en:"This is what a sponsor is actually buying: not headcount, composition." },
+    iRoom: { zh:"", en:"" },
     hRec:  { zh:"做过的场次", en:"Track record" },
-    iRec:  { zh:"以下为可核实的场次。标红的部分需要主办方填入实际数字。",
-             en:"Verifiable events below. The figures marked in pink still need the organiser's real numbers." },
+    iRec:  { zh:"", en:"" },
     hTier: { zh:"赞助方案", en:"Sponsorship" },
-    iTier: { zh:"规模小、定价低，因此一个人就能拍板，不用走采购流程。",
-             en:"Small and inexpensive on purpose: one person can approve it without going through procurement." },
+    iTier: { zh:"", en:"" },
     hNot:  { zh:"赞助不包含什么", en:"What sponsorship does not include" },
     cta:   { zh:"看一个实际的例子 →", en:"See a live example →" },
     j1:    { zh:"房间", en:"Room" },
@@ -172,15 +169,15 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
   };
 
   var ROOM = [
-    { ac:"var(--tiffany)", t:{ zh:"做什么的", en:"What they do" },
-      p:{ zh:"私募信贷与直接借贷、投行（FIG、杠杆融资、结构化融资、重组）、私募股权与基建、公开市场信用与交易、量化、地产金融、项目融资、AI 与 TMT。往期每场围绕一个主题，同桌多为同行或上下游。",
-          en:"Private credit and direct lending; investment banking across FIG, lev fin, structured finance and restructuring; private equity and infrastructure; public credit and trading; quant; real estate finance; project finance; AI and TMT. Each session is built around one theme, so the table is peers or immediate counterparties." } },
-    { ac:"var(--sky)", t:{ zh:"什么阶段", en:"Where they are" },
-      p:{ zh:"以分析师到 VP 为主，有合伙人与基金创始人，也有在读学生与刚入行的人。<b>可支配收入高、职业变动频繁、对服务类产品决策快。</b>",
-          en:"Mostly analyst through VP, with some partners and fund founders, plus students and people in their first years. <b>High disposable income, frequent career moves, fast decisions on professional services.</b>" } },
-    { ac:"var(--pink)", t:{ zh:"谁组织、谁来", en:"Who runs it, who comes" },
-      p:{ zh:"纽约中文背景的金融从业者社群。参与者多为中英双语，许多人同时面对签证、跨境税务、职业路径这些具体问题 —— <b>这正是某些赞助方最难触达、却最想触达的人群。</b>",
-          en:"A Chinese-speaking finance community in New York. Attendees are bilingual and many are navigating visas, cross-border tax and career moves at the same time — <b>precisely the audience some sponsors find hardest to reach.</b>" } }
+    { ac:"var(--tiffany)", t:{ zh:"行业", en:"Fields" },
+      p:{ zh:"私募信贷与直接借贷、投行（FIG、杠杆融资、结构化融资、重组）、私募股权与基建、公开市场信用与交易、量化、地产金融、项目融资、AI 与 TMT。每场围绕一个主题。",
+          en:"Private credit and direct lending; investment banking across FIG, lev fin, structured finance and restructuring; private equity and infrastructure; public credit and trading; quant; real estate finance; project finance; AI and TMT. Each session is built around one theme." } },
+    { ac:"var(--sky)", t:{ zh:"职级", en:"Seniority" },
+      p:{ zh:"以工作几年的买方、卖方从业者为主，<b>多为 Associate 与 VP。</b>",
+          en:"Mostly buy-side and sell-side professionals a few years into their careers, <b>largely Associates and VPs.</b>" } },
+    { ac:"var(--pink)", t:{ zh:"社群", en:"Community" },
+      p:{ zh:"纽约华人金融从业者，中英双语。",
+          en:"Chinese finance professionals in New York, bilingual in English and Chinese." } }
   ];
 
   var STATS = [
@@ -227,25 +224,27 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
 
   var NOT = { zh:["<b>不卖参与者名单。</b>任何赞助层级都不提供姓名、邮箱、微信或联系方式。",
                   "<b>不安排 pitch 时段、不摆展台、不发宣传物料。</b>",
-                  "<b>不参与选人。</b>赞助方不能指定谁来、谁不来。",
-                  "这几条不是客气话。<b>这个社群的全部价值就在于它不是一个被推销的场合</b> —— 一旦破了，赞助位本身也就不值钱了。"],
+                  "<b>不参与选人。</b>赞助方不能指定谁来、谁不来。"],
               en:["<b>The attendee list is not for sale.</b> No tier includes names, emails, WeChat IDs or any contact details.",
                   "<b>No pitch slot, no booth, no collateral on the table.</b>",
-                  "<b>No say over the guest list.</b> Sponsors do not choose who attends.",
-                  "These are not politeness. <b>The whole value of this room is that nobody is being sold to</b> — break that and the sponsorship is worth nothing either."] };
+                  "<b>No say over the guest list.</b> Sponsors do not choose who attends."] };
 
   var lang = "zh";
   try { if (localStorage.getItem("onlu-sponsor-lang") === "en") lang = "en"; } catch(e){}
+  var q = (location.search.match(/[?&]lang=(en|zh)/) || [])[1];
+  if (q) lang = q;   // a shared ?lang= link always wins
 
   function paint(){
     document.getElementById("h1").innerHTML = T.h1[lang];
     document.getElementById("lede").innerHTML = T.lede[lang];
     document.getElementById("h-room").textContent = T.hRoom[lang];
     document.getElementById("i-room").textContent = T.iRoom[lang];
+    ["i-room","i-record","i-tiers"].forEach(function(id){ var e=document.getElementById(id); e.hidden = !e.textContent; });
     document.getElementById("h-record").textContent = T.hRec[lang];
     document.getElementById("i-record").textContent = T.iRec[lang];
     document.getElementById("h-tiers").textContent = T.hTier[lang];
     document.getElementById("i-tiers").textContent = T.iTier[lang];
+    ["i-room","i-record","i-tiers"].forEach(function(id){ var e=document.getElementById(id); e.hidden = !e.textContent; });
     document.getElementById("h-not").textContent = T.hNot[lang];
     document.getElementById("cta").textContent = T.cta[lang];
     document.getElementById("j1").textContent = T.j1[lang];
@@ -276,7 +275,7 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
     document.getElementById("not-card").innerHTML =
       '<ul>'+NOT[lang].map(function(i){return '<li>'+i+'</li>';}).join('')+'</ul>';
 
-    document.getElementById("lang").textContent = lang === "en" ? "中文" : "EN";
+    document.getElementById("lang").innerHTML = lang === "en" ? '中文 / <b style="color:#eef6fb">EN</b>' : '<b style="color:#eef6fb">中文</b> / EN';
     document.documentElement.lang = lang === "en" ? "en" : "zh";
   }
 
