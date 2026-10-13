@@ -99,6 +99,18 @@
       full: false,
       partiful: "",  // add this coffee's Partiful link here
     },
+    {
+      title: "Finance × AI startup brainstorm",
+      vertical: "Finance × AI Startups",
+      formVertical: "Finance × AI Startups",
+      iso: "2026-10-17",
+      date: "Saturday, Oct 17",
+      time: "10:00 AM–12:00 PM",
+      place: "",                        // add the neighbourhood once it's set
+      note: "Small group · bring an idea, not a deck",
+      full: false,
+      partiful: "",  // add this coffee's Partiful link here
+    },
   ];
 
   // Keep only events today or later (events without an `iso` always show).
