@@ -195,22 +195,22 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
   ];
 
   var STATS = [
-    { ac:"var(--tiffany)",  n:{ zh:"6+", en:"6+" },           k:{ zh:"自 2026 年 8 月起办过的场次", en:"sessions since Aug 2026" } },
-    { ac:"var(--sky)",      n:{ zh:"9–13", en:"9–13" },       k:{ zh:"每场到场人数区间", en:"people per session" } },
-    { ac:"var(--indigo)",   n:{ zh:"22", en:"22" },           k:{ zh:"单场最高报名人数", en:"peak registrations for one session" } },
-    { ac:"var(--pink)",     n:{ zh:"[填]", en:"[fill]" },     k:{ zh:"微信群人数", en:"WeChat group members" } }
+    { ac:"var(--tiffany)",  n:{ zh:"9", en:"9" },         k:{ zh:"过去三个月办过的场次", en:"events in the past three months" } },
+    { ac:"var(--sky)",      n:{ zh:"80", en:"80" },       k:{ zh:"累计到场人次", en:"cumulative attendances" } },
+    { ac:"var(--indigo)",   n:{ zh:"~10", en:"~10" },     k:{ zh:"每场人数，刻意控制", en:"people per event, by design" } },
+    { ac:"var(--pink)",     n:{ zh:"[填]", en:"[fill]" }, k:{ zh:"微信群人数", en:"WeChat group members" } }
   ];
 
   var RECORD = [
     { ac:"var(--tiffany)", t:{ zh:"已办场次（主题）", en:"Sessions held, by theme" },
-      p:{ zh:"投行 · 金融晚宴 · AI × 金融 · 信贷 · AI 数据中心融资。下一场为 Finance × AI 创业 brainstorm（10 月 17 日）。",
-          en:"Investment banking · a finance dinner · AI and finance · credit · AI data centre financing. Next: a Finance × AI startup brainstorm on October 17." } },
+      p:{ zh:"每 1–2 周一场，按主题分：信贷与私募信贷 · 投行 · 量化 · AI × 金融 · AI 数据中心融资，以及不定期的晚餐。下一场为 Finance × AI 创业 brainstorm（10 月 17 日）。",
+          en:"Every one to two weeks, organised by theme: credit and private credit, investment banking, quant, AI and finance, AI data centre financing, plus occasional dinners. Next: a Finance × AI startup brainstorm on October 17." } },
     { ac:"var(--sky)", t:{ zh:"每场的准备", en:"What goes into each one" },
       p:{ zh:"赛前按报名表和一对一沟通排座；每场有专门的议题页，附带来源与数据；主持控场、控时、点名，确保每个人都讲到话。<b>这不是报名就走的 mixer。</b>",
           en:"Seats are assigned in advance from the registration form and one-to-one messages; each session gets its own topic page with sourced figures; the host keeps time and calls on people so everyone speaks. <b>This is not a turn-up-and-mingle mixer.</b>" } },
     { ac:"var(--pink)", t:{ zh:"需要主办方补上的数字", en:"Figures the organiser still needs to add" },
-      p:{ zh:'<span class="todo">累计场次总数 · 累计到场人次 · 不重复参与人数 · 回头率 · 微信群人数 · 小红书/IG 粉丝数</span><br>这些数字只有你自己有，<b>不要估，去 Luma 和 Google Sheet 里数一遍再填。</b>',
-          en:'<span class="todo">Total sessions · total attendances · unique attendees · repeat rate · WeChat group size · social following</span><br>Only the organiser has these. <b>Do not estimate them — count them in Luma and the spreadsheet first.</b>' } }
+      p:{ zh:'<span class="todo">不重复参与人数 · 回头率 · 微信群人数 · 小红书/IG 粉丝数</span><br>场次和人次已填。剩下这几个只有你自己有，<b>去 Luma 和 Google Sheet 里数一遍再填，不要估。</b><br>另外注意：<b>80 是人次不是人数</b>，对方可能会问，想好怎么答。',
+          en:'<span class="todo">Unique attendees · repeat rate · WeChat group size · social following</span><br>Events and attendances are in. The rest only the organiser has: <b>count them in Luma and the spreadsheet rather than estimating.</b><br>Note also that <b>80 is attendances, not distinct people</b> — expect to be asked.' } }
   ];
 
   var TIERS = [
