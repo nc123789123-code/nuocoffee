@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Sponsor — Coffee with Onlu</title>
+<meta name="description" content="Sponsorship for Coffee with Onlu, a small-group finance coffee series in NYC." />
+<meta name="robots" content="noindex" />
+<meta name="theme-color" content="#0a1520" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%232ee0d0%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M5%209h11v4a4%204%200%200%201-4%204H9a4%204%200%200%201-4-4V9Z%22%2F%3E%3Cpath%20d%3D%22M16%2010h2.4a2.4%202.4%200%200%201%200%204.8H16%22%2F%3E%3Cpath%20d%3D%22M8%203.4c-.5%201%20.5%201.6%200%202.6M11.5%203.4c-.5%201%20.5%201.6%200%202.6%22%2F%3E%3C%2Fsvg%3E" />
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@600;800&family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+:root{
+  --bg:#0a1520; --surface:rgba(255,255,255,.035);
+  --text:#eef6fb; --muted:#93aec4; --dim:#6d8aa3; --line:rgba(150,200,230,.14);
+  --tiffany:#2ee0d0; --tiffany2:#9befe4; --tiffany3:#0fa89f;
+  --sky:#4cc4ff; --azure:#4d84ff; --indigo:#8a9bff; --pink:#ff4f9a;
+  --display:'Unbounded',system-ui,sans-serif;
+  --body:'Outfit',system-ui,-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
+  --mono:'Space Mono',ui-monospace,'Courier New',monospace;
+  --grad:linear-gradient(100deg,var(--tiffany2),var(--tiffany) 30%,var(--sky) 58%,var(--pink) 92%);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:var(--body);font-size:16px;
+  line-height:1.55;-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%;
+  padding-bottom:60px;overflow-x:hidden;}
+.fx{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
+.blob{position:absolute;border-radius:50%;filter:blur(90px);}
+.b1{width:80vw;height:80vw;top:-26vh;right:-30vw;background:radial-gradient(circle,var(--tiffany),transparent 68%);opacity:.22;}
+.b2{width:75vw;height:75vw;bottom:-14vh;left:-30vw;background:radial-gradient(circle,var(--pink),transparent 68%);opacity:.13;}
+.wrap{position:relative;z-index:1;max-width:680px;margin-inline:auto;padding:0 18px;}
+
+.jump{position:sticky;top:0;z-index:20;background:rgba(6,14,22,.9);
+  -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);}
+.jump__in{max-width:680px;margin-inline:auto;padding:10px 18px;display:flex;gap:8px;
+  align-items:center;overflow-x:auto;scrollbar-width:none;}
+.jump__in::-webkit-scrollbar{display:none;}
+.jump a{flex:none;white-space:nowrap;font-family:var(--mono);font-size:.72rem;font-weight:700;
+  letter-spacing:.06em;color:var(--muted);text-decoration:none;padding:7px 13px;border-radius:999px;
+  border:1px solid var(--line);background:var(--surface);-webkit-tap-highlight-color:transparent;}
+.jump .lang{margin-left:auto;flex:none;white-space:nowrap;font-family:var(--mono);font-weight:700;
+  font-size:.7rem;letter-spacing:.1em;color:var(--muted);background:var(--surface);
+  border:1px solid var(--line);border-radius:999px;padding:7px 13px;cursor:pointer;}
+
+header{padding:32px 0 6px;}
+.eyebrow{font-family:var(--mono);text-transform:uppercase;letter-spacing:.18em;
+  font-size:.68rem;font-weight:700;color:var(--tiffany2);}
+h1{font-family:var(--display);font-weight:800;letter-spacing:-.025em;line-height:1.06;
+  font-size:clamp(1.8rem,8vw,2.6rem);margin:.32em 0 .3em;}
+.grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.lede{font-size:1rem;color:var(--muted);line-height:1.5;}
+.lede b{color:var(--text);}
+
+h2{font-family:var(--display);font-weight:600;letter-spacing:-.015em;font-size:1.1rem;
+  margin:40px 0 8px;display:flex;align-items:center;gap:9px;scroll-margin-top:60px;}
+h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
+  background:var(--ac,var(--tiffany));box-shadow:0 0 12px var(--ac,var(--tiffany));}
+.intro{font-size:.9rem;color:var(--muted);margin-bottom:14px;}
+
+.card{border:1px solid var(--line);border-radius:14px;background:var(--surface);padding:15px;
+  margin-bottom:10px;border-left:3px solid var(--ac,var(--tiffany));}
+.card p{font-size:.9rem;color:var(--muted);line-height:1.55;}
+.card p + p{margin-top:8px;}
+.card b{color:var(--text);font-weight:600;}
+.card ul{list-style:none;display:flex;flex-direction:column;gap:7px;margin-top:8px;}
+.card li{position:relative;padding-left:16px;font-size:.89rem;color:var(--muted);line-height:1.5;}
+.card li::before{content:"";position:absolute;left:0;top:.6em;width:5px;height:5px;border-radius:50%;
+  background:var(--ac,var(--tiffany));opacity:.75;}
+
+/* stats */
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:12px;}
+.stat{border:1px solid var(--line);border-radius:13px;background:var(--surface);padding:14px;
+  border-left:3px solid var(--ac,var(--tiffany));}
+.stat__n{font-family:var(--display);font-weight:800;letter-spacing:-.02em;font-size:1.5rem;
+  line-height:1.1;color:var(--ac,var(--tiffany));}
+.stat__k{font-size:.8rem;color:var(--muted);margin-top:4px;line-height:1.35;}
+
+/* tiers */
+.tier{border:1px solid var(--line);border-radius:16px;background:var(--surface);padding:17px;
+  margin-bottom:10px;border-left:3px solid var(--ac,var(--tiffany));}
+.tier__top{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+.tier__n{font-weight:600;font-size:1.02rem;}
+.tier__p{font-family:var(--display);font-weight:800;font-size:1.35rem;letter-spacing:-.02em;
+  color:var(--ac,var(--tiffany));white-space:nowrap;}
+.tier__s{font-family:var(--mono);font-size:.68rem;color:var(--dim);letter-spacing:.04em;margin-top:2px;}
+.tier ul{list-style:none;display:flex;flex-direction:column;gap:7px;margin-top:12px;
+  padding-top:12px;border-top:1px solid var(--line);}
+.tier li{position:relative;padding-left:16px;font-size:.89rem;color:var(--muted);line-height:1.5;}
+.tier li::before{content:"";position:absolute;left:0;top:.6em;width:5px;height:5px;border-radius:50%;
+  background:var(--ac,var(--tiffany));opacity:.8;}
+
+.warn{padding:13px 15px;border-radius:13px;margin-bottom:10px;
+  border:1px solid rgba(255,79,154,.3);background:rgba(255,79,154,.09);
+  font-size:.88rem;color:#ffc9de;line-height:1.55;}
+.warn b{color:#fff;}
+.todo{color:var(--pink);font-weight:700;}
+
+.cta{display:block;margin-top:20px;text-align:center;font-family:var(--mono);font-weight:700;
+  text-transform:uppercase;letter-spacing:.14em;font-size:.8rem;color:#08131c;background:var(--grad);
+  padding:16px 22px;border-radius:999px;text-decoration:none;
+  box-shadow:0 0 40px -10px rgba(255,79,154,.6);}
+.foot{margin:40px 0 10px;padding-top:20px;border-top:1px solid var(--line);
+  font-family:var(--mono);font-size:.72rem;color:var(--dim);line-height:1.8;}
+.foot a{color:var(--tiffany2);}
+</style>
+</head>
+<body>
+<div class="fx"><span class="blob b1"></span><span class="blob b2"></span></div>
+
+<nav class="jump"><div class="jump__in">
+  <a href="#room" id="j1">Room</a>
+  <a href="#record" id="j2">Record</a>
+  <a href="#tiers" id="j3">Sponsor</a>
+  <button class="lang" id="lang" type="button">EN</button>
+</div></nav>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">Coffee with Onlu ✦ NYC</p>
+    <h1 id="h1"></h1>
+    <p class="lede" id="lede"></p>
+  </header>
+
+  <h2 id="room" style="--ac:var(--tiffany)"><span id="h-room"></span></h2>
+  <p class="intro" id="i-room"></p>
+  <div id="room-list"></div>
+
+  <h2 id="record" style="--ac:var(--sky)"><span id="h-record"></span></h2>
+  <p class="intro" id="i-record"></p>
+  <div class="stats" id="stats"></div>
+  <div id="record-list"></div>
+
+  <h2 id="tiers" style="--ac:var(--pink)"><span id="h-tiers"></span></h2>
+  <p class="intro" id="i-tiers"></p>
+  <div id="tier-list"></div>
+
+  <h2 id="not" style="--ac:var(--indigo)"><span id="h-not"></span></h2>
+  <div class="card" style="--ac:var(--indigo)" id="not-card"></div>
+
+  <a class="cta" id="cta" href="https://coffeewithonlu.com"></a>
+
+  <p class="foot">
+    Coffee with Onlu · <a href="/">coffeewithonlu.com</a><br>
+    An Onlu Intel project · NYC
+  </p>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var T = {
+    h1:    { zh:'赞助 <span class="grad">Coffee with Onlu</span>', en:'Sponsor <span class="grad">Coffee with Onlu</span>' },
+    lede:  { zh:"纽约金融圈的小桌咖啡局，按各自真正在做的事分桌。<b>每场 10–15 人，不是大型 mixer。</b>",
+             en:"A small-group coffee series for finance people in New York, grouped by what they actually do. <b>Ten to fifteen people a table, never a mixer.</b>" },
+    hRoom: { zh:"房间里是谁", en:"Who is in the room" },
+    iRoom: { zh:"这才是赞助方真正买的东西 —— 不是人数，是构成。",
+             en:"This is what a sponsor is actually buying: not headcount, composition." },
+    hRec:  { zh:"做过的场次", en:"Track record" },
+    iRec:  { zh:"以下为可核实的场次。标红的部分需要主办方填入实际数字。",
+             en:"Verifiable events below. The figures marked in pink still need the organiser's real numbers." },
+    hTier: { zh:"赞助方案", en:"Sponsorship" },
+    iTier: { zh:"规模小、定价低，因此一个人就能拍板，不用走采购流程。",
+             en:"Small and inexpensive on purpose: one person can approve it without going through procurement." },
+    hNot:  { zh:"赞助不包含什么", en:"What sponsorship does not include" },
+    cta:   { zh:"联系主办方 →", en:"Get in touch →" },
+    j1:    { zh:"房间", en:"Room" },
+    j2:    { zh:"记录", en:"Record" },
+    j3:    { zh:"赞助", en:"Sponsor" }
+  };
+
+  var ROOM = [
+    { ac:"var(--tiffany)", t:{ zh:"做什么的", en:"What they do" },
+      p:{ zh:"私募信贷与直接借贷、投行（FIG、杠杆融资、结构化融资、重组）、私募股权与基建、公开市场信用与交易、量化、地产金融、项目融资、AI 与 TMT。往期每场围绕一个主题，同桌多为同行或上下游。",
+          en:"Private credit and direct lending; investment banking across FIG, lev fin, structured finance and restructuring; private equity and infrastructure; public credit and trading; quant; real estate finance; project finance; AI and TMT. Each session is built around one theme, so the table is peers or immediate counterparties." } },
+    { ac:"var(--sky)", t:{ zh:"什么阶段", en:"Where they are" },
+      p:{ zh:"以分析师到 VP 为主，有合伙人与基金创始人，也有在读学生与刚入行的人。<b>可支配收入高、职业变动频繁、对服务类产品决策快。</b>",
+          en:"Mostly analyst through VP, with some partners and fund founders, plus students and people in their first years. <b>High disposable income, frequent career moves, fast decisions on professional services.</b>" } },
+    { ac:"var(--pink)", t:{ zh:"谁组织、谁来", en:"Who runs it, who comes" },
+      p:{ zh:"纽约中文背景的金融从业者社群。参与者多为中英双语，许多人同时面对签证、跨境税务、职业路径这些具体问题 —— <b>这正是某些赞助方最难触达、却最想触达的人群。</b>",
+          en:"A Chinese-speaking finance community in New York. Attendees are bilingual and many are navigating visas, cross-border tax and career moves at the same time — <b>precisely the audience some sponsors find hardest to reach.</b>" } }
+  ];
+
+  var STATS = [
+    { ac:"var(--tiffany)",  n:{ zh:"6+", en:"6+" },           k:{ zh:"自 2026 年 8 月起办过的场次", en:"sessions since Aug 2026" } },
+    { ac:"var(--sky)",      n:{ zh:"9–13", en:"9–13" },       k:{ zh:"每场到场人数区间", en:"people per session" } },
+    { ac:"var(--indigo)",   n:{ zh:"22", en:"22" },           k:{ zh:"单场最高报名人数", en:"peak registrations for one session" } },
+    { ac:"var(--pink)",     n:{ zh:"[填]", en:"[fill]" },     k:{ zh:"微信群人数", en:"WeChat group members" } }
+  ];
+
+  var RECORD = [
+    { ac:"var(--tiffany)", t:{ zh:"已办场次（主题）", en:"Sessions held, by theme" },
+      p:{ zh:"投行 · 金融晚宴 · AI × 金融 · 信贷 · AI 数据中心融资。下一场为 Finance × AI 创业 brainstorm（10 月 17 日）。",
+          en:"Investment banking · a finance dinner · AI and finance · credit · AI data centre financing. Next: a Finance × AI startup brainstorm on October 17." } },
+    { ac:"var(--sky)", t:{ zh:"每场的准备", en:"What goes into each one" },
+      p:{ zh:"赛前按报名表和一对一沟通排座；每场有专门的议题页，附带来源与数据；主持控场、控时、点名，确保每个人都讲到话。<b>这不是报名就走的 mixer。</b>",
+          en:"Seats are assigned in advance from the registration form and one-to-one messages; each session gets its own topic page with sourced figures; the host keeps time and calls on people so everyone speaks. <b>This is not a turn-up-and-mingle mixer.</b>" } },
+    { ac:"var(--pink)", t:{ zh:"需要主办方补上的数字", en:"Figures the organiser still needs to add" },
+      p:{ zh:'<span class="todo">累计场次总数 · 累计到场人次 · 不重复参与人数 · 回头率 · 微信群人数 · 小红书/IG 粉丝数</span><br>这些数字只有你自己有，<b>不要估，去 Luma 和 Google Sheet 里数一遍再填。</b>',
+          en:'<span class="todo">Total sessions · total attendances · unique attendees · repeat rate · WeChat group size · social following</span><br>Only the organiser has these. <b>Do not estimate them — count them in Luma and the spreadsheet first.</b>' } }
+  ];
+
+  var TIERS = [
+    { ac:"var(--tiffany)", n:{ zh:"单场", en:"Single session" }, p:{ zh:"$300", en:"$300" },
+      s:{ zh:"一次活动", en:"one event" },
+      l:{ zh:["活动页与宣传图上的 logo 与一句话介绍",
+              "开场由主持口头致谢（15 秒，不是 pitch）",
+              "微信群与小红书/IG 发布时署名",
+              "可派 1–2 人以普通参与者身份到场"],
+          en:["Logo and one line on the event page and the cards",
+              "A fifteen-second thank-you from the host at the open, not a pitch",
+              "Named in the WeChat and social announcements",
+              "One or two seats, attending as participants like everyone else"] } },
+    { ac:"var(--pink)", n:{ zh:"四场", en:"Four sessions" }, p:{ zh:"$800", en:"$800" },
+      s:{ zh:"一个季度", en:"a season" },
+      l:{ zh:["单场所有权益 × 4",
+              "coffeewithonlu.com 上的常驻署名",
+              "每季度一份参与者构成小结（<b>只有汇总，无个人信息</b>）",
+              "优先选择赞助哪几场主题"],
+          en:["Everything in the single tier, four times",
+              "A standing credit on coffeewithonlu.com",
+              "A quarterly summary of who attended (<b>aggregate only, no individual data</b>)",
+              "First choice of which themes to sponsor"] } },
+    { ac:"var(--sky)", n:{ zh:"场地赞助", en:"Venue partner" }, p:{ zh:"In-kind", en:"In-kind" },
+      s:{ zh:"提供场地", en:"host it at your office" },
+      l:{ zh:["提供可容纳 10–15 人的空间与咖啡",
+              "权益等同单场赞助",
+              "<b>对想做招聘品牌的公司，这通常比付现金更划算</b>"],
+          en:["Space for ten to fifteen people, and the coffee",
+              "Same recognition as a paid single session",
+              "<b>Usually better value than cash for a firm building a recruiting brand</b>"] } }
+  ];
+
+  var NOT = { zh:["<b>不卖参与者名单。</b>任何赞助层级都不提供姓名、邮箱、微信或联系方式。",
+                  "<b>不安排 pitch 时段、不摆展台、不发宣传物料。</b>",
+                  "<b>不参与选人。</b>赞助方不能指定谁来、谁不来。",
+                  "这几条不是客气话。<b>这个社群的全部价值就在于它不是一个被推销的场合</b> —— 一旦破了，赞助位本身也就不值钱了。"],
+              en:["<b>The attendee list is not for sale.</b> No tier includes names, emails, WeChat IDs or any contact details.",
+                  "<b>No pitch slot, no booth, no collateral on the table.</b>",
+                  "<b>No say over the guest list.</b> Sponsors do not choose who attends.",
+                  "These are not politeness. <b>The whole value of this room is that nobody is being sold to</b> — break that and the sponsorship is worth nothing either."] };
+
+  var lang = "zh";
+  try { if (localStorage.getItem("onlu-sponsor-lang") === "en") lang = "en"; } catch(e){}
+
+  function paint(){
+    document.getElementById("h1").innerHTML = T.h1[lang];
+    document.getElementById("lede").innerHTML = T.lede[lang];
+    document.getElementById("h-room").textContent = T.hRoom[lang];
+    document.getElementById("i-room").textContent = T.iRoom[lang];
+    document.getElementById("h-record").textContent = T.hRec[lang];
+    document.getElementById("i-record").textContent = T.iRec[lang];
+    document.getElementById("h-tiers").textContent = T.hTier[lang];
+    document.getElementById("i-tiers").textContent = T.iTier[lang];
+    document.getElementById("h-not").textContent = T.hNot[lang];
+    document.getElementById("cta").textContent = T.cta[lang];
+    document.getElementById("j1").textContent = T.j1[lang];
+    document.getElementById("j2").textContent = T.j2[lang];
+    document.getElementById("j3").textContent = T.j3[lang];
+
+    document.getElementById("room-list").innerHTML = ROOM.map(function(x){
+      return '<div class="card" style="--ac:'+x.ac+'"><p><b>'+x.t[lang]+'</b></p><p>'+x.p[lang]+'</p></div>';
+    }).join("");
+
+    document.getElementById("stats").innerHTML = STATS.map(function(x){
+      return '<div class="stat" style="--ac:'+x.ac+'"><div class="stat__n">'+x.n[lang]+
+             '</div><div class="stat__k">'+x.k[lang]+'</div></div>';
+    }).join("");
+
+    document.getElementById("record-list").innerHTML = RECORD.map(function(x){
+      return '<div class="card" style="--ac:'+x.ac+'"><p><b>'+x.t[lang]+'</b></p><p>'+x.p[lang]+'</p></div>';
+    }).join("");
+
+    document.getElementById("tier-list").innerHTML = TIERS.map(function(x){
+      return '<div class="tier" style="--ac:'+x.ac+'">'+
+        '<div class="tier__top"><div><div class="tier__n">'+x.n[lang]+'</div>'+
+        '<div class="tier__s">'+x.s[lang]+'</div></div>'+
+        '<div class="tier__p">'+x.p[lang]+'</div></div>'+
+        '<ul>'+x.l[lang].map(function(i){return '<li>'+i+'</li>';}).join('')+'</ul></div>';
+    }).join("");
+
+    document.getElementById("not-card").innerHTML =
+      '<ul>'+NOT[lang].map(function(i){return '<li>'+i+'</li>';}).join('')+'</ul>';
+
+    document.getElementById("lang").textContent = lang === "en" ? "中文" : "EN";
+    document.documentElement.lang = lang === "en" ? "en" : "zh";
+  }
+
+  document.getElementById("lang").addEventListener("click", function(){
+    lang = lang === "en" ? "zh" : "en";
+    try { localStorage.setItem("onlu-sponsor-lang", lang); } catch(e){}
+    paint();
+  });
+  paint();
+})();
+</script>
+</body>
+</html>
