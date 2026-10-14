@@ -168,8 +168,8 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
   "use strict";
   var T = {
     h1:    { zh:'赞助 <span class="grad">Coffee with Onlu</span>', en:'Sponsor <span class="grad">Coffee with Onlu</span>' },
-    lede:  { zh:"纽约华人金融从业者的线下社群。每 1–2 周一场主题咖啡或晚餐，<b>每场约 10 人。</b>",
-             en:"An in-person community for Chinese finance professionals in New York. A themed coffee or dinner every one to two weeks, <b>about ten people each.</b>" },
+    lede:  { zh:"纽约华人金融从业者的线下社群。每 1–2 周一场主题咖啡或晚餐，<b>平均每场约 9 人。</b>",
+             en:"An in-person community for Chinese finance professionals in New York. A themed coffee or dinner every one to two weeks, <b>about nine people on average.</b>" },
     hRoom: { zh:"房间里是谁", en:"Who is in the room" },
     iRoom: { zh:"", en:"" },
     hRec:  { zh:"做过的场次", en:"Track record" },
@@ -189,61 +189,80 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
       buy:{ k:{ zh:"买方", en:"Buy side" }, v:{ zh:"私募信贷、私募股权、基建与地产、对冲基金、资管", en:"Private credit, private equity, infrastructure and real estate, hedge funds, asset management" } },
       sell:{ k:{ zh:"卖方", en:"Sell side" }, v:{ zh:"投行、交易、银行放贷与结构化融资", en:"Investment banking, trading, bank lending and structured finance" } } },
     fields:{ t:{ zh:"行业分布", en:"By field" },
-      note:{ zh:"基于有完整名单的 4 场活动，共 43 位参与者（不含主办方）。", en:"Based on the four sessions with full rosters: 43 participants, excluding the host." } },
+      note:{ zh:"基于 9 场活动的参与者名单：67 位填写了背景的不重复参与者（不含主办方）。", en:"From the participant lists of all nine sessions: 67 distinct participants with a stated background, excluding the host." } },
     roles:{ t:{ zh:"往期同桌（部分角色）", en:"Who sat at the table (a sample)" },
       note:{ zh:"只列角色，不列姓名与公司。", en:"Roles only; no names or firms." } },
     community:{ t:{ zh:"社群", en:"Community" },
       p:{ zh:"纽约华人金融从业者，中英双语。", en:"Chinese finance professionals in New York, bilingual in English and Chinese." } }
   };
 
-  /* Counted seat by seat from the four sessions with full rosters
-     (Onlu dinner, AI × Finance 8/30, Credit 10/3, Data Center 10/11); host excluded. */
-  var BASE = 43;
+  /* Counted person by person from the Oct 13 roster: every named participant across the
+     nine sessions, de-duplicated, host excluded, one blank answer left out (67 people). */
+  var BASE = 67;
   var FIELDS = [
-    { c:12, ac:"var(--tiffany)",  t:{ zh:"信贷", en:"Credit" },
-      e:{ zh:"私募信贷、直接借贷、结构化、公开市场信用、信用交易、CDS、银行放贷", en:"Private credit, direct lending, structured, public credit, credit trading, CDS, bank lending" } },
-    { c:7,  ac:"var(--indigo)",   t:{ zh:"私募股权、实物资产与资管", en:"Private equity, real assets & asset management" },
-      e:{ zh:"基建 PE、地产 PE、工业 PE、私募资本承揽、投资管理", en:"Infrastructure, real estate and industrial PE; private capital origination; investment management" } },
-    { c:6,  ac:"var(--pink)",     t:{ zh:"投行", en:"Investment banking" },
+    { c:17, ac:"var(--tiffany)",  t:{ zh:"信贷", en:"Credit" },
+      e:{ zh:"私募信贷、直接借贷、资产抵押贷款、结构化、公开市场信用、信用交易、CDS、基金融资", en:"Private credit, direct and asset-based lending, structured, public credit, credit trading, CDS, fund finance" } },
+    { c:15, ac:"var(--sky)",      t:{ zh:"量化与交易", en:"Quant & trading" },
+      e:{ zh:"卖方量化、对冲基金量化、CLO 与信用量化、系统化交易、Sales & Trading", en:"Sell-side and hedge fund quant, CLO and credit quant, systematic trading, sales & trading" } },
+    { c:10, ac:"var(--indigo)",   t:{ zh:"私募股权、实物资产与资管", en:"Private equity, real assets & asset management" },
+      e:{ zh:"PE、基建、地产、私募资本承揽、投资与组合管理", en:"Private equity, infrastructure, real estate, private capital origination, investment and portfolio management" } },
+    { c:8,  ac:"var(--pink)",     t:{ zh:"投行", en:"Investment banking" },
       e:{ zh:"FIG、结构化融资、杠杆融资、重组", en:"FIG, structured finance, leveraged finance, restructuring" } },
-    { c:5,  ac:"var(--sky)",      t:{ zh:"量化与对冲基金", en:"Quant & hedge funds" },
-      e:{ zh:"对冲基金量化、利率量化、银行量化、CLO 量化", en:"Hedge fund, rates, bank and CLO quant" } },
+    { c:7,  ac:"var(--tiffany3)", t:{ zh:"战略、研究、风控与数据", en:"Strategy, research, risk & data" },
+      e:{ zh:"战略财务、科技与数字银行战略、风控、评级、金融数据", en:"Strategic finance, tech and digital banking strategy, risk, ratings, financial data" } },
     { c:5,  ac:"var(--azure)",    t:{ zh:"AI 与科技", en:"AI & technology" },
-      e:{ zh:"AI 研究、AI 基础设施、科技", en:"AI research, AI infrastructure, technology" } },
-    { c:5,  ac:"var(--tiffany3)", t:{ zh:"战略、研究与数据", en:"Strategy, research & data" },
-      e:{ zh:"战略财务、TMT 战略咨询、信用数据与研究、数字银行战略", en:"Strategic finance, TMT strategy, credit data and research, digital banking strategy" } },
+      e:{ zh:"AI 基础设施、Fintech、软件工程", en:"AI infrastructure, fintech, software engineering" } },
     { c:3,  ac:"var(--tiffany2)", t:{ zh:"学生与新人", en:"Students & early career" },
-      e:{ zh:"在读学生、实习生、入行第一年", en:"Students, interns, first-year professionals" } }
+      e:{ zh:"在读学生、入行第一年", en:"Students and first-year professionals" } },
+    { c:2,  ac:"var(--dim)",      t:{ zh:"其他", en:"Other" },
+      e:{ zh:"法律、医疗健康", en:"Law, healthcare" } }
   ];
+  /* Largest-remainder rounding, so the shares on the page add up to exactly 100. */
+  (function(){
+    var raw = FIELDS.map(function(f){ return f.c / BASE * 100; });
+    var fl  = raw.map(Math.floor);
+    var left = 100 - fl.reduce(function(a,b){ return a+b; }, 0);
+    raw.map(function(r,i){ return { i:i, rem:r - fl[i] }; })
+       .sort(function(a,b){ return b.rem - a.rem; })
+       .slice(0, left).forEach(function(o){ fl[o.i] += 1; });
+    FIELDS.forEach(function(f,i){ f.pct = fl[i]; });
+  })();
 
   var ROLES = [
     { ac:"var(--tiffany)",  zh:"私募信贷 · 直接借贷", en:"Private Credit · Direct Lending" },
+    { ac:"var(--tiffany)",  zh:"资产抵押贷款",        en:"Asset-Based Lending" },
     { ac:"var(--tiffany)",  zh:"结构化信贷",          en:"Structured Credit" },
-    { ac:"var(--tiffany)",  zh:"信用交易 · EM",       en:"Credit Trading · EM" },
-    { ac:"var(--tiffany)",  zh:"CDS · 债券",          en:"CDS · Bonds" },
     { ac:"var(--tiffany)",  zh:"公开市场信用",        en:"Public Credit" },
-    { ac:"var(--tiffany)",  zh:"银行 · 商业地产放贷", en:"Bank · CRE Lending" },
+    { ac:"var(--tiffany)",  zh:"信用交易",            en:"Credit Trading" },
+    { ac:"var(--tiffany)",  zh:"CDS",                 en:"CDS" },
+    { ac:"var(--tiffany)",  zh:"基金融资",            en:"Fund Finance" },
+    { ac:"var(--sky)",      zh:"卖方量化",            en:"Sell-Side Quant" },
+    { ac:"var(--sky)",      zh:"对冲基金量化",        en:"Hedge Fund Quant" },
+    { ac:"var(--sky)",      zh:"CLO 量化",            en:"CLO Quant" },
+    { ac:"var(--sky)",      zh:"系统化交易",          en:"Systematic Trading" },
+    { ac:"var(--sky)",      zh:"Sales & Trading",     en:"Sales & Trading" },
+    { ac:"var(--indigo)",   zh:"基建 PE",             en:"Infrastructure PE" },
+    { ac:"var(--indigo)",   zh:"工业 PE · 数据中心",  en:"Industrial PE · Data Centers" },
+    { ac:"var(--indigo)",   zh:"地产投资",            en:"Real Estate Investing" },
+    { ac:"var(--indigo)",   zh:"组合管理",            en:"Portfolio Management" },
     { ac:"var(--pink)",     zh:"投行 · FIG",          en:"IB · FIG" },
     { ac:"var(--pink)",     zh:"投行 · 结构化融资",   en:"IB · Structured Finance" },
     { ac:"var(--pink)",     zh:"杠杆融资 · BSL",      en:"Lev Fin · BSL" },
     { ac:"var(--pink)",     zh:"重组投行",            en:"Restructuring Banking" },
-    { ac:"var(--indigo)",   zh:"基建 PE",             en:"Infrastructure PE" },
-    { ac:"var(--indigo)",   zh:"地产 PE",             en:"Real Estate PE" },
-    { ac:"var(--indigo)",   zh:"工业 PE · 数据中心",  en:"Industrial PE · Data Centers" },
-    { ac:"var(--sky)",      zh:"对冲基金量化",        en:"Hedge Fund Quant" },
-    { ac:"var(--sky)",      zh:"利率量化",            en:"Rates Quant" },
-    { ac:"var(--sky)",      zh:"CLO 量化",            en:"CLO Quant" },
-    { ac:"var(--azure)",    zh:"AI 研究",             en:"AI Research" },
+    { ac:"var(--tiffany3)", zh:"战略财务",            en:"Strategic Finance" },
+    { ac:"var(--tiffany3)", zh:"基建评级",            en:"Infrastructure Ratings" },
     { ac:"var(--azure)",    zh:"AI 基础设施",         en:"AI Infrastructure" },
-    { ac:"var(--tiffany3)", zh:"信用数据与研究",      en:"Credit Data & Research" },
-    { ac:"var(--tiffany3)", zh:"项目融资",            en:"Project Finance" }
+    { ac:"var(--azure)",    zh:"Fintech",             en:"Fintech" },
+    { ac:"var(--tiffany2)", zh:"项目融资",            en:"Project Finance" }
   ];
 
   var STATS = [
-    { ac:"var(--tiffany)",  n:{ zh:"9",    en:"9" },    k:{ zh:"7 月中旬以来办过的场次", en:"events since mid-July" } },
-    { ac:"var(--sky)",      n:{ zh:"80",   en:"80" },   k:{ zh:"累计报名人次（含重复参与者）", en:"cumulative registrations, including repeat attendees" } },
-    { ac:"var(--indigo)",   n:{ zh:"150+", en:"150+" },  k:{ zh:"小红书社群成员", en:"members in the Xiaohongshu group" } },
-    { ac:"var(--pink)",     n:{ zh:"90%+", en:"90%+" }, k:{ zh:"参与者留下微信等联系方式", en:"of attendees leave a WeChat or other contact" } }
+    { ac:"var(--tiffany)",  n:{ zh:"9",    en:"9" },    k:{ zh:"7 月中旬以来办过的场次", en:"sessions since mid-July" } },
+    { ac:"var(--sky)",      n:{ zh:"77",   en:"77" },   k:{ zh:"累计参与人次（含重复参与者）", en:"total seats filled, including repeat attendees" } },
+    { ac:"var(--indigo)",   n:{ zh:"65+",  en:"65+" },  k:{ zh:"位不重复参与者", en:"distinct participants" } },
+    { ac:"var(--azure)",    n:{ zh:"~9",   en:"~9" },   k:{ zh:"平均每场人数", en:"people per session on average" } },
+    { ac:"var(--pink)",     n:{ zh:"150+", en:"150+" }, k:{ zh:"小红书社群成员", en:"members in the Xiaohongshu group" } },
+    { ac:"var(--tiffany2)", n:{ zh:"90%+", en:"90%+" }, k:{ zh:"参与者留下微信等联系方式", en:"of attendees leave a WeChat or other contact" } }
   ];
 
   var RECORD = [
@@ -257,8 +276,8 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
       p:{ zh:"活动目前对参与者免费，这是有意为之：我们根据背景筛选报名，<b>保证每场都是真正相关的人。</b>",
           en:"Sessions are intentionally free for attendees, and registrations are screened by background <b>so every table stays relevant.</b>" } },
     { ac:"var(--pink)", t:{ zh:"活动之间，社群是持续的", en:"The community runs between the events" },
-      p:{ zh:"每场活动前后都通过小红书社群与微信触达同一批人：活动页、宣传图、报名与会后跟进。<b>90% 以上的参与者会留下联系方式，所以这不是一次性的曝光，而是同一群人反复看到。</b>",
-          en:"The same people are reached through the Xiaohongshu group and WeChat before and after each session: the event page, the cards, registration and follow-up. <b>More than nine in ten attendees leave a contact, so this is not one-off exposure but the same group seeing you repeatedly.</b>" } }
+      p:{ zh:"每场活动前后都通过小红书社群与微信触达同一批人：活动页、宣传图、报名与会后跟进。<b>90% 以上的参与者会留下联系方式，已有 8 位以上参与者回来参加了第二场甚至第三场。</b>",
+          en:"The same people are reached through the Xiaohongshu group and WeChat before and after each session: the event page, the cards, registration and follow-up. <b>More than nine in ten attendees leave a contact, and at least eight have already come back for a second or third session.</b>" } }
   ];
 
   var TIERS = [
@@ -318,7 +337,7 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
       '<div class="card" style="--ac:var(--tiffany)"><p><b>'+R.fields.t[L]+'</b></p><div class="bars">'+
         FIELDS.map(function(f){
           return '<div style="--ac:'+f.ac+'"><div class="bar__top"><span>'+f.t[L]+'</span>'+
-            '<span class="bar__pct">'+Math.round(f.c/BASE*100)+'%</span></div>'+
+            '<span class="bar__pct">'+f.pct+'%</span></div>'+
             '<div class="bar__track"><div class="bar__fill" style="width:'+(f.c/maxC*100)+'%"></div></div>'+
             '<div class="bar__eg">'+f.e[L]+'</div></div>';
         }).join('')+
