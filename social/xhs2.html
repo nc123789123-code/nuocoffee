@@ -1,0 +1,249 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Onlu Finance × AI brainstorm — XHS covers</title>
+<link rel="stylesheet" href="fonts.css">
+<link rel="stylesheet" href="fonts-sc.css">
+<style>
+:root{
+  --bg:#0a1520; --text:#eef6fb; --muted:#93aec4; --dim:#6d8aa3;
+  --line:rgba(150,200,230,.14); --line2:rgba(150,200,230,.24);
+  --tiffany:#2ee0d0; --tiffany2:#9befe4; --sky:#4cc4ff; --indigo:#8a9bff; --pink:#ff4f9a;
+  --display:'Unbounded',system-ui,sans-serif;
+  --mono:'Space Mono',ui-monospace,monospace;
+  --sc:'Noto SC Sub','WenQuanYi Zen Hei',sans-serif;
+  --grad:linear-gradient(100deg,var(--tiffany2),var(--tiffany) 30%,var(--sky) 58%,var(--pink) 92%);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#222;padding:40px;display:flex;gap:40px;align-items:flex-start;}
+
+.card{position:relative;width:1080px;height:1440px;overflow:hidden;background:var(--bg);color:var(--text);
+  padding:92px 84px 84px;display:flex;flex-direction:column;isolation:isolate;font-family:var(--sc);flex:none;}
+.card > *{flex:none;}
+.card > svg.art{position:absolute;inset:0;z-index:-1;}
+.blob{position:absolute;border-radius:50%;filter:blur(120px);z-index:-2;}
+.grid{position:absolute;inset:0;z-index:-2;opacity:.45;
+  background-image:linear-gradient(rgba(150,200,230,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(150,200,230,.05) 1px,transparent 1px);
+  background-size:90px 90px;-webkit-mask-image:radial-gradient(ellipse at 50% 40%,#000 20%,transparent 75%);
+  mask-image:radial-gradient(ellipse at 50% 40%,#000 20%,transparent 75%);}
+
+.top{display:flex;align-items:center;justify-content:space-between;}
+.eyebrow{font-family:var(--mono);font-weight:700;letter-spacing:.2em;font-size:25px;color:var(--tiffany2);text-transform:uppercase;}
+.eyebrow .sc{font-family:var(--sc);letter-spacing:.12em;font-weight:500;}
+.pill{font-family:var(--sc);font-weight:900;font-size:27px;color:#08131c;background:var(--grad);
+  padding:12px 26px;border-radius:999px;box-shadow:0 0 44px -8px rgba(255,79,154,.6);}
+.pill .num{font-family:var(--display);font-weight:800;letter-spacing:-.01em;}
+
+.bottom{margin-top:auto;display:flex;align-items:flex-end;justify-content:space-between;gap:24px;}
+.when .d{font-family:var(--display);font-weight:800;font-size:64px;letter-spacing:-.02em;line-height:1;}
+.when .d span{font-family:var(--sc);font-weight:900;font-size:50px;margin-left:14px;letter-spacing:0;}
+.when .t{font-family:var(--mono);font-weight:700;font-size:28px;color:var(--muted);letter-spacing:.06em;margin-top:14px;}
+.cta{flex:none;font-weight:900;font-size:32px;color:#08131c;background:var(--grad);padding:20px 34px;border-radius:999px;
+  box-shadow:0 0 44px -8px rgba(255,79,154,.6);}
+
+/* ---------- A: Venn ---------- */
+#venn .b1{width:900px;height:900px;top:180px;left:-380px;background:radial-gradient(circle,var(--tiffany),transparent 68%);opacity:.22;}
+#venn .b2{width:900px;height:900px;top:180px;right:-380px;background:radial-gradient(circle,var(--pink),transparent 68%);opacity:.2;}
+#venn .title{margin-top:auto;font-family:var(--display);font-weight:800;font-size:124px;letter-spacing:-.035em;line-height:1;}
+#venn .q{margin-top:26px;font-size:36px;font-weight:500;color:var(--muted);}
+#venn .q b{color:var(--text);font-weight:900;}
+#venn .bottom{margin-top:56px;padding-top:34px;border-top:1px solid var(--line);}
+
+/* ---------- B: cup ---------- */
+#cup .b1{width:1000px;height:1000px;top:-300px;right:-360px;background:radial-gradient(circle,var(--indigo),transparent 68%);opacity:.24;}
+#cup .b2{width:900px;height:900px;top:420px;left:-380px;background:radial-gradient(circle,var(--tiffany),transparent 68%);opacity:.2;}
+#cup .b3{width:800px;height:800px;bottom:-360px;right:-200px;background:radial-gradient(circle,var(--pink),transparent 68%);opacity:.2;}
+#cup .kick{margin-top:auto;font-family:var(--mono);font-weight:700;font-size:30px;letter-spacing:.18em;
+  background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;width:max-content;}
+#cup .cy{font-weight:900;font-size:168px;line-height:1;margin-top:18px;letter-spacing:.02em;
+  background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;width:max-content;}
+#cup .bs{font-family:var(--display);font-weight:800;font-size:108px;letter-spacing:-.035em;line-height:1;margin-top:10px;}
+#cup .bottom{margin-top:52px;}
+</style>
+
+<!-- ================= A: Finance ∩ AI ================= -->
+<div class="card" id="venn">
+  <span class="blob b1"></span><span class="blob b2"></span><span class="grid"></span>
+  <svg class="art" viewBox="0 0 1080 1440" width="1080" height="1440">
+    <defs>
+      <linearGradient id="gA" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#9befe4"/><stop offset=".35" stop-color="#2ee0d0"/>
+        <stop offset=".65" stop-color="#4cc4ff"/><stop offset="1" stop-color="#ff4f9a"/>
+      </linearGradient>
+      <linearGradient id="ringL" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#9befe4"/><stop offset="1" stop-color="#2ee0d0" stop-opacity=".5"/>
+      </linearGradient>
+      <linearGradient id="ringR" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#8a9bff" stop-opacity=".5"/><stop offset="1" stop-color="#ff4f9a"/>
+      </linearGradient>
+      <clipPath id="cL"><circle cx="370" cy="560" r="300"/></clipPath>
+      <clipPath id="cR"><circle cx="710" cy="560" r="300"/></clipPath>
+      <filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="30"/></filter>
+      <filter id="soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="6"/></filter>
+    </defs>
+
+    <!-- circle bodies -->
+    <circle cx="370" cy="560" r="300" fill="rgba(46,224,208,.06)"/>
+    <circle cx="710" cy="560" r="300" fill="rgba(255,79,154,.06)"/>
+
+    <!-- left: candles -->
+    <g id="candles" clip-path="url(#cL)"></g>
+    <!-- right: network -->
+    <g id="net" clip-path="url(#cR)"></g>
+
+    <!-- intersection -->
+    <g clip-path="url(#cR)"><circle cx="370" cy="560" r="300" fill="url(#gA)" filter="url(#glow)" opacity=".55"/></g>
+    <g clip-path="url(#cR)"><circle cx="370" cy="560" r="300" fill="url(#gA)"/></g>
+
+    <circle cx="370" cy="560" r="300" fill="none" stroke="url(#ringL)" stroke-width="3"/>
+    <circle cx="710" cy="560" r="300" fill="none" stroke="url(#ringR)" stroke-width="3"/>
+
+    <text x="540" y="545" text-anchor="middle" font-family="Noto SC Sub" font-weight="900" font-size="112" fill="#08131c">创</text>
+    <text x="540" y="668" text-anchor="middle" font-family="Noto SC Sub" font-weight="900" font-size="112" fill="#08131c">业</text>
+
+    <text x="235" y="752" text-anchor="middle" font-family="Space Mono" font-weight="700" font-size="26" letter-spacing="6" fill="#9befe4">FINANCE</text>
+    <text x="845" y="752" text-anchor="middle" font-family="Space Mono" font-weight="700" font-size="26" letter-spacing="6" fill="#ff8fbf">AI</text>
+
+    <!-- sparkles -->
+    <g fill="#9befe4" opacity=".9">
+      <path d="M980 230 l6 18 18 6 -18 6 -6 18 -6 -18 -18 -6 18 -6z"/>
+      <path d="M110 300 l4 12 12 4 -12 4 -4 12 -4 -12 -12 -4 12 -4z" opacity=".7"/>
+      <path d="M540 205 l4 12 12 4 -12 4 -4 12 -4 -12 -12 -4 12 -4z" fill="#ff8fbf"/>
+    </g>
+  </svg>
+
+  <div class="top">
+    <p class="eyebrow">Coffee with Onlu <span class="sc">✦ 纽约</span></p>
+    <span class="pill"><span class="num">10/17</span> 周六</span>
+  </div>
+
+  <h1 class="title">Brainstorm</h1>
+  <p class="q"><b>Finance 里哪些事，值得用 AI 重新做一遍？</b></p>
+
+  <div class="bottom">
+    <div class="when"><div class="d">10:00–12:00</div><div class="t">小型讨论 · 带着想法来就好</div></div>
+    <span class="cta">私信报名 →</span>
+  </div>
+</div>
+
+<!-- ================= B: cup → chart → network ================= -->
+<div class="card" id="cup">
+  <span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span><span class="grid"></span>
+  <svg class="art" viewBox="0 0 1080 1440" width="1080" height="1440">
+    <defs>
+      <linearGradient id="gB" x1="0" y1="1" x2="1" y2="0">
+        <stop offset="0" stop-color="#9befe4"/><stop offset=".35" stop-color="#2ee0d0"/>
+        <stop offset=".65" stop-color="#4cc4ff"/><stop offset="1" stop-color="#ff4f9a"/>
+      </linearGradient>
+      <linearGradient id="cupG" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#9befe4"/><stop offset="1" stop-color="#2ee0d0"/>
+      </linearGradient>
+      <linearGradient id="coffee" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#2ee0d0"/><stop offset=".55" stop-color="#4cc4ff"/><stop offset="1" stop-color="#ff4f9a"/>
+      </linearGradient>
+      <linearGradient id="area" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#4cc4ff" stop-opacity=".22"/><stop offset="1" stop-color="#4cc4ff" stop-opacity="0"/>
+      </linearGradient>
+      <filter id="glowB" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="14"/></filter>
+    </defs>
+    <g id="cupArt"></g>
+  </svg>
+
+  <div class="top">
+    <p class="eyebrow">Coffee with Onlu <span class="sc">✦ 纽约</span></p>
+  </div>
+
+  <p class="kick">FINANCE × AI</p>
+  <p class="cy">创业</p>
+  <p class="bs">Brainstorm</p>
+
+  <div class="bottom">
+    <div class="when"><div class="d">10/17<span>周六</span></div><div class="t">10:00–12:00 · 带着想法来就好</div></div>
+    <span class="cta">私信报名 →</span>
+  </div>
+</div>
+
+<script>
+const NS = "http://www.w3.org/2000/svg";
+function el(tag, attrs, parent){ const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); parent && parent.appendChild(e); return e; }
+
+/* ---- A: candles in the left circle, rising ---- */
+(function(){
+  const g = document.getElementById("candles");
+  const closes = [640, 612, 628, 580, 596, 548, 520, 536, 486, 452];
+  let prev = 668;
+  closes.forEach((c, i) => {
+    const x = 118 + i * 31, up = c < prev;
+    const top = Math.min(prev, c), bot = Math.max(prev, c);
+    const col = up ? "#2ee0d0" : "#ff4f9a";
+    el("line", { x1:x+8, x2:x+8, y1:top-22, y2:bot+18, stroke:col, "stroke-width":3, opacity:.85 }, g);
+    el("rect", { x, y:top, width:16, height:Math.max(bot-top, 6), rx:2, fill:col, opacity: up ? .95 : .8 }, g);
+    prev = c;
+  });
+  // trend line through the closes
+  el("polyline", { points: closes.map((c,i)=>(126+i*31)+","+(c-46)).join(" "), fill:"none",
+    stroke:"#9befe4", "stroke-width":2.5, "stroke-dasharray":"2 9", "stroke-linecap":"round", opacity:.8 }, g);
+})();
+
+/* ---- A: small neural net in the right circle ---- */
+(function(){
+  const g = document.getElementById("net");
+  const layers = [[730, [430, 520, 610, 700]], [835, [465, 560, 655]], [935, [510, 610]]];
+  for (let l = 0; l < layers.length - 1; l++)
+    for (const y1 of layers[l][1]) for (const y2 of layers[l+1][1])
+      el("line", { x1:layers[l][0], y1, x2:layers[l+1][0], y2, stroke:"#8a9bff", "stroke-width":2, opacity:.38 }, g);
+  layers.forEach(([x, ys], l) => ys.forEach(y => {
+    el("circle", { cx:x, cy:y, r:20, fill:"#ff4f9a", opacity:.18 }, g);
+    el("circle", { cx:x, cy:y, r:10, fill: l === 2 ? "#ff4f9a" : "#c6ceff" }, g);
+  }));
+})();
+
+/* ---- B: coffee cup; the steam turns into a rising chart, then a network ---- */
+(function(){
+  const root = document.getElementById("cupArt");
+  const g = el("g", {}, root);                                   // steam + network
+  const cupG = el("g", { transform:"translate(0,-90)" }, root);  // cup, lifted to clear the title
+  const Y = (y) => Math.round(200 + (y - 182) * 0.749);           // squeeze the steam to sit on the lifted cup
+  const cx = 300, rimY = 650;
+
+  // two faint steam wisps
+  [["M245 610 C215 560 275 530 245 480 C220 440 260 410 245 375", .35],
+   ["M355 615 C330 575 380 545 355 505 C335 470 365 445 352 420", .25]].forEach(([d, o]) =>
+    el("path", { d, fill:"none", stroke:"#9befe4", "stroke-width":5, "stroke-linecap":"round", opacity:o }, cupG));
+
+  // main steam: a wiggle that straightens into a rising price line
+  const pts = [[300,612],[318,560],[292,512],[330,468],[384,436],[420,470],[480,392],[540,420],[612,320],[668,352],[742,250],[800,286],[880,182],[960,210]].map(([x, y]) => [x, Y(y)]);
+  const line = pts.map(p => p.join(",")).join(" ");
+  el("polyline", { points: line, fill:"none", stroke:"url(#gB)", "stroke-width":14, "stroke-linejoin":"round", "stroke-linecap":"round", filter:"url(#glowB)", opacity:.7 }, g);
+  el("polyline", { points: line, fill:"none", stroke:"url(#gB)", "stroke-width":7, "stroke-linejoin":"round", "stroke-linecap":"round" }, g);
+
+  // network: the chart's later vertices become nodes, joined to floating ones
+  const hub = pts.slice(6);
+  const extra = [[600,190],[700,150],[820,110],[930,320],[860,400],[740,420],[980,120]].map(([x, y]) => [x, Y(y)]);
+  const links = [[0,5],[1,5],[2,0],[2,1],[3,1],[3,4],[4,6],[5,6],[6,3],[6,2]];
+  links.forEach(([a,b]) => {
+    const p = hub[a], q = extra[b];
+    el("line", { x1:p[0], y1:p[1], x2:q[0], y2:q[1], stroke:"#8a9bff", "stroke-width":2, opacity:.4 }, g);
+  });
+  [[0,1],[1,2],[3,4],[4,5],[2,6]].forEach(([a,b]) =>
+    el("line", { x1:extra[a][0], y1:extra[a][1], x2:extra[b][0], y2:extra[b][1], stroke:"#8a9bff", "stroke-width":2, opacity:.3 }, g));
+  extra.forEach(([x,y]) => { el("circle", { cx:x, cy:y, r:18, fill:"#8a9bff", opacity:.16 }, g); el("circle", { cx:x, cy:y, r:7, fill:"#c6ceff" }, g); });
+  hub.forEach(([x,y], i) => {
+    const c = i > 4 ? "#ff4f9a" : "#4cc4ff";
+    el("circle", { cx:x, cy:y, r:24, fill:c, opacity:.22 }, g);
+    el("circle", { cx:x, cy:y, r:11, fill:"#eef6fb", stroke:c, "stroke-width":5 }, g);
+  });
+
+  // saucer
+  el("ellipse", { cx, cy:842, rx:250, ry:38, fill:"rgba(155,239,228,.06)", stroke:"url(#cupG)", "stroke-width":4 }, cupG);
+  el("ellipse", { cx, cy:836, rx:140, ry:16, fill:"none", stroke:"#2ee0d0", "stroke-width":2, opacity:.4 }, cupG);
+  // body
+  el("path", { d:`M${cx-170} ${rimY} C${cx-168} 760 ${cx-110} 826 ${cx} 826 C${cx+110} 826 ${cx+168} 760 ${cx+170} ${rimY} Z`,
+    fill:"rgba(10,21,32,.85)", stroke:"url(#cupG)", "stroke-width":6, "stroke-linejoin":"round" }, cupG);
+  // handle
+  el("path", { d:`M${cx+166} 684 C${cx+262} 672 ${cx+268} 772 ${cx+128} 784`, fill:"none", stroke:"url(#cupG)", "stroke-width":6, "stroke-linecap":"round" }, cupG);
+  // coffee surface + rim
+  el("ellipse", { cx, cy:rimY, rx:170, ry:30, fill:"url(#coffee)", opacity:.95 }, cupG);
+  el("ellipse", { cx, cy:rimY, rx:170, ry:30, fill:"none", stroke:"#9befe4", "stroke-width":6 }, cupG);
+  el("ellipse", { cx:cx-30, cy:rimY-4, rx:60, ry:8, fill:"#ffffff", opacity:.28 }, cupG);
+})();
+</script>
