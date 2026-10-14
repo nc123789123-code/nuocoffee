@@ -168,8 +168,8 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
   "use strict";
   var T = {
     h1:    { zh:'赞助 <span class="grad">Coffee with Onlu</span>', en:'Sponsor <span class="grad">Coffee with Onlu</span>' },
-    lede:  { zh:"纽约华人金融从业者的线下社群。每 1–2 周一场主题咖啡或晚餐，<b>平均每场约 9 人。</b>",
-             en:"An in-person community for Chinese finance professionals in New York. A themed coffee or dinner every one to two weeks, <b>about nine people on average.</b>" },
+    lede:  { zh:"纽约华人金融从业者的线下社群。每 1–2 周一场主题咖啡或晚餐，<b>每场 15 人以内。</b>",
+             en:"An in-person community for Chinese finance professionals in New York. A themed coffee or dinner every one to two weeks, <b>never more than fifteen people.</b>" },
     hRoom: { zh:"房间里是谁", en:"Who is in the room" },
     iRoom: { zh:"", en:"" },
     hRec:  { zh:"做过的场次", en:"Track record" },
@@ -189,7 +189,7 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
       buy:{ k:{ zh:"买方", en:"Buy side" }, v:{ zh:"私募信贷、私募股权、基建与地产、对冲基金、资管", en:"Private credit, private equity, infrastructure and real estate, hedge funds, asset management" } },
       sell:{ k:{ zh:"卖方", en:"Sell side" }, v:{ zh:"投行、交易、银行放贷与结构化融资", en:"Investment banking, trading, bank lending and structured finance" } } },
     fields:{ t:{ zh:"行业分布", en:"By field" },
-      note:{ zh:"基于 9 场活动的参与者名单：67 位填写了背景的不重复参与者（不含主办方）。", en:"From the participant lists of all nine sessions: 67 distinct participants with a stated background, excluding the host." } },
+      note:{ zh:"基于 10 场活动的参与者名单：69 位填写了背景的不重复参与者（不含主办方）。", en:"From the participant lists of all ten sessions: 69 distinct participants with a stated background, excluding the host." } },
     roles:{ t:{ zh:"往期同桌（部分角色）", en:"Who sat at the table (a sample)" },
       note:{ zh:"只列角色，不列姓名与公司。", en:"Roles only; no names or firms." } },
     community:{ t:{ zh:"社群", en:"Community" },
@@ -197,13 +197,13 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
   };
 
   /* Counted person by person from the Oct 13 roster: every named participant across the
-     nine sessions, de-duplicated, host excluded, one blank answer left out (67 people). */
-  var BASE = 67;
+     ten sessions, de-duplicated, host excluded, one blank answer left out (69 people). */
+  var BASE = 69;
   var FIELDS = [
-    { c:17, ac:"var(--tiffany)",  t:{ zh:"信贷", en:"Credit" },
-      e:{ zh:"私募信贷、直接借贷、资产抵押贷款、结构化、公开市场信用、信用交易、CDS、基金融资", en:"Private credit, direct and asset-based lending, structured, public credit, credit trading, CDS, fund finance" } },
-    { c:15, ac:"var(--sky)",      t:{ zh:"量化与交易", en:"Quant & trading" },
-      e:{ zh:"卖方量化、对冲基金量化、CLO 与信用量化、系统化交易、Sales & Trading", en:"Sell-side and hedge fund quant, CLO and credit quant, systematic trading, sales & trading" } },
+    { c:18, ac:"var(--tiffany)",  t:{ zh:"信贷", en:"Credit" },
+      e:{ zh:"私募信贷、直接借贷、资产抵押贷款、结构化与 CLO、公开市场信用、信用交易、CDS、基金融资", en:"Private credit, direct and asset-based lending, structured credit and CLOs, public credit, credit trading, CDS, fund finance" } },
+    { c:16, ac:"var(--sky)",      t:{ zh:"量化与交易", en:"Quant & trading" },
+      e:{ zh:"卖方量化、对冲基金量化、CLO 与信用量化、加密货币量化、系统化交易、Sales & Trading", en:"Sell-side and hedge fund quant, CLO and credit quant, crypto quant, systematic trading, sales & trading" } },
     { c:10, ac:"var(--indigo)",   t:{ zh:"私募股权、实物资产与资管", en:"Private equity, real assets & asset management" },
       e:{ zh:"PE、基建、地产、私募资本承揽、投资与组合管理", en:"Private equity, infrastructure, real estate, private capital origination, investment and portfolio management" } },
     { c:8,  ac:"var(--pink)",     t:{ zh:"投行", en:"Investment banking" },
@@ -232,6 +232,7 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
     { ac:"var(--tiffany)",  zh:"私募信贷 · 直接借贷", en:"Private Credit · Direct Lending" },
     { ac:"var(--tiffany)",  zh:"资产抵押贷款",        en:"Asset-Based Lending" },
     { ac:"var(--tiffany)",  zh:"结构化信贷",          en:"Structured Credit" },
+    { ac:"var(--tiffany)",  zh:"CLO 结构化",          en:"CLO Structuring" },
     { ac:"var(--tiffany)",  zh:"公开市场信用",        en:"Public Credit" },
     { ac:"var(--tiffany)",  zh:"信用交易",            en:"Credit Trading" },
     { ac:"var(--tiffany)",  zh:"CDS",                 en:"CDS" },
@@ -239,6 +240,7 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
     { ac:"var(--sky)",      zh:"卖方量化",            en:"Sell-Side Quant" },
     { ac:"var(--sky)",      zh:"对冲基金量化",        en:"Hedge Fund Quant" },
     { ac:"var(--sky)",      zh:"CLO 量化",            en:"CLO Quant" },
+    { ac:"var(--sky)",      zh:"加密货币量化",        en:"Crypto Quant" },
     { ac:"var(--sky)",      zh:"系统化交易",          en:"Systematic Trading" },
     { ac:"var(--sky)",      zh:"Sales & Trading",     en:"Sales & Trading" },
     { ac:"var(--indigo)",   zh:"基建 PE",             en:"Infrastructure PE" },
@@ -257,8 +259,8 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
   ];
 
   var STATS = [
-    { ac:"var(--tiffany)",  n:{ zh:"9",    en:"9" },    k:{ zh:"7 月中旬以来办过的场次", en:"sessions since mid-July" } },
-    { ac:"var(--sky)",      n:{ zh:"75+",  en:"75+" },  k:{ zh:"累计参与人次（含重复参与者）", en:"attendances, including repeat attendees" } },
+    { ac:"var(--tiffany)",  n:{ zh:"10",   en:"10" },   k:{ zh:"5 月以来办过的场次", en:"sessions since May" } },
+    { ac:"var(--sky)",      n:{ zh:"80",   en:"80" },   k:{ zh:"累计参与人次（含重复参与者）", en:"attendances, including repeat attendees" } },
     { ac:"var(--pink)",     n:{ zh:"150+", en:"150+" }, k:{ zh:"小红书社群成员", en:"members in the Xiaohongshu group" } },
     { ac:"var(--tiffany2)", n:{ zh:"90%+", en:"90%+" }, k:{ zh:"参与者留下微信等联系方式", en:"of attendees leave a WeChat or other contact" } }
   ];
