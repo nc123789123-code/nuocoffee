@@ -129,49 +129,38 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
   var UI = {
     eyebrow:{ zh:"Coffee with Onlu ✦ 纽约", en:"Coffee with Onlu ✦ NYC" },
     h1b:    { zh:"创业 Brainstorm", en:"startup brainstorm" },
-    facts:  { zh:"周六 10月17日 · 10:00–12:00 · 4–5 人", en:"Saturday, Oct 17 · 10:00 AM–12:00 PM · 4–5 people" },
-    lede:   { zh:"一个小桌讨论：<b>Finance 里哪些事，值得用 AI 重新做一遍？</b>人少，所以每个人都会有充分的时间讲自己的想法。",
-              en:"A small table on one question: <b>what in finance is worth rebuilding with AI?</b> With only a handful of people, everyone gets real time on their own idea." },
+    facts:  { zh:"周六 10月17日 · 10:00–11:30 · 4–5 人", en:"Saturday, Oct 17 · 10:00–11:30 AM · 4–5 people" },
+    lede:   { zh:"<b>Finance 里哪些事，值得用 AI 重新做一遍？</b>", en:"<b>What in finance is worth rebuilding with AI?</b>" },
     hFlow:  { zh:"流程", en:"Flow" },
     hTop:   { zh:"讨论话题", en:"Topics" },
     hBring: { zh:"请带来", en:"Bring" },
-    bring:  { zh:"<b>一个痛点或一个想法，一两句话说清楚即可。</b>不需要 presentation，也不需要成形的方案。",
-              en:"<b>One pain point or one idea, in a sentence or two.</b> No deck, and it doesn't need to be fully formed." }
+    bring:  { zh:"<b>一个痛点或想法，一句话即可。</b>不需要 presentation。",
+              en:"<b>One pain point or idea, in a sentence.</b> No deck needed." }
   };
 
   var FLOW = [
-    { t:"10:00", zh:["自我介绍", "每人约 3 分钟：现在在做什么，以及一个想解决的问题"],
-                 en:["Introductions", "About 3 minutes each: what you do now, and one problem you'd like to solve"] },
-    { t:"10:20", zh:["痛点", "从每个人的日常工作出发"], en:["Pain points", "Starting from everyone's day-to-day work"] },
-    { t:"10:50", zh:["产品与模式", "挑一两个想法往下推"], en:["Product and model", "Take one or two ideas further"] },
-    { t:"11:20", zh:["从 idea 到执行", "真正卡住的地方"], en:["From idea to execution", "Where it actually gets stuck"] },
-    { t:"11:45", zh:["下一步", "谁和谁会后继续聊"], en:["Next steps", "Who follows up with whom"] }
+    { t:"10:00", zh:["自我介绍", "每人 2–3 分钟"], en:["Introductions", "2–3 minutes each"] },
+    { t:"10:15", zh:["痛点与想法", "话题 01–02"], en:["Pain points and ideas", "Topics 01–02"] },
+    { t:"10:50", zh:["从 idea 到执行", "话题 03"], en:["From idea to execution", "Topic 03"] },
+    { t:"11:15", zh:["下一步", "话题 04"], en:["Next steps", "Topic 04"] }
   ];
 
   var TOPICS = [
     { ac:"var(--tiffany)",
-      t:{ zh:"Finance 行业有哪些痛点可以用 AI 解决？", en:"Which problems in finance can AI actually solve?" },
-      q:[{ zh:"哪些工作每周都在重复、依赖人工，而且出错代价高？例如协议条款提取与 covenant 跟踪、纪要与研究整理、尽调资料、对账与报告。",
-           en:"What work repeats every week, is done by hand, and is costly to get wrong? Think credit agreement terms and covenant tracking, notes and research, diligence materials, reconciliation and reporting." },
-         { zh:"所需的数据在哪里？是否结构化，能否合规地拿到？", en:"Where does the data live? Is it structured, and can it be accessed compliantly?" },
-         { zh:"谁会为此付费：前台、中后台，还是合规与风控？", en:"Who would pay: the front office, operations, or compliance and risk?" }] },
+      t:{ zh:"Finance 有哪些痛点可以用 AI 解决？", en:"Which problems in finance can AI solve?" },
+      q:[{ zh:"重复、靠人工、出错代价高的工作", en:"Work that is repetitive, manual and costly to get wrong" },
+         { zh:"谁会为此付费", en:"Who would pay for it" }] },
     { ac:"var(--sky)",
-      t:{ zh:"有没有值得尝试的产品或商业模式？", en:"Which products or business models are worth trying?" },
-      q:[{ zh:"卖给机构还是个人？订阅、按用量收费，还是服务加软件？", en:"Sell to institutions or individuals? Subscription, usage-based, or service plus software?" },
-         { zh:"现有的数据终端和 AI 研究工具没有覆盖到的空白在哪里？", en:"Where are the gaps that existing data terminals and AI research tools leave open?" },
-         { zh:"小团队的壁垒是什么：专有数据、嵌入工作流，还是行业经验？", en:"What is a small team's moat: proprietary data, being embedded in the workflow, or domain expertise?" }] },
+      t:{ zh:"有没有值得尝试的产品或商业模式？", en:"Which products or models are worth trying?" },
+      q:[{ zh:"卖给机构还是个人，怎么收费", en:"Institutions or individuals, and how to charge" },
+         { zh:"小团队的壁垒在哪里", en:"Where a small team's edge comes from" }] },
     { ac:"var(--indigo)",
       t:{ zh:"从 idea 到 execution，真正的挑战是什么？", en:"From idea to execution: what is the real challenge?" },
-      q:[{ zh:"第一个付费客户从哪里来？金融机构采购周期长，信息安全审查如何通过？",
-           en:"Where does the first paying customer come from? Procurement at financial firms is slow; how do you get through security review?" },
-         { zh:"在职期间做项目：雇佣协议与 outside business activity 报备有哪些限制？",
-           en:"Building while employed: what do employment agreements and outside business activity disclosures allow?" },
-         { zh:"兼职验证到什么程度，才值得全职投入？", en:"How much validation part-time before it is worth going full-time?" }] },
+      q:[{ zh:"第一个客户从哪里来", en:"Where the first customer comes from" },
+         { zh:"在职期间做项目的限制", en:"Limits on building while employed" }] },
     { ac:"var(--pink)",
-      t:{ zh:"找到志同道合的人，一起做点事情", en:"Finding the right people to build with" },
-      q:[{ zh:"每人说清楚：自己能贡献什么（行业、技术、销售、时间），以及在找什么样的人。",
-           en:"Each person says what they bring (domain, engineering, sales, time) and who they are looking for." },
-         { zh:"会后是否建一个小群，两周后各自同步一次进展？", en:"Start a small group afterwards and each share progress in two weeks?" }] }
+      t:{ zh:"找到志同道合的人", en:"Finding people to build with" },
+      q:[{ zh:"自己能贡献什么，在找什么样的人", en:"What you bring, and who you are looking for" }] }
   ];
 
   var lang = "zh";

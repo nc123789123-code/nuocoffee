@@ -105,7 +105,7 @@
       formVertical: "Finance × AI Startups",
       iso: "2026-10-17",
       date: "Saturday, Oct 17",
-      time: "10:00 AM–12:00 PM",
+      time: "10:00–11:30 AM",
       place: "",                        // add the neighbourhood once it's set
       note: "Small group · bring an idea, not a deck",
       full: false,
