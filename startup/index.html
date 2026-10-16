@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Finance × AI 创业 Brainstorm — Coffee with Onlu</title>
+<meta name="description" content="Flow and discussion topics for the Onlu Finance × AI startup brainstorm, NYC." />
+<meta name="robots" content="noindex" />
+<meta name="theme-color" content="#0a1520" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%232ee0d0%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M5%209h11v4a4%204%200%200%201-4%204H9a4%204%200%200%201-4-4V9Z%22%2F%3E%3Cpath%20d%3D%22M16%2010h2.4a2.4%202.4%200%200%201%200%204.8H16%22%2F%3E%3Cpath%20d%3D%22M8%203.4c-.5%201%20.5%201.6%200%202.6M11.5%203.4c-.5%201%20.5%201.6%200%202.6%22%2F%3E%3C%2Fsvg%3E" />
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@600;800&family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+
+:root{
+  --bg:#0a1520; --surface:rgba(255,255,255,.035);
+  --text:#eef6fb; --muted:#93aec4; --dim:#6d8aa3; --line:rgba(150,200,230,.14);
+  --tiffany:#2ee0d0; --tiffany2:#9befe4; --sky:#4cc4ff; --indigo:#8a9bff; --pink:#ff4f9a;
+  --display:'Unbounded',system-ui,sans-serif;
+  --body:'Outfit',system-ui,-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
+  --mono:'Space Mono',ui-monospace,'Courier New',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:var(--body);font-size:16px;
+  line-height:1.55;-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%;
+  padding-bottom:60px;overflow-x:hidden;}
+
+.fx{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
+.blob{position:absolute;border-radius:50%;filter:blur(90px);}
+.b1{width:80vw;height:80vw;top:-26vh;right:-30vw;
+  background:radial-gradient(circle,var(--tiffany),transparent 68%);opacity:.22;}
+.b2{width:75vw;height:75vw;bottom:-14vh;left:-30vw;
+  background:radial-gradient(circle,var(--pink),transparent 68%);opacity:.13;}
+.wrap{position:relative;z-index:1;max-width:640px;margin-inline:auto;padding:0 18px;}
+
+.bar{position:sticky;top:0;z-index:20;background:rgba(6,14,22,.9);
+  -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);}
+.bar__in{max-width:640px;margin-inline:auto;padding:10px 18px;display:flex;align-items:center;gap:10px;}
+.cup{color:var(--tiffany2);line-height:0;flex:none;}
+.cup svg{width:21px;height:21px;display:block;}
+.bar__n{font-family:var(--display);font-weight:600;font-size:.85rem;letter-spacing:-.01em;}
+.lang{margin-left:auto;flex:none;white-space:nowrap;font-family:var(--mono);font-weight:700;
+  font-size:.7rem;letter-spacing:.1em;color:var(--muted);background:var(--surface);
+  border:1px solid var(--line);border-radius:999px;padding:7px 13px;cursor:pointer;
+  -webkit-tap-highlight-color:transparent;}
+
+header{padding:32px 0 4px;}
+.eyebrow{font-family:var(--mono);text-transform:uppercase;letter-spacing:.18em;
+  font-size:.68rem;font-weight:700;color:var(--tiffany2);}
+h1{font-family:var(--display);font-weight:800;letter-spacing:-.025em;line-height:1.08;
+  font-size:clamp(1.8rem,8vw,2.5rem);margin:.32em 0 .36em;}
+.grad{background:linear-gradient(100deg,var(--tiffany2),var(--tiffany) 30%,var(--sky) 58%,var(--pink) 92%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;}
+.facts{font-family:var(--mono);font-size:.78rem;color:var(--dim);letter-spacing:.04em;line-height:1.7;}
+.lede{font-size:.95rem;color:var(--muted);margin-top:16px;line-height:1.6;}
+.lede b{color:var(--text);font-weight:600;}
+
+h2{font-family:var(--display);font-weight:600;letter-spacing:-.015em;font-size:1.05rem;
+  margin:38px 0 12px;display:flex;align-items:center;gap:9px;}
+h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
+  background:var(--ac,var(--tiffany));box-shadow:0 0 12px var(--ac,var(--tiffany));}
+
+.flow{list-style:none;border:1px solid var(--line);border-radius:14px;background:var(--surface);overflow:hidden;}
+.flow li{display:flex;gap:14px;padding:12px 15px;border-top:1px solid var(--line);font-size:.92rem;line-height:1.45;}
+.flow li:first-child{border-top:0;}
+.flow .t{font-family:var(--mono);font-size:.74rem;color:var(--tiffany2);flex:none;width:44px;padding-top:2px;}
+.flow .s{color:var(--dim);font-size:.82rem;display:block;margin-top:2px;}
+
+.topic{border:1px solid var(--line);border-radius:14px;background:var(--surface);
+  padding:15px;margin-bottom:10px;border-left:3px solid var(--ac);}
+.topic__n{font-family:var(--mono);font-size:.64rem;font-weight:700;letter-spacing:.14em;color:var(--ac);}
+.topic__t{font-weight:600;font-size:1rem;margin:5px 0 9px;line-height:1.4;}
+.topic ul{list-style:none;display:flex;flex-direction:column;gap:7px;}
+.topic li{position:relative;padding-left:16px;font-size:.9rem;color:var(--muted);line-height:1.5;}
+.topic li::before{content:"";position:absolute;left:0;top:.6em;width:5px;height:5px;
+  border-radius:50%;background:var(--ac);opacity:.75;}
+
+.bring{border:1px solid rgba(46,224,208,.3);background:rgba(46,224,208,.07);border-radius:14px;
+  padding:14px 15px;font-size:.9rem;color:var(--muted);line-height:1.6;}
+.bring b{color:var(--text);font-weight:600;}
+
+.foot{margin:40px 0 10px;padding-top:18px;border-top:1px solid var(--line);
+  font-family:var(--mono);font-size:.7rem;color:var(--dim);line-height:1.8;}
+.foot a{color:var(--tiffany2);}
+</style>
+</head>
+<body>
+<div class="fx"><span class="blob b1"></span><span class="blob b2"></span></div>
+
+<nav class="bar"><div class="bar__in">
+  <span class="cup" id="cup"></span>
+  <span class="bar__n">Coffee with Onlu</span>
+  <button class="lang" id="lang" type="button">EN</button>
+</div></nav>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow" id="eyebrow"></p>
+    <h1>Finance × AI<br><span class="grad" id="h1b"></span></h1>
+    <p class="facts" id="facts"></p>
+    <p class="lede" id="lede"></p>
+  </header>
+
+  <h2 style="--ac:var(--tiffany2)" id="hFlow"></h2>
+  <ol class="flow" id="flow"></ol>
+
+  <h2 style="--ac:var(--sky)" id="hTop"></h2>
+  <div id="topics"></div>
+
+  <h2 style="--ac:var(--pink)" id="hBring"></h2>
+  <p class="bring" id="bring"></p>
+
+  <p class="foot">
+    Coffee with Onlu · <a href="/">coffeewithonlu.com</a><br>
+    An Onlu Intel project · NYC
+  </p>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  document.getElementById("cup").innerHTML =
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" ' +
+    'stroke-linejoin="round"><path d="M5 9h11v4a4 4 0 0 1-4 4H9a4 4 0 0 1-4-4V9Z"/>' +
+    '<path d="M16 10h2.4a2.4 2.4 0 0 1 0 4.8H16"/>' +
+    '<path d="M8 3.4c-.5 1 .5 1.6 0 2.6M11.5 3.4c-.5 1 .5 1.6 0 2.6"/></svg>';
+
+  var UI = {
+    eyebrow:{ zh:"Coffee with Onlu ✦ 纽约", en:"Coffee with Onlu ✦ NYC" },
+    h1b:    { zh:"创业 Brainstorm", en:"startup brainstorm" },
+    facts:  { zh:"周六 10月17日 · 10:00–12:00 · 4–5 人", en:"Saturday, Oct 17 · 10:00 AM–12:00 PM · 4–5 people" },
+    lede:   { zh:"一个小桌讨论：<b>Finance 里哪些事，值得用 AI 重新做一遍？</b>人少，所以每个人都会有充分的时间讲自己的想法。",
+              en:"A small table on one question: <b>what in finance is worth rebuilding with AI?</b> With only a handful of people, everyone gets real time on their own idea." },
+    hFlow:  { zh:"流程", en:"Flow" },
+    hTop:   { zh:"讨论话题", en:"Topics" },
+    hBring: { zh:"请带来", en:"Bring" },
+    bring:  { zh:"<b>一个痛点或一个想法，一两句话说清楚即可。</b>不需要 presentation，也不需要成形的方案。",
+              en:"<b>One pain point or one idea, in a sentence or two.</b> No deck, and it doesn't need to be fully formed." }
+  };
+
+  var FLOW = [
+    { t:"10:00", zh:["自我介绍", "每人约 3 分钟：现在在做什么，以及一个想解决的问题"],
+                 en:["Introductions", "About 3 minutes each: what you do now, and one problem you'd like to solve"] },
+    { t:"10:20", zh:["痛点", "从每个人的日常工作出发"], en:["Pain points", "Starting from everyone's day-to-day work"] },
+    { t:"10:50", zh:["产品与模式", "挑一两个想法往下推"], en:["Product and model", "Take one or two ideas further"] },
+    { t:"11:20", zh:["从 idea 到执行", "真正卡住的地方"], en:["From idea to execution", "Where it actually gets stuck"] },
+    { t:"11:45", zh:["下一步", "谁和谁会后继续聊"], en:["Next steps", "Who follows up with whom"] }
+  ];
+
+  var TOPICS = [
+    { ac:"var(--tiffany)",
+      t:{ zh:"Finance 行业有哪些痛点可以用 AI 解决？", en:"Which problems in finance can AI actually solve?" },
+      q:[{ zh:"哪些工作每周都在重复、依赖人工，而且出错代价高？例如协议条款提取与 covenant 跟踪、纪要与研究整理、尽调资料、对账与报告。",
+           en:"What work repeats every week, is done by hand, and is costly to get wrong? Think credit agreement terms and covenant tracking, notes and research, diligence materials, reconciliation and reporting." },
+         { zh:"所需的数据在哪里？是否结构化，能否合规地拿到？", en:"Where does the data live? Is it structured, and can it be accessed compliantly?" },
+         { zh:"谁会为此付费：前台、中后台，还是合规与风控？", en:"Who would pay: the front office, operations, or compliance and risk?" }] },
+    { ac:"var(--sky)",
+      t:{ zh:"有没有值得尝试的产品或商业模式？", en:"Which products or business models are worth trying?" },
+      q:[{ zh:"卖给机构还是个人？订阅、按用量收费，还是服务加软件？", en:"Sell to institutions or individuals? Subscription, usage-based, or service plus software?" },
+         { zh:"现有的数据终端和 AI 研究工具没有覆盖到的空白在哪里？", en:"Where are the gaps that existing data terminals and AI research tools leave open?" },
+         { zh:"小团队的壁垒是什么：专有数据、嵌入工作流，还是行业经验？", en:"What is a small team's moat: proprietary data, being embedded in the workflow, or domain expertise?" }] },
+    { ac:"var(--indigo)",
+      t:{ zh:"从 idea 到 execution，真正的挑战是什么？", en:"From idea to execution: what is the real challenge?" },
+      q:[{ zh:"第一个付费客户从哪里来？金融机构采购周期长，信息安全审查如何通过？",
+           en:"Where does the first paying customer come from? Procurement at financial firms is slow; how do you get through security review?" },
+         { zh:"在职期间做项目：雇佣协议与 outside business activity 报备有哪些限制？",
+           en:"Building while employed: what do employment agreements and outside business activity disclosures allow?" },
+         { zh:"兼职验证到什么程度，才值得全职投入？", en:"How much validation part-time before it is worth going full-time?" }] },
+    { ac:"var(--pink)",
+      t:{ zh:"找到志同道合的人，一起做点事情", en:"Finding the right people to build with" },
+      q:[{ zh:"每人说清楚：自己能贡献什么（行业、技术、销售、时间），以及在找什么样的人。",
+           en:"Each person says what they bring (domain, engineering, sales, time) and who they are looking for." },
+         { zh:"会后是否建一个小群，两周后各自同步一次进展？", en:"Start a small group afterwards and each share progress in two weeks?" }] }
+  ];
+
+  var lang = "zh";
+  try { if (localStorage.getItem("onlu-startup-lang") === "en") lang = "en"; } catch (e) {}
+  var q = (location.search.match(/[?&]lang=(en|zh)/) || [])[1];
+  if (q) lang = q;   // a shared ?lang= link always wins
+
+  function paint(){
+    Object.keys(UI).forEach(function(k){ document.getElementById(k).innerHTML = UI[k][lang]; });
+    document.getElementById("flow").innerHTML = FLOW.map(function(f){
+      return '<li><span class="t">' + f.t + '</span><span>' + f[lang][0] + '<span class="s">' + f[lang][1] + '</span></span></li>';
+    }).join("");
+    document.getElementById("topics").innerHTML = TOPICS.map(function(t, i){
+      return '<div class="topic" style="--ac:' + t.ac + '"><div class="topic__n">0' + (i + 1) + '</div>' +
+             '<div class="topic__t">' + t.t[lang] + '</div><ul>' +
+             t.q.map(function(x){ return "<li>" + x[lang] + "</li>"; }).join("") + "</ul></div>";
+    }).join("");
+    document.getElementById("lang").innerHTML = lang === "en" ? '中文 / <b style="color:#eef6fb">EN</b>' : '<b style="color:#eef6fb">中文</b> / EN';
+    document.documentElement.lang = lang;
+  }
+  document.getElementById("lang").addEventListener("click", function(){
+    lang = lang === "en" ? "zh" : "en";
+    try { localStorage.setItem("onlu-startup-lang", lang); } catch (e) {}
+    paint();
+  });
+  paint();
+})();
+</script>
+</body>
+</html>
