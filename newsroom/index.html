@@ -130,7 +130,7 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
   </header>
 
   <h2 style="--ac:var(--tiffany2)" id="hHow"><!--pre-->怎么进行<!--/pre--></h2>
-  <ol class="steps" id="steps"><!--pre--><li class="step" style="--ac:var(--tiffany)"><span class="step__n">1</span><div><div class="step__t">前一天：每人交一条新闻</div><div class="step__s">主持整理成议程，发给所有人</div></div></li><li class="step" style="--ac:var(--sky)"><span class="step__n">2</span><div><div class="step__t">当天：一条一条过</div><div class="step__s">提出的人讲 3 分钟，其他人每人一句观点，然后自由讨论</div></div></li><li class="step" style="--ac:var(--pink)"><span class="step__n">3</span><div><div class="step__t">最后：每人一个预测</div><div class="step__s">记下来，下一期回看谁说对了</div></div></li><!--/pre--></ol>
+  <ol class="steps" id="steps"><!--pre--><li class="step" style="--ac:var(--tiffany)"><span class="step__n">1</span><div><div class="step__t">前一天：每人交一条新闻</div><div class="step__s">主持整理成议程，发给所有人</div></div></li><li class="step" style="--ac:var(--sky)"><span class="step__n">2</span><div><div class="step__t">当天：一条一条过</div><div class="step__s">每条约 10 分钟：提出的人讲 3 分钟，其他人每人一句观点，然后自由讨论</div></div></li><li class="step" style="--ac:var(--pink)"><span class="step__n">3</span><div><div class="step__t">最后：每人一个预测</div><div class="step__s">记下来，下一期回看谁说对了</div></div></li><!--/pre--></ol>
 
   <h2 style="--ac:var(--sky)" id="hForm"><!--pre-->提前一天交：一张议程卡<!--/pre--></h2>
   <p class="intro" id="iForm"><!--pre-->三段，每段一两句。下面是一个例子。<!--/pre--></p>
@@ -138,7 +138,7 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
   <p class="note" id="note"><!--pre-->截止：活动前一天晚 8 点。主持整理成当天的议程，发到群里。<!--/pre--></p>
 
   <h2 style="--ac:var(--pink)" id="hRules"><!--pre-->规则<!--/pre--></h2>
-  <ul class="rules" id="rules"><!--pre--><li>只聊公开信息</li><li>不聊自己公司的交易和客户</li><li>观点只代表个人</li><li>不需要 PPT</li><!--/pre--></ul>
+  <ul class="rules" id="rules"><!--pre--><li>每期最多 8 人，报满即止</li><li>只聊公开信息</li><li>不聊自己公司的交易和客户</li><li>观点只代表个人</li><li>不需要 PPT</li><!--/pre--></ul>
 
   <a class="next" href="/">
     <div><div class="next__t" id="nextT"><!--pre-->想当面接着聊？<!--/pre--></div><div class="next__s" id="nextS"><!--pre-->看看近期的 Coffee Chat<!--/pre--></div></div>
@@ -184,8 +184,8 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
   var STEPS = [
     { ac:"var(--tiffany)", zh:["前一天：每人交一条新闻", "主持整理成议程，发给所有人"],
                            en:["Day before: everyone sends one story", "The host compiles the docket and sends it round"] },
-    { ac:"var(--sky)",     zh:["当天：一条一条过", "提出的人讲 3 分钟，其他人每人一句观点，然后自由讨论"],
-                           en:["On the day: one story at a time", "Whoever brought it takes 3 minutes, everyone gives a one-line view, then it's open"] },
+    { ac:"var(--sky)",     zh:["当天：一条一条过", "每条约 10 分钟：提出的人讲 3 分钟，其他人每人一句观点，然后自由讨论"],
+                           en:["On the day: one story at a time", "About 10 minutes each: whoever brought it takes 3, everyone gives a one-line view, then it's open"] },
     { ac:"var(--pink)",    zh:["最后：每人一个预测", "记下来，下一期回看谁说对了"],
                            en:["To close: one prediction each", "We write them down and check them next time"] }
   ];
@@ -214,6 +214,7 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
   };
 
   var RULES = [
+    { zh:"每期最多 8 人，报满即止", en:"Eight seats per session; registration closes when full" },
     { zh:"只聊公开信息", en:"Public information only" },
     { zh:"不聊自己公司的交易和客户", en:"Nothing about your own firm's deals or clients" },
     { zh:"观点只代表个人", en:"Views are personal, not your employer's" },
