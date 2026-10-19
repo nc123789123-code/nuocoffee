@@ -64,6 +64,13 @@ h1{font-family:var(--display);font-weight:800;letter-spacing:-.03em;line-height:
 .intro{font-size:.9rem;color:var(--muted);margin:-4px 0 12px;}
 
 /* sample docket card */
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;}
+.tab{font:inherit;font-size:.85rem;font-weight:600;padding:7px 14px;border-radius:999px;cursor:pointer;
+  border:1px solid var(--line);background:var(--surface);color:var(--muted);-webkit-tap-highlight-color:transparent;}
+.tab.on{border-color:var(--ac);color:#08131c;background:var(--ac);}
+.dk[hidden]{display:none;}
+.dk__src{padding:10px 15px 12px;border-top:1px solid var(--line);font-family:var(--mono);font-size:.66rem;color:var(--dim);letter-spacing:.03em;}
+.dk__src a{color:var(--tiffany2);text-decoration:none;border-bottom:1px solid rgba(155,239,228,.35);}
 .dk{border:1px solid rgba(76,196,255,.32);border-radius:16px;overflow:hidden;
   background:linear-gradient(160deg,rgba(76,196,255,.09),rgba(255,79,154,.05) 70%,transparent);}
 .dk__top{display:flex;align-items:center;gap:8px;padding:11px 15px;border-bottom:1px solid var(--line);
@@ -133,8 +140,8 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
   <ol class="steps" id="steps"><!--pre--><li class="step" style="--ac:var(--tiffany)"><span class="step__n">1</span><div><div class="step__t">前一天：每人交一条新闻</div><div class="step__s">主持整理成议程，发给所有人</div></div></li><li class="step" style="--ac:var(--sky)"><span class="step__n">2</span><div><div class="step__t">当天：一条一条过</div><div class="step__s">每条约 10 分钟：提出的人讲 3 分钟，其他人每人一句观点，然后自由讨论</div></div></li><li class="step" style="--ac:var(--pink)"><span class="step__n">3</span><div><div class="step__t">最后 10 分钟：自由交流</div><div class="step__s">接着聊感兴趣的话题，或者认识一下</div></div></li><!--/pre--></ol>
 
   <h2 style="--ac:var(--sky)" id="hForm"><!--pre-->提前一天交：一张议程卡<!--/pre--></h2>
-  <p class="intro" id="iForm"><!--pre-->三段，每段一两句。下面是一个例子。<!--/pre--></p>
-  <article class="dk" id="dk"><!--pre--><div class="dk__top">DOCKET · 01 <span class="dk__tag">金融 · AI</span><span class="dk__ex">示例</span></div><div class="dk__h">Meta 用表外 SPV 为 Hyperion 数据中心融资</div><div class="dk__row" style="--ac:var(--tiffany2)"><div class="dk__k">发生了什么</div><div class="dk__v">2025 年 10 月，Meta 路易斯安那的 Hyperion 园区设立 SPV，Blue Owl 持 80%、Meta 持 20%，约 270 亿美元债务来自 Pimco、BlackRock、Apollo 等。</div></div><div class="dk__row" style="--ac:var(--sky)"><div class="dk__k">为什么重要</div><div class="dk__v">大厂的 AI 资本开支开始走私募信贷和表外结构，债权人实际承担的风险不再只看公司评级。</div></div><div class="dk__row take" style="--ac:var(--pink)"><div class="dk__k">我的判断</div><div class="dk__v">这类结构会越来越多；真正要看的是租约条款和残值担保。</div></div><!--/pre--></article>
+  <p class="intro" id="iForm"><!--pre-->三段，每段一两句。下面是四个例子，都是最近的真实新闻。<!--/pre--></p>
+  <div id="dk"><!--pre--><div class="tabs" role="tablist"><button class="tab on" type="button" role="tab" data-i="0" style="--ac:var(--tiffany)">金融</button><button class="tab" type="button" role="tab" data-i="1" style="--ac:var(--sky)">科技</button><button class="tab" type="button" role="tab" data-i="2" style="--ac:var(--indigo)">AI</button><button class="tab" type="button" role="tab" data-i="3" style="--ac:var(--pink)">医疗</button></div><article class="dk"><div class="dk__top">DOCKET · 01 <span class="dk__tag">金融 · 私募信贷</span><span class="dk__ex">示例</span></div><div class="dk__h">穆迪：算上 PIK 和展期，私募信贷违约率从 4% 升到 5.8%</div><div class="dk__row" style="--ac:var(--tiffany2)"><div class="dk__k">发生了什么</div><div class="dk__v">穆迪统计 607 家私募信贷借款人，截至 6 月的 12 个月违约率为 4%；把改成 PIK（以实物支付利息）和到期展期的困境案例算进去，升到 5.8%。</div></div><div class="dk__row" style="--ac:var(--sky)"><div class="dk__k">为什么重要</div><div class="dk__v">账面违约率低估了真实压力。PIK 越多，基金当期收到的现金越少，分红和估值的可持续性都要打问号。</div></div><div class="dk__row take" style="--ac:var(--pink)"><div class="dk__k">我的判断</div><div class="dk__v">看私募信贷基金，PIK 占收入的比例比违约率更值得盯。</div></div><div class="dk__src">来源：<a href="https://www.bloomberg.com/news/articles/2026-10-14/us-private-credit-stress-masked-by-growing-pik-use-moody-s-says" target="_blank" rel="noopener">Bloomberg · 2026-10-14</a></div></article><article class="dk" hidden=""><div class="dk__top">DOCKET · 02 <span class="dk__tag">科技 · Fintech</span><span class="dk__ex">示例</span></div><div class="dk__h">Ramp 四个月估值从 440 亿涨到 600 亿美元</div><div class="dk__row" style="--ac:var(--tiffany2)"><div class="dk__k">发生了什么</div><div class="dk__v">企业支出管理公司 Ramp 融资 18.5 亿美元，估值 600 亿美元；四个月前它刚以 440 亿美元估值融了 7.5 亿。</div></div><div class="dk__row" style="--ac:var(--sky)"><div class="dk__k">为什么重要</div><div class="dk__v">四个月涨约 36%。后期投资人在为「fintech + AI」付溢价，这也是同类未上市公司的定价锚。</div></div><div class="dk__row take" style="--ac:var(--pink)"><div class="dk__k">我的判断</div><div class="dk__v">到这个估值，下一步更可能是 IPO，而不是再融一轮。</div></div><div class="dk__src">来源：<a href="https://techcrunch.com/2026/10/15/ramp-reaches-60b-valuation-as-it-pushes-deeper-into-ai/" target="_blank" rel="noopener">TechCrunch · 2026-10-15</a></div></article><article class="dk" hidden=""><div class="dk__top">DOCKET · 03 <span class="dk__tag">AI · 大模型</span><span class="dk__ex">示例</span></div><div class="dk__h">DeepSeek 据报考虑把融资扩大到最多 150 亿美元</div><div class="dk__row" style="--ac:var(--tiffany2)"><div class="dk__k">发生了什么</div><div class="dk__v">据 CNBC 报道，DeepSeek 考虑把最新一轮融资扩大一倍，最多到 150 亿美元，估值约 5000 亿元人民币（约 750 亿美元）。条款仍在谈，可能变化。</div></div><div class="dk__row" style="--ac:var(--sky)"><div class="dk__k">为什么重要</div><div class="dk__v">中国头部模型公司开始大规模外部融资，钱主要花在算力上；它的估值也会成为对比美国大模型公司的参照。</div></div><div class="dk__row take" style="--ac:var(--pink)"><div class="dk__k">我的判断</div><div class="dk__v">模型层越来越难有定价权，钱最终会流向算力和应用。</div></div><div class="dk__src">来源：<a href="https://www.cnbc.com/2026/10/06/deepseek-funding-round.html" target="_blank" rel="noopener">CNBC · 2026-10-06</a></div></article><article class="dk" hidden=""><div class="dk__top">DOCKET · 04 <span class="dk__tag">医疗 · 肿瘤药</span><span class="dk__ex">示例</span></div><div class="dk__h">FDA 加速批准 GSK 的 Jemperli 用于早期直肠癌</div><div class="dk__row" style="--ac:var(--tiffany2)"><div class="dk__k">发生了什么</div><div class="dk__v">FDA 加速批准 Jemperli（dostarlimab），用于 II、III 期 MSI-H/dMMR 局部晚期直肠癌的成人患者，是这一适应症第一个获批的疗法。</div></div><div class="dk__row" style="--ac:var(--sky)"><div class="dk__k">为什么重要</div><div class="dk__v">免疫疗法从晚期往早期前移：早期患者更多，治疗目标也从延长生存变成争取治愈，市场规模和定价的逻辑都不一样。</div></div><div class="dk__row take" style="--ac:var(--pink)"><div class="dk__k">我的判断</div><div class="dk__v">有明确生物标志物的早期适应症，会是肿瘤药接下来最值钱的地方。</div></div><div class="dk__src">来源：<a href="https://www.gurufocus.com/news/9130143/gsk-gsk-gains-fda-approval-for-jemperli-boosting-outlook-for-dividend-investors" target="_blank" rel="noopener">GuruFocus（GSK 公告）· 2026-10-19</a></div></article><!--/pre--></div>
   <p class="note" id="note"><!--pre-->截止：活动前一天晚 8 点。主持整理成当天的议程，发到群里。<!--/pre--></p>
 
   <h2 style="--ac:var(--pink)" id="hRules"><!--pre-->规则<!--/pre--></h2>
@@ -164,7 +171,7 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
     eyebrow:{ zh:"Coffee with Onlu ✦ 纽约", en:"Coffee with Onlu ✦ NYC" },
     lede:   { zh:"每人带一条新闻，和一个自己的判断。", en:"Everyone brings one story, and their own take on it." },
     sub:    { zh:"不是读新闻，是听坐在不同位置的人怎么看同一件事。", en:"Not a news digest: people in different seats, reading the same story differently." },
-    iForm:  { zh:"三段，每段一两句。下面是一个例子。", en:"Three parts, a sentence or two each. An example:" },
+    iForm:  { zh:"三段，每段一两句。下面是四个例子，都是最近的真实新闻。", en:"Three parts, a sentence or two each. Four examples, all recent real stories:" },
     hHow:   { zh:"怎么进行", en:"How it works" },
     hForm:  { zh:"提前一天交：一张议程卡", en:"Send the day before: one docket card" },
     note:   { zh:"截止：活动前一天晚 8 点。主持整理成当天的议程，发到群里。",
@@ -195,23 +202,50 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
     { n:"1", zh:"条新闻 / 人", en:"story each" }
   ];
 
-  // a real, sourced story (see /datacenter) used only to show the format
-  var CARD = {
-    tag: { zh:"金融 · AI", en:"Finance · AI" },
-    ex:  { zh:"示例", en:"Example" },
-    h:   { zh:"Meta 用表外 SPV 为 Hyperion 数据中心融资", en:"Meta finances its Hyperion data center through an off-balance-sheet SPV" },
-    rows:[
-      { ac:"var(--tiffany2)", k:{ zh:"发生了什么", en:"What happened" },
-        v:{ zh:"2025 年 10 月，Meta 路易斯安那的 Hyperion 园区设立 SPV，Blue Owl 持 80%、Meta 持 20%，约 270 亿美元债务来自 Pimco、BlackRock、Apollo 等。",
-            en:"In October 2025 Meta's Hyperion campus in Louisiana was put into an SPV, 80% Blue Owl and 20% Meta, with about $27bn of debt from Pimco, BlackRock, Apollo and others." } },
-      { ac:"var(--sky)", k:{ zh:"为什么重要", en:"Why it matters" },
-        v:{ zh:"大厂的 AI 资本开支开始走私募信贷和表外结构，债权人实际承担的风险不再只看公司评级。",
-            en:"Big Tech's AI capex is moving into private credit and off-balance-sheet structures, so lenders' real risk is no longer just the corporate rating." } },
-      { ac:"var(--pink)", take:true, k:{ zh:"我的判断", en:"My take" },
-        v:{ zh:"这类结构会越来越多；真正要看的是租约条款和残值担保。",
-            en:"Expect many more of these; what matters is the lease terms and the residual value guarantee." } }
-    ]
-  };
+  // real, recent stories, used only to show the format; check sources before reusing the figures
+  var CARDS = [
+    { ac:"var(--tiffany)", tab:{ zh:"金融", en:"Finance" }, tag:{ zh:"金融 · 私募信贷", en:"Finance · Private credit" },
+      h:{ zh:"穆迪：算上 PIK 和展期，私募信贷违约率从 4% 升到 5.8%", en:"Moody's: count PIK and extensions, and private credit defaults go from 4% to 5.8%" },
+      what:{ zh:"穆迪统计 607 家私募信贷借款人，截至 6 月的 12 个月违约率为 4%；把改成 PIK（以实物支付利息）和到期展期的困境案例算进去，升到 5.8%。",
+             en:"Across 607 private credit borrowers, Moody's puts the 12-month default rate to June at 4%; counting distressed PIK amendments and maturity extensions, it is 5.8%." },
+      why:{ zh:"账面违约率低估了真实压力。PIK 越多，基金当期收到的现金越少，分红和估值的可持续性都要打问号。",
+            en:"Headline defaults understate the stress. More PIK means less cash coming in, which puts distributions and marks in question." },
+      take:{ zh:"看私募信贷基金，PIK 占收入的比例比违约率更值得盯。", en:"For a private credit fund, watch PIK as a share of income before the default rate." },
+      src:{ n:"Bloomberg · 2026-10-14", u:"https://www.bloomberg.com/news/articles/2026-10-14/us-private-credit-stress-masked-by-growing-pik-use-moody-s-says" } },
+
+    { ac:"var(--sky)", tab:{ zh:"科技", en:"Tech" }, tag:{ zh:"科技 · Fintech", en:"Tech · Fintech" },
+      h:{ zh:"Ramp 四个月估值从 440 亿涨到 600 亿美元", en:"Ramp goes from a $44bn to a $60bn valuation in four months" },
+      what:{ zh:"企业支出管理公司 Ramp 融资 18.5 亿美元，估值 600 亿美元；四个月前它刚以 440 亿美元估值融了 7.5 亿。",
+             en:"Spend-management company Ramp raised $1.85bn at a $60bn valuation, four months after raising $750m at $44bn." },
+      why:{ zh:"四个月涨约 36%。后期投资人在为「fintech + AI」付溢价，这也是同类未上市公司的定价锚。",
+            en:"That is roughly 36% in four months. Late-stage investors are paying up for fintech-plus-AI, and it sets a price anchor for private peers." },
+      take:{ zh:"到这个估值，下一步更可能是 IPO，而不是再融一轮。", en:"At this valuation the next step is more likely an IPO than another round." },
+      src:{ n:"TechCrunch · 2026-10-15", u:"https://techcrunch.com/2026/10/15/ramp-reaches-60b-valuation-as-it-pushes-deeper-into-ai/" } },
+
+    { ac:"var(--indigo)", tab:{ zh:"AI", en:"AI" }, tag:{ zh:"AI · 大模型", en:"AI · Models" },
+      h:{ zh:"DeepSeek 据报考虑把融资扩大到最多 150 亿美元", en:"DeepSeek reportedly weighs doubling its round to as much as $15bn" },
+      what:{ zh:"据 CNBC 报道，DeepSeek 考虑把最新一轮融资扩大一倍，最多到 150 亿美元，估值约 5000 亿元人民币（约 750 亿美元）。条款仍在谈，可能变化。",
+             en:"CNBC reports DeepSeek is considering doubling its latest round to up to $15bn, at about RMB 500bn (roughly $75bn). Terms are still being negotiated." },
+      why:{ zh:"中国头部模型公司开始大规模外部融资，钱主要花在算力上；它的估值也会成为对比美国大模型公司的参照。",
+            en:"A leading Chinese model lab raising at scale, mostly to pay for compute; its price becomes a reference point against US labs." },
+      take:{ zh:"模型层越来越难有定价权，钱最终会流向算力和应用。", en:"Pricing power at the model layer keeps shrinking; the money ends up in compute and applications." },
+      src:{ n:"CNBC · 2026-10-06", u:"https://www.cnbc.com/2026/10/06/deepseek-funding-round.html" } },
+
+    { ac:"var(--pink)", tab:{ zh:"医疗", en:"Healthcare" }, tag:{ zh:"医疗 · 肿瘤药", en:"Healthcare · Oncology" },
+      h:{ zh:"FDA 加速批准 GSK 的 Jemperli 用于早期直肠癌", en:"FDA grants GSK's Jemperli accelerated approval in earlier-stage rectal cancer" },
+      what:{ zh:"FDA 加速批准 Jemperli（dostarlimab），用于 II、III 期 MSI-H/dMMR 局部晚期直肠癌的成人患者，是这一适应症第一个获批的疗法。",
+             en:"The FDA granted Jemperli (dostarlimab) accelerated approval for adults with stage II and III MSI-H/dMMR locally advanced rectal cancer, the first therapy approved for that use." },
+      why:{ zh:"免疫疗法从晚期往早期前移：早期患者更多，治疗目标也从延长生存变成争取治愈，市场规模和定价的逻辑都不一样。",
+            en:"Immunotherapy is moving from late-stage to earlier disease: more patients, and the goal shifts from extending survival to aiming for a cure, which changes both market size and pricing." },
+      take:{ zh:"有明确生物标志物的早期适应症，会是肿瘤药接下来最值钱的地方。", en:"Early-stage indications with a clear biomarker are where oncology value moves next." },
+      src:{ n:"GuruFocus（GSK 公告）· 2026-10-19", u:"https://www.gurufocus.com/news/9130143/gsk-gsk-gains-fda-approval-for-jemperli-boosting-outlook-for-dividend-investors" } }
+  ];
+  var ROWS = [
+    { key:"what", ac:"var(--tiffany2)", k:{ zh:"发生了什么", en:"What happened" } },
+    { key:"why",  ac:"var(--sky)",      k:{ zh:"为什么重要", en:"Why it matters" } },
+    { key:"take", ac:"var(--pink)",     k:{ zh:"我的判断",   en:"My take" } }
+  ];
+  var active = 0;
 
   var RULES = [
     { zh:"每期最多 8 人，报满即止", en:"Eight seats per session; registration closes when full" },
@@ -239,16 +273,31 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
       return '<div class="stat"><b>' + x.n + '</b><span>' + x[lang] + '</span></div>';
     }).join("");
     document.getElementById("dk").innerHTML =
-      '<div class="dk__top">DOCKET · 01 <span class="dk__tag">' + CARD.tag[lang] + '</span><span class="dk__ex">' + CARD.ex[lang] + '</span></div>' +
-      '<div class="dk__h">' + CARD.h[lang] + '</div>' +
-      CARD.rows.map(function(r){
-        return '<div class="dk__row' + (r.take ? ' take' : '') + '" style="--ac:' + r.ac + '"><div class="dk__k">' + r.k[lang] +
-               '</div><div class="dk__v">' + r.v[lang] + '</div></div>';
+      '<div class="tabs" role="tablist">' + CARDS.map(function(c, i){
+        return '<button class="tab' + (i === active ? ' on' : '') + '" type="button" role="tab" data-i="' + i +
+               '" style="--ac:' + c.ac + '">' + c.tab[lang] + '</button>';
+      }).join("") + '</div>' +
+      CARDS.map(function(c, i){
+        return '<article class="dk"' + (i === active ? '' : ' hidden') + '>' +
+          '<div class="dk__top">DOCKET · 0' + (i + 1) + ' <span class="dk__tag">' + c.tag[lang] + '</span><span class="dk__ex">' + (lang === "en" ? "Example" : "示例") + '</span></div>' +
+          '<div class="dk__h">' + c.h[lang] + '</div>' +
+          ROWS.map(function(r){
+            return '<div class="dk__row' + (r.key === "take" ? ' take' : '') + '" style="--ac:' + r.ac + '"><div class="dk__k">' + r.k[lang] +
+                   '</div><div class="dk__v">' + c[r.key][lang] + '</div></div>';
+          }).join("") +
+          '<div class="dk__src">' + (lang === "en" ? "Source: " : "来源：") + '<a href="' + c.src.u + '" target="_blank" rel="noopener">' + c.src.n + '</a></div>' +
+          '</article>';
       }).join("");
     document.getElementById("rules").innerHTML = RULES.map(function(r){ return "<li>" + r[lang] + "</li>"; }).join("");
     document.getElementById("lang").innerHTML = lang === "en" ? '中文 / <b style="color:#eef6fb">EN</b>' : '<b style="color:#eef6fb">中文</b> / EN';
     document.documentElement.lang = lang;
   }
+  document.getElementById("dk").addEventListener("click", function(e){
+    var t = e.target.closest(".tab");
+    if (!t) return;
+    active = +t.getAttribute("data-i");
+    paint();
+  });
   document.getElementById("lang").addEventListener("click", function(){
     lang = lang === "en" ? "zh" : "en";
     try { localStorage.setItem("onlu-newsroom-lang", lang); } catch (e) {}
