@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Onlu Newsroom — Coffee with Onlu</title>
+<meta name="description" content="Onlu Newsroom: everyone brings one piece of news, and the table talks it through. NYC." />
+<meta name="theme-color" content="#0a1520" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%232ee0d0%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M5%209h11v4a4%204%200%200%201-4%204H9a4%204%200%200%201-4-4V9Z%22%2F%3E%3Cpath%20d%3D%22M16%2010h2.4a2.4%202.4%200%200%201%200%204.8H16%22%2F%3E%3Cpath%20d%3D%22M8%203.4c-.5%201%20.5%201.6%200%202.6M11.5%203.4c-.5%201%20.5%201.6%200%202.6%22%2F%3E%3C%2Fsvg%3E" />
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@600;800&family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+
+:root{
+  --bg:#0a1520; --surface:rgba(255,255,255,.035);
+  --text:#eef6fb; --muted:#93aec4; --dim:#6d8aa3; --line:rgba(150,200,230,.14);
+  --tiffany:#2ee0d0; --tiffany2:#9befe4; --sky:#4cc4ff; --indigo:#8a9bff; --pink:#ff4f9a;
+  --display:'Unbounded',system-ui,sans-serif;
+  --body:'Outfit',system-ui,-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
+  --mono:'Space Mono',ui-monospace,'Courier New',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:var(--body);font-size:16px;
+  line-height:1.55;-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%;
+  padding-bottom:60px;overflow-x:hidden;}
+
+.fx{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
+.blob{position:absolute;border-radius:50%;filter:blur(90px);}
+.b1{width:80vw;height:80vw;top:-26vh;right:-30vw;
+  background:radial-gradient(circle,var(--tiffany),transparent 68%);opacity:.22;}
+.b2{width:75vw;height:75vw;bottom:-14vh;left:-30vw;
+  background:radial-gradient(circle,var(--pink),transparent 68%);opacity:.13;}
+.wrap{position:relative;z-index:1;max-width:640px;margin-inline:auto;padding:0 18px;}
+
+.bar{position:sticky;top:0;z-index:20;background:rgba(6,14,22,.9);
+  -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);}
+.bar__in{max-width:640px;margin-inline:auto;padding:10px 18px;display:flex;align-items:center;gap:10px;}
+.cup{color:var(--tiffany2);line-height:0;flex:none;}
+.cup svg{width:21px;height:21px;display:block;}
+.bar__n{font-family:var(--display);font-weight:600;font-size:.85rem;letter-spacing:-.01em;}
+.lang{margin-left:auto;flex:none;white-space:nowrap;font-family:var(--mono);font-weight:700;
+  font-size:.7rem;letter-spacing:.1em;color:var(--muted);background:var(--surface);
+  border:1px solid var(--line);border-radius:999px;padding:7px 13px;cursor:pointer;
+  -webkit-tap-highlight-color:transparent;}
+
+header{padding:34px 0 4px;}
+.eyebrow{font-family:var(--mono);text-transform:uppercase;letter-spacing:.18em;
+  font-size:.68rem;font-weight:700;color:var(--tiffany2);display:flex;align-items:center;gap:8px;}
+.live{width:8px;height:8px;border-radius:50%;background:var(--pink);box-shadow:0 0 10px var(--pink);}
+h1{font-family:var(--display);font-weight:800;letter-spacing:-.03em;line-height:1.02;
+  font-size:clamp(2.2rem,11vw,3.3rem);margin:.3em 0 .32em;}
+.grad{background:linear-gradient(100deg,var(--tiffany2),var(--tiffany) 30%,var(--sky) 58%,var(--pink) 92%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;}
+.lede{font-size:1.05rem;color:var(--text);font-weight:500;line-height:1.5;}
+.facts{font-family:var(--mono);font-size:.76rem;color:var(--dim);letter-spacing:.04em;margin-top:12px;}
+
+h2{font-family:var(--display);font-weight:600;letter-spacing:-.015em;font-size:1.05rem;
+  margin:38px 0 12px;display:flex;align-items:center;gap:9px;}
+h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
+  background:var(--ac,var(--tiffany));box-shadow:0 0 12px var(--ac,var(--tiffany));}
+
+.steps{list-style:none;display:flex;flex-direction:column;gap:10px;}
+.step{display:flex;gap:14px;align-items:flex-start;padding:15px;border:1px solid var(--line);
+  border-radius:14px;background:var(--surface);border-left:3px solid var(--ac);}
+.step__n{font-family:var(--display);font-weight:800;font-size:1.5rem;line-height:1;color:var(--ac);flex:none;width:30px;}
+.step__t{font-weight:600;font-size:1rem;}
+.step__s{font-size:.88rem;color:var(--muted);margin-top:3px;line-height:1.5;}
+
+.form{border:1px solid rgba(46,224,208,.3);background:rgba(46,224,208,.06);border-radius:14px;overflow:hidden;}
+.form__row{display:flex;gap:12px;padding:12px 15px;border-top:1px solid var(--line);font-size:.92rem;}
+.form__row:first-child{border-top:0;}
+.form__k{font-family:var(--mono);font-size:.72rem;color:var(--tiffany2);flex:none;width:78px;padding-top:2px;letter-spacing:.04em;}
+.form__v{color:var(--muted);}
+.note{font-family:var(--mono);font-size:.72rem;color:var(--dim);margin-top:10px;letter-spacing:.02em;}
+
+.rules{list-style:none;display:flex;flex-direction:column;gap:8px;}
+.rules li{position:relative;padding-left:16px;font-size:.92rem;color:var(--muted);}
+.rules li::before{content:"";position:absolute;left:0;top:.62em;width:5px;height:5px;border-radius:50%;background:var(--pink);}
+
+.foot{margin:40px 0 10px;padding-top:18px;border-top:1px solid var(--line);
+  font-family:var(--mono);font-size:.7rem;color:var(--dim);line-height:1.8;}
+.foot a{color:var(--tiffany2);}
+</style>
+</head>
+<body>
+<div class="fx"><span class="blob b1"></span><span class="blob b2"></span></div>
+
+<nav class="bar"><div class="bar__in">
+  <span class="cup" id="cup"></span>
+  <span class="bar__n">Coffee with Onlu</span>
+  <button class="lang" id="lang" type="button">EN</button>
+</div></nav>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow"><span class="live"></span><span id="eyebrow"></span></p>
+    <h1>Onlu<br><span class="grad">Newsroom</span></h1>
+    <p class="lede" id="lede"></p>
+    <p class="facts" id="facts"></p>
+  </header>
+
+  <h2 style="--ac:var(--tiffany2)" id="hHow"></h2>
+  <ol class="steps" id="steps"></ol>
+
+  <h2 style="--ac:var(--sky)" id="hForm"></h2>
+  <div class="form" id="form"></div>
+  <p class="note" id="note"></p>
+
+  <h2 style="--ac:var(--pink)" id="hRules"></h2>
+  <ul class="rules" id="rules"></ul>
+
+  <p class="foot">
+    Coffee with Onlu · <a href="/">coffeewithonlu.com</a><br>
+    An Onlu Intel project · NYC
+  </p>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  document.getElementById("cup").innerHTML =
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" ' +
+    'stroke-linejoin="round"><path d="M5 9h11v4a4 4 0 0 1-4 4H9a4 4 0 0 1-4-4V9Z"/>' +
+    '<path d="M16 10h2.4a2.4 2.4 0 0 1 0 4.8H16"/>' +
+    '<path d="M8 3.4c-.5 1 .5 1.6 0 2.6M11.5 3.4c-.5 1 .5 1.6 0 2.6"/></svg>';
+
+  var UI = {
+    eyebrow:{ zh:"Coffee with Onlu ✦ 纽约", en:"Coffee with Onlu ✦ NYC" },
+    lede:   { zh:"每人带一条新闻，大家一起聊。", en:"Everyone brings one story. The table talks it through." },
+    facts:  { zh:"6–8 人 · 90 分钟", en:"6–8 people · 90 minutes" },
+    hHow:   { zh:"怎么进行", en:"How it works" },
+    hForm:  { zh:"提前一天交", en:"Send the day before" },
+    note:   { zh:"截止：活动前一天晚 8 点。主持整理成当天的议程，发到群里。",
+              en:"Deadline: 8 PM the day before. The host turns them into the docket and shares it with the group." },
+    hRules: { zh:"规则", en:"Ground rules" }
+  };
+
+  var STEPS = [
+    { ac:"var(--tiffany)", zh:["前一天：每人交一条新闻", "主持整理成议程，发给所有人"],
+                           en:["Day before: everyone sends one story", "The host compiles the docket and sends it round"] },
+    { ac:"var(--sky)",     zh:["当天：一条一条过", "提出的人讲 3 分钟，其他人每人一句观点，然后自由讨论"],
+                           en:["On the day: one story at a time", "Whoever brought it takes 3 minutes, everyone gives a one-line take, then it's open"] },
+    { ac:"var(--pink)",    zh:["最后：每人一个预测", "记下来，下一期回看谁说对了"],
+                           en:["To close: one prediction each", "We write them down and check them next time"] }
+  ];
+
+  var FORM = [
+    { k:{ zh:"新闻", en:"Story" },    v:{ zh:"标题 + 链接", en:"Headline and link" } },
+    { k:{ zh:"观点", en:"Take" },     v:{ zh:"你怎么看，一句话", en:"Your view, in one sentence" } },
+    { k:{ zh:"问题", en:"Question" }, v:{ zh:"想听大家怎么看的一个问题", en:"One question for the table" } }
+  ];
+
+  var RULES = [
+    { zh:"只聊公开信息", en:"Public information only" },
+    { zh:"不聊自己公司的交易和客户", en:"Nothing about your own firm's deals or clients" },
+    { zh:"观点只代表个人", en:"Views are personal, not your employer's" },
+    { zh:"不需要 PPT", en:"No slides" }
+  ];
+
+  var lang = "zh";
+  try { if (localStorage.getItem("onlu-newsroom-lang") === "en") lang = "en"; } catch (e) {}
+  var q = (location.search.match(/[?&]lang=(en|zh)/) || [])[1];
+  if (q) lang = q;   // a shared ?lang= link always wins
+
+  function paint(){
+    Object.keys(UI).forEach(function(k){ document.getElementById(k).innerHTML = UI[k][lang]; });
+    document.getElementById("steps").innerHTML = STEPS.map(function(s, i){
+      return '<li class="step" style="--ac:' + s.ac + '"><span class="step__n">' + (i + 1) + '</span>' +
+             '<div><div class="step__t">' + s[lang][0] + '</div><div class="step__s">' + s[lang][1] + '</div></div></li>';
+    }).join("");
+    document.getElementById("form").innerHTML = FORM.map(function(f){
+      return '<div class="form__row"><span class="form__k">' + f.k[lang] + '</span><span class="form__v">' + f.v[lang] + '</span></div>';
+    }).join("");
+    document.getElementById("rules").innerHTML = RULES.map(function(r){ return "<li>" + r[lang] + "</li>"; }).join("");
+    document.getElementById("lang").innerHTML = lang === "en" ? '中文 / <b style="color:#eef6fb">EN</b>' : '<b style="color:#eef6fb">中文</b> / EN';
+    document.documentElement.lang = lang;
+  }
+  document.getElementById("lang").addEventListener("click", function(){
+    lang = lang === "en" ? "zh" : "en";
+    try { localStorage.setItem("onlu-newsroom-lang", lang); } catch (e) {}
+    paint();
+  });
+  paint();
+})();
+</script>
+</body>
+</html>
