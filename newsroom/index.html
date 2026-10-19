@@ -6,7 +6,7 @@
 <title>Onlu Newsroom — Coffee with Onlu</title>
 <meta name="description" content="Onlu Newsroom: everyone brings one piece of news, and the table talks it through. NYC." />
 <meta property="og:title" content="Onlu Newsroom — Coffee with Onlu" />
-<meta property="og:description" content="每人带一条新闻，大家一起聊。金融、科技、AI、医疗。纽约，6–8 人，90 分钟。" />
+<meta property="og:description" content="每人带一条新闻，大家一起聊。金融、科技、AI、医疗、消费、地产、资源。纽约，6–8 人，90 分钟。" />
 <meta property="og:type" content="website" />
 <meta name="theme-color" content="#0a1520" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -19,6 +19,7 @@
   --bg:#0a1520; --surface:rgba(255,255,255,.035);
   --text:#eef6fb; --muted:#93aec4; --dim:#6d8aa3; --line:rgba(150,200,230,.14);
   --tiffany:#2ee0d0; --tiffany2:#9befe4; --sky:#4cc4ff; --indigo:#8a9bff; --pink:#ff4f9a;
+  --amber:#ffc35a; --coral:#ff8a65; --green:#6fe39a;
   --display:'Unbounded',system-ui,sans-serif;
   --body:'Outfit',system-ui,-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
   --mono:'Space Mono',ui-monospace,'Courier New',monospace;
@@ -69,6 +70,10 @@ h1{font-family:var(--display);font-weight:800;letter-spacing:-.03em;line-height:
   border:1px solid var(--line);background:var(--surface);color:var(--muted);-webkit-tap-highlight-color:transparent;}
 .tab.on{border-color:var(--ac);color:#08131c;background:var(--ac);}
 .dk[hidden]{display:none;}
+.dk__qs{padding:10px 15px 12px;border-top:1px solid var(--line);--ac:var(--tiffany2);}
+.dk__qs ul{list-style:none;margin-top:5px;display:flex;flex-direction:column;gap:4px;}
+.dk__qs li{position:relative;padding-left:15px;font-size:.88rem;color:var(--muted);line-height:1.5;}
+.dk__qs li::before{content:"?";position:absolute;left:0;top:0;font-family:var(--mono);font-weight:700;font-size:.8rem;color:var(--tiffany2);}
 .dk__src{padding:10px 15px 12px;border-top:1px solid var(--line);font-family:var(--mono);font-size:.66rem;color:var(--dim);letter-spacing:.03em;}
 .dk__src a{color:var(--tiffany2);text-decoration:none;border-bottom:1px solid rgba(155,239,228,.35);}
 .dk{border:1px solid rgba(76,196,255,.32);border-radius:16px;overflow:hidden;
@@ -133,15 +138,15 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
     <p class="lede" id="lede"><!--pre-->每人带一条新闻，和一个自己的判断。<!--/pre--></p>
     <p class="sub" id="sub"><!--pre-->不是读新闻，是听坐在不同位置的人怎么看同一件事。<!--/pre--></p>
     <div class="stats" id="stats"><!--pre--><div class="stat"><b>6–8</b><span>人</span></div><div class="stat"><b>90</b><span>分钟</span></div><div class="stat"><b>1</b><span>条新闻 / 人</span></div><!--/pre--></div>
-    <div class="beats" id="beats"><!--pre--><span class="beat" style="--ac:var(--tiffany)">金融</span><span class="beat" style="--ac:var(--sky)">科技</span><span class="beat" style="--ac:var(--indigo)">AI</span><span class="beat" style="--ac:var(--pink)">医疗</span><!--/pre--></div>
+    <div class="beats" id="beats"><!--pre--><span class="beat" style="--ac:var(--tiffany)">金融</span><span class="beat" style="--ac:var(--sky)">科技</span><span class="beat" style="--ac:var(--indigo)">AI</span><span class="beat" style="--ac:var(--pink)">医疗</span><span class="beat" style="--ac:var(--amber)">消费零售</span><span class="beat" style="--ac:var(--coral)">房地产</span><span class="beat" style="--ac:var(--green)">自然资源</span><!--/pre--></div>
   </header>
 
   <h2 style="--ac:var(--tiffany2)" id="hHow"><!--pre-->怎么进行<!--/pre--></h2>
   <ol class="steps" id="steps"><!--pre--><li class="step" style="--ac:var(--tiffany)"><span class="step__n">1</span><div><div class="step__t">前一天：每人交一条新闻</div><div class="step__s">主持整理成议程，发给所有人</div></div></li><li class="step" style="--ac:var(--sky)"><span class="step__n">2</span><div><div class="step__t">当天：一条一条过</div><div class="step__s">每条约 10 分钟：提出的人讲 3 分钟，其他人每人一句观点，然后自由讨论</div></div></li><li class="step" style="--ac:var(--pink)"><span class="step__n">3</span><div><div class="step__t">最后 10 分钟：自由交流</div><div class="step__s">接着聊感兴趣的话题，或者认识一下</div></div></li><!--/pre--></ol>
 
   <h2 style="--ac:var(--sky)" id="hForm"><!--pre-->提前一天交：一张议程卡<!--/pre--></h2>
-  <p class="intro" id="iForm"><!--pre-->三段，每段一两句。下面是四个例子，都是最近的真实新闻。<!--/pre--></p>
-  <div id="dk"><!--pre--><div class="tabs" role="tablist"><button class="tab on" type="button" role="tab" data-i="0" style="--ac:var(--tiffany)">金融</button><button class="tab" type="button" role="tab" data-i="1" style="--ac:var(--sky)">科技</button><button class="tab" type="button" role="tab" data-i="2" style="--ac:var(--indigo)">AI</button><button class="tab" type="button" role="tab" data-i="3" style="--ac:var(--pink)">医疗</button></div><article class="dk"><div class="dk__top">DOCKET · 01 <span class="dk__tag">金融 · 私募信贷</span><span class="dk__ex">示例</span></div><div class="dk__h">穆迪：算上 PIK 和展期，私募信贷违约率从 4% 升到 5.8%</div><div class="dk__row" style="--ac:var(--tiffany2)"><div class="dk__k">发生了什么</div><div class="dk__v">穆迪统计 607 家私募信贷借款人，截至 6 月的 12 个月违约率为 4%；把改成 PIK（以实物支付利息）和到期展期的困境案例算进去，升到 5.8%。</div></div><div class="dk__row" style="--ac:var(--sky)"><div class="dk__k">为什么重要</div><div class="dk__v">账面违约率低估了真实压力。PIK 越多，基金当期收到的现金越少，分红和估值的可持续性都要打问号。</div></div><div class="dk__row take" style="--ac:var(--pink)"><div class="dk__k">我的判断</div><div class="dk__v">看私募信贷基金，PIK 占收入的比例比违约率更值得盯。</div></div><div class="dk__src">来源：<a href="https://www.bloomberg.com/news/articles/2026-10-14/us-private-credit-stress-masked-by-growing-pik-use-moody-s-says" target="_blank" rel="noopener">Bloomberg · 2026-10-14</a></div></article><article class="dk" hidden=""><div class="dk__top">DOCKET · 02 <span class="dk__tag">科技 · Fintech</span><span class="dk__ex">示例</span></div><div class="dk__h">Ramp 四个月估值从 440 亿涨到 600 亿美元</div><div class="dk__row" style="--ac:var(--tiffany2)"><div class="dk__k">发生了什么</div><div class="dk__v">企业支出管理公司 Ramp 融资 18.5 亿美元，估值 600 亿美元；四个月前它刚以 440 亿美元估值融了 7.5 亿。</div></div><div class="dk__row" style="--ac:var(--sky)"><div class="dk__k">为什么重要</div><div class="dk__v">四个月涨约 36%。后期投资人在为「fintech + AI」付溢价，这也是同类未上市公司的定价锚。</div></div><div class="dk__row take" style="--ac:var(--pink)"><div class="dk__k">我的判断</div><div class="dk__v">到这个估值，下一步更可能是 IPO，而不是再融一轮。</div></div><div class="dk__src">来源：<a href="https://techcrunch.com/2026/10/15/ramp-reaches-60b-valuation-as-it-pushes-deeper-into-ai/" target="_blank" rel="noopener">TechCrunch · 2026-10-15</a></div></article><article class="dk" hidden=""><div class="dk__top">DOCKET · 03 <span class="dk__tag">AI · 大模型</span><span class="dk__ex">示例</span></div><div class="dk__h">DeepSeek 据报考虑把融资扩大到最多 150 亿美元</div><div class="dk__row" style="--ac:var(--tiffany2)"><div class="dk__k">发生了什么</div><div class="dk__v">据 CNBC 报道，DeepSeek 考虑把最新一轮融资扩大一倍，最多到 150 亿美元，估值约 5000 亿元人民币（约 750 亿美元）。条款仍在谈，可能变化。</div></div><div class="dk__row" style="--ac:var(--sky)"><div class="dk__k">为什么重要</div><div class="dk__v">中国头部模型公司开始大规模外部融资，钱主要花在算力上；它的估值也会成为对比美国大模型公司的参照。</div></div><div class="dk__row take" style="--ac:var(--pink)"><div class="dk__k">我的判断</div><div class="dk__v">模型层越来越难有定价权，钱最终会流向算力和应用。</div></div><div class="dk__src">来源：<a href="https://www.cnbc.com/2026/10/06/deepseek-funding-round.html" target="_blank" rel="noopener">CNBC · 2026-10-06</a></div></article><article class="dk" hidden=""><div class="dk__top">DOCKET · 04 <span class="dk__tag">医疗 · 肿瘤药</span><span class="dk__ex">示例</span></div><div class="dk__h">FDA 加速批准 GSK 的 Jemperli 用于早期直肠癌</div><div class="dk__row" style="--ac:var(--tiffany2)"><div class="dk__k">发生了什么</div><div class="dk__v">FDA 加速批准 Jemperli（dostarlimab），用于 II、III 期 MSI-H/dMMR 局部晚期直肠癌的成人患者，是这一适应症第一个获批的疗法。</div></div><div class="dk__row" style="--ac:var(--sky)"><div class="dk__k">为什么重要</div><div class="dk__v">免疫疗法从晚期往早期前移：早期患者更多，治疗目标也从延长生存变成争取治愈，市场规模和定价的逻辑都不一样。</div></div><div class="dk__row take" style="--ac:var(--pink)"><div class="dk__k">我的判断</div><div class="dk__v">有明确生物标志物的早期适应症，会是肿瘤药接下来最值钱的地方。</div></div><div class="dk__src">来源：<a href="https://www.gurufocus.com/news/9130143/gsk-gsk-gains-fda-approval-for-jemperli-boosting-outlook-for-dividend-investors" target="_blank" rel="noopener">GuruFocus（GSK 公告）· 2026-10-19</a></div></article><!--/pre--></div>
+  <p class="intro" id="iForm"><!--pre-->三段，每段一两句。每个领域一个例子，都是最近的真实新闻。<!--/pre--></p>
+  <div id="dk"><!--pre--><div class="tabs" role="tablist"><button class="tab on" type="button" role="tab" data-i="0" style="--ac:var(--tiffany)">金融</button><button class="tab" type="button" role="tab" data-i="1" style="--ac:var(--sky)">科技</button><button class="tab" type="button" role="tab" data-i="2" style="--ac:var(--indigo)">AI</button><button class="tab" type="button" role="tab" data-i="3" style="--ac:var(--pink)">医疗</button><button class="tab" type="button" role="tab" data-i="4" style="--ac:var(--amber)">消费</button><button class="tab" type="button" role="tab" data-i="5" style="--ac:var(--coral)">地产</button><button class="tab" type="button" role="tab" data-i="6" style="--ac:var(--green)">资源</button></div><article class="dk"><div class="dk__top">DOCKET · 01 <span class="dk__tag">金融 · 私募信贷</span><span class="dk__ex">示例</span></div><div class="dk__h">穆迪：算上 PIK 和展期，私募信贷违约率从 4% 升到 5.8%</div><div class="dk__row" style="--ac:var(--tiffany2)"><div class="dk__k">发生了什么</div><div class="dk__v">穆迪统计 607 家私募信贷借款人，截至 6 月的 12 个月违约率为 4%；把改成 PIK（以实物支付利息）和到期展期的困境案例算进去，升到 5.8%。</div></div><div class="dk__row" style="--ac:var(--sky)"><div class="dk__k">为什么重要</div><div class="dk__v">账面违约率低估了真实压力。PIK 越多，基金当期收到的现金越少，分红和估值的可持续性都要打问号。</div></div><div class="dk__row take" style="--ac:var(--pink)"><div class="dk__k">我的判断</div><div class="dk__v">看私募信贷基金，PIK 占收入的比例比违约率更值得盯。</div></div><div class="dk__qs"><div class="dk__k">现场可以聊</div><ul><li>PIK 是给借款人的缓冲，还是违约的前兆？</li><li>如果你是 LP，会要求基金额外披露什么？</li></ul></div><div class="dk__src">来源：<a href="https://www.bloomberg.com/news/articles/2026-10-14/us-private-credit-stress-masked-by-growing-pik-use-moody-s-says" target="_blank" rel="noopener">Bloomberg · 2026-10-14</a></div></article><article class="dk" hidden=""><div class="dk__top">DOCKET · 02 <span class="dk__tag">科技 · Fintech</span><span class="dk__ex">示例</span></div><div class="dk__h">Ramp 四个月估值从 440 亿涨到 600 亿美元</div><div class="dk__row" style="--ac:var(--tiffany2)"><div class="dk__k">发生了什么</div><div class="dk__v">企业支出管理公司 Ramp 融资 18.5 亿美元，估值 600 亿美元；四个月前它刚以 440 亿美元估值融了 7.5 亿。</div></div><div class="dk__row" style="--ac:var(--sky)"><div class="dk__k">为什么重要</div><div class="dk__v">四个月涨约 36%。后期投资人在为「fintech + AI」付溢价，这也是同类未上市公司的定价锚。</div></div><div class="dk__row take" style="--ac:var(--pink)"><div class="dk__k">我的判断</div><div class="dk__v">到这个估值，下一步更可能是 IPO，而不是再融一轮。</div></div><div class="dk__qs"><div class="dk__k">现场可以聊</div><ul><li>600 亿估值，对应多少倍收入才说得通？</li><li>企业支出管理这条赛道，大银行会不会自己做？</li></ul></div><div class="dk__src">来源：<a href="https://techcrunch.com/2026/10/15/ramp-reaches-60b-valuation-as-it-pushes-deeper-into-ai/" target="_blank" rel="noopener">TechCrunch · 2026-10-15</a></div></article><article class="dk" hidden=""><div class="dk__top">DOCKET · 03 <span class="dk__tag">AI · 大模型</span><span class="dk__ex">示例</span></div><div class="dk__h">DeepSeek 据报考虑把融资扩大到最多 150 亿美元</div><div class="dk__row" style="--ac:var(--tiffany2)"><div class="dk__k">发生了什么</div><div class="dk__v">据 CNBC 报道，DeepSeek 考虑把最新一轮融资扩大一倍，最多到 150 亿美元，估值约 5000 亿元人民币（约 750 亿美元）。条款仍在谈，可能变化。</div></div><div class="dk__row" style="--ac:var(--sky)"><div class="dk__k">为什么重要</div><div class="dk__v">中国头部模型公司开始大规模外部融资，钱主要花在算力上；它的估值也会成为对比美国大模型公司的参照。</div></div><div class="dk__row take" style="--ac:var(--pink)"><div class="dk__k">我的判断</div><div class="dk__v">模型层越来越难有定价权，钱最终会流向算力和应用。</div></div><div class="dk__qs"><div class="dk__k">现场可以聊</div><ul><li>中美大模型公司的估值差距合理吗？</li><li>如果你是投资人，投模型层还是算力层？</li></ul></div><div class="dk__src">来源：<a href="https://www.cnbc.com/2026/10/06/deepseek-funding-round.html" target="_blank" rel="noopener">CNBC · 2026-10-06</a></div></article><article class="dk" hidden=""><div class="dk__top">DOCKET · 04 <span class="dk__tag">医疗 · 肿瘤药</span><span class="dk__ex">示例</span></div><div class="dk__h">FDA 加速批准 GSK 的 Jemperli 用于早期直肠癌</div><div class="dk__row" style="--ac:var(--tiffany2)"><div class="dk__k">发生了什么</div><div class="dk__v">FDA 加速批准 Jemperli（dostarlimab），用于 II、III 期 MSI-H/dMMR 局部晚期直肠癌的成人患者，是这一适应症第一个获批的疗法。</div></div><div class="dk__row" style="--ac:var(--sky)"><div class="dk__k">为什么重要</div><div class="dk__v">免疫疗法从晚期往早期前移：早期患者更多，治疗目标也从延长生存变成争取治愈，市场规模和定价的逻辑都不一样。</div></div><div class="dk__row take" style="--ac:var(--pink)"><div class="dk__k">我的判断</div><div class="dk__v">有明确生物标志物的早期适应症，会是肿瘤药接下来最值钱的地方。</div></div><div class="dk__qs"><div class="dk__k">现场可以聊</div><ul><li>加速批准后还要确证性试验，这个风险怎么定价？</li><li>还有哪些癌种可能走同样的路径？</li></ul></div><div class="dk__src">来源：<a href="https://www.gurufocus.com/news/9130143/gsk-gsk-gains-fda-approval-for-jemperli-boosting-outlook-for-dividend-investors" target="_blank" rel="noopener">GuruFocus（GSK 公告）· 2026-10-19</a></div></article><article class="dk" hidden=""><div class="dk__top">DOCKET · 05 <span class="dk__tag">消费零售 · 宏观</span><span class="dk__ex">示例</span></div><div class="dk__h">9 月零售销售超预期，但一大块花在了加油上</div><div class="dk__row" style="--ac:var(--tiffany2)"><div class="dk__k">发生了什么</div><div class="dk__v">美国 9 月零售销售环比增长 0.8%，预期 0.3%；8 月上修到 1.3%。增长里相当一部分是加油站支出，通胀仍在 3% 以上。</div></div><div class="dk__row" style="--ac:var(--sky)"><div class="dk__k">为什么重要</div><div class="dk__v">名义数据强，不等于实际消费强。扣掉油价和通胀，消费者可能是花得更多、买得更少，这会影响对零售股和降息节奏的判断。</div></div><div class="dk__row take" style="--ac:var(--pink)"><div class="dk__k">我的判断</div><div class="dk__v">名义强、实际弱的环境里，折扣零售会比百货和品牌跑得好。</div></div><div class="dk__qs"><div class="dk__k">现场可以聊</div><ul><li>你身边的消费在降级还是升级？</li><li>高油价下，哪类零售商最受伤？</li></ul></div><div class="dk__src">来源：<a href="https://www.usnews.com/news/business/articles/2026-10-15/retail-sales-up-a-better-than-expected-0-8-in-september-as-shoppers-remain-resilient" target="_blank" rel="noopener">AP / US News · 2026-10-15</a></div></article><article class="dk" hidden=""><div class="dk__top">DOCKET · 06 <span class="dk__tag">房地产 · CMBS</span><span class="dk__ex">示例</span></div><div class="dk__h">写字楼 CMBS 拖欠率回到 12.2%，高于金融危机峰值</div><div class="dk__row" style="--ac:var(--tiffany2)"><div class="dk__k">发生了什么</div><div class="dk__v">Trepp 数据：9 月美国写字楼 CMBS 拖欠率约 12.2%，仅次于今年 1 月的 12.3%。最大一笔是好莱坞 8 处写字楼和影棚的 11 亿美元贷款到期违约，借款方是 Blackstone Property Partners 和 Hudson Pacific，之后展期 14 个月到 2027 年 11 月。</div></div><div class="dk__row" style="--ac:var(--sky)"><div class="dk__k">为什么重要</div><div class="dk__v">「延期再说」的空间在缩小。展期只是把损失往后推，CMBS 的低评级档最先承压。</div></div><div class="dk__row take" style="--ac:var(--pink)"><div class="dk__k">我的判断</div><div class="dk__v">写字楼的问题是需求，不是利率；降息救不了大部分老楼。</div></div><div class="dk__qs"><div class="dk__k">现场可以聊</div><ul><li>哪类写字楼现在还值得放贷？</li><li>银行和 CMBS 投资人，谁会先认损失？</li></ul></div><div class="dk__src">来源：<a href="https://wolfstreet.com/2026/10/05/office-cmbs-delinquency-rate-re-spikes-to-12-2-far-worse-than-financial-crisis-peak-as-end-of-extend-and-pretend-looms/" target="_blank" rel="noopener">Wolf Street（Trepp 数据）· 2026-10-05</a></div></article><article class="dk" hidden=""><div class="dk__top">DOCKET · 07 <span class="dk__tag">自然资源 · 大宗商品</span><span class="dk__ex">示例</span></div><div class="dk__h">布伦特原油五月以来首次突破 110 美元</div><div class="dk__row" style="--ac:var(--tiffany2)"><div class="dk__k">发生了什么</div><div class="dk__v">10 月 16 日布伦特突破 110 美元/桶，背景是霍尔木兹海峡局势升级。同期黄金约 4190 美元/盎司，LME 铜约 14,500 美元/吨。</div></div><div class="dk__row" style="--ac:var(--sky)"><div class="dk__k">为什么重要</div><div class="dk__v">油价直接推高通胀、压缩降息空间。上游能源和矿业现金流改善，航空、化工和消费承压。</div></div><div class="dk__row take" style="--ac:var(--pink)"><div class="dk__k">我的判断</div><div class="dk__v">油价里的地缘溢价来得快去得也快；更长期的是铜，电网和数据中心的需求不会退。</div></div><div class="dk__qs"><div class="dk__k">现场可以聊</div><ul><li>110 美元的油价能维持多久？</li><li>表达大宗商品观点，用股票、债券还是期货？</li></ul></div><div class="dk__src">来源：<a href="https://fortune.com/article/price-of-oil-10-19-2026" target="_blank" rel="noopener">Fortune · 2026-10-19</a></div></article><!--/pre--></div>
   <p class="note" id="note"><!--pre-->截止：活动前一天晚 8 点。主持整理成当天的议程，发到群里。<!--/pre--></p>
 
   <h2 style="--ac:var(--pink)" id="hRules"><!--pre-->规则<!--/pre--></h2>
@@ -171,7 +176,7 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
     eyebrow:{ zh:"Coffee with Onlu ✦ 纽约", en:"Coffee with Onlu ✦ NYC" },
     lede:   { zh:"每人带一条新闻，和一个自己的判断。", en:"Everyone brings one story, and their own take on it." },
     sub:    { zh:"不是读新闻，是听坐在不同位置的人怎么看同一件事。", en:"Not a news digest: people in different seats, reading the same story differently." },
-    iForm:  { zh:"三段，每段一两句。下面是四个例子，都是最近的真实新闻。", en:"Three parts, a sentence or two each. Four examples, all recent real stories:" },
+    iForm:  { zh:"三段，每段一两句。每个领域一个例子，都是最近的真实新闻。", en:"Three parts, a sentence or two each. One example per area, all recent real stories:" },
     hHow:   { zh:"怎么进行", en:"How it works" },
     hForm:  { zh:"提前一天交：一张议程卡", en:"Send the day before: one docket card" },
     note:   { zh:"截止：活动前一天晚 8 点。主持整理成当天的议程，发到群里。",
@@ -185,7 +190,10 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
     { ac:"var(--tiffany)", zh:"金融", en:"Finance" },
     { ac:"var(--sky)",     zh:"科技", en:"Tech" },
     { ac:"var(--indigo)",  zh:"AI",   en:"AI" },
-    { ac:"var(--pink)",    zh:"医疗", en:"Healthcare" }
+    { ac:"var(--pink)",    zh:"医疗", en:"Healthcare" },
+    { ac:"var(--amber)",   zh:"消费零售", en:"Consumer & retail" },
+    { ac:"var(--coral)",   zh:"房地产", en:"Real estate" },
+    { ac:"var(--green)",   zh:"自然资源", en:"Natural resources" }
   ];
 
   var STEPS = [
@@ -211,6 +219,8 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
       why:{ zh:"账面违约率低估了真实压力。PIK 越多，基金当期收到的现金越少，分红和估值的可持续性都要打问号。",
             en:"Headline defaults understate the stress. More PIK means less cash coming in, which puts distributions and marks in question." },
       take:{ zh:"看私募信贷基金，PIK 占收入的比例比违约率更值得盯。", en:"For a private credit fund, watch PIK as a share of income before the default rate." },
+      qs:[{ zh:"PIK 是给借款人的缓冲，还是违约的前兆？", en:"Is PIK a cushion for borrowers or an early sign of default?" },
+          { zh:"如果你是 LP，会要求基金额外披露什么？", en:"As an LP, what extra disclosure would you ask a fund for?" }],
       src:{ n:"Bloomberg · 2026-10-14", u:"https://www.bloomberg.com/news/articles/2026-10-14/us-private-credit-stress-masked-by-growing-pik-use-moody-s-says" } },
 
     { ac:"var(--sky)", tab:{ zh:"科技", en:"Tech" }, tag:{ zh:"科技 · Fintech", en:"Tech · Fintech" },
@@ -220,6 +230,8 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
       why:{ zh:"四个月涨约 36%。后期投资人在为「fintech + AI」付溢价，这也是同类未上市公司的定价锚。",
             en:"That is roughly 36% in four months. Late-stage investors are paying up for fintech-plus-AI, and it sets a price anchor for private peers." },
       take:{ zh:"到这个估值，下一步更可能是 IPO，而不是再融一轮。", en:"At this valuation the next step is more likely an IPO than another round." },
+      qs:[{ zh:"600 亿估值，对应多少倍收入才说得通？", en:"What revenue multiple makes $60bn make sense?" },
+          { zh:"企业支出管理这条赛道，大银行会不会自己做？", en:"Will the big banks build spend management themselves?" }],
       src:{ n:"TechCrunch · 2026-10-15", u:"https://techcrunch.com/2026/10/15/ramp-reaches-60b-valuation-as-it-pushes-deeper-into-ai/" } },
 
     { ac:"var(--indigo)", tab:{ zh:"AI", en:"AI" }, tag:{ zh:"AI · 大模型", en:"AI · Models" },
@@ -229,6 +241,8 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
       why:{ zh:"中国头部模型公司开始大规模外部融资，钱主要花在算力上；它的估值也会成为对比美国大模型公司的参照。",
             en:"A leading Chinese model lab raising at scale, mostly to pay for compute; its price becomes a reference point against US labs." },
       take:{ zh:"模型层越来越难有定价权，钱最终会流向算力和应用。", en:"Pricing power at the model layer keeps shrinking; the money ends up in compute and applications." },
+      qs:[{ zh:"中美大模型公司的估值差距合理吗？", en:"Is the valuation gap between Chinese and US model labs justified?" },
+          { zh:"如果你是投资人，投模型层还是算力层？", en:"As an investor, would you back the model layer or the compute layer?" }],
       src:{ n:"CNBC · 2026-10-06", u:"https://www.cnbc.com/2026/10/06/deepseek-funding-round.html" } },
 
     { ac:"var(--pink)", tab:{ zh:"医疗", en:"Healthcare" }, tag:{ zh:"医疗 · 肿瘤药", en:"Healthcare · Oncology" },
@@ -238,7 +252,43 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
       why:{ zh:"免疫疗法从晚期往早期前移：早期患者更多，治疗目标也从延长生存变成争取治愈，市场规模和定价的逻辑都不一样。",
             en:"Immunotherapy is moving from late-stage to earlier disease: more patients, and the goal shifts from extending survival to aiming for a cure, which changes both market size and pricing." },
       take:{ zh:"有明确生物标志物的早期适应症，会是肿瘤药接下来最值钱的地方。", en:"Early-stage indications with a clear biomarker are where oncology value moves next." },
-      src:{ n:"GuruFocus（GSK 公告）· 2026-10-19", u:"https://www.gurufocus.com/news/9130143/gsk-gsk-gains-fda-approval-for-jemperli-boosting-outlook-for-dividend-investors" } }
+      qs:[{ zh:"加速批准后还要确证性试验，这个风险怎么定价？", en:"Accelerated approval still needs a confirmatory trial; how do you price that risk?" },
+          { zh:"还有哪些癌种可能走同样的路径？", en:"Which other cancers could follow the same path?" }],
+      src:{ n:"GuruFocus（GSK 公告）· 2026-10-19", u:"https://www.gurufocus.com/news/9130143/gsk-gsk-gains-fda-approval-for-jemperli-boosting-outlook-for-dividend-investors" } },
+
+    { ac:"var(--amber)", tab:{ zh:"消费", en:"Consumer" }, tag:{ zh:"消费零售 · 宏观", en:"Consumer & retail · Macro" },
+      h:{ zh:"9 月零售销售超预期，但一大块花在了加油上", en:"September retail sales beat, but a big share went on gasoline" },
+      what:{ zh:"美国 9 月零售销售环比增长 0.8%，预期 0.3%；8 月上修到 1.3%。增长里相当一部分是加油站支出，通胀仍在 3% 以上。",
+             en:"US retail sales rose 0.8% in September against a 0.3% forecast, after a revised 1.3% in August. A large part was gasoline, with inflation still above 3%." },
+      why:{ zh:"名义数据强，不等于实际消费强。扣掉油价和通胀，消费者可能是花得更多、买得更少，这会影响对零售股和降息节奏的判断。",
+            en:"Strong nominal sales are not strong real spending. Net of fuel and inflation, shoppers may be paying more for less, which matters for retail stocks and the pace of rate cuts." },
+      take:{ zh:"名义强、实际弱的环境里，折扣零售会比百货和品牌跑得好。", en:"With nominal strength and real weakness, off-price retail should beat department stores and brands." },
+      qs:[{ zh:"你身边的消费在降级还是升级？", en:"Around you, is spending trading down or up?" },
+          { zh:"高油价下，哪类零售商最受伤？", en:"With oil this high, which retailers get hurt most?" }],
+      src:{ n:"AP / US News · 2026-10-15", u:"https://www.usnews.com/news/business/articles/2026-10-15/retail-sales-up-a-better-than-expected-0-8-in-september-as-shoppers-remain-resilient" } },
+
+    { ac:"var(--coral)", tab:{ zh:"地产", en:"Real estate" }, tag:{ zh:"房地产 · CMBS", en:"Real estate · CMBS" },
+      h:{ zh:"写字楼 CMBS 拖欠率回到 12.2%，高于金融危机峰值", en:"Office CMBS delinquency is back at 12.2%, above the financial crisis peak" },
+      what:{ zh:"Trepp 数据：9 月美国写字楼 CMBS 拖欠率约 12.2%，仅次于今年 1 月的 12.3%。最大一笔是好莱坞 8 处写字楼和影棚的 11 亿美元贷款到期违约，借款方是 Blackstone Property Partners 和 Hudson Pacific，之后展期 14 个月到 2027 年 11 月。",
+             en:"Per Trepp, US office CMBS delinquency was about 12.2% in September, second only to January's 12.3%. The biggest driver was a $1.1bn maturity default on eight Hollywood office and studio properties, borrowed by Blackstone Property Partners and Hudson Pacific, since extended 14 months to November 2027." },
+      why:{ zh:"「延期再说」的空间在缩小。展期只是把损失往后推，CMBS 的低评级档最先承压。",
+            en:"Extend-and-pretend is running out of road. Extensions push losses later, and the junior CMBS tranches feel it first." },
+      take:{ zh:"写字楼的问题是需求，不是利率；降息救不了大部分老楼。", en:"Office is a demand problem, not a rate problem; cuts won't save most older buildings." },
+      qs:[{ zh:"哪类写字楼现在还值得放贷？", en:"Which offices are still worth lending against?" },
+          { zh:"银行和 CMBS 投资人，谁会先认损失？", en:"Banks or CMBS investors: who takes the loss first?" }],
+      src:{ n:"Wolf Street（Trepp 数据）· 2026-10-05", u:"https://wolfstreet.com/2026/10/05/office-cmbs-delinquency-rate-re-spikes-to-12-2-far-worse-than-financial-crisis-peak-as-end-of-extend-and-pretend-looms/" } },
+
+    { ac:"var(--green)", tab:{ zh:"资源", en:"Resources" }, tag:{ zh:"自然资源 · 大宗商品", en:"Natural resources · Commodities" },
+      h:{ zh:"布伦特原油五月以来首次突破 110 美元", en:"Brent tops $110 for the first time since May" },
+      what:{ zh:"10 月 16 日布伦特突破 110 美元/桶，背景是霍尔木兹海峡局势升级。同期黄金约 4190 美元/盎司，LME 铜约 14,500 美元/吨。",
+             en:"Brent passed $110 a barrel on October 16 as tensions escalated in the Strait of Hormuz. Gold was around $4,190 an ounce and LME copper near $14,500 a tonne." },
+      why:{ zh:"油价直接推高通胀、压缩降息空间。上游能源和矿业现金流改善，航空、化工和消费承压。",
+            en:"Oil feeds straight into inflation and narrows room for rate cuts. Upstream energy and miners gain cash flow; airlines, chemicals and consumers take the hit." },
+      take:{ zh:"油价里的地缘溢价来得快去得也快；更长期的是铜，电网和数据中心的需求不会退。",
+             en:"The geopolitical premium in oil can fade as fast as it came; copper is the longer story, since grid and data centre demand isn't going away." },
+      qs:[{ zh:"110 美元的油价能维持多久？", en:"How long can $110 oil last?" },
+          { zh:"表达大宗商品观点，用股票、债券还是期货？", en:"Equities, bonds or futures: how would you express a commodities view?" }],
+      src:{ n:"Fortune · 2026-10-19", u:"https://fortune.com/article/price-of-oil-10-19-2026" } }
   ];
   var ROWS = [
     { key:"what", ac:"var(--tiffany2)", k:{ zh:"发生了什么", en:"What happened" } },
@@ -285,6 +335,8 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
             return '<div class="dk__row' + (r.key === "take" ? ' take' : '') + '" style="--ac:' + r.ac + '"><div class="dk__k">' + r.k[lang] +
                    '</div><div class="dk__v">' + c[r.key][lang] + '</div></div>';
           }).join("") +
+          '<div class="dk__qs"><div class="dk__k">' + (lang === "en" ? "At the table" : "现场可以聊") + '</div><ul>' +
+            c.qs.map(function(x){ return "<li>" + x[lang] + "</li>"; }).join("") + '</ul></div>' +
           '<div class="dk__src">' + (lang === "en" ? "Source: " : "来源：") + '<a href="' + c.src.u + '" target="_blank" rel="noopener">' + c.src.n + '</a></div>' +
           '</article>';
       }).join("");
