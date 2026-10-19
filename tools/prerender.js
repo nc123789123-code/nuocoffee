@@ -5,7 +5,7 @@
 const { chromium } = require("/opt/node22/lib/node_modules/playwright");
 const fs = require("fs");
 const path = require("path");
-const TAGS = "(?:p|div|ol|ul|span|h2)";
+const TAGS = "(?:p|div|ol|ul|span|h2|article)";
 const file = process.argv[2];
 (async () => {
   const src = fs.readFileSync(file, "utf8").replace(/<!--pre-->[\s\S]*?<!--\/pre-->/g, "");

@@ -6,7 +6,7 @@
 <title>Onlu Newsroom — Coffee with Onlu</title>
 <meta name="description" content="Onlu Newsroom: everyone brings one piece of news, and the table talks it through. NYC." />
 <meta property="og:title" content="Onlu Newsroom — Coffee with Onlu" />
-<meta property="og:description" content="每人带一条新闻，大家一起聊。金融、科技、AI、医疗。纽约，6–8 人。" />
+<meta property="og:description" content="每人带一条新闻，大家一起聊。金融、科技、AI、医疗。纽约，6–8 人，90 分钟。" />
 <meta property="og:type" content="website" />
 <meta name="theme-color" content="#0a1520" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -56,7 +56,27 @@ h1{font-family:var(--display);font-weight:800;letter-spacing:-.03em;line-height:
 .grad{background:linear-gradient(100deg,var(--tiffany2),var(--tiffany) 30%,var(--sky) 58%,var(--pink) 92%);
   -webkit-background-clip:text;background-clip:text;color:transparent;}
 .lede{font-size:1.05rem;color:var(--text);font-weight:500;line-height:1.5;}
-.facts{font-family:var(--mono);font-size:.76rem;color:var(--dim);letter-spacing:.04em;margin-top:12px;}
+.sub{font-size:.92rem;color:var(--muted);margin-top:6px;line-height:1.55;}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:20px;}
+.stat{border:1px solid var(--line);border-radius:12px;background:var(--surface);padding:11px 8px 10px;text-align:center;}
+.stat b{display:block;font-family:var(--display);font-weight:800;font-size:1.3rem;letter-spacing:-.02em;line-height:1.1;}
+.stat span{display:block;font-size:.74rem;color:var(--dim);margin-top:3px;}
+.intro{font-size:.9rem;color:var(--muted);margin:-4px 0 12px;}
+
+/* sample docket card */
+.dk{border:1px solid rgba(76,196,255,.32);border-radius:16px;overflow:hidden;
+  background:linear-gradient(160deg,rgba(76,196,255,.09),rgba(255,79,154,.05) 70%,transparent);}
+.dk__top{display:flex;align-items:center;gap:8px;padding:11px 15px;border-bottom:1px solid var(--line);
+  font-family:var(--mono);font-size:.66rem;font-weight:700;letter-spacing:.14em;color:var(--sky);}
+.dk__tag{color:var(--muted);letter-spacing:.06em;font-weight:400;}
+.dk__ex{margin-left:auto;color:var(--dim);font-weight:400;letter-spacing:.06em;}
+.dk__h{font-weight:700;font-size:1.06rem;line-height:1.4;padding:14px 15px 4px;}
+.dk__row{padding:10px 15px 12px;border-top:1px solid var(--line);margin-top:10px;}
+.dk__row + .dk__row{margin-top:0;}
+.dk__k{font-family:var(--mono);font-size:.66rem;font-weight:700;letter-spacing:.12em;color:var(--ac);text-transform:uppercase;}
+.dk__v{font-size:.9rem;color:var(--muted);line-height:1.55;margin-top:3px;}
+.dk__row.take{background:rgba(255,79,154,.07);}
+.dk__row.take .dk__v{color:var(--text);font-weight:500;}
 .beats{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px;}
 .beat{font-size:.85rem;font-weight:600;padding:6px 13px;border-radius:999px;
   border:1px solid var(--ac);color:var(--ac);background:rgba(255,255,255,.03);}
@@ -73,11 +93,6 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
 .step__t{font-weight:600;font-size:1rem;}
 .step__s{font-size:.88rem;color:var(--muted);margin-top:3px;line-height:1.5;}
 
-.form{border:1px solid rgba(46,224,208,.3);background:rgba(46,224,208,.06);border-radius:14px;overflow:hidden;}
-.form__row{display:flex;gap:12px;padding:12px 15px;border-top:1px solid var(--line);font-size:.92rem;}
-.form__row:first-child{border-top:0;}
-.form__k{font-family:var(--mono);font-size:.72rem;color:var(--tiffany2);flex:none;width:92px;padding-top:2px;letter-spacing:.04em;}
-.form__v{color:var(--muted);}
 .note{font-family:var(--mono);font-size:.72rem;color:var(--dim);margin-top:10px;letter-spacing:.02em;}
 
 .rules{list-style:none;display:flex;flex-direction:column;gap:8px;}
@@ -108,16 +123,18 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
   <header>
     <p class="eyebrow"><span class="live"></span><span id="eyebrow"><!--pre-->Coffee with Onlu ✦ 纽约<!--/pre--></span></p>
     <h1>Onlu<br><span class="grad">Newsroom</span></h1>
-    <p class="lede" id="lede"><!--pre-->每人带一条新闻，大家一起聊。<!--/pre--></p>
+    <p class="lede" id="lede"><!--pre-->每人带一条新闻，和一个自己的判断。<!--/pre--></p>
+    <p class="sub" id="sub"><!--pre-->不是读新闻，是听坐在不同位置的人怎么看同一件事。<!--/pre--></p>
+    <div class="stats" id="stats"><!--pre--><div class="stat"><b>6–8</b><span>人</span></div><div class="stat"><b>90</b><span>分钟</span></div><div class="stat"><b>1</b><span>条新闻 / 人</span></div><div class="stat"><b>1</b><span>个预测 / 人</span></div><!--/pre--></div>
     <div class="beats" id="beats"><!--pre--><span class="beat" style="--ac:var(--tiffany)">金融</span><span class="beat" style="--ac:var(--sky)">科技</span><span class="beat" style="--ac:var(--indigo)">AI</span><span class="beat" style="--ac:var(--pink)">医疗</span><!--/pre--></div>
-    <p class="facts" id="facts"><!--pre-->6–8 人 · 90 分钟<!--/pre--></p>
   </header>
 
   <h2 style="--ac:var(--tiffany2)" id="hHow"><!--pre-->怎么进行<!--/pre--></h2>
-  <ol class="steps" id="steps"><!--pre--><li class="step" style="--ac:var(--tiffany)"><span class="step__n">1</span><div><div class="step__t">前一天：每人交一条新闻</div><div class="step__s">主持整理成议程，发给所有人</div></div></li><li class="step" style="--ac:var(--sky)"><span class="step__n">2</span><div><div class="step__t">当天：一条一条过</div><div class="step__s">提出的人讲 3 分钟：发生了什么、为什么重要、自己的判断。其他人每人一句观点，然后自由讨论</div></div></li><li class="step" style="--ac:var(--pink)"><span class="step__n">3</span><div><div class="step__t">最后：每人一个预测</div><div class="step__s">记下来，下一期回看谁说对了</div></div></li><!--/pre--></ol>
+  <ol class="steps" id="steps"><!--pre--><li class="step" style="--ac:var(--tiffany)"><span class="step__n">1</span><div><div class="step__t">前一天：每人交一条新闻</div><div class="step__s">主持整理成议程，发给所有人</div></div></li><li class="step" style="--ac:var(--sky)"><span class="step__n">2</span><div><div class="step__t">当天：一条一条过</div><div class="step__s">提出的人讲 3 分钟，其他人每人一句观点，然后自由讨论</div></div></li><li class="step" style="--ac:var(--pink)"><span class="step__n">3</span><div><div class="step__t">最后：每人一个预测</div><div class="step__s">记下来，下一期回看谁说对了</div></div></li><!--/pre--></ol>
 
-  <h2 style="--ac:var(--sky)" id="hForm"><!--pre-->提前一天交<!--/pre--></h2>
-  <div class="form" id="form"><!--pre--><div class="form__row"><span class="form__k">发生了什么</span><span class="form__v">标题 + 链接（金融、科技、AI、医疗均可）</span></div><div class="form__row"><span class="form__k">为什么重要</span><span class="form__v">对投资者或行业意味着什么</span></div><div class="form__row"><span class="form__k">你的判断</span><span class="form__v">一两句</span></div><!--/pre--></div>
+  <h2 style="--ac:var(--sky)" id="hForm"><!--pre-->提前一天交：一张议程卡<!--/pre--></h2>
+  <p class="intro" id="iForm"><!--pre-->三段，每段一两句。下面是一个例子。<!--/pre--></p>
+  <article class="dk" id="dk"><!--pre--><div class="dk__top">DOCKET · 01 <span class="dk__tag">金融 · AI</span><span class="dk__ex">示例</span></div><div class="dk__h">Meta 用表外 SPV 为 Hyperion 数据中心融资</div><div class="dk__row" style="--ac:var(--tiffany2)"><div class="dk__k">发生了什么</div><div class="dk__v">2025 年 10 月，Meta 路易斯安那的 Hyperion 园区设立 SPV，Blue Owl 持 80%、Meta 持 20%，约 270 亿美元债务来自 Pimco、BlackRock、Apollo 等。</div></div><div class="dk__row" style="--ac:var(--sky)"><div class="dk__k">为什么重要</div><div class="dk__v">大厂的 AI 资本开支开始走私募信贷和表外结构，债权人实际承担的风险不再只看公司评级。</div></div><div class="dk__row take" style="--ac:var(--pink)"><div class="dk__k">我的判断</div><div class="dk__v">这类结构会越来越多；真正要看的是租约条款和残值担保。</div></div><!--/pre--></article>
   <p class="note" id="note"><!--pre-->截止：活动前一天晚 8 点。主持整理成当天的议程，发到群里。<!--/pre--></p>
 
   <h2 style="--ac:var(--pink)" id="hRules"><!--pre-->规则<!--/pre--></h2>
@@ -145,10 +162,11 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
 
   var UI = {
     eyebrow:{ zh:"Coffee with Onlu ✦ 纽约", en:"Coffee with Onlu ✦ NYC" },
-    lede:   { zh:"每人带一条新闻，大家一起聊。", en:"Everyone brings one story. The table talks it through." },
-    facts:  { zh:"6–8 人 · 90 分钟", en:"6–8 people · 90 minutes" },
+    lede:   { zh:"每人带一条新闻，和一个自己的判断。", en:"Everyone brings one story, and their own take on it." },
+    sub:    { zh:"不是读新闻，是听坐在不同位置的人怎么看同一件事。", en:"Not a news digest: people in different seats, reading the same story differently." },
+    iForm:  { zh:"三段，每段一两句。下面是一个例子。", en:"Three parts, a sentence or two each. An example:" },
     hHow:   { zh:"怎么进行", en:"How it works" },
-    hForm:  { zh:"提前一天交", en:"Send the day before" },
+    hForm:  { zh:"提前一天交：一张议程卡", en:"Send the day before: one docket card" },
     note:   { zh:"截止：活动前一天晚 8 点。主持整理成当天的议程，发到群里。",
               en:"Deadline: 8 PM the day before. The host turns them into the docket and shares it with the group." },
     hRules: { zh:"规则", en:"Ground rules" },
@@ -166,17 +184,34 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
   var STEPS = [
     { ac:"var(--tiffany)", zh:["前一天：每人交一条新闻", "主持整理成议程，发给所有人"],
                            en:["Day before: everyone sends one story", "The host compiles the docket and sends it round"] },
-    { ac:"var(--sky)",     zh:["当天：一条一条过", "提出的人讲 3 分钟：发生了什么、为什么重要、自己的判断。其他人每人一句观点，然后自由讨论"],
-                           en:["On the day: one story at a time", "Whoever brought it takes 3 minutes: what happened, why it matters, their take. Everyone adds a one-line view, then it's open"] },
+    { ac:"var(--sky)",     zh:["当天：一条一条过", "提出的人讲 3 分钟，其他人每人一句观点，然后自由讨论"],
+                           en:["On the day: one story at a time", "Whoever brought it takes 3 minutes, everyone gives a one-line view, then it's open"] },
     { ac:"var(--pink)",    zh:["最后：每人一个预测", "记下来，下一期回看谁说对了"],
                            en:["To close: one prediction each", "We write them down and check them next time"] }
   ];
 
-  var FORM = [
-    { k:{ zh:"发生了什么", en:"What happened" }, v:{ zh:"标题 + 链接（金融、科技、AI、医疗均可）", en:"Headline and link (finance, tech, AI or healthcare)" } },
-    { k:{ zh:"为什么重要", en:"Why it matters" }, v:{ zh:"对投资者或行业意味着什么", en:"What it means for investors or the industry" } },
-    { k:{ zh:"你的判断", en:"Your take" },     v:{ zh:"一两句", en:"One or two sentences" } }
+  var STATS = [
+    { n:"6–8", zh:"人", en:"people" }, { n:"90", zh:"分钟", en:"minutes" },
+    { n:"1", zh:"条新闻 / 人", en:"story each" }, { n:"1", zh:"个预测 / 人", en:"call each" }
   ];
+
+  // a real, sourced story (see /datacenter) used only to show the format
+  var CARD = {
+    tag: { zh:"金融 · AI", en:"Finance · AI" },
+    ex:  { zh:"示例", en:"Example" },
+    h:   { zh:"Meta 用表外 SPV 为 Hyperion 数据中心融资", en:"Meta finances its Hyperion data center through an off-balance-sheet SPV" },
+    rows:[
+      { ac:"var(--tiffany2)", k:{ zh:"发生了什么", en:"What happened" },
+        v:{ zh:"2025 年 10 月，Meta 路易斯安那的 Hyperion 园区设立 SPV，Blue Owl 持 80%、Meta 持 20%，约 270 亿美元债务来自 Pimco、BlackRock、Apollo 等。",
+            en:"In October 2025 Meta's Hyperion campus in Louisiana was put into an SPV, 80% Blue Owl and 20% Meta, with about $27bn of debt from Pimco, BlackRock, Apollo and others." } },
+      { ac:"var(--sky)", k:{ zh:"为什么重要", en:"Why it matters" },
+        v:{ zh:"大厂的 AI 资本开支开始走私募信贷和表外结构，债权人实际承担的风险不再只看公司评级。",
+            en:"Big Tech's AI capex is moving into private credit and off-balance-sheet structures, so lenders' real risk is no longer just the corporate rating." } },
+      { ac:"var(--pink)", take:true, k:{ zh:"我的判断", en:"My take" },
+        v:{ zh:"这类结构会越来越多；真正要看的是租约条款和残值担保。",
+            en:"Expect many more of these; what matters is the lease terms and the residual value guarantee." } }
+    ]
+  };
 
   var RULES = [
     { zh:"只聊公开信息", en:"Public information only" },
@@ -199,9 +234,16 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
       return '<li class="step" style="--ac:' + s.ac + '"><span class="step__n">' + (i + 1) + '</span>' +
              '<div><div class="step__t">' + s[lang][0] + '</div><div class="step__s">' + s[lang][1] + '</div></div></li>';
     }).join("");
-    document.getElementById("form").innerHTML = FORM.map(function(f){
-      return '<div class="form__row"><span class="form__k">' + f.k[lang] + '</span><span class="form__v">' + f.v[lang] + '</span></div>';
+    document.getElementById("stats").innerHTML = STATS.map(function(x){
+      return '<div class="stat"><b>' + x.n + '</b><span>' + x[lang] + '</span></div>';
     }).join("");
+    document.getElementById("dk").innerHTML =
+      '<div class="dk__top">DOCKET · 01 <span class="dk__tag">' + CARD.tag[lang] + '</span><span class="dk__ex">' + CARD.ex[lang] + '</span></div>' +
+      '<div class="dk__h">' + CARD.h[lang] + '</div>' +
+      CARD.rows.map(function(r){
+        return '<div class="dk__row' + (r.take ? ' take' : '') + '" style="--ac:' + r.ac + '"><div class="dk__k">' + r.k[lang] +
+               '</div><div class="dk__v">' + r.v[lang] + '</div></div>';
+      }).join("");
     document.getElementById("rules").innerHTML = RULES.map(function(r){ return "<li>" + r[lang] + "</li>"; }).join("");
     document.getElementById("lang").innerHTML = lang === "en" ? '中文 / <b style="color:#eef6fb">EN</b>' : '<b style="color:#eef6fb">中文</b> / EN';
     document.documentElement.lang = lang;
