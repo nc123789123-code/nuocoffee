@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 <title>Onlu Newsroom — Coffee with Onlu</title>
 <meta name="description" content="Onlu Newsroom: everyone brings one piece of news, and the table talks it through. NYC." />
+<meta property="og:title" content="Onlu Newsroom — Coffee with Onlu" />
+<meta property="og:description" content="每人带一条新闻，大家一起聊。金融、科技、AI、医疗。纽约，6–8 人。" />
+<meta property="og:type" content="website" />
 <meta name="theme-color" content="#0a1520" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -73,13 +76,19 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
 .form{border:1px solid rgba(46,224,208,.3);background:rgba(46,224,208,.06);border-radius:14px;overflow:hidden;}
 .form__row{display:flex;gap:12px;padding:12px 15px;border-top:1px solid var(--line);font-size:.92rem;}
 .form__row:first-child{border-top:0;}
-.form__k{font-family:var(--mono);font-size:.72rem;color:var(--tiffany2);flex:none;width:78px;padding-top:2px;letter-spacing:.04em;}
+.form__k{font-family:var(--mono);font-size:.72rem;color:var(--tiffany2);flex:none;width:92px;padding-top:2px;letter-spacing:.04em;}
 .form__v{color:var(--muted);}
 .note{font-family:var(--mono);font-size:.72rem;color:var(--dim);margin-top:10px;letter-spacing:.02em;}
 
 .rules{list-style:none;display:flex;flex-direction:column;gap:8px;}
 .rules li{position:relative;padding-left:16px;font-size:.92rem;color:var(--muted);}
 .rules li::before{content:"";position:absolute;left:0;top:.62em;width:5px;height:5px;border-radius:50%;background:var(--pink);}
+
+.next{display:flex;align-items:center;gap:12px;margin-top:38px;padding:16px;border-radius:14px;
+  border:1px solid var(--line);background:var(--surface);text-decoration:none;color:inherit;}
+.next__t{font-size:.95rem;font-weight:600;}
+.next__s{font-size:.84rem;color:var(--muted);margin-top:2px;}
+.next__a{margin-left:auto;color:var(--tiffany2);flex:none;}
 
 .foot{margin:40px 0 10px;padding-top:18px;border-top:1px solid var(--line);
   font-family:var(--mono);font-size:.7rem;color:var(--dim);line-height:1.8;}
@@ -90,29 +99,34 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
 <div class="fx"><span class="blob b1"></span><span class="blob b2"></span></div>
 
 <nav class="bar"><div class="bar__in">
-  <span class="cup" id="cup"></span>
+  <span class="cup" id="cup"><!--pre--><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9h11v4a4 4 0 0 1-4 4H9a4 4 0 0 1-4-4V9Z"></path><path d="M16 10h2.4a2.4 2.4 0 0 1 0 4.8H16"></path><path d="M8 3.4c-.5 1 .5 1.6 0 2.6M11.5 3.4c-.5 1 .5 1.6 0 2.6"></path></svg><!--/pre--></span>
   <span class="bar__n">Coffee with Onlu</span>
   <button class="lang" id="lang" type="button">EN</button>
 </div></nav>
 
 <div class="wrap">
   <header>
-    <p class="eyebrow"><span class="live"></span><span id="eyebrow"></span></p>
+    <p class="eyebrow"><span class="live"></span><span id="eyebrow"><!--pre-->Coffee with Onlu ✦ 纽约<!--/pre--></span></p>
     <h1>Onlu<br><span class="grad">Newsroom</span></h1>
-    <p class="lede" id="lede"></p>
-    <div class="beats" id="beats"></div>
-    <p class="facts" id="facts"></p>
+    <p class="lede" id="lede"><!--pre-->每人带一条新闻，大家一起聊。<!--/pre--></p>
+    <div class="beats" id="beats"><!--pre--><span class="beat" style="--ac:var(--tiffany)">金融</span><span class="beat" style="--ac:var(--sky)">科技</span><span class="beat" style="--ac:var(--indigo)">AI</span><span class="beat" style="--ac:var(--pink)">医疗</span><!--/pre--></div>
+    <p class="facts" id="facts"><!--pre-->6–8 人 · 90 分钟<!--/pre--></p>
   </header>
 
-  <h2 style="--ac:var(--tiffany2)" id="hHow"></h2>
-  <ol class="steps" id="steps"></ol>
+  <h2 style="--ac:var(--tiffany2)" id="hHow"><!--pre-->怎么进行<!--/pre--></h2>
+  <ol class="steps" id="steps"><!--pre--><li class="step" style="--ac:var(--tiffany)"><span class="step__n">1</span><div><div class="step__t">前一天：每人交一条新闻</div><div class="step__s">主持整理成议程，发给所有人</div></div></li><li class="step" style="--ac:var(--sky)"><span class="step__n">2</span><div><div class="step__t">当天：一条一条过</div><div class="step__s">提出的人讲 3 分钟：发生了什么、为什么重要、自己的判断。其他人每人一句观点，然后自由讨论</div></div></li><li class="step" style="--ac:var(--pink)"><span class="step__n">3</span><div><div class="step__t">最后：每人一个预测</div><div class="step__s">记下来，下一期回看谁说对了</div></div></li><!--/pre--></ol>
 
-  <h2 style="--ac:var(--sky)" id="hForm"></h2>
-  <div class="form" id="form"></div>
-  <p class="note" id="note"></p>
+  <h2 style="--ac:var(--sky)" id="hForm"><!--pre-->提前一天交<!--/pre--></h2>
+  <div class="form" id="form"><!--pre--><div class="form__row"><span class="form__k">发生了什么</span><span class="form__v">标题 + 链接（金融、科技、AI、医疗均可）</span></div><div class="form__row"><span class="form__k">为什么重要</span><span class="form__v">对投资者或行业意味着什么</span></div><div class="form__row"><span class="form__k">你的判断</span><span class="form__v">一两句</span></div><!--/pre--></div>
+  <p class="note" id="note"><!--pre-->截止：活动前一天晚 8 点。主持整理成当天的议程，发到群里。<!--/pre--></p>
 
-  <h2 style="--ac:var(--pink)" id="hRules"></h2>
-  <ul class="rules" id="rules"></ul>
+  <h2 style="--ac:var(--pink)" id="hRules"><!--pre-->规则<!--/pre--></h2>
+  <ul class="rules" id="rules"><!--pre--><li>只聊公开信息</li><li>不聊自己公司的交易和客户</li><li>观点只代表个人</li><li>不需要 PPT</li><!--/pre--></ul>
+
+  <a class="next" href="/">
+    <div><div class="next__t" id="nextT"><!--pre-->想当面接着聊？<!--/pre--></div><div class="next__s" id="nextS"><!--pre-->看看近期的 Coffee Chat<!--/pre--></div></div>
+    <span class="next__a">→</span>
+  </a>
 
   <p class="foot">
     Coffee with Onlu · <a href="/">coffeewithonlu.com</a><br>
@@ -137,7 +151,9 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
     hForm:  { zh:"提前一天交", en:"Send the day before" },
     note:   { zh:"截止：活动前一天晚 8 点。主持整理成当天的议程，发到群里。",
               en:"Deadline: 8 PM the day before. The host turns them into the docket and shares it with the group." },
-    hRules: { zh:"规则", en:"Ground rules" }
+    hRules: { zh:"规则", en:"Ground rules" },
+    nextT:  { zh:"想当面接着聊？", en:"Want to keep talking in person?" },
+    nextS:  { zh:"看看近期的 Coffee Chat", en:"See the upcoming coffee chats" }
   };
 
   var BEATS = [
@@ -150,16 +166,16 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
   var STEPS = [
     { ac:"var(--tiffany)", zh:["前一天：每人交一条新闻", "主持整理成议程，发给所有人"],
                            en:["Day before: everyone sends one story", "The host compiles the docket and sends it round"] },
-    { ac:"var(--sky)",     zh:["当天：一条一条过", "提出的人讲 3 分钟，其他人每人一句观点，然后自由讨论"],
-                           en:["On the day: one story at a time", "Whoever brought it takes 3 minutes, everyone gives a one-line take, then it's open"] },
+    { ac:"var(--sky)",     zh:["当天：一条一条过", "提出的人讲 3 分钟：发生了什么、为什么重要、自己的判断。其他人每人一句观点，然后自由讨论"],
+                           en:["On the day: one story at a time", "Whoever brought it takes 3 minutes: what happened, why it matters, their take. Everyone adds a one-line view, then it's open"] },
     { ac:"var(--pink)",    zh:["最后：每人一个预测", "记下来，下一期回看谁说对了"],
                            en:["To close: one prediction each", "We write them down and check them next time"] }
   ];
 
   var FORM = [
-    { k:{ zh:"新闻", en:"Story" },    v:{ zh:"标题 + 链接（金融、科技、AI、医疗均可）", en:"Headline and link (finance, tech, AI or healthcare)" } },
-    { k:{ zh:"观点", en:"Take" },     v:{ zh:"你怎么看，一句话", en:"Your view, in one sentence" } },
-    { k:{ zh:"问题", en:"Question" }, v:{ zh:"想听大家怎么看的一个问题", en:"One question for the table" } }
+    { k:{ zh:"发生了什么", en:"What happened" }, v:{ zh:"标题 + 链接（金融、科技、AI、医疗均可）", en:"Headline and link (finance, tech, AI or healthcare)" } },
+    { k:{ zh:"为什么重要", en:"Why it matters" }, v:{ zh:"对投资者或行业意味着什么", en:"What it means for investors or the industry" } },
+    { k:{ zh:"你的判断", en:"Your take" },     v:{ zh:"一两句", en:"One or two sentences" } }
   ];
 
   var RULES = [
