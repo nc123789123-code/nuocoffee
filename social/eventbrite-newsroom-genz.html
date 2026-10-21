@@ -1,0 +1,120 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Onlu Newsroom — Eventbrite banner (sticker version)</title>
+<link rel="stylesheet" href="fonts.css">
+<style>
+:root{
+  --ink:#141414; --paper:#fffaf0; --lilac:#b9a8ff;
+  --pink:#ff5fa2; --lime:#d6ff4a; --cyan:#5ee6ff; --yellow:#ffe14d; --orange:#ff9a4d; --mint:#7dffb5;
+  --display:'Unbounded',system-ui,sans-serif;
+  --body:'Outfit',system-ui,sans-serif;
+  --mono:'Space Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#222;padding:30px;}
+
+/* Eventbrite event image: 2:1, rendered at 2x → 2160×1080 */
+.card{position:relative;width:1080px;height:540px;overflow:hidden;color:var(--ink);font-family:var(--body);
+  background:var(--lilac);
+  background-image:radial-gradient(rgba(20,20,20,.16) 1.3px,transparent 1.5px);background-size:18px 18px;}
+.sh{border:3px solid var(--ink);box-shadow:5px 5px 0 var(--ink);}
+
+.tag{position:absolute;left:52px;top:42px;display:flex;align-items:center;gap:9px;transform:rotate(-3deg);
+  background:var(--ink);color:var(--paper);border-radius:999px;padding:8px 16px 8px 12px;
+  font-family:var(--mono);font-weight:700;font-size:13px;letter-spacing:.12em;text-transform:uppercase;}
+.tag svg{width:20px;height:20px;color:var(--lime);}
+
+h1{position:absolute;left:52px;top:92px;font-family:var(--display);font-weight:800;letter-spacing:-.04em;line-height:.95;}
+h1 .a{display:block;font-size:84px;}
+h1 .b{display:inline-block;margin-top:10px;font-size:70px;background:var(--pink);padding:6px 18px 12px;border-radius:14px;
+  transform:rotate(-2.5deg);transform-origin:left center;}
+
+.lede{position:absolute;left:56px;top:300px;font-size:27px;line-height:1.25;font-weight:700;width:560px;}
+.lede span{font-weight:400;}
+.lede mark{background:linear-gradient(transparent 55%,var(--lime) 55%);color:inherit;padding:0 2px;}
+
+.beats{position:absolute;left:52px;top:386px;width:560px;display:flex;flex-wrap:wrap;gap:8px 9px;}
+.beat{font-weight:700;font-size:14px;padding:5px 12px;border-radius:999px;border:2.5px solid var(--ink);
+  background:var(--c);box-shadow:3px 3px 0 var(--ink);}
+.beat:nth-child(odd){transform:rotate(-2deg);} .beat:nth-child(even){transform:rotate(2deg);}
+
+.foot{position:absolute;left:56px;bottom:30px;font-family:var(--mono);font-weight:700;font-size:13px;letter-spacing:.1em;}
+
+/* news cards */
+.paper{position:absolute;width:360px;border-radius:14px;background:var(--paper);overflow:hidden;}
+.p2{left:676px;top:78px;height:360px;background:var(--yellow);transform:rotate(-6deg);}
+.p1{left:668px;top:70px;transform:rotate(3deg);}
+.bar{background:var(--ink);color:var(--paper);display:flex;align-items:center;gap:8px;padding:9px 14px;
+  font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.14em;}
+.bar .dot{width:9px;height:9px;border-radius:50%;background:var(--pink);}
+.bar .r{margin-left:auto;color:var(--lime);}
+.hl{padding:14px 70px 6px 16px;font-family:var(--display);font-weight:800;font-size:20px;line-height:1.15;letter-spacing:-.02em;}
+.rows{padding:6px 16px 16px;display:flex;flex-direction:column;gap:11px;}
+.lbl{display:inline-block;font-family:var(--mono);font-weight:700;font-size:11px;letter-spacing:.1em;
+  padding:3px 8px;border:2px solid var(--ink);border-radius:6px;background:var(--c);}
+.scr{display:block;width:100%;height:14px;margin-top:6px;}
+
+.burst{position:absolute;right:30px;top:24px;width:124px;height:124px;transform:rotate(12deg);}
+.burst svg{position:absolute;inset:0;}
+.burst p{position:absolute;inset:0;display:grid;place-items:center;text-align:center;
+  font-family:var(--display);font-weight:800;font-size:15px;line-height:1.05;letter-spacing:-.02em;}
+.burst b{display:block;font-size:30px;}
+
+.hot{position:absolute;left:650px;top:426px;transform:rotate(-7deg);display:flex;align-items:center;gap:7px;
+  background:var(--lime);border-radius:999px;padding:7px 16px 7px 11px;
+  font-family:var(--display);font-weight:800;font-size:16px;letter-spacing:-.01em;}
+.hot svg{width:20px;height:20px;}
+
+.url{position:absolute;right:40px;bottom:26px;background:var(--paper);border-radius:999px;padding:7px 14px;
+  font-family:var(--mono);font-weight:700;font-size:13px;letter-spacing:.04em;}
+</style>
+
+<div class="card" id="eb">
+  <p class="tag">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9h11v4a4 4 0 0 1-4 4H9a4 4 0 0 1-4-4V9Z"/><path d="M16 10h2.4a2.4 2.4 0 0 1 0 4.8H16"/><path d="M8 3.4c-.5 1 .5 1.6 0 2.6M11.5 3.4c-.5 1 .5 1.6 0 2.6"/></svg>
+    Coffee with Onlu · NYC
+  </p>
+
+  <h1><span class="a">Onlu</span><span class="b sh">Newsroom</span></h1>
+
+  <p class="lede">Bring <mark>one story</mark> + your take.<br><span>The table talks it through.</span></p>
+
+  <div class="beats">
+    <span class="beat" style="--c:var(--cyan)">Finance</span>
+    <span class="beat" style="--c:var(--lime)">Tech</span>
+    <span class="beat" style="--c:var(--paper)">AI</span>
+    <span class="beat" style="--c:var(--pink)">Healthcare</span>
+    <span class="beat" style="--c:var(--yellow)">Consumer</span>
+    <span class="beat" style="--c:var(--orange)">Real estate</span>
+    <span class="beat" style="--c:var(--mint)">Resources</span>
+  </div>
+
+  <p class="foot">90 MIN · ONE STORY EACH · NO SLIDES · PUBLIC INFO ONLY</p>
+
+  <div class="paper p2 sh"></div>
+  <div class="paper p1 sh">
+    <div class="bar"><span class="dot"></span>BREAKING</div>
+    <div class="hl">The one headline you think the room should hear</div>
+    <div class="rows">
+      <div><span class="lbl" style="--c:var(--lime)">WHAT HAPPENED</span>
+        <svg class="scr" viewBox="0 0 320 14" preserveAspectRatio="none"><path d="M2 8 C40 2 70 13 110 7 S180 3 220 8 S290 12 318 6" fill="none" stroke="#141414" stroke-width="2.5" stroke-linecap="round" opacity=".35"/></svg></div>
+      <div><span class="lbl" style="--c:var(--cyan)">WHY IT MATTERS</span>
+        <svg class="scr" viewBox="0 0 320 14" preserveAspectRatio="none"><path d="M2 6 C50 12 80 2 130 8 S200 12 250 5 S300 4 318 9" fill="none" stroke="#141414" stroke-width="2.5" stroke-linecap="round" opacity=".35"/></svg></div>
+      <div><span class="lbl" style="--c:var(--pink)">MY TAKE</span>
+        <svg class="scr" viewBox="0 0 320 14" preserveAspectRatio="none"><path d="M2 8 C30 3 60 12 100 6 S160 4 200 9" fill="none" stroke="#141414" stroke-width="2.5" stroke-linecap="round" opacity=".35"/></svg></div>
+    </div>
+  </div>
+
+  <div class="burst">
+    <svg viewBox="0 0 100 100"><polygon fill="#ffe14d" stroke="#141414" stroke-width="2.6" stroke-linejoin="round"
+      points="50,2 58,17 74,8 74,26 92,24 84,40 98,50 84,60 92,76 74,74 74,92 58,83 50,98 42,83 26,92 26,74 8,76 16,60 2,50 16,40 8,24 26,26 26,8 42,17"/></svg>
+    <p><span>UP TO<b>10</b>PEOPLE</span></p>
+  </div>
+
+  <p class="hot sh">
+    <svg viewBox="0 0 24 24" fill="#ff5fa2" stroke="#141414" stroke-width="1.8" stroke-linejoin="round"><path d="M12 2c1 4 5 5.5 5 11a5 5 0 0 1-10 0c0-2.5 1.5-4 2.5-5 .3 2 1.2 3 2.5 3 0-3-1.5-5-0-9Z"/></svg>
+    hot takes welcome
+  </p>
+
+  <p class="url sh">coffeewithonlu.com/newsroom</p>
+</div>
