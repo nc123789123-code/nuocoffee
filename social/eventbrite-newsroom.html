@@ -1,0 +1,111 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Onlu Newsroom — Eventbrite banner</title>
+<link rel="stylesheet" href="fonts.css">
+<style>
+:root{
+  --bg:#0a1520; --text:#eef6fb; --muted:#93aec4; --dim:#6d8aa3;
+  --line:rgba(150,200,230,.16); --line2:rgba(150,200,230,.26);
+  --tiffany:#2ee0d0; --tiffany2:#9befe4; --sky:#4cc4ff; --indigo:#8a9bff; --pink:#ff4f9a;
+  --amber:#ffc35a; --coral:#ff8a65; --green:#6fe39a;
+  --display:'Unbounded',system-ui,sans-serif;
+  --body:'Outfit',system-ui,sans-serif;
+  --mono:'Space Mono',ui-monospace,monospace;
+  --grad:linear-gradient(100deg,var(--tiffany2),var(--tiffany) 30%,var(--sky) 58%,var(--pink) 92%);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#222;padding:30px;}
+
+/* Eventbrite event image: 2:1, rendered at 2x → 2160×1080 */
+.card{position:relative;width:1080px;height:540px;overflow:hidden;background:var(--bg);color:var(--text);
+  isolation:isolate;font-family:var(--body);}
+.blob{position:absolute;border-radius:50%;filter:blur(80px);z-index:-1;}
+.b1{width:620px;height:620px;top:-260px;left:-200px;background:radial-gradient(circle,var(--tiffany),transparent 68%);opacity:.26;}
+.b2{width:640px;height:640px;bottom:-330px;right:-120px;background:radial-gradient(circle,var(--pink),transparent 68%);opacity:.24;}
+.b3{width:520px;height:520px;top:-180px;right:120px;background:radial-gradient(circle,var(--indigo),transparent 70%);opacity:.18;}
+.grid{position:absolute;inset:0;z-index:-1;opacity:.5;
+  background-image:linear-gradient(rgba(150,200,230,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(150,200,230,.05) 1px,transparent 1px);
+  background-size:54px 54px;-webkit-mask-image:radial-gradient(ellipse at 70% 50%,#000 20%,transparent 75%);
+  mask-image:radial-gradient(ellipse at 70% 50%,#000 20%,transparent 75%);}
+
+.left{position:absolute;left:60px;top:56px;bottom:52px;width:560px;display:flex;flex-direction:column;}
+.eyebrow{font-family:var(--mono);font-weight:700;letter-spacing:.2em;font-size:13px;color:var(--tiffany2);
+  text-transform:uppercase;display:flex;align-items:center;gap:10px;}
+.live{width:9px;height:9px;border-radius:50%;background:var(--pink);box-shadow:0 0 12px var(--pink);}
+h1{margin-top:22px;font-family:var(--display);font-weight:800;letter-spacing:-.035em;line-height:.98;font-size:74px;}
+h1 .g{display:block;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;width:max-content;}
+.lede{margin-top:22px;font-size:25px;font-weight:500;line-height:1.3;}
+.lede span{color:var(--muted);font-weight:400;}
+.beats{margin-top:auto;display:flex;flex-wrap:wrap;gap:7px;}
+.beat{font-size:12.5px;font-weight:600;padding:5px 10px;border-radius:999px;border:1px solid var(--ac);color:var(--ac);
+  background:rgba(255,255,255,.03);}
+.facts{margin-top:16px;font-family:var(--mono);font-size:13px;letter-spacing:.06em;color:var(--muted);}
+.facts b{color:var(--text);font-weight:700;}
+
+/* the docket stack */
+.stack{position:absolute;right:84px;top:72px;width:380px;height:420px;}
+.dk{position:absolute;inset:0 0 auto 0;border-radius:18px;border:1px solid var(--line2);overflow:hidden;
+  background:linear-gradient(160deg,#12263a,#0d1a29 70%);box-shadow:0 30px 60px -20px rgba(0,0,0,.6);}
+.dk.back2{transform:translate(34px,-14px) rotate(5deg);opacity:.45;}
+.dk.back1{transform:translate(17px,-6px) rotate(2.5deg);opacity:.7;}
+.dk.back1 .top,.dk.back2 .top{color:transparent;}
+.dk.back1 .top *,.dk.back2 .top *{visibility:hidden;}
+.dk.front{box-shadow:0 30px 70px -20px rgba(0,0,0,.75),0 0 60px -18px rgba(76,196,255,.45);border-color:rgba(76,196,255,.4);}
+.top{display:flex;align-items:center;gap:8px;padding:12px 16px;border-bottom:1px solid var(--line);
+  font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;color:var(--ac);}
+.top .t{color:var(--muted);font-weight:400;letter-spacing:.08em;}
+.top .n{margin-left:auto;color:var(--dim);font-weight:400;}
+.h{padding:14px 16px 4px;font-weight:700;font-size:19px;line-height:1.3;}
+.row{padding:11px 16px 12px;border-top:1px solid var(--line);margin-top:10px;}
+.row + .row{margin-top:0;}
+.k{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.14em;color:var(--rc);text-transform:uppercase;}
+.bar{height:7px;border-radius:4px;background:rgba(150,200,230,.18);margin-top:8px;}
+.row.take{background:rgba(255,79,154,.08);}
+.row.take .bar{background:rgba(255,190,215,.32);}
+.qs{padding:11px 16px 14px;border-top:1px solid var(--line);display:flex;gap:7px;}
+.qs span{font-family:var(--mono);font-weight:700;font-size:12px;color:var(--tiffany2);border:1px solid rgba(155,239,228,.4);
+  border-radius:999px;width:24px;height:24px;display:grid;place-items:center;}
+.site{position:absolute;right:84px;bottom:40px;font-family:var(--mono);font-size:12px;color:var(--dim);letter-spacing:.06em;}
+</style>
+
+<div class="card" id="eb">
+  <span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span><span class="grid"></span>
+
+  <div class="left">
+    <p class="eyebrow"><span class="live"></span>Coffee with Onlu ✦ NYC</p>
+    <h1>Onlu<span class="g">Newsroom</span></h1>
+    <p class="lede">Everyone brings one story,<br>and their own take. <span>The table talks it through.</span></p>
+
+    <div class="beats">
+      <span class="beat" style="--ac:var(--tiffany)">Finance</span>
+      <span class="beat" style="--ac:var(--sky)">Tech</span>
+      <span class="beat" style="--ac:var(--indigo)">AI</span>
+      <span class="beat" style="--ac:var(--pink)">Healthcare</span>
+      <span class="beat" style="--ac:var(--amber)">Consumer</span>
+      <span class="beat" style="--ac:var(--coral)">Real estate</span>
+      <span class="beat" style="--ac:var(--green)">Resources</span>
+    </div>
+    <p class="facts"><b>4–7 people</b> · 90 minutes · one story each · no slides</p>
+  </div>
+
+  <div class="stack">
+    <div class="dk back2" style="--ac:var(--pink)">
+      <div class="top">DOCKET · 03 <span class="t">HEALTHCARE</span></div>
+      <div class="h" style="height:260px"></div>
+    </div>
+    <div class="dk back1" style="--ac:var(--indigo)">
+      <div class="top">DOCKET · 02 <span class="t">AI</span></div>
+      <div class="h" style="height:260px"></div>
+    </div>
+    <div class="dk front" style="--ac:var(--sky)">
+      <div class="top">DOCKET · 01 <span class="t">FINANCE</span><span class="n">YOUR STORY</span></div>
+      <div class="h">One headline you think<br>the table should hear</div>
+      <div class="row" style="--rc:var(--tiffany2)"><div class="k">What happened</div><div class="bar" style="width:92%"></div><div class="bar" style="width:64%"></div></div>
+      <div class="row" style="--rc:var(--sky)"><div class="k">Why it matters</div><div class="bar" style="width:86%"></div><div class="bar" style="width:52%"></div></div>
+      <div class="row take" style="--rc:var(--pink)"><div class="k">My take</div><div class="bar" style="width:78%"></div></div>
+      <div class="qs"><span>?</span><span>?</span><span>?</span></div>
+    </div>
+  </div>
+
+  <p class="site">coffeewithonlu.com/newsroom</p>
+</div>
