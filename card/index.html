@@ -77,6 +77,34 @@ h2{font-family:var(--display);font-weight:600;font-size:.95rem;letter-spacing:-.
 .seen__m.off{color:var(--dim);font-weight:400;}
 #occ{grid-column:1/-1;}
 .big__img{width:96px;height:96px;border-radius:50%;object-fit:cover;border:3px solid var(--tiffany);}
+.ava .emo,.ava .ini{width:100%;height:100%;display:grid;place-items:center;}
+.ava .emo{font-size:2rem;}
+.ava .ini{font-family:var(--display);font-weight:800;font-size:1.1rem;color:var(--text);}
+.ava.empty .ini{height:auto;}
+.ava.pv{cursor:default;width:64px;height:64px;}
+.pick{border:1px solid var(--line);border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:10px;}
+.pick legend{font-size:.82rem;font-weight:600;color:var(--muted);padding:0 4px;}
+.pick legend small,.health summary small{font-weight:400;color:var(--dim);}
+.pick__row{display:flex;gap:12px;align-items:center;}
+.pick__opts{display:flex;flex-direction:column;gap:8px;min-width:0;}
+.emojis,.colors{display:flex;flex-wrap:wrap;gap:6px;}
+.emojis button{font-size:1.25rem;width:38px;height:38px;border-radius:10px;border:1px solid var(--line2);background:var(--surface);cursor:pointer;}
+.colors button{width:26px;height:26px;border-radius:50%;border:2px solid transparent;cursor:pointer;}
+.emojis button[aria-pressed="true"]{border-color:var(--tiffany);background:var(--surface2);}
+.colors button[aria-pressed="true"]{border-color:var(--text);}
+.health{border:1px solid var(--line);border-radius:14px;padding:12px;}
+.health summary{cursor:pointer;font-size:.88rem;font-weight:600;color:var(--text);}
+.health[open] summary{margin-bottom:10px;}
+.health > *:not(summary) + *{margin-top:10px;}
+.health .hint{margin:0;}
+.tick{flex-direction:row;align-items:center;gap:8px;color:var(--text);}
+.tick input{width:auto;accent-color:var(--tiffany);}
+select{font:inherit;font-size:16px;color:var(--text);background:var(--surface);border:1px solid var(--line2);border-radius:12px;padding:11px 12px;width:100%;}
+.well{margin-top:14px;padding-top:12px;border-top:1px solid var(--line);}
+.well__h{font-family:var(--mono);font-size:.64rem;letter-spacing:.12em;color:var(--dim);text-transform:uppercase;}
+.well__p{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
+.well__p span{font-size:.8rem;padding:5px 10px;border-radius:999px;background:rgba(111,227,154,.1);border:1px solid rgba(111,227,154,.35);color:var(--muted);}
+.well__p b{color:var(--text);font-weight:700;}
 .card__ev{font-family:var(--mono);font-size:.66rem;letter-spacing:.14em;color:var(--tiffany2);text-transform:uppercase;}
 .card__n{font-family:var(--display);font-weight:800;font-size:1.6rem;letter-spacing:-.025em;line-height:1.1;margin-top:10px;word-break:break-word;}
 .card__r{color:var(--muted);margin-top:4px;font-size:.98rem;}
@@ -120,7 +148,10 @@ input::placeholder,textarea::placeholder{color:#55708a;}
 /* people list */
 .people{display:flex;flex-direction:column;gap:8px;}
 .person{display:flex;gap:12px;align-items:flex-start;border:1px solid var(--line);border-radius:14px;padding:12px 14px;background:var(--surface);color:inherit;text-decoration:none;}
-.person__img{width:44px;height:44px;border-radius:50%;object-fit:cover;flex:none;}
+.person__img{width:44px;height:44px;border-radius:50%;overflow:hidden;flex:none;display:grid;place-items:center;background:var(--surface2);}
+.person__img img{width:100%;height:100%;object-fit:cover;display:block;}
+.person__img .emo,.person__img .ini{width:100%;height:100%;display:grid;place-items:center;font-size:1.2rem;}
+.person__img .ini{font-family:var(--display);font-weight:800;font-size:.8rem;color:var(--muted);}
 .person__img.ini{display:grid;place-items:center;background:var(--surface2);font-family:var(--display);font-weight:800;font-size:.8rem;color:var(--muted);}
 .person__body{flex:1;min-width:0;display:flex;flex-direction:column;}
 .person__top{display:flex;align-items:baseline;gap:8px;}
@@ -2644,9 +2675,37 @@ var qrcode = function() {
   }
 
   // ---------- the card itself ----------
+  var AV_EMOJI = ["\u2615", "\ud83d\udcc8", "\ud83c\udfe6", "\ud83e\udd16", "\ud83e\uddec", "\ud83c\udfc3", "\ud83c\udfa8", "\ud83c\udf0f"];
+  var AV_COLORS = ["#2ee0d0", "#4cc4ff", "#ff4f9a", "#ffc35a", "#b9a8ff"];
+  function avatarInner(c, photo){
+    if (photo) return '<img src="' + photo + '" alt="">';
+    var fb = c.av && c.av.e ? '<span class="emo" style="background:' + AV_COLORS[c.av.c | 0] + '">' + esc(c.av.e) + "</span>"
+                            : '<span class="ini">' + esc(initials(c.n)) + "</span>";
+    if (c.avu) return '<img src="' + esc(webUrl(c.avu)) + '" alt="" referrerpolicy="no-referrer" data-fb="' + esc(fb) + '">';
+    return fb;
+  }
+  // a broken avatar link falls back to the emoji or initials
+  function wireFallbacks(root){
+    root.querySelectorAll("img[data-fb]").forEach(function(img){
+      img.addEventListener("error", function(){ var t = document.createElement("span"); t.innerHTML = img.getAttribute("data-fb"); img.replaceWith(t.firstChild); });
+    });
+  }
   function avatarHtml(c, photo, addLabel){
-    if (photo) return '<button class="ava" type="button" id="ava" aria-label="Change photo"><img src="' + photo + '" alt=""></button>';
-    return '<button class="ava empty" type="button" id="ava"><span>' + esc(initials(c.n)) + "</span><small>" + esc(addLabel) + "</small></button>";
+    var has = photo || c.avu || (c.av && c.av.e);
+    if (has) return '<button class="ava" type="button" id="ava" aria-label="' + esc(addLabel) + '">' + avatarInner(c, photo) + "</button>";
+    return '<button class="ava empty" type="button" id="ava"><span class="ini">' + esc(initials(c.n)) + "</span><small>" + esc(addLabel) + "</small></button>";
+  }
+  function wellHtml(c){
+    var w = c.w; if (!w) return "";
+    var pills = [];
+    if (w.sl) pills.push("<span><b>" + esc(w.sl) + "</b> sleep score</span>");
+    if (w.rd) pills.push("<span><b>" + esc(w.rd) + "</b> readiness</span>");
+    if (w.st) pills.push("<span><b>" + esc(w.st) + "</b> steps a day</span>");
+    if (w.ch) pills.push("<span>" + esc(w.ch) + "</span>");
+    if (w.act) pills.push("<span>Into <b>" + esc(w.act) + "</b></span>");
+    if (!pills.length) return "";
+    return '<div class="well"><div class="well__h">Wellness \u00b7 shared by ' + esc(first(c.n)) + (w.src ? " via " + esc(w.src) : "") + "</div>" +
+      '<div class="well__p">' + pills.join("") + "</div></div>";
   }
   function cardHtml(c, eventLine, photo, addLabel){
     var chips = [];
@@ -2664,6 +2723,7 @@ var qrcode = function() {
       "</div>" + avatarHtml(c, photo, addLabel) + "</div>" +
       (c.o ? '<div class="card__o">' + esc(c.o) + "</div>" : "") +
       (chips.length ? '<div class="chips">' + chips.join("") + "</div>" : "") +
+      wellHtml(c) +
       "</article>";
   }
 
@@ -2693,17 +2753,60 @@ var qrcode = function() {
         "</div>" +
         '<label for="ag">Your AI agent <small>optional link: a custom GPT, Claude project, booking page</small>' +
           '<input id="ag" name="ag" type="url" placeholder="chatgpt.com/g/your-agent" value="' + esc(me.ag) + '"></label>' +
+        '<fieldset class="pick"><legend>Avatar <small>travels with your card</small></legend>' +
+          '<div class="pick__row"><span class="ava pv" id="avPrev"></span><div class="pick__opts">' +
+            '<div class="emojis" role="group" aria-label="Avatar emoji">' + AV_EMOJI.map(function(e){ return '<button type="button" data-e="' + e + '">' + e + "</button>"; }).join("") + "</div>" +
+            '<div class="colors" role="group" aria-label="Avatar color">' + AV_COLORS.map(function(col, i){ return '<button type="button" data-c="' + i + '" style="background:' + col + '" aria-label="Color ' + (i + 1) + '"></button>'; }).join("") + "</div>" +
+          "</div></div>" +
+          '<label for="avu">Or an image link <small>e.g. your LinkedIn photo address</small><input id="avu" type="url" placeholder="https://\u2026" value="' + esc(me.avu) + '"></label>' +
+        "</fieldset>" +
+        '<details class="health" id="wd"' + (me.w ? " open" : "") + "><summary>Health &amp; wellness <small>optional</small></summary>" +
+          '<p class="hint">Off unless you switch it on. Only what you fill in is shown, and anyone who scans your card can see it.</p>' +
+          '<label class="tick" for="wOn"><input id="wOn" type="checkbox"' + (me.wOn ? " checked" : "") + "> Show this on my card</label>" +
+          '<label for="wsrc">From<select id="wsrc">' + ["", "Oura", "Apple Health", "Whoop", "Garmin", "Fitbit"].map(function(o){
+              return '<option value="' + o + '"' + ((me.w && me.w.src) === o ? " selected" : "") + ">" + (o || "\u2014") + "</option>"; }).join("") + "</select></label>" +
+          '<div class="row2">' +
+            '<label for="wsl">Sleep score<input id="wsl" inputmode="numeric" maxlength="3" placeholder="85" value="' + esc(me.w && me.w.sl) + '"></label>' +
+            '<label for="wrd">Readiness<input id="wrd" inputmode="numeric" maxlength="3" placeholder="78" value="' + esc(me.w && me.w.rd) + '"></label>' +
+          "</div>" +
+          '<div class="row2">' +
+            '<label for="wst">Steps a day<input id="wst" inputmode="numeric" placeholder="8,000" value="' + esc(me.w && me.w.st) + '"></label>' +
+            '<label for="wch">Rhythm<select id="wch">' + ["", "Early bird", "Night owl"].map(function(o){
+              return '<option value="' + o + '"' + ((me.w && me.w.ch) === o ? " selected" : "") + ">" + (o || "\u2014") + "</option>"; }).join("") + "</select></label>" +
+          "</div>" +
+          '<label for="wact">Into<input id="wact" maxlength="40" placeholder="Running, pilates, tennis" value="' + esc(me.w && me.w.act) + '"></label>' +
+        "</details>" +
         '<label for="ev">Where are you right now? <small>shows on the card and in their contact note</small>' +
           '<input id="ev" name="ev" placeholder="Hackathon NYC" value="' + esc(ev) + '"></label>' +
         '<p class="err" id="err" hidden></p>' +
         '<div class="btns"><button class="btn primary" type="submit">Make my card</button></div>' +
       "</form>";
+    var av = me.av ? { e: me.av.e, c: me.av.c | 0 } : { e: "", c: 0 };
+    function paintAv(){
+      var tmp = { n: document.getElementById("n").value || "?", av: av.e ? av : null, avu: document.getElementById("avu").value.trim() };
+      var pv = document.getElementById("avPrev"); pv.innerHTML = avatarInner(tmp, ""); wireFallbacks(pv);
+      app.querySelectorAll(".emojis button").forEach(function(b){ b.setAttribute("aria-pressed", String(b.getAttribute("data-e") === av.e)); });
+      app.querySelectorAll(".colors button").forEach(function(b){ b.setAttribute("aria-pressed", String(+b.getAttribute("data-c") === av.c)); });
+    }
+    app.querySelectorAll(".emojis button").forEach(function(b){ b.addEventListener("click", function(){ var e = b.getAttribute("data-e"); av.e = av.e === e ? "" : e; paintAv(); }); });
+    app.querySelectorAll(".colors button").forEach(function(b){ b.addEventListener("click", function(){ av.c = +b.getAttribute("data-c"); paintAv(); }); });
+    document.getElementById("avu").addEventListener("change", paintAv);
+    document.getElementById("n").addEventListener("input", paintAv);
+    paintAv();
+
     document.getElementById("f").addEventListener("submit", function(e){
       e.preventDefault();
       var c = {};
-      ["n", "r", "o", "li", "ig", "wc", "em", "ph", "ag", "ev"].forEach(function(k){
+      ["n", "r", "o", "li", "ig", "wc", "em", "ph", "ag", "ev", "avu"].forEach(function(k){
         var v = document.getElementById(k).value.trim(); if (v) c[k] = v;
       });
+      if (av.e) c.av = { e: av.e, c: av.c };
+      var w = {}, score = function(v){ v = parseInt(v, 10); return v >= 0 && v <= 100 ? String(v) : ""; };
+      var wv = { src: document.getElementById("wsrc").value, sl: score(document.getElementById("wsl").value), rd: score(document.getElementById("wrd").value),
+                 st: document.getElementById("wst").value.trim(), ch: document.getElementById("wch").value, act: document.getElementById("wact").value.trim() };
+      Object.keys(wv).forEach(function(k){ if (wv[k]) w[k] = wv[k]; });
+      if (Object.keys(w).length) c.w = w;
+      if (document.getElementById("wOn").checked && c.w) c.wOn = true;
       var err = document.getElementById("err");
       if (!c.n){ err.textContent = "Add your name so people know whose card this is."; err.hidden = false; return; }
       if (!c.li && !c.ig && !c.wc && !c.em && !c.ph){ err.textContent = "Add at least one way to reach you."; err.hidden = false; return; }
@@ -2719,6 +2822,9 @@ var qrcode = function() {
   var qrMode = "link";
   function viewMine(me){
     var shared = Object.assign({}, me, { d: today() });
+    if (!me.wOn) delete shared.w;
+    delete shared.wOn;
+    var shown = Object.assign({}, shared);
     var url = cardUrl(shared);
     var myPhoto = load(KEY_ME_PHOTO, "");
     var ps = people().sort(function(a, b){ return b.seen[b.seen.length - 1].t - a.seen[a.seen.length - 1].t; });
@@ -2726,7 +2832,7 @@ var qrcode = function() {
     ps.forEach(function(p){ p.seen.forEach(function(s){ if (s.loc) pins.push({ lat: s.loc.lat, lng: s.loc.lng, label: p.c.n + (s.ev ? " · " + s.ev : "") + " · " + fmt(s.t) }); }); });
 
     app.innerHTML =
-      cardHtml(me, me.ev ? me.ev + " · " + today() : today(), myPhoto, "Add your photo") +
+      cardHtml(shown, me.ev ? me.ev + " · " + today() : today(), myPhoto, "Add your photo") +
       '<div class="qrbox">' +
         '<div class="qr" id="qr"></div>' +
         '<div class="seg" role="group" aria-label="What the QR opens">' +
@@ -2746,7 +2852,7 @@ var qrcode = function() {
         ? '<div class="people">' + ps.map(function(p){
             var last = p.seen[p.seen.length - 1];
             return '<a class="person" href="/card/#c=' + b64e(p.c) + '">' +
-              (p.photo ? '<img class="person__img" src="' + p.photo + '" alt="">' : '<span class="person__img ini">' + esc(initials(p.c.n)) + "</span>") +
+              '<span class="person__img">' + avatarInner(p.c, p.photo) + "</span>" +
               '<span class="person__body"><span class="person__top"><span class="person__n">' + esc(p.c.n) + '</span><span class="person__d">' +
                 (p.seen.length > 1 ? "Met " + p.seen.length + "× · " : "") + esc(fmt(last.t)) + "</span></span>" +
               (p.c.r ? '<span class="person__r">' + esc(p.c.r) + "</span>" : "") +
@@ -2764,6 +2870,7 @@ var qrcode = function() {
       app.querySelectorAll(".seg button").forEach(function(b){ b.setAttribute("aria-pressed", String(b.getAttribute("data-m") === qrMode)); });
     }
     paintQr();
+    wireFallbacks(app);
     if (ps.length) drawMap(document.getElementById("map"), pins);
     app.querySelectorAll(".seg button").forEach(function(b){
       b.addEventListener("click", function(){ qrMode = b.getAttribute("data-m"); paintQr(); });
@@ -2837,6 +2944,7 @@ var qrcode = function() {
 
       '<div class="btns"><a class="btn full" href="/card/">' + (me ? "Back to my card" : "Make your own card") + "</a></div>";
 
+    wireFallbacks(app);
     var noteEl = document.getElementById("note"), draftEl = document.getElementById("draft"), pinBtn = document.getElementById("pin");
     function paintSeen(){
       document.getElementById("seen").innerHTML = seenHtml();
@@ -2851,7 +2959,8 @@ var qrcode = function() {
       var lines = ["Hi " + first(c.n) + ", great meeting you at " + where + "!"];
       if (c.o) lines.push("I'd love to keep talking about \u201c" + c.o.replace(/\.$/, "") + "\u201d.");
       else lines.push("I really enjoyed our conversation.");
-      lines.push("Would you be up for a coffee in the next couple of weeks?");
+      lines.push("Would you be up for a coffee in the next couple of weeks?" +
+        (c.w && c.w.act ? " Happy to join you for " + c.w.act.split(",")[0].trim().toLowerCase() + " sometime too." : ""));
       if (me && me.n) lines.push("", first(me.n));
       return lines.join("\n");
     }
