@@ -6,11 +6,12 @@
 <title>Onlu Card</title>
 <meta name="description" content="One QR for every way to reach you. Scan, save, remember, follow up." />
 <meta property="og:title" content="Onlu Card" />
-<meta property="og:description" content="One QR for LinkedIn, Instagram, WeChat and email. Scan, save, remember, follow up." />
+<meta property="og:description" content="One QR for LinkedIn, Instagram, WeChat, email and your AI agent. Scan, save, remember where you met, follow up." />
 <meta name="theme-color" content="#0a1520" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;800&family=Outfit:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" />
+<link rel="stylesheet" href="/card/leaflet/leaflet.css" />
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%232ee0d0%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M5%209h11v4a4%204%200%200%201-4%204H9a4%204%200%200%201-4-4V9Z%22%2F%3E%3Cpath%20d%3D%22M16%2010h2.4a2.4%202.4%200%200%201%200%204.8H16%22%2F%3E%3Cpath%20d%3D%22M8%203.4c-.5%201%20.5%201.6%200%202.6M11.5%203.4c-.5%201%20.5%201.6%200%202.6%22%2F%3E%3C%2Fsvg%3E" />
 <style>
 /* One phone-width column: the card is the hero, actions stack under it. */
@@ -52,6 +53,29 @@ h2{font-family:var(--display);font-weight:600;font-size:.95rem;letter-spacing:-.
   background:linear-gradient(155deg,#13283b,#0c1926 65%);border:1px solid var(--line2);
   box-shadow:0 30px 60px -30px rgba(0,0,0,.8),0 0 50px -20px rgba(46,224,208,.35);}
 .card::before{content:"";position:absolute;inset:0 0 auto;height:4px;background:var(--grad);}
+[hidden]{display:none!important;}
+.card__head{display:flex;gap:14px;align-items:flex-start;}
+.card__id{flex:1;min-width:0;}
+.ava{flex:none;width:72px;height:72px;border-radius:50%;overflow:hidden;border:2px solid var(--line2);background:var(--surface2);
+  cursor:pointer;padding:0;color:var(--muted);display:flex;flex-direction:column;align-items:center;justify-content:center;font:inherit;}
+.ava img{width:100%;height:100%;object-fit:cover;display:block;}
+.ava.empty{border-style:dashed;}
+.ava span{font-family:var(--display);font-weight:800;font-size:1.1rem;color:var(--text);line-height:1;}
+.ava small{font-size:.58rem;line-height:1.15;margin-top:4px;text-align:center;padding:0 6px;}
+.chip.agent{border-color:rgba(255,79,154,.55);} .chip.agent b{color:var(--pink);}
+.agentbtn{border-color:rgba(255,79,154,.55);background:rgba(255,79,154,.13);}
+.map{height:220px;border-radius:16px;overflow:hidden;border:1px solid var(--line2);margin-bottom:10px;background:#0d1b28;}
+.leaflet-container{font:inherit;background:#0d1b28;}
+.leaflet-popup-content{color:#0a1520;font-size:.85rem;}
+.seen{list-style:none;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--surface);}
+.seen li{display:flex;align-items:center;gap:10px;padding:10px 14px;border-top:1px solid var(--line);font-size:.9rem;}
+.seen li:first-child{border-top:0;}
+.seen__d{font-family:var(--mono);font-size:.72rem;color:var(--dim);flex:none;width:96px;}
+.seen__e{flex:1;min-width:0;}
+.seen__m{flex:none;font-size:.82rem;font-weight:600;color:var(--tiffany2);text-decoration:none;}
+.seen__m.off{color:var(--dim);font-weight:400;}
+#occ{grid-column:1/-1;}
+.big__img{width:96px;height:96px;border-radius:50%;object-fit:cover;border:3px solid var(--tiffany);}
 .card__ev{font-family:var(--mono);font-size:.66rem;letter-spacing:.14em;color:var(--tiffany2);text-transform:uppercase;}
 .card__n{font-family:var(--display);font-weight:800;font-size:1.6rem;letter-spacing:-.025em;line-height:1.1;margin-top:10px;word-break:break-word;}
 .card__r{color:var(--muted);margin-top:4px;font-size:.98rem;}
@@ -94,7 +118,10 @@ input::placeholder,textarea::placeholder{color:#55708a;}
 
 /* people list */
 .people{display:flex;flex-direction:column;gap:8px;}
-.person{display:block;border:1px solid var(--line);border-radius:14px;padding:12px 14px;background:var(--surface);color:inherit;text-decoration:none;}
+.person{display:flex;gap:12px;align-items:flex-start;border:1px solid var(--line);border-radius:14px;padding:12px 14px;background:var(--surface);color:inherit;text-decoration:none;}
+.person__img{width:44px;height:44px;border-radius:50%;object-fit:cover;flex:none;}
+.person__img.ini{display:grid;place-items:center;background:var(--surface2);font-family:var(--display);font-weight:800;font-size:.8rem;color:var(--muted);}
+.person__body{flex:1;min-width:0;display:flex;flex-direction:column;}
 .person__top{display:flex;align-items:baseline;gap:8px;}
 .person__n{font-weight:700;}
 .person__d{margin-left:auto;font-family:var(--mono);font-size:.68rem;color:var(--dim);flex:none;}
@@ -128,7 +155,7 @@ input::placeholder,textarea::placeholder{color:#55708a;}
 
   <main id="app"></main>
 
-  <p class="foot">Nothing is uploaded. Your card lives in its link and on your phone.<br>
+  <p class="foot">Nothing is uploaded. Your card lives in its link; photos, notes and pins stay on your phone.<br>
     <a href="/">coffeewithonlu.com</a> · An Onlu Intel project</p>
 </div>
 
@@ -2435,6 +2462,7 @@ var qrcode = function() {
 }));
 
 </script>
+<script src="/card/leaflet/leaflet.js"></script>
 <script>
 (function(){
   "use strict";
@@ -2445,16 +2473,32 @@ var qrcode = function() {
   document.getElementById("cup").innerHTML = CUP;
 
   var app = document.getElementById("app");
-  var KEY_ME = "onlu-card-me", KEY_PEOPLE = "onlu-card-people";
+  var KEY_ME = "onlu-card-me", KEY_ME_PHOTO = "onlu-card-me-photo", KEY_PEOPLE = "onlu-card-people";
 
   // ---------- storage (per phone; never required) ----------
   function load(k, d){ try { var v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch(e){ return d; } }
-  function save(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} }
+  function save(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); return true; } catch(e){ return false; } }
+
+  function people(){
+    // older entries had a single "at" date; give them an encounter log
+    return load(KEY_PEOPLE, []).map(function(p){
+      if (!p.seen) p.seen = [{ t: Date.parse(p.at) || Date.now(), ev: p.c && p.c.ev || "" }];
+      return p;
+    });
+  }
+  function putPerson(p){
+    var ps = people(), i = -1;
+    ps.forEach(function(x, j){ if (x.k === p.k) i = j; });
+    if (i < 0) ps.push(p); else ps[i] = p;
+    if (!save(KEY_PEOPLE, ps)) toast("Phone storage is full");
+  }
 
   // ---------- helpers ----------
   function esc(s){ return String(s == null ? "" : s).replace(/[&<>"']/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); }
-  function today(){ return new Date().toLocaleDateString("en-US", { month:"short", day:"numeric", year:"numeric" }); }
+  function fmt(t){ return new Date(t).toLocaleDateString("en-US", { month:"short", day:"numeric", year:"numeric" }); }
+  function today(){ return fmt(Date.now()); }
   function first(n){ return String(n || "").trim().split(/\s+/)[0] || "there"; }
+  function initials(n){ return String(n || "?").trim().split(/\s+/).slice(0, 2).map(function(w){ return w.charAt(0); }).join("").toUpperCase(); }
   function toast(msg){ var t = document.getElementById("toast"); t.textContent = msg; t.classList.add("on"); clearTimeout(toast.t); toast.t = setTimeout(function(){ t.classList.remove("on"); }, 1800); }
 
   function b64e(obj){
@@ -2468,16 +2512,18 @@ var qrcode = function() {
     } catch(e){ return null; }
   }
 
+  function webUrl(v){ v = String(v || "").trim(); if (!v) return ""; return /^https?:\/\//i.test(v) ? v : "https://" + v.replace(/^\/+/, ""); }
   function linkedinUrl(v){ v = String(v || "").trim(); if (!v) return ""; if (/^https?:\/\//i.test(v)) return v;
     if (/linkedin\.com/i.test(v)) return "https://" + v.replace(/^\/+/, ""); return "https://www.linkedin.com/in/" + v.replace(/^@/, ""); }
   function igHandle(v){ v = String(v || "").trim(); if (!v) return "";
     var m = v.match(/instagram\.com\/([^/?#]+)/i); return (m ? m[1] : v).replace(/^@/, ""); }
+  function mapsUrl(loc){ return "https://www.google.com/maps/search/?api=1&query=" + loc.lat + "," + loc.lng; }
 
   function cardUrl(c){ return location.origin + "/card/#c=" + b64e(c); }
 
   // ---------- vCard: one tap "Add contact" on iPhone and Android ----------
   function vesc(s){ return String(s || "").replace(/\\/g, "\\\\").replace(/\n/g, "\\n").replace(/,/g, "\\,").replace(/;/g, "\\;"); }
-  function vcard(c, note){
+  function vcard(c, note, photo){
     var name = String(c.n || "").trim(), parts = name.split(/\s+/);
     var N = parts.length > 1 ? vesc(parts.slice(-1)[0]) + ";" + vesc(parts.slice(0, -1).join(" ")) + ";;;" : vesc(name) + ";;;;";
     var notes = [];
@@ -2486,12 +2532,15 @@ var qrcode = function() {
     if (c.o) notes.push(c.o);
     if (c.wc) notes.push("WeChat: " + c.wc);
     if (c.ig) notes.push("Instagram: @" + igHandle(c.ig));
+    if (c.ag) notes.push("AI agent: " + webUrl(c.ag));
     var L = ["BEGIN:VCARD", "VERSION:3.0", "N:" + N, "FN:" + vesc(name)];
     if (c.r)  L.push("TITLE:" + vesc(c.r));
     if (c.em) L.push("EMAIL;TYPE=INTERNET:" + vesc(c.em));
     if (c.ph) L.push("TEL;TYPE=CELL:" + vesc(c.ph));
     if (c.li) L.push("URL:" + vesc(linkedinUrl(c.li)));
+    if (c.ag) L.push("URL:" + vesc(webUrl(c.ag)));
     if (c.ig) L.push("X-SOCIALPROFILE;TYPE=instagram:" + vesc("https://instagram.com/" + igHandle(c.ig)));
+    if (photo) L.push("PHOTO;ENCODING=b;TYPE=JPEG:" + photo.replace(/^data:image\/\w+;base64,/, ""));
     if (notes.length) L.push("NOTE:" + vesc(notes.join("\n")));
     L.push("END:VCARD");
     return L.join("\r\n");
@@ -2531,9 +2580,55 @@ var qrcode = function() {
     else fallback();
   }
 
+  // ---------- photo: square-cropped and small, kept on this phone ----------
+  function pickPhoto(cb){
+    var inp = document.createElement("input");
+    inp.type = "file"; inp.accept = "image/*"; inp.hidden = true;
+    inp.addEventListener("change", function(){
+      var f = inp.files && inp.files[0]; inp.remove(); if (!f) return;
+      var img = new Image(), url = URL.createObjectURL(f);
+      img.onload = function(){
+        var S = 320, s = Math.min(img.naturalWidth, img.naturalHeight), cv = document.createElement("canvas");
+        cv.width = cv.height = S;
+        cv.getContext("2d").drawImage(img, (img.naturalWidth - s) / 2, (img.naturalHeight - s) / 2, s, s, 0, 0, S, S);
+        URL.revokeObjectURL(url); cb(cv.toDataURL("image/jpeg", 0.72));
+      };
+      img.onerror = function(){ URL.revokeObjectURL(url); toast("Couldn't read that photo"); };
+      img.src = url;
+    });
+    document.body.appendChild(inp); inp.click();
+  }
+
+  // ---------- location ----------
+  function locate(cb){
+    if (!navigator.geolocation){ cb(null, "Location isn't available here"); return; }
+    navigator.geolocation.getCurrentPosition(
+      function(p){ cb({ lat: +p.coords.latitude.toFixed(5), lng: +p.coords.longitude.toFixed(5) }); },
+      function(){ cb(null, "Location wasn't shared"); },
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 });
+  }
+
+  // ---------- map (Leaflet, dark tiles) ----------
+  function drawMap(el, pins){
+    if (el._map){ el._map.remove(); el._map = null; }
+    if (!window.L || !pins.length){ el.hidden = true; return; }
+    el.hidden = false;
+    var m = L.map(el, { zoomControl: false, scrollWheelZoom: false });
+    m.attributionControl.setPrefix('<a href="https://leafletjs.com" target="_blank" rel="noopener">Leaflet</a>');
+    L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", {
+      maxZoom: 19, subdomains: "abcd", attribution: "&copy; OpenStreetMap &copy; CARTO" }).addTo(m);
+    var pts = pins.map(function(p){
+      L.circleMarker([p.lat, p.lng], { radius: 8, color: "#ff4f9a", weight: 2, fillColor: "#2ee0d0", fillOpacity: 0.95 })
+        .addTo(m).bindPopup(esc(p.label));
+      return [p.lat, p.lng];
+    });
+    if (pts.length === 1) m.setView(pts[0], 15); else m.fitBounds(pts, { padding: [30, 30], maxZoom: 15 });
+    el._map = m;
+  }
+
   // ---------- QR ----------
   function qrSvg(text){
-    if (typeof qrcode !== "function") return '<p style="color:#0a1520;font:600 14px/1.4 sans-serif;padding:20px;line-height:1.4">QR could not be drawn. Use \u201cCopy my link\u201d instead.</p>';
+    if (typeof qrcode !== "function") return '<p style="color:#0a1520;font:600 14px/1.4 sans-serif;padding:20px">QR could not be drawn. Use \u201cCopy my link\u201d instead.</p>';
     qrcode.stringToBytes = qrcode.stringToBytesFuncs["UTF-8"];
     var q = qrcode(0, "M"); q.addData(text, "Byte"); q.make();
     var n = q.getModuleCount(), d = "";
@@ -2542,17 +2637,24 @@ var qrcode = function() {
   }
 
   // ---------- the card itself ----------
-  function cardHtml(c, eventLine){
+  function avatarHtml(c, photo, addLabel){
+    if (photo) return '<button class="ava" type="button" id="ava" aria-label="Change photo"><img src="' + photo + '" alt=""></button>';
+    return '<button class="ava empty" type="button" id="ava"><span>' + esc(initials(c.n)) + "</span><small>" + esc(addLabel) + "</small></button>";
+  }
+  function cardHtml(c, eventLine, photo, addLabel){
     var chips = [];
     if (c.li) chips.push("<span class=\"chip\"><b>in</b> LinkedIn</span>");
     if (c.ig) chips.push("<span class=\"chip\"><b>@</b>" + esc(igHandle(c.ig)) + "</span>");
     if (c.wc) chips.push("<span class=\"chip\"><b>WeChat</b> " + esc(c.wc) + "</span>");
     if (c.em) chips.push("<span class=\"chip\">" + esc(c.em) + "</span>");
     if (c.ph) chips.push("<span class=\"chip\">" + esc(c.ph) + "</span>");
+    if (c.ag) chips.push("<span class=\"chip agent\"><b>AI</b> agent</span>");
     return '<article class="card">' +
-      (eventLine ? '<div class="card__ev">' + esc(eventLine) + "</div>" : "") +
-      '<div class="card__n">' + esc(c.n) + "</div>" +
-      (c.r ? '<div class="card__r">' + esc(c.r) + "</div>" : "") +
+      '<div class="card__head"><div class="card__id">' +
+        (eventLine ? '<div class="card__ev">' + esc(eventLine) + "</div>" : "") +
+        '<div class="card__n">' + esc(c.n) + "</div>" +
+        (c.r ? '<div class="card__r">' + esc(c.r) + "</div>" : "") +
+      "</div>" + avatarHtml(c, photo, addLabel) + "</div>" +
       (c.o ? '<div class="card__o">' + esc(c.o) + "</div>" : "") +
       (chips.length ? '<div class="chips">' + chips.join("") + "</div>" : "") +
       "</article>";
@@ -2567,7 +2669,7 @@ var qrcode = function() {
     var ev = me.ev || (qEvent ? decodeURIComponent(qEvent.replace(/\+/g, " ")) : "");
     app.innerHTML =
       '<h1>One QR for <span class="grad">every way to reach you</span></h1>' +
-      '<p class="lede">LinkedIn, Instagram, WeChat and email on one card. People scan it, save you in one tap, and get a nudge to follow up.</p>' +
+      '<p class="lede">LinkedIn, Instagram, WeChat, email and your AI agent on one card. People scan it, save you in one tap, remember where you met, and get a nudge to follow up.</p>' +
       '<form id="f" novalidate>' +
         '<label for="n">Name<input id="n" name="n" required autocomplete="name" placeholder="Karlie Chen" value="' + esc(me.n) + '"></label>' +
         '<label for="r">What you do<input id="r" name="r" autocomplete="organization-title" placeholder="Private credit · founder of Onlu" value="' + esc(me.r) + '"></label>' +
@@ -2582,6 +2684,8 @@ var qrcode = function() {
           '<label for="em">Email<input id="em" name="em" type="email" autocomplete="email" placeholder="you@email.com" value="' + esc(me.em) + '"></label>' +
           '<label for="ph">Phone <small>optional</small><input id="ph" name="ph" type="tel" autocomplete="tel" placeholder="+1 212 555 0100" value="' + esc(me.ph) + '"></label>' +
         "</div>" +
+        '<label for="ag">Your AI agent <small>optional link: a custom GPT, Claude project, booking page</small>' +
+          '<input id="ag" name="ag" type="url" placeholder="chatgpt.com/g/your-agent" value="' + esc(me.ag) + '"></label>' +
         '<label for="ev">Where are you right now? <small>shows on the card and in their contact note</small>' +
           '<input id="ev" name="ev" placeholder="Hackathon NYC" value="' + esc(ev) + '"></label>' +
         '<p class="err" id="err" hidden></p>' +
@@ -2590,7 +2694,7 @@ var qrcode = function() {
     document.getElementById("f").addEventListener("submit", function(e){
       e.preventDefault();
       var c = {};
-      ["n", "r", "o", "li", "ig", "wc", "em", "ph", "ev"].forEach(function(k){
+      ["n", "r", "o", "li", "ig", "wc", "em", "ph", "ag", "ev"].forEach(function(k){
         var v = document.getElementById(k).value.trim(); if (v) c[k] = v;
       });
       var err = document.getElementById("err");
@@ -2609,9 +2713,13 @@ var qrcode = function() {
   function viewMine(me){
     var shared = Object.assign({}, me, { d: today() });
     var url = cardUrl(shared);
-    var people = load(KEY_PEOPLE, []);
+    var myPhoto = load(KEY_ME_PHOTO, "");
+    var ps = people().sort(function(a, b){ return b.seen[b.seen.length - 1].t - a.seen[a.seen.length - 1].t; });
+    var pins = [];
+    ps.forEach(function(p){ p.seen.forEach(function(s){ if (s.loc) pins.push({ lat: s.loc.lat, lng: s.loc.lng, label: p.c.n + (s.ev ? " · " + s.ev : "") + " · " + fmt(s.t) }); }); });
+
     app.innerHTML =
-      cardHtml(me, me.ev ? me.ev + " · " + today() : today()) +
+      cardHtml(me, me.ev ? me.ev + " · " + today() : today(), myPhoto, "Add your photo") +
       '<div class="qrbox">' +
         '<div class="qr" id="qr"></div>' +
         '<div class="seg" role="group" aria-label="What the QR opens">' +
@@ -2626,32 +2734,42 @@ var qrcode = function() {
         '<button class="btn" type="button" id="edit">Edit card</button>' +
       "</div>" +
       "<h2>People you met</h2>" +
-      (people.length
-        ? '<div class="people">' + people.slice().reverse().map(function(p){
+      '<div class="map" id="map" hidden></div>' +
+      (ps.length
+        ? '<div class="people">' + ps.map(function(p){
+            var last = p.seen[p.seen.length - 1];
             return '<a class="person" href="/card/#c=' + b64e(p.c) + '">' +
-              '<div class="person__top"><span class="person__n">' + esc(p.c.n) + '</span><span class="person__d">' + esc(p.at) + "</span></div>" +
-              (p.c.r ? '<div class="person__r">' + esc(p.c.r) + "</div>" : "") +
-              (p.note ? '<div class="person__note">' + esc(p.note) + "</div>" : "") + "</a>";
+              (p.photo ? '<img class="person__img" src="' + p.photo + '" alt="">' : '<span class="person__img ini">' + esc(initials(p.c.n)) + "</span>") +
+              '<span class="person__body"><span class="person__top"><span class="person__n">' + esc(p.c.n) + '</span><span class="person__d">' +
+                (p.seen.length > 1 ? "Met " + p.seen.length + "× · " : "") + esc(fmt(last.t)) + "</span></span>" +
+              (p.c.r ? '<span class="person__r">' + esc(p.c.r) + "</span>" : "") +
+              (last.ev ? '<span class="person__r">' + esc(last.ev) + (last.loc ? " · pinned" : "") + "</span>" : "") +
+              (p.note ? '<span class="person__note">' + esc(p.note) + "</span>" : "") + "</span></a>";
           }).join("") + "</div>"
-        : '<p class="empty">When you scan someone\'s Onlu Card, they show up here with your note, so you remember who they were.</p>');
+        : '<p class="empty">When you scan someone\'s Onlu Card, they show up here with your photo, note and where you met.</p>');
 
     function paintQr(){
       var text = qrMode === "link" ? url : vcard(shared);
       document.getElementById("qr").innerHTML = qrSvg(text);
       document.getElementById("qrnote").textContent = qrMode === "link"
-        ? "Opens your card. They can save you, jot a note and set a follow-up reminder."
+        ? "Opens your card. They can save you, add a photo and note, pin where you met and set a reminder."
         : "Saves you straight into their contacts. Works with no signal.";
       app.querySelectorAll(".seg button").forEach(function(b){ b.setAttribute("aria-pressed", String(b.getAttribute("data-m") === qrMode)); });
     }
     paintQr();
+    drawMap(document.getElementById("map"), pins);
     app.querySelectorAll(".seg button").forEach(function(b){
       b.addEventListener("click", function(){ qrMode = b.getAttribute("data-m"); paintQr(); });
+    });
+    document.getElementById("ava").addEventListener("click", function(){
+      pickPhoto(function(data){ if (!save(KEY_ME_PHOTO, data)) toast("Phone storage is full"); render(); });
     });
     document.getElementById("copyLink").addEventListener("click", function(){ copy(url, "Link"); });
     document.getElementById("edit").addEventListener("click", function(){ viewForm(); scrollTo(0, 0); });
     document.getElementById("bigBtn").addEventListener("click", function(){
       var big = document.createElement("div"); big.className = "big"; big.setAttribute("role", "dialog"); big.setAttribute("aria-label", "Full-screen QR");
-      big.innerHTML = '<div class="big__n">' + esc(me.n) + '</div><div class="qr">' + qrSvg(qrMode === "link" ? url : vcard(shared)) + "</div>" +
+      big.innerHTML = (myPhoto ? '<img class="big__img" src="' + myPhoto + '" alt="">' : "") +
+        '<div class="big__n">' + esc(me.n) + '</div><div class="qr">' + qrSvg(qrMode === "link" ? url : vcard(shared)) + "</div>" +
         '<div class="big__s">Scan with your camera · tap anywhere to close</div>';
       big.addEventListener("click", function(){ big.remove(); });
       document.body.appendChild(big);
@@ -2663,26 +2781,45 @@ var qrcode = function() {
   // View 3: someone else's card, after scanning
   // =========================================================
   function viewTheirs(c){
-    var people = load(KEY_PEOPLE, []);
     var key = (c.n || "") + "|" + (c.em || c.li || c.wc || c.ig || c.ph || "");
-    var mine = people.filter(function(p){ return p.k === key; })[0];
-    if (!mine){ mine = { k: key, c: c, note: "", at: today() }; people.push(mine); save(KEY_PEOPLE, people); }
+    var p = people().filter(function(x){ return x.k === key; })[0];
+    if (!p){ p = { k: key, c: c, note: "", at: today(), seen: [{ t: Date.now(), ev: c.ev || "" }] }; putPerson(p); }
+    else { p.c = c; }
     var me = load(KEY_ME, null);
     var where = c.ev || "today";
+    var fn = esc(first(c.n));
+
+    function seenHtml(){
+      return p.seen.slice().reverse().map(function(s){
+        return '<li><span class="seen__d">' + esc(fmt(s.t)) + '</span><span class="seen__e">' + esc(s.ev || "Met") + "</span>" +
+          (s.loc ? '<a class="seen__m" href="' + mapsUrl(s.loc) + '" target="_blank" rel="noopener">Map</a>' : '<span class="seen__m off">No pin</span>') + "</li>";
+      }).join("");
+    }
+    function pinsOf(){ return p.seen.filter(function(s){ return s.loc; }).map(function(s){ return { lat: s.loc.lat, lng: s.loc.lng, label: (s.ev || "Met") + " · " + fmt(s.t) }; }); }
 
     app.innerHTML =
-      cardHtml(c, (c.ev ? c.ev : "Met") + (c.d ? " · " + c.d : "")) +
+      cardHtml(c, (c.ev ? c.ev : "Met") + (c.d ? " · " + c.d : ""), p.photo, "Add photo") +
       '<div class="btns">' +
         '<button class="btn primary" type="button" id="saveC">Save to contacts</button>' +
+        (c.ag ? '<a class="btn full agentbtn" href="' + esc(webUrl(c.ag)) + '" target="_blank" rel="noopener">Ask ' + fn + "\u2019s AI agent</a>" : "") +
         (c.li ? '<a class="btn" href="' + esc(linkedinUrl(c.li)) + '" target="_blank" rel="noopener">Open LinkedIn</a>' : "") +
         (c.ig ? '<a class="btn" href="https://instagram.com/' + esc(igHandle(c.ig)) + '" target="_blank" rel="noopener">Open Instagram</a>' : "") +
         (c.wc ? '<button class="btn" type="button" id="cpWc">Copy WeChat ID</button>' : "") +
         (c.em ? '<button class="btn" type="button" id="cpEm">Copy email</button>' : "") +
       "</div>" +
 
-      "<h2>Remember " + esc(first(c.n)) + "</h2>" +
-      '<p class="hint">What did you talk about? It goes into the contact note, so future you knows who this is.</p>' +
-      '<label for="note" class="sr"><textarea id="note" placeholder="Talked about PIK in private credit. Wants an intro to someone in data center financing.">' + esc(mine.note) + "</textarea></label>" +
+      "<h2>Remember " + fn + "</h2>" +
+      '<p class="hint">What did you talk about? It stays on your phone and goes into the contact note, never to ' + fn + ".</p>" +
+      '<textarea id="note" aria-label="Your note" placeholder="Talked about PIK in private credit. Wants an intro to someone in data center financing.">' + esc(p.note) + "</textarea>" +
+
+      "<h2>Where you\u2019ve met</h2>" +
+      '<div class="map" id="map" hidden></div>' +
+      '<ul class="seen" id="seen">' + seenHtml() + "</ul>" +
+      '<div class="btns">' +
+        '<button class="btn full" type="button" id="pin">Pin this place</button>' +
+        '<input id="occ" class="full" placeholder="Next time: occasion, e.g. Onlu credit coffee" aria-label="Occasion">' +
+        '<button class="btn full" type="button" id="again">Seen ' + fn + " again today</button>" +
+      "</div>" +
 
       "<h2>Follow up before it goes cold</h2>" +
       '<div class="panel"><label for="draft">Draft message <small>edit freely</small><textarea id="draft" rows="5"></textarea></label>' +
@@ -2693,10 +2830,17 @@ var qrcode = function() {
 
       '<div class="btns"><a class="btn full" href="/card/">' + (me ? "Back to my card" : "Make your own card") + "</a></div>";
 
-    var noteEl = document.getElementById("note"), draftEl = document.getElementById("draft");
+    var noteEl = document.getElementById("note"), draftEl = document.getElementById("draft"), pinBtn = document.getElementById("pin");
+    function paintSeen(){
+      document.getElementById("seen").innerHTML = seenHtml();
+      drawMap(document.getElementById("map"), pinsOf());
+      pinBtn.hidden = !!p.seen[p.seen.length - 1].loc;
+    }
+    paintSeen();
+
     var edited = false;
+    // the note is private: it goes into the saved contact, never into the message
     function draft(){
-      var n = noteEl.value.trim();
       var lines = ["Hi " + first(c.n) + ", great meeting you at " + where + "!"];
       if (c.o) lines.push("I'd love to keep talking about \u201c" + c.o.replace(/\.$/, "") + "\u201d.");
       else lines.push("I really enjoyed our conversation.");
@@ -2704,20 +2848,33 @@ var qrcode = function() {
       if (me && me.n) lines.push("", first(me.n));
       return lines.join("\n");
     }
-    // the note is private: it goes into the saved contact, never into the message
     function refresh(){ if (!edited) draftEl.value = draft(); }
     refresh();
-    noteEl.addEventListener("input", function(){
-      mine.note = noteEl.value.trim();
-      var ps = load(KEY_PEOPLE, []); ps.forEach(function(p){ if (p.k === key) p.note = mine.note; }); save(KEY_PEOPLE, ps);
-      refresh();
-    });
+    noteEl.addEventListener("input", function(){ p.note = noteEl.value.trim(); putPerson(p); });
     draftEl.addEventListener("input", function(){ edited = true; });
 
+    document.getElementById("ava").addEventListener("click", function(){
+      pickPhoto(function(data){ p.photo = data; putPerson(p); viewTheirs(c); });
+    });
+    pinBtn.addEventListener("click", function(){
+      pinBtn.disabled = true; pinBtn.textContent = "Finding you…";
+      locate(function(loc, why){
+        pinBtn.disabled = false; pinBtn.textContent = "Pin this place";
+        if (!loc){ toast(why); return; }
+        p.seen[p.seen.length - 1].loc = loc; putPerson(p); paintSeen(); toast("Pinned");
+      });
+    });
+    document.getElementById("again").addEventListener("click", function(){
+      var occ = document.getElementById("occ");
+      var s = { t: Date.now(), ev: occ.value.trim() };
+      p.seen.push(s); putPerson(p); occ.value = ""; paintSeen();
+      locate(function(loc){ if (loc){ s.loc = loc; putPerson(p); paintSeen(); } });
+      toast("Logged: met " + p.seen.length + " times");
+    });
+
     document.getElementById("saveC").addEventListener("click", function(){
-      var note = noteEl.value.trim();
       download((c.n || "contact").replace(/[^\w\u4e00-\u9fff -]/g, "").trim().replace(/\s+/g, "-") + ".vcf",
-        vcard(c, note), "text/vcard");
+        vcard(c, noteEl.value.trim(), p.photo), "text/vcard");
       toast("Contact ready to add");
     });
     if (c.wc) document.getElementById("cpWc").addEventListener("click", function(){ copy(c.wc, "WeChat ID"); });
