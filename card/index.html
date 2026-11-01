@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Onlu Card</title>
+<meta name="description" content="One QR for every way to reach you. Scan, save, remember, follow up." />
+<meta property="og:title" content="Onlu Card" />
+<meta property="og:description" content="One QR for LinkedIn, Instagram, WeChat and email. Scan, save, remember, follow up." />
+<meta name="theme-color" content="#0a1520" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;800&family=Outfit:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%232ee0d0%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M5%209h11v4a4%204%200%200%201-4%204H9a4%204%200%200%201-4-4V9Z%22%2F%3E%3Cpath%20d%3D%22M16%2010h2.4a2.4%202.4%200%200%201%200%204.8H16%22%2F%3E%3Cpath%20d%3D%22M8%203.4c-.5%201%20.5%201.6%200%202.6M11.5%203.4c-.5%201%20.5%201.6%200%202.6%22%2F%3E%3C%2Fsvg%3E" />
+<style>
+/* One phone-width column: the card is the hero, actions stack under it. */
+:root{
+  --bg:#0a1520; --surface:rgba(255,255,255,.04); --surface2:rgba(255,255,255,.07);
+  --text:#eef6fb; --muted:#93aec4; --dim:#6d8aa3; --line:rgba(150,200,230,.15); --line2:rgba(150,200,230,.28);
+  --tiffany:#2ee0d0; --tiffany2:#9befe4; --sky:#4cc4ff; --pink:#ff4f9a; --ink:#08131c;
+  --grad:linear-gradient(100deg,var(--tiffany2),var(--tiffany) 30%,var(--sky) 58%,var(--pink) 92%);
+  --display:'Unbounded',system-ui,sans-serif;
+  --body:'Outfit',system-ui,-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
+  --mono:'Space Mono',ui-monospace,'Courier New',monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:var(--body);font-size:16px;line-height:1.5;
+  -webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%;overflow-x:hidden;
+  padding:env(safe-area-inset-top,0px) max(16px,env(safe-area-inset-right,0px)) calc(48px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));}
+.fx{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
+.blob{position:absolute;border-radius:50%;filter:blur(90px);}
+.b1{width:90vw;height:90vw;top:-30vh;right:-35vw;background:radial-gradient(circle,var(--tiffany),transparent 68%);opacity:.2;}
+.b2{width:80vw;height:80vw;bottom:-20vh;left:-35vw;background:radial-gradient(circle,var(--pink),transparent 68%);opacity:.13;}
+.wrap{position:relative;z-index:1;max-width:440px;margin-inline:auto;}
+
+.top{display:flex;align-items:center;gap:9px;padding:16px 0 4px;}
+.top a{display:flex;align-items:center;gap:9px;color:inherit;text-decoration:none;}
+.cup{color:var(--tiffany2);line-height:0;}
+.cup svg{width:22px;height:22px;}
+.brand{font-family:var(--display);font-weight:600;font-size:.88rem;letter-spacing:-.01em;}
+.top .tag{margin-left:auto;font-family:var(--mono);font-size:.66rem;letter-spacing:.14em;color:var(--dim);text-transform:uppercase;}
+
+h1{font-family:var(--display);font-weight:800;letter-spacing:-.03em;line-height:1.08;font-size:1.75rem;margin:18px 0 6px;text-wrap:balance;}
+.grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.lede{color:var(--muted);font-size:.98rem;}
+h2{font-family:var(--display);font-weight:600;font-size:.95rem;letter-spacing:-.01em;margin:30px 0 10px;}
+.hint{font-size:.85rem;color:var(--dim);margin:-4px 0 10px;}
+
+/* the card */
+.card{position:relative;margin-top:18px;border-radius:22px;padding:22px 20px 18px;overflow:hidden;
+  background:linear-gradient(155deg,#13283b,#0c1926 65%);border:1px solid var(--line2);
+  box-shadow:0 30px 60px -30px rgba(0,0,0,.8),0 0 50px -20px rgba(46,224,208,.35);}
+.card::before{content:"";position:absolute;inset:0 0 auto;height:4px;background:var(--grad);}
+.card__ev{font-family:var(--mono);font-size:.66rem;letter-spacing:.14em;color:var(--tiffany2);text-transform:uppercase;}
+.card__n{font-family:var(--display);font-weight:800;font-size:1.6rem;letter-spacing:-.025em;line-height:1.1;margin-top:10px;word-break:break-word;}
+.card__r{color:var(--muted);margin-top:4px;font-size:.98rem;}
+.card__o{margin-top:12px;font-size:.95rem;line-height:1.45;padding-left:12px;border-left:2px solid var(--pink);color:var(--text);}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:16px;}
+.chip{font-size:.78rem;font-weight:600;padding:5px 10px;border-radius:999px;border:1px solid var(--line2);color:var(--muted);background:var(--surface);}
+.chip b{color:var(--text);font-weight:600;}
+
+/* QR */
+.qrbox{margin-top:16px;display:flex;flex-direction:column;align-items:center;gap:12px;}
+.qr{background:#fff;border-radius:18px;padding:14px;line-height:0;width:min(100%,280px);aspect-ratio:1;max-width:100%;}
+.qr svg{width:100%;height:100%;display:block;}
+.seg{display:flex;border:1px solid var(--line2);border-radius:999px;padding:3px;background:var(--surface);}
+.seg button{font:inherit;font-size:.8rem;font-weight:600;color:var(--muted);background:none;border:0;border-radius:999px;padding:7px 14px;cursor:pointer;}
+.seg button[aria-pressed="true"]{background:var(--text);color:var(--ink);}
+.qrnote{font-size:.82rem;color:var(--dim);text-align:center;max-width:300px;}
+
+/* buttons */
+.btns{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px;}
+.btn{font:inherit;font-size:.92rem;font-weight:600;color:var(--text);background:var(--surface2);border:1px solid var(--line2);
+  border-radius:14px;padding:12px 12px;cursor:pointer;text-align:center;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:7px;min-width:0;}
+.btn.primary{grid-column:1/-1;background:var(--grad);color:var(--ink);border:0;font-weight:700;padding:14px;}
+.btn.full{grid-column:1/-1;}
+.btn:focus-visible,.seg button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--tiffany);outline-offset:2px;}
+.btn:active{transform:translateY(1px);}
+
+/* form */
+form{display:flex;flex-direction:column;gap:12px;margin-top:18px;}
+label{display:flex;flex-direction:column;gap:5px;font-size:.82rem;font-weight:600;color:var(--muted);}
+label small{font-weight:400;color:var(--dim);}
+input,textarea{font:inherit;font-size:16px;color:var(--text);background:var(--surface);border:1px solid var(--line2);border-radius:12px;padding:11px 12px;width:100%;}
+textarea{resize:vertical;min-height:84px;line-height:1.45;}
+#draft{min-height:150px;}
+input::placeholder,textarea::placeholder{color:#55708a;}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.err{color:#ff9cc4;font-size:.85rem;}
+
+.panel{border:1px solid var(--line);border-radius:16px;background:var(--surface);padding:14px;}
+.panel + .panel{margin-top:10px;}
+
+/* people list */
+.people{display:flex;flex-direction:column;gap:8px;}
+.person{display:block;border:1px solid var(--line);border-radius:14px;padding:12px 14px;background:var(--surface);color:inherit;text-decoration:none;}
+.person__top{display:flex;align-items:baseline;gap:8px;}
+.person__n{font-weight:700;}
+.person__d{margin-left:auto;font-family:var(--mono);font-size:.68rem;color:var(--dim);flex:none;}
+.person__r{font-size:.85rem;color:var(--muted);}
+.person__note{font-size:.85rem;color:var(--text);margin-top:6px;padding-left:10px;border-left:2px solid var(--tiffany);}
+.empty{font-size:.88rem;color:var(--dim);border:1px dashed var(--line2);border-radius:14px;padding:14px;}
+
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%) translateY(20px);opacity:0;
+  background:var(--text);color:var(--ink);font-weight:600;font-size:.9rem;padding:10px 16px;border-radius:999px;transition:.2s;white-space:nowrap;z-index:50;pointer-events:none;}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* full-screen QR for a projector or across a table */
+.big{position:fixed;inset:0;z-index:40;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;
+  padding:calc(20px + env(safe-area-inset-top,0px)) 20px calc(20px + env(safe-area-inset-bottom,0px));}
+.big .qr{width:min(78vmin,560px);}
+.big__n{font-family:var(--display);font-weight:800;font-size:clamp(1.4rem,5vmin,2.6rem);letter-spacing:-.02em;text-align:center;}
+.big__s{color:var(--muted);text-align:center;}
+.foot{margin-top:34px;padding-top:16px;border-top:1px solid var(--line);font-family:var(--mono);font-size:.7rem;color:var(--dim);line-height:1.8;}
+.foot a{color:var(--tiffany2);}
+@media (prefers-reduced-motion:reduce){.toast{transition:none;}}
+</style>
+</head>
+<body>
+<div class="fx"><span class="blob b1"></span><span class="blob b2"></span></div>
+
+<div class="wrap">
+  <header class="top">
+    <a href="/card/"><span class="cup" id="cup"></span><span class="brand">Onlu Card</span></a>
+    <span class="tag">Never lose touch</span>
+  </header>
+
+  <main id="app"></main>
+
+  <p class="foot">Nothing is uploaded. Your card lives in its link and on your phone.<br>
+    <a href="/">coffeewithonlu.com</a> · An Onlu Intel project</p>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="qrcode.js"></script>
+<script>
+(function(){
+  "use strict";
+
+  var CUP = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' +
+    '<path d="M5 9h11v4a4 4 0 0 1-4 4H9a4 4 0 0 1-4-4V9Z"/><path d="M16 10h2.4a2.4 2.4 0 0 1 0 4.8H16"/>' +
+    '<path d="M8 3.4c-.5 1 .5 1.6 0 2.6M11.5 3.4c-.5 1 .5 1.6 0 2.6"/></svg>';
+  document.getElementById("cup").innerHTML = CUP;
+
+  var app = document.getElementById("app");
+  var KEY_ME = "onlu-card-me", KEY_PEOPLE = "onlu-card-people";
+
+  // ---------- storage (per phone; never required) ----------
+  function load(k, d){ try { var v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch(e){ return d; } }
+  function save(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} }
+
+  // ---------- helpers ----------
+  function esc(s){ return String(s == null ? "" : s).replace(/[&<>"']/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); }
+  function today(){ return new Date().toLocaleDateString("en-US", { month:"short", day:"numeric", year:"numeric" }); }
+  function first(n){ return String(n || "").trim().split(/\s+/)[0] || "there"; }
+  function toast(msg){ var t = document.getElementById("toast"); t.textContent = msg; t.classList.add("on"); clearTimeout(toast.t); toast.t = setTimeout(function(){ t.classList.remove("on"); }, 1800); }
+
+  function b64e(obj){
+    var s = unescape(encodeURIComponent(JSON.stringify(obj)));
+    return btoa(s).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+  }
+  function b64d(str){
+    try {
+      str = str.replace(/-/g, "+").replace(/_/g, "/"); while (str.length % 4) str += "=";
+      return JSON.parse(decodeURIComponent(escape(atob(str))));
+    } catch(e){ return null; }
+  }
+
+  function linkedinUrl(v){ v = String(v || "").trim(); if (!v) return ""; if (/^https?:\/\//i.test(v)) return v;
+    if (/linkedin\.com/i.test(v)) return "https://" + v.replace(/^\/+/, ""); return "https://www.linkedin.com/in/" + v.replace(/^@/, ""); }
+  function igHandle(v){ v = String(v || "").trim(); if (!v) return "";
+    var m = v.match(/instagram\.com\/([^/?#]+)/i); return (m ? m[1] : v).replace(/^@/, ""); }
+
+  function cardUrl(c){ return location.origin + "/card/#c=" + b64e(c); }
+
+  // ---------- vCard: one tap "Add contact" on iPhone and Android ----------
+  function vesc(s){ return String(s || "").replace(/\\/g, "\\\\").replace(/\n/g, "\\n").replace(/,/g, "\\,").replace(/;/g, "\\;"); }
+  function vcard(c, note){
+    var name = String(c.n || "").trim(), parts = name.split(/\s+/);
+    var N = parts.length > 1 ? vesc(parts.slice(-1)[0]) + ";" + vesc(parts.slice(0, -1).join(" ")) + ";;;" : vesc(name) + ";;;;";
+    var notes = [];
+    if (note) notes.push(note);
+    if (c.ev) notes.push("Met at " + c.ev + (c.d ? " · " + c.d : ""));
+    if (c.o) notes.push(c.o);
+    if (c.wc) notes.push("WeChat: " + c.wc);
+    if (c.ig) notes.push("Instagram: @" + igHandle(c.ig));
+    var L = ["BEGIN:VCARD", "VERSION:3.0", "N:" + N, "FN:" + vesc(name)];
+    if (c.r)  L.push("TITLE:" + vesc(c.r));
+    if (c.em) L.push("EMAIL;TYPE=INTERNET:" + vesc(c.em));
+    if (c.ph) L.push("TEL;TYPE=CELL:" + vesc(c.ph));
+    if (c.li) L.push("URL:" + vesc(linkedinUrl(c.li)));
+    if (c.ig) L.push("X-SOCIALPROFILE;TYPE=instagram:" + vesc("https://instagram.com/" + igHandle(c.ig)));
+    if (notes.length) L.push("NOTE:" + vesc(notes.join("\n")));
+    L.push("END:VCARD");
+    return L.join("\r\n");
+  }
+
+  // ---------- calendar reminder ----------
+  function ics(title, body, days){
+    function d8(dt){ return dt.getFullYear() + String(dt.getMonth() + 1).padStart(2, "0") + String(dt.getDate()).padStart(2, "0"); }
+    var start = new Date(); start.setDate(start.getDate() + days);
+    var end = new Date(start); end.setDate(end.getDate() + 1);
+    var stamp = new Date().toISOString().replace(/[-:]/g, "").replace(/\.\d+Z$/, "Z");
+    var e = function(s){ return String(s).replace(/\\/g, "\\\\").replace(/\n/g, "\\n").replace(/,/g, "\\,").replace(/;/g, "\\;"); };
+    return ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Onlu//Card//EN", "BEGIN:VEVENT",
+      "UID:" + Date.now() + "-" + Math.random().toString(36).slice(2) + "@coffeewithonlu.com",
+      "DTSTAMP:" + stamp, "DTSTART;VALUE=DATE:" + d8(start), "DTEND;VALUE=DATE:" + d8(end),
+      "SUMMARY:" + e(title), "DESCRIPTION:" + e(body),
+      "BEGIN:VALARM", "TRIGGER:PT9H", "ACTION:DISPLAY", "DESCRIPTION:" + e(title), "END:VALARM",
+      "END:VEVENT", "END:VCALENDAR"].join("\r\n");
+  }
+
+  function download(name, text, type){
+    var blob = new Blob([text], { type: type });
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(blob); a.download = name;
+    document.body.appendChild(a); a.click();
+    setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 1500);
+  }
+
+  function copy(text, label){
+    function fallback(){
+      var ta = document.createElement("textarea"); ta.value = text; ta.setAttribute("readonly", "");
+      ta.style.position = "fixed"; ta.style.opacity = "0"; document.body.appendChild(ta); ta.select();
+      try { document.execCommand("copy"); toast(label + " copied"); } catch(e){ toast("Select and copy it manually"); }
+      ta.remove();
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(function(){ toast(label + " copied"); }, fallback);
+    else fallback();
+  }
+
+  // ---------- QR ----------
+  function qrSvg(text){
+    qrcode.stringToBytes = qrcode.stringToBytesFuncs["UTF-8"];
+    var q = qrcode(0, "M"); q.addData(text, "Byte"); q.make();
+    var n = q.getModuleCount(), d = "";
+    for (var r = 0; r < n; r++) for (var c = 0; c < n; c++) if (q.isDark(r, c)) d += "M" + c + " " + r + "h1v1h-1z";
+    return '<svg viewBox="0 0 ' + n + " " + n + '" shape-rendering="crispEdges" role="img" aria-label="QR code"><path d="' + d + '" fill="#0a1520"/></svg>';
+  }
+
+  // ---------- the card itself ----------
+  function cardHtml(c, eventLine){
+    var chips = [];
+    if (c.li) chips.push("<span class=\"chip\"><b>in</b> LinkedIn</span>");
+    if (c.ig) chips.push("<span class=\"chip\"><b>@</b>" + esc(igHandle(c.ig)) + "</span>");
+    if (c.wc) chips.push("<span class=\"chip\"><b>WeChat</b> " + esc(c.wc) + "</span>");
+    if (c.em) chips.push("<span class=\"chip\">" + esc(c.em) + "</span>");
+    if (c.ph) chips.push("<span class=\"chip\">" + esc(c.ph) + "</span>");
+    return '<article class="card">' +
+      (eventLine ? '<div class="card__ev">' + esc(eventLine) + "</div>" : "") +
+      '<div class="card__n">' + esc(c.n) + "</div>" +
+      (c.r ? '<div class="card__r">' + esc(c.r) + "</div>" : "") +
+      (c.o ? '<div class="card__o">' + esc(c.o) + "</div>" : "") +
+      (chips.length ? '<div class="chips">' + chips.join("") + "</div>" : "") +
+      "</article>";
+  }
+
+  // =========================================================
+  // View 1: make or edit my card
+  // =========================================================
+  function viewForm(){
+    var me = load(KEY_ME, null) || {};
+    var qEvent = (location.search.match(/[?&]event=([^&]+)/) || [])[1];
+    var ev = me.ev || (qEvent ? decodeURIComponent(qEvent.replace(/\+/g, " ")) : "");
+    app.innerHTML =
+      '<h1>One QR for <span class="grad">every way to reach you</span></h1>' +
+      '<p class="lede">LinkedIn, Instagram, WeChat and email on one card. People scan it, save you in one tap, and get a nudge to follow up.</p>' +
+      '<form id="f" novalidate>' +
+        '<label for="n">Name<input id="n" name="n" required autocomplete="name" placeholder="Karlie Chen" value="' + esc(me.n) + '"></label>' +
+        '<label for="r">What you do<input id="r" name="r" autocomplete="organization-title" placeholder="Private credit · founder of Onlu" value="' + esc(me.r) + '"></label>' +
+        '<label for="o">One line for the room <small>what you\'re working on, or who you want to meet</small>' +
+          '<input id="o" name="o" maxlength="120" placeholder="Looking for people building AI tools for credit" value="' + esc(me.o) + '"></label>' +
+        '<label for="li">LinkedIn <small>profile link or username</small><input id="li" name="li" autocomplete="url" placeholder="linkedin.com/in/yourname" value="' + esc(me.li) + '"></label>' +
+        '<div class="row2">' +
+          '<label for="ig">Instagram<input id="ig" name="ig" placeholder="@handle" value="' + esc(me.ig) + '"></label>' +
+          '<label for="wc">WeChat ID<input id="wc" name="wc" placeholder="wechat_id" value="' + esc(me.wc) + '"></label>' +
+        "</div>" +
+        '<div class="row2">' +
+          '<label for="em">Email<input id="em" name="em" type="email" autocomplete="email" placeholder="you@email.com" value="' + esc(me.em) + '"></label>' +
+          '<label for="ph">Phone <small>optional</small><input id="ph" name="ph" type="tel" autocomplete="tel" placeholder="+1 212 555 0100" value="' + esc(me.ph) + '"></label>' +
+        "</div>" +
+        '<label for="ev">Where are you right now? <small>shows on the card and in their contact note</small>' +
+          '<input id="ev" name="ev" placeholder="Hackathon NYC" value="' + esc(ev) + '"></label>' +
+        '<p class="err" id="err" hidden></p>' +
+        '<div class="btns"><button class="btn primary" type="submit">Make my card</button></div>' +
+      "</form>";
+    document.getElementById("f").addEventListener("submit", function(e){
+      e.preventDefault();
+      var c = {};
+      ["n", "r", "o", "li", "ig", "wc", "em", "ph", "ev"].forEach(function(k){
+        var v = document.getElementById(k).value.trim(); if (v) c[k] = v;
+      });
+      var err = document.getElementById("err");
+      if (!c.n){ err.textContent = "Add your name so people know whose card this is."; err.hidden = false; return; }
+      if (!c.li && !c.ig && !c.wc && !c.em && !c.ph){ err.textContent = "Add at least one way to reach you."; err.hidden = false; return; }
+      save(KEY_ME, c);
+      render();
+      scrollTo(0, 0);
+    });
+  }
+
+  // =========================================================
+  // View 2: my card, ready to be scanned
+  // =========================================================
+  var qrMode = "link";
+  function viewMine(me){
+    var shared = Object.assign({}, me, { d: today() });
+    var url = cardUrl(shared);
+    var people = load(KEY_PEOPLE, []);
+    app.innerHTML =
+      cardHtml(me, me.ev ? me.ev + " · " + today() : today()) +
+      '<div class="qrbox">' +
+        '<div class="qr" id="qr"></div>' +
+        '<div class="seg" role="group" aria-label="What the QR opens">' +
+          '<button type="button" data-m="link" aria-pressed="' + (qrMode === "link") + '">Card link</button>' +
+          '<button type="button" data-m="contact" aria-pressed="' + (qrMode === "contact") + '">Contact, offline</button>' +
+        "</div>" +
+        '<p class="qrnote" id="qrnote"></p>' +
+      "</div>" +
+      '<div class="btns">' +
+        '<button class="btn primary" type="button" id="bigBtn">Show QR full screen</button>' +
+        '<button class="btn" type="button" id="copyLink">Copy my link</button>' +
+        '<button class="btn" type="button" id="edit">Edit card</button>' +
+      "</div>" +
+      "<h2>People you met</h2>" +
+      (people.length
+        ? '<div class="people">' + people.slice().reverse().map(function(p){
+            return '<a class="person" href="/card/#c=' + b64e(p.c) + '">' +
+              '<div class="person__top"><span class="person__n">' + esc(p.c.n) + '</span><span class="person__d">' + esc(p.at) + "</span></div>" +
+              (p.c.r ? '<div class="person__r">' + esc(p.c.r) + "</div>" : "") +
+              (p.note ? '<div class="person__note">' + esc(p.note) + "</div>" : "") + "</a>";
+          }).join("") + "</div>"
+        : '<p class="empty">When you scan someone\'s Onlu Card, they show up here with your note, so you remember who they were.</p>');
+
+    function paintQr(){
+      var text = qrMode === "link" ? url : vcard(shared);
+      document.getElementById("qr").innerHTML = qrSvg(text);
+      document.getElementById("qrnote").textContent = qrMode === "link"
+        ? "Opens your card. They can save you, jot a note and set a follow-up reminder."
+        : "Saves you straight into their contacts. Works with no signal.";
+      app.querySelectorAll(".seg button").forEach(function(b){ b.setAttribute("aria-pressed", String(b.getAttribute("data-m") === qrMode)); });
+    }
+    paintQr();
+    app.querySelectorAll(".seg button").forEach(function(b){
+      b.addEventListener("click", function(){ qrMode = b.getAttribute("data-m"); paintQr(); });
+    });
+    document.getElementById("copyLink").addEventListener("click", function(){ copy(url, "Link"); });
+    document.getElementById("edit").addEventListener("click", function(){ viewForm(); scrollTo(0, 0); });
+    document.getElementById("bigBtn").addEventListener("click", function(){
+      var big = document.createElement("div"); big.className = "big"; big.setAttribute("role", "dialog"); big.setAttribute("aria-label", "Full-screen QR");
+      big.innerHTML = '<div class="big__n">' + esc(me.n) + '</div><div class="qr">' + qrSvg(qrMode === "link" ? url : vcard(shared)) + "</div>" +
+        '<div class="big__s">Scan with your camera · tap anywhere to close</div>';
+      big.addEventListener("click", function(){ big.remove(); });
+      document.body.appendChild(big);
+      try { navigator.wakeLock && navigator.wakeLock.request("screen").catch(function(){}); } catch(e){}
+    });
+  }
+
+  // =========================================================
+  // View 3: someone else's card, after scanning
+  // =========================================================
+  function viewTheirs(c){
+    var people = load(KEY_PEOPLE, []);
+    var key = (c.n || "") + "|" + (c.em || c.li || c.wc || c.ig || c.ph || "");
+    var mine = people.filter(function(p){ return p.k === key; })[0];
+    if (!mine){ mine = { k: key, c: c, note: "", at: today() }; people.push(mine); save(KEY_PEOPLE, people); }
+    var me = load(KEY_ME, null);
+    var where = c.ev || "today";
+
+    app.innerHTML =
+      cardHtml(c, (c.ev ? c.ev : "Met") + (c.d ? " · " + c.d : "")) +
+      '<div class="btns">' +
+        '<button class="btn primary" type="button" id="saveC">Save to contacts</button>' +
+        (c.li ? '<a class="btn" href="' + esc(linkedinUrl(c.li)) + '" target="_blank" rel="noopener">Open LinkedIn</a>' : "") +
+        (c.ig ? '<a class="btn" href="https://instagram.com/' + esc(igHandle(c.ig)) + '" target="_blank" rel="noopener">Open Instagram</a>' : "") +
+        (c.wc ? '<button class="btn" type="button" id="cpWc">Copy WeChat ID</button>' : "") +
+        (c.em ? '<button class="btn" type="button" id="cpEm">Copy email</button>' : "") +
+      "</div>" +
+
+      "<h2>Remember " + esc(first(c.n)) + "</h2>" +
+      '<p class="hint">What did you talk about? It goes into the contact note, so future you knows who this is.</p>' +
+      '<label for="note" class="sr"><textarea id="note" placeholder="Talked about PIK in private credit. Wants an intro to someone in data center financing.">' + esc(mine.note) + "</textarea></label>" +
+
+      "<h2>Follow up before it goes cold</h2>" +
+      '<div class="panel"><label for="draft">Draft message <small>edit freely</small><textarea id="draft" rows="5"></textarea></label>' +
+        '<div class="btns">' +
+          '<button class="btn" type="button" id="cpDraft">Copy message</button>' +
+          '<button class="btn" type="button" id="remind">Remind in 3 days</button>' +
+        "</div></div>" +
+
+      '<div class="btns"><a class="btn full" href="/card/">' + (me ? "Back to my card" : "Make your own card") + "</a></div>";
+
+    var noteEl = document.getElementById("note"), draftEl = document.getElementById("draft");
+    var edited = false;
+    function draft(){
+      var n = noteEl.value.trim();
+      var lines = ["Hi " + first(c.n) + ", great meeting you at " + where + "!"];
+      if (c.o) lines.push("I'd love to keep talking about \u201c" + c.o.replace(/\.$/, "") + "\u201d.");
+      else lines.push("I really enjoyed our conversation.");
+      lines.push("Would you be up for a coffee in the next couple of weeks?");
+      if (me && me.n) lines.push("", first(me.n));
+      return lines.join("\n");
+    }
+    // the note is private: it goes into the saved contact, never into the message
+    function refresh(){ if (!edited) draftEl.value = draft(); }
+    refresh();
+    noteEl.addEventListener("input", function(){
+      mine.note = noteEl.value.trim();
+      var ps = load(KEY_PEOPLE, []); ps.forEach(function(p){ if (p.k === key) p.note = mine.note; }); save(KEY_PEOPLE, ps);
+      refresh();
+    });
+    draftEl.addEventListener("input", function(){ edited = true; });
+
+    document.getElementById("saveC").addEventListener("click", function(){
+      var note = noteEl.value.trim();
+      download((c.n || "contact").replace(/[^\w\u4e00-\u9fff -]/g, "").trim().replace(/\s+/g, "-") + ".vcf",
+        vcard(c, note), "text/vcard");
+      toast("Contact ready to add");
+    });
+    if (c.wc) document.getElementById("cpWc").addEventListener("click", function(){ copy(c.wc, "WeChat ID"); });
+    if (c.em) document.getElementById("cpEm").addEventListener("click", function(){ copy(c.em, "Email"); });
+    document.getElementById("cpDraft").addEventListener("click", function(){ copy(draftEl.value, "Message"); });
+    document.getElementById("remind").addEventListener("click", function(){
+      download("follow-up-" + first(c.n).toLowerCase() + ".ics",
+        ics("Follow up with " + (c.n || "your new contact"), draftEl.value + "\n\n" + cardUrl(c), 3), "text/calendar");
+      toast("Reminder ready to add");
+    });
+  }
+
+  // ---------- router ----------
+  function render(){
+    var m = location.hash.match(/^#c=([\w-]+)/);
+    var them = m ? b64d(m[1]) : null;
+    if (them && them.n) return viewTheirs(them);
+    var me = load(KEY_ME, null);
+    if (me && me.n) return viewMine(me);
+    viewForm();
+  }
+  window.addEventListener("hashchange", function(){ render(); scrollTo(0, 0); });
+  render();
+})();
+</script>
+</body>
+</html>
