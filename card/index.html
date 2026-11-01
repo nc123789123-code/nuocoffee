@@ -59,7 +59,7 @@ h2{font-family:var(--display);font-weight:600;font-size:.95rem;letter-spacing:-.
 .ava{flex:none;width:72px;height:72px;border-radius:50%;overflow:hidden;border:2px solid var(--line2);background:var(--surface2);
   cursor:pointer;padding:0;color:var(--muted);display:flex;flex-direction:column;align-items:center;justify-content:center;font:inherit;}
 .ava img{width:100%;height:100%;object-fit:cover;display:block;}
-.ava.empty{border-style:dashed;}
+.ava.ava--add{border-style:dashed;}
 .ava span{font-family:var(--display);font-weight:800;font-size:1.1rem;color:var(--text);line-height:1;}
 .ava small{font-size:.58rem;line-height:1.15;margin-top:4px;text-align:center;padding:0 6px;}
 .chip.agent{border-color:rgba(255,79,154,.55);} .chip.agent b{color:var(--pink);}
@@ -80,7 +80,7 @@ h2{font-family:var(--display);font-weight:600;font-size:.95rem;letter-spacing:-.
 .ava .emo,.ava .ini{width:100%;height:100%;display:grid;place-items:center;}
 .ava .emo{font-size:2rem;}
 .ava .ini{font-family:var(--display);font-weight:800;font-size:1.1rem;color:var(--text);}
-.ava.empty .ini{height:auto;}
+.ava.ava--add .ini{height:auto;}
 .ava.pv{cursor:default;width:64px;height:64px;}
 .pick{border:1px solid var(--line);border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:10px;}
 .pick legend{font-size:.82rem;font-weight:600;color:var(--muted);padding:0 4px;}
@@ -100,6 +100,11 @@ h2{font-family:var(--display);font-weight:600;font-size:.95rem;letter-spacing:-.
 .tick{flex-direction:row;align-items:center;gap:8px;color:var(--text);}
 .tick input{width:auto;accent-color:var(--tiffany);}
 select{font:inherit;font-size:16px;color:var(--text);background:var(--surface);border:1px solid var(--line2);border-radius:12px;padding:11px 12px;width:100%;}
+.about{margin-top:14px;padding-top:12px;border-top:1px solid var(--line);}
+.about__p{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
+.about__p span{font-size:.8rem;padding:5px 10px;border-radius:999px;background:rgba(185,168,255,.12);border:1px solid rgba(185,168,255,.4);color:var(--muted);}
+.about__p b{color:var(--text);font-weight:700;}
+.about + .well{border-top:0;padding-top:0;}
 .well{margin-top:14px;padding-top:12px;border-top:1px solid var(--line);}
 .well__h{font-family:var(--mono);font-size:.64rem;letter-spacing:.12em;color:var(--dim);text-transform:uppercase;}
 .well__p{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
@@ -2565,6 +2570,9 @@ var qrcode = function() {
     if (c.wc) notes.push("WeChat: " + c.wc);
     if (c.ig) notes.push("Instagram: @" + igHandle(c.ig));
     if (c.ag) notes.push("AI agent: " + webUrl(c.ag));
+    var about = [c.mb, c.zd, c.hm && "from " + c.hm, c.lg && "speaks " + c.lg].filter(Boolean);
+    if (about.length) notes.push(about.join(" · "));
+    if (c.ask) notes.push("Ask me about: " + c.ask);
     var L = ["BEGIN:VCARD", "VERSION:3.0", "N:" + N, "FN:" + vesc(name)];
     if (c.r)  L.push("TITLE:" + vesc(c.r));
     if (c.em) L.push("EMAIL;TYPE=INTERNET:" + vesc(c.em));
@@ -2693,7 +2701,19 @@ var qrcode = function() {
   function avatarHtml(c, photo, addLabel){
     var has = photo || c.avu || (c.av && c.av.e);
     if (has) return '<button class="ava" type="button" id="ava" aria-label="' + esc(addLabel) + '">' + avatarInner(c, photo) + "</button>";
-    return '<button class="ava empty" type="button" id="ava"><span class="ini">' + esc(initials(c.n)) + "</span><small>" + esc(addLabel) + "</small></button>";
+    return '<button class="ava ava--add" type="button" id="ava"><span class="ini">' + esc(initials(c.n)) + "</span><small>" + esc(addLabel) + "</small></button>";
+  }
+  var MBTI = ["INTJ", "INTP", "ENTJ", "ENTP", "INFJ", "INFP", "ENFJ", "ENFP", "ISTJ", "ISFJ", "ESTJ", "ESFJ", "ISTP", "ISFP", "ESTP", "ESFP"];
+  var ZODIAC = ["Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"];
+  function aboutHtml(c){
+    var pills = [];
+    if (c.mb)  pills.push("<span><b>" + esc(c.mb) + "</b></span>");
+    if (c.zd)  pills.push("<span>" + esc(c.zd) + "</span>");
+    if (c.hm)  pills.push("<span>From <b>" + esc(c.hm) + "</b></span>");
+    if (c.lg)  pills.push("<span>Speaks <b>" + esc(c.lg) + "</b></span>");
+    if (c.ask) pills.push("<span>Ask me about <b>" + esc(c.ask) + "</b></span>");
+    if (!pills.length) return "";
+    return '<div class="about"><div class="well__h">About</div><div class="about__p">' + pills.join("") + "</div></div>";
   }
   function wellHtml(c){
     var w = c.w; if (!w) return "";
@@ -2723,6 +2743,7 @@ var qrcode = function() {
       "</div>" + avatarHtml(c, photo, addLabel) + "</div>" +
       (c.o ? '<div class="card__o">' + esc(c.o) + "</div>" : "") +
       (chips.length ? '<div class="chips">' + chips.join("") + "</div>" : "") +
+      aboutHtml(c) +
       wellHtml(c) +
       "</article>";
   }
@@ -2753,6 +2774,17 @@ var qrcode = function() {
         "</div>" +
         '<label for="ag">Your AI agent <small>optional link: a custom GPT, Claude project, booking page</small>' +
           '<input id="ag" name="ag" type="url" placeholder="chatgpt.com/g/your-agent" value="' + esc(me.ag) + '"></label>' +
+        '<details class="health" id="abt"' + (me.mb || me.zd || me.hm || me.lg || me.ask ? " open" : "") + "><summary>About you <small>optional \u00b7 MBTI and more</small></summary>" +
+          '<div class="row2">' +
+            '<label for="mb">MBTI<select id="mb">' + [""].concat(MBTI).map(function(o){ return '<option value="' + o + '"' + (me.mb === o ? " selected" : "") + ">" + (o || "\u2014") + "</option>"; }).join("") + "</select></label>" +
+            '<label for="zd">Zodiac<select id="zd">' + [""].concat(ZODIAC).map(function(o){ return '<option value="' + o + '"' + (me.zd === o ? " selected" : "") + ">" + (o || "\u2014") + "</option>"; }).join("") + "</select></label>" +
+          "</div>" +
+          '<div class="row2">' +
+            '<label for="hm">From<input id="hm" maxlength="40" placeholder="Shanghai" value="' + esc(me.hm) + '"></label>' +
+            '<label for="lg">Languages<input id="lg" maxlength="40" placeholder="\u4e2d\u6587, English" value="' + esc(me.lg) + '"></label>' +
+          "</div>" +
+          '<label for="ask">Ask me about<input id="ask" maxlength="60" placeholder="AI data center financing" value="' + esc(me.ask) + '"></label>' +
+        "</details>" +
         '<fieldset class="pick"><legend>Avatar <small>travels with your card</small></legend>' +
           '<div class="pick__row"><span class="ava pv" id="avPrev"></span><div class="pick__opts">' +
             '<div class="emojis" role="group" aria-label="Avatar emoji">' + AV_EMOJI.map(function(e){ return '<button type="button" data-e="' + e + '">' + e + "</button>"; }).join("") + "</div>" +
@@ -2797,7 +2829,7 @@ var qrcode = function() {
     document.getElementById("f").addEventListener("submit", function(e){
       e.preventDefault();
       var c = {};
-      ["n", "r", "o", "li", "ig", "wc", "em", "ph", "ag", "ev", "avu"].forEach(function(k){
+      ["n", "r", "o", "li", "ig", "wc", "em", "ph", "ag", "ev", "avu", "mb", "zd", "hm", "lg", "ask"].forEach(function(k){
         var v = document.getElementById(k).value.trim(); if (v) c[k] = v;
       });
       if (av.e) c.av = { e: av.e, c: av.c };
