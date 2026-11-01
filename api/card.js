@@ -17,8 +17,19 @@
 
 const crypto = require("crypto");
 
-const REDIS_URL = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
-const REDIS_TOKEN = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
+// Vercel may add a custom prefix when it connects the database
+// (e.g. ONLU_KV_REST_API_URL), so accept any *_REST_API_URL / *_REST_URL pair.
+function findRedis() {
+  const env = process.env;
+  const pairs = [["KV_REST_API_URL", "KV_REST_API_TOKEN"], ["UPSTASH_REDIS_REST_URL", "UPSTASH_REDIS_REST_TOKEN"]];
+  for (const k of Object.keys(env)) {
+    const m = k.match(/^(.*)_REST_API_URL$/) || k.match(/^(.*)_REDIS_REST_URL$/);
+    if (m) pairs.push([k, k.replace(/_URL$/, "_TOKEN")]);
+  }
+  for (const [u, t] of pairs) if (env[u] && env[t]) return { url: env[u], token: env[t] };
+  return { url: "", token: "" };
+}
+const { url: REDIS_URL, token: REDIS_TOKEN } = findRedis();
 
 const ID_RE = /^[a-z0-9]{8,16}$/;
 const TEXT_FIELDS = ["n", "r", "o", "li", "ig", "wc", "em", "ph", "ag", "ev", "avu", "mb", "zd", "hm", "lg", "ask"];
@@ -57,6 +68,12 @@ const sha = (s) => crypto.createHash("sha256").update(String(s)).digest("hex");
 
 module.exports = async (req, res) => {
   res.setHeader("Cache-Control", "no-store");
+  // quick check from a phone: /api/card?ping=1
+  if (req.method === "GET" && req.query && req.query.ping) {
+    if (!REDIS_URL || !REDIS_TOKEN) return res.status(200).json({ live: false, reason: "No Upstash variables found; redeploy after connecting the database" });
+    try { await redis(["PING"]); return res.status(200).json({ live: true }); }
+    catch (e) { return res.status(200).json({ live: false, reason: "Upstash did not answer: " + e.message }); }
+  }
   if (!REDIS_URL || !REDIS_TOKEN) {
     return res.status(503).json({ error: "Live cards are not set up" });
   }
