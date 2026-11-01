@@ -105,6 +105,9 @@ select{font:inherit;font-size:16px;color:var(--text);background:var(--surface);b
 .about__p span{font-size:.8rem;padding:5px 10px;border-radius:999px;background:rgba(185,168,255,.12);border:1px solid rgba(185,168,255,.4);color:var(--muted);}
 .about__p b{color:var(--text);font-weight:700;}
 .about + .well{border-top:0;padding-top:0;}
+.notice{margin-top:12px;display:flex;flex-direction:column;gap:10px;padding:12px 14px;border-radius:14px;
+  border:1px solid rgba(255,195,90,.45);background:rgba(255,195,90,.1);font-size:.9rem;color:var(--text);}
+.notice .btn{align-self:flex-start;padding:9px 14px;}
 .well{margin-top:14px;padding-top:12px;border-top:1px solid var(--line);}
 .well__h{font-family:var(--mono);font-size:.64rem;letter-spacing:.12em;color:var(--dim);text-transform:uppercase;}
 .well__p{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
@@ -2865,6 +2868,10 @@ var qrcode = function() {
 
     app.innerHTML =
       cardHtml(shown, me.ev ? me.ev + " · " + today() : today(), myPhoto, "Add your photo") +
+      (me.w && !me.wOn
+        ? '<div class="notice"><span>Your wellness info is hidden, so people who scan you won\u2019t see it.</span>' +
+          '<button class="btn" type="button" id="showW">Show it on my card</button></div>'
+        : "") +
       '<div class="qrbox">' +
         '<div class="qr" id="qr"></div>' +
         '<div class="seg" role="group" aria-label="What the QR opens">' +
@@ -2910,6 +2917,8 @@ var qrcode = function() {
     document.getElementById("ava").addEventListener("click", function(){
       pickPhoto(function(data){ if (!save(KEY_ME_PHOTO, data)) toast("Phone storage is full"); render(); });
     });
+    var showW = document.getElementById("showW");
+    if (showW) showW.addEventListener("click", function(){ me.wOn = true; save(KEY_ME, me); render(); toast("Wellness is on your card"); });
     document.getElementById("copyLink").addEventListener("click", function(){ copy(url, "Link"); });
     document.getElementById("edit").addEventListener("click", function(){ viewForm(); scrollTo(0, 0); });
     document.getElementById("bigBtn").addEventListener("click", function(){
@@ -2930,7 +2939,7 @@ var qrcode = function() {
     var key = (c.n || "") + "|" + (c.em || c.li || c.wc || c.ig || c.ph || "");
     var p = people().filter(function(x){ return x.k === key; })[0];
     if (!p){ p = { k: key, c: c, note: "", at: today(), seen: [{ t: Date.now(), ev: c.ev || "" }] }; putPerson(p); }
-    else { p.c = c; }
+    else if (JSON.stringify(p.c) !== JSON.stringify(c)){ p.c = c; putPerson(p); }
     var me = load(KEY_ME, null);
     var where = c.ev || "today";
     var fn = esc(first(c.n));
