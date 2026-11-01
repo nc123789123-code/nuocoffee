@@ -64,8 +64,9 @@ h2{font-family:var(--display);font-weight:600;font-size:.95rem;letter-spacing:-.
 .ava small{font-size:.58rem;line-height:1.15;margin-top:4px;text-align:center;padding:0 6px;}
 .chip.agent{border-color:rgba(255,79,154,.55);} .chip.agent b{color:var(--pink);}
 .agentbtn{border-color:rgba(255,79,154,.55);background:rgba(255,79,154,.13);}
-.map{height:220px;border-radius:16px;overflow:hidden;border:1px solid var(--line2);margin-bottom:10px;background:#0d1b28;}
-.leaflet-container{font:inherit;background:#0d1b28;}
+.map{height:220px;border-radius:16px;overflow:hidden;border:1px solid var(--line2);margin-bottom:10px;background:#dfe6ea;}
+.leaflet-container{font:inherit;background:#dfe6ea;}
+.map-empty{background:rgba(10,21,32,.85);color:#eef6fb;font-size:.78rem;font-weight:600;padding:5px 10px;border-radius:999px;}
 .leaflet-popup-content{color:#0a1520;font-size:.85rem;}
 .seen{list-style:none;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--surface);}
 .seen li{display:flex;align-items:center;gap:10px;padding:10px 14px;border-top:1px solid var(--line);font-size:.9rem;}
@@ -2517,7 +2518,7 @@ var qrcode = function() {
     if (/linkedin\.com/i.test(v)) return "https://" + v.replace(/^\/+/, ""); return "https://www.linkedin.com/in/" + v.replace(/^@/, ""); }
   function igHandle(v){ v = String(v || "").trim(); if (!v) return "";
     var m = v.match(/instagram\.com\/([^/?#]+)/i); return (m ? m[1] : v).replace(/^@/, ""); }
-  function mapsUrl(loc){ return "https://www.google.com/maps/search/?api=1&query=" + loc.lat + "," + loc.lng; }
+  function mapsUrl(loc){ return "https://www.openstreetmap.org/?mlat=" + loc.lat + "&mlon=" + loc.lng + "#map=17/" + loc.lat + "/" + loc.lng; }
 
   function cardUrl(c){ return location.origin + "/card/#c=" + b64e(c); }
 
@@ -2608,21 +2609,27 @@ var qrcode = function() {
       { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 });
   }
 
-  // ---------- map (Leaflet, dark tiles) ----------
+  // ---------- map (Leaflet + OpenStreetMap) ----------
+  var NYC = [40.7484, -73.9857];
   function drawMap(el, pins){
     if (el._map){ el._map.remove(); el._map = null; }
-    if (!window.L || !pins.length){ el.hidden = true; return; }
+    if (!window.L){ el.hidden = true; return; }
     el.hidden = false;
     var m = L.map(el, { zoomControl: false, scrollWheelZoom: false });
     m.attributionControl.setPrefix('<a href="https://leafletjs.com" target="_blank" rel="noopener">Leaflet</a>');
-    L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", {
-      maxZoom: 19, subdomains: "abcd", attribution: "&copy; OpenStreetMap &copy; CARTO" }).addTo(m);
+    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 19, attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors' }).addTo(m);
     var pts = pins.map(function(p){
-      L.circleMarker([p.lat, p.lng], { radius: 8, color: "#ff4f9a", weight: 2, fillColor: "#2ee0d0", fillOpacity: 0.95 })
+      L.circleMarker([p.lat, p.lng], { radius: 9, color: "#0a1520", weight: 2, fillColor: "#ff4f9a", fillOpacity: 0.95 })
         .addTo(m).bindPopup(esc(p.label));
       return [p.lat, p.lng];
     });
-    if (pts.length === 1) m.setView(pts[0], 15); else m.fitBounds(pts, { padding: [30, 30], maxZoom: 15 });
+    if (!pts.length){
+      m.setView(NYC, 11);
+      var Empty = L.Control.extend({ onAdd: function(){ var d = L.DomUtil.create("div", "map-empty"); d.textContent = "No pins yet"; return d; } });
+      new Empty({ position: "topleft" }).addTo(m);
+    } else if (pts.length === 1) m.setView(pts[0], 16);
+    else m.fitBounds(pts, { padding: [30, 30], maxZoom: 16 });
     el._map = m;
   }
 
@@ -2757,7 +2764,7 @@ var qrcode = function() {
       app.querySelectorAll(".seg button").forEach(function(b){ b.setAttribute("aria-pressed", String(b.getAttribute("data-m") === qrMode)); });
     }
     paintQr();
-    drawMap(document.getElementById("map"), pins);
+    if (ps.length) drawMap(document.getElementById("map"), pins);
     app.querySelectorAll(".seg button").forEach(function(b){
       b.addEventListener("click", function(){ qrMode = b.getAttribute("data-m"); paintQr(); });
     });
