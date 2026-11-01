@@ -2636,7 +2636,7 @@ var qrcode = function() {
 
   // ---------- vCard: one tap "Add contact" on iPhone and Android ----------
   function vesc(s){ return String(s || "").replace(/\\/g, "\\\\").replace(/\n/g, "\\n").replace(/,/g, "\\,").replace(/;/g, "\\;"); }
-  function vcard(c, note, photo){
+  function vcard(c, note, photo, link){
     var name = String(c.n || "").trim(), parts = name.split(/\s+/);
     var N = parts.length > 1 ? vesc(parts.slice(-1)[0]) + ";" + vesc(parts.slice(0, -1).join(" ")) + ";;;" : vesc(name) + ";;;;";
     var notes = [];
@@ -2655,6 +2655,7 @@ var qrcode = function() {
     if (c.ph) L.push("TEL;TYPE=CELL:" + vesc(c.ph));
     if (c.li) L.push("URL:" + vesc(linkedinUrl(c.li)));
     if (c.ag) L.push("URL:" + vesc(webUrl(c.ag)));
+    if (link){ L.push("item1.URL:" + vesc(link)); L.push("item1.X-ABLabel:Onlu Card"); }
     if (c.ig) L.push("X-SOCIALPROFILE;TYPE=instagram:" + vesc("https://instagram.com/" + igHandle(c.ig)));
     if (photo) L.push("PHOTO;ENCODING=b;TYPE=JPEG:" + photo.replace(/^data:image\/\w+;base64,/, ""));
     if (notes.length) L.push("NOTE:" + vesc(notes.join("\n")));
@@ -2977,7 +2978,7 @@ var qrcode = function() {
         : '<p class="empty">When you scan someone\'s Onlu Card, they show up here with your photo, note and where you met.</p>');
 
     function paintQr(){
-      var text = qrMode === "link" ? url : vcard(shared);
+      var text = qrMode === "link" ? url : offlineVcard();
       document.getElementById("qr").innerHTML = qrSvg(text);
       document.getElementById("qrnote").textContent = qrMode === "link"
         ? "Opens your card. They can save you, add a photo and note, pin where you met and set a reminder."
@@ -2993,7 +2994,8 @@ var qrcode = function() {
         : "";
     }
     paintLive();
-    pushLive(me, paintLive);
+    function offlineVcard(){ return vcard(shared, "", "", liveState === "on" ? location.origin + "/card/#u=" + live.id : ""); }
+    pushLive(me, function(){ paintLive(); paintQr(); });
     wireFallbacks(app);
     if (ps.length) drawMap(document.getElementById("map"), pins);
     app.querySelectorAll(".seg button").forEach(function(b){
@@ -3006,7 +3008,7 @@ var qrcode = function() {
     if (showW) showW.addEventListener("click", function(){ me.wOn = true; save(KEY_ME, me); render(); toast("Wellness is on your card"); });
     document.getElementById("copyLink").addEventListener("click", function(){ copy(url, "Link"); });
     document.getElementById("saveQr").addEventListener("click", function(){
-      qrPng(qrMode === "link" ? url : vcard(shared), me, function(png){
+      qrPng(qrMode === "link" ? url : offlineVcard(), me, function(png){
         var ov = document.createElement("div"); ov.className = "big"; ov.setAttribute("role", "dialog"); ov.setAttribute("aria-label", "QR image");
         ov.innerHTML = '<img class="big__png" src="' + png + '" alt="Your Onlu Card QR">' +
           '<div class="big__s">Press and hold the image to save it to Photos</div>' +
@@ -3023,7 +3025,7 @@ var qrcode = function() {
     document.getElementById("bigBtn").addEventListener("click", function(){
       var big = document.createElement("div"); big.className = "big"; big.setAttribute("role", "dialog"); big.setAttribute("aria-label", "Full-screen QR");
       big.innerHTML = (myPhoto ? '<img class="big__img" src="' + myPhoto + '" alt="">' : "") +
-        '<div class="big__n">' + esc(me.n) + '</div><div class="qr">' + qrSvg(qrMode === "link" ? url : vcard(shared)) + "</div>" +
+        '<div class="big__n">' + esc(me.n) + '</div><div class="qr">' + qrSvg(qrMode === "link" ? url : offlineVcard()) + "</div>" +
         '<div class="big__s">Scan with your camera · tap anywhere to close</div>';
       big.addEventListener("click", function(){ big.remove(); });
       document.body.appendChild(big);
@@ -3138,7 +3140,7 @@ var qrcode = function() {
 
     document.getElementById("saveC").addEventListener("click", function(){
       download((c.n || "contact").replace(/[^\w\u4e00-\u9fff -]/g, "").trim().replace(/\s+/g, "-") + ".vcf",
-        vcard(c, noteEl.value.trim(), p.photo), "text/vcard");
+        vcard(c, noteEl.value.trim(), p.photo, cardUrl(c, u)), "text/vcard");
       toast("Contact ready to add");
     });
     if (c.wc) document.getElementById("cpWc").addEventListener("click", function(){ copy(c.wc, "WeChat ID"); });
@@ -3156,6 +3158,15 @@ var qrcode = function() {
     var m = location.hash.match(/^#c=([\w-]+)(?:&u=([a-z0-9]{8,16}))?/);
     var them = m ? b64d(m[1]) : null;
     if (them && them.n) return viewTheirs(them, m[2] || "");
+    var lu = location.hash.match(/^#u=([a-z0-9]{8,16})/);
+    if (lu){
+      app.innerHTML = '<p class="empty" style="margin-top:20px">Loading the latest card\u2026</p>';
+      return fetchLive(lu[1]).then(function(data){
+        if (data && data.card && data.card.n) viewTheirs(data.card, lu[1], data.updated);
+        else app.innerHTML = '<p class="empty" style="margin-top:20px">This card couldn\u2019t be loaded. Ask them to show their QR again.</p>' +
+          '<div class="btns"><a class="btn full" href="/card/">Go to my card</a></div>';
+      });
+    }
     var me = load(KEY_ME, null);
     if (me && me.n) return viewMine(me);
     viewForm();
