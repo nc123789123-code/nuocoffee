@@ -129,6 +129,13 @@ select{font:inherit;font-size:16px;color:var(--text);background:var(--surface);b
 .seg button{font:inherit;font-size:.8rem;font-weight:600;color:var(--muted);background:none;border:0;border-radius:999px;padding:7px 14px;cursor:pointer;}
 .seg button[aria-pressed="true"]{background:var(--text);color:var(--ink);}
 .qrnote{font-size:.82rem;color:var(--dim);text-align:center;max-width:300px;}
+.livest{font-size:.8rem;text-align:center;max-width:320px;color:var(--dim);}
+.livest:empty{display:none;}
+.livest.on{color:var(--tiffany2);}
+.livest.on::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--tiffany);margin-right:6px;vertical-align:1px;box-shadow:0 0 8px var(--tiffany);}
+#livebadge{margin:10px auto 0;}
+.big__png{width:min(86vw,420px);max-height:70vh;object-fit:contain;border-radius:16px;box-shadow:0 20px 50px -20px rgba(0,0,0,.8);}
+.big__btns{width:min(86vw,420px);margin-top:0;}
 
 /* buttons */
 .btns{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px;}
@@ -2559,7 +2566,73 @@ var qrcode = function() {
     var m = v.match(/instagram\.com\/([^/?#]+)/i); return (m ? m[1] : v).replace(/^@/, ""); }
   function mapsUrl(loc){ return "https://www.openstreetmap.org/?mlat=" + loc.lat + "&mlon=" + loc.lng + "#map=17/" + loc.lat + "/" + loc.lng; }
 
-  function cardUrl(c){ return location.origin + "/card/#c=" + b64e(c); }
+  function cardUrl(c, id){ return location.origin + "/card/#c=" + b64e(c) + (id ? "&u=" + id : ""); }
+
+  // ---------- live cards: a stable id so saved QRs open the latest version ----------
+  var KEY_LIVE = "onlu-card-live", liveState = "unknown";
+  function rand(n){
+    var a = new Uint8Array(n), abc = "abcdefghijkmnpqrstuvwxyz23456789", o = "";
+    (window.crypto || window.msCrypto).getRandomValues(a);
+    for (var i = 0; i < n; i++) o += abc[a[i] % abc.length];
+    return o;
+  }
+  function liveIds(){
+    var l = load(KEY_LIVE, null);
+    if (!l || !l.id){ l = { id: rand(10), secret: rand(32) }; save(KEY_LIVE, l); }
+    return l;
+  }
+  function publicCard(me){ var s = Object.assign({}, me); if (!me.wOn) delete s.w; delete s.wOn; return s; }
+  function pushLive(me, done){
+    var l = liveIds();
+    fetch("/api/card", { method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id: l.id, key: l.secret, card: publicCard(me) }) })
+      .then(function(r){ liveState = r.ok ? "on" : "off"; }, function(){ liveState = "off"; })
+      .then(function(){ if (done) done(); });
+  }
+  function fetchLive(id){
+    return fetch("/api/card?id=" + encodeURIComponent(id), { cache: "no-store" })
+      .then(function(r){ return r.ok ? r.json() : null; }, function(){ return null; });
+  }
+  function ago(t){
+    var m = Math.round((Date.now() - t) / 60000);
+    if (m < 1) return "just now"; if (m < 60) return m + " min ago";
+    var h = Math.round(m / 60); if (h < 24) return h + " h ago"; return fmt(t);
+  }
+
+  // ---------- a share-ready QR picture (save to Photos, post anywhere) ----------
+  function qrPng(text, me, done){
+    function draw(){
+      var W = 1080, H = 1350, cv = document.createElement("canvas"); cv.width = W; cv.height = H;
+      var g = cv.getContext("2d");
+      var bg = g.createLinearGradient(0, 0, W, H); bg.addColorStop(0, "#13283b"); bg.addColorStop(1, "#0a1520");
+      g.fillStyle = bg; g.fillRect(0, 0, W, H);
+      var bar = g.createLinearGradient(0, 0, W, 0);
+      ["#9befe4", "#2ee0d0", "#4cc4ff", "#ff4f9a"].forEach(function(c, i){ bar.addColorStop(i / 3, c); });
+      g.fillStyle = bar; g.fillRect(0, 0, W, 16);
+      function fit(txt, size, weight, family, maxW){
+        do { g.font = weight + " " + size + "px " + family; size -= 2; } while (g.measureText(txt).width > maxW && size > 20);
+      }
+      g.textBaseline = "alphabetic";
+      g.fillStyle = "#9befe4"; g.font = "700 30px 'Space Mono', monospace"; g.fillText("ONLU CARD" + (me.ev ? "  \u00b7  " + me.ev.toUpperCase() : ""), 90, 128);
+      g.fillStyle = "#eef6fb"; fit(me.n || "", 80, "800", "Unbounded, sans-serif", W - 180); g.fillText(me.n || "", 90, 236);
+      if (me.r){ g.fillStyle = "#93aec4"; fit(me.r, 40, "500", "Outfit, sans-serif", W - 180); g.fillText(me.r, 90, 300); }
+      var box = 760, x = (W - box) / 2, y = 370, rad = 48;
+      g.fillStyle = "#ffffff"; g.beginPath();
+      g.moveTo(x + rad, y); g.arcTo(x + box, y, x + box, y + box, rad); g.arcTo(x + box, y + box, x, y + box, rad);
+      g.arcTo(x, y + box, x, y, rad); g.arcTo(x, y, x + box, y, rad); g.closePath(); g.fill();
+      qrcode.stringToBytes = qrcode.stringToBytesFuncs["UTF-8"];
+      var q = qrcode(0, "M"); q.addData(text, "Byte"); q.make();
+      var n = q.getModuleCount(), pad = 44, cell = (box - pad * 2) / n;
+      g.fillStyle = "#0a1520";
+      for (var r = 0; r < n; r++) for (var c = 0; c < n; c++)
+        if (q.isDark(r, c)) g.fillRect(Math.floor(x + pad + c * cell), Math.floor(y + pad + r * cell), Math.ceil(cell), Math.ceil(cell));
+      g.textAlign = "center";
+      g.fillStyle = "#eef6fb"; g.font = "600 38px Outfit, sans-serif"; g.fillText("Scan with your camera to save my contact", W / 2, y + box + 92);
+      g.fillStyle = "#6d8aa3"; g.font = "400 28px 'Space Mono', monospace"; g.fillText("coffeewithonlu.com/card", W / 2, y + box + 146);
+      done(cv.toDataURL("image/png"));
+    }
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(draw, draw); else draw();
+  }
 
   // ---------- vCard: one tap "Add contact" on iPhone and Android ----------
   function vesc(s){ return String(s || "").replace(/\\/g, "\\\\").replace(/\n/g, "\\n").replace(/,/g, "\\,").replace(/;/g, "\\;"); }
@@ -2860,7 +2933,8 @@ var qrcode = function() {
     if (!me.wOn) delete shared.w;
     delete shared.wOn;
     var shown = Object.assign({}, shared);
-    var url = cardUrl(shared);
+    var live = liveIds();
+    var url = cardUrl(shared, live.id);
     var myPhoto = load(KEY_ME_PHOTO, "");
     var ps = people().sort(function(a, b){ return b.seen[b.seen.length - 1].t - a.seen[a.seen.length - 1].t; });
     var pins = [];
@@ -2879,18 +2953,20 @@ var qrcode = function() {
           '<button type="button" data-m="contact" aria-pressed="' + (qrMode === "contact") + '">Contact, offline</button>' +
         "</div>" +
         '<p class="qrnote" id="qrnote"></p>' +
+        '<p class="livest" id="livest"></p>' +
       "</div>" +
       '<div class="btns">' +
         '<button class="btn primary" type="button" id="bigBtn">Show QR full screen</button>' +
+        '<button class="btn" type="button" id="saveQr">Save QR image</button>' +
         '<button class="btn" type="button" id="copyLink">Copy my link</button>' +
-        '<button class="btn" type="button" id="edit">Edit card</button>' +
+        '<button class="btn full" type="button" id="edit">Edit card</button>' +
       "</div>" +
       "<h2>People you met</h2>" +
       '<div class="map" id="map" hidden></div>' +
       (ps.length
         ? '<div class="people">' + ps.map(function(p){
             var last = p.seen[p.seen.length - 1];
-            return '<a class="person" href="/card/#c=' + b64e(p.c) + '">' +
+            return '<a class="person" href="/card/#c=' + b64e(p.c) + (p.u ? "&u=" + p.u : "") + '">' +
               '<span class="person__img">' + avatarInner(p.c, p.photo) + "</span>" +
               '<span class="person__body"><span class="person__top"><span class="person__n">' + esc(p.c.n) + '</span><span class="person__d">' +
                 (p.seen.length > 1 ? "Met " + p.seen.length + "× · " : "") + esc(fmt(last.t)) + "</span></span>" +
@@ -2909,6 +2985,15 @@ var qrcode = function() {
       app.querySelectorAll(".seg button").forEach(function(b){ b.setAttribute("aria-pressed", String(b.getAttribute("data-m") === qrMode)); });
     }
     paintQr();
+    function paintLive(){
+      var el = document.getElementById("livest"); if (!el) return;
+      el.className = "livest " + liveState;
+      el.textContent = liveState === "on" ? "Live: people who scanned you see your latest edits, even from a saved QR."
+        : liveState === "off" ? "Live updates aren\u2019t switched on yet, so a saved QR keeps this version."
+        : "";
+    }
+    paintLive();
+    pushLive(me, paintLive);
     wireFallbacks(app);
     if (ps.length) drawMap(document.getElementById("map"), pins);
     app.querySelectorAll(".seg button").forEach(function(b){
@@ -2920,6 +3005,20 @@ var qrcode = function() {
     var showW = document.getElementById("showW");
     if (showW) showW.addEventListener("click", function(){ me.wOn = true; save(KEY_ME, me); render(); toast("Wellness is on your card"); });
     document.getElementById("copyLink").addEventListener("click", function(){ copy(url, "Link"); });
+    document.getElementById("saveQr").addEventListener("click", function(){
+      qrPng(qrMode === "link" ? url : vcard(shared), me, function(png){
+        var ov = document.createElement("div"); ov.className = "big"; ov.setAttribute("role", "dialog"); ov.setAttribute("aria-label", "QR image");
+        ov.innerHTML = '<img class="big__png" src="' + png + '" alt="Your Onlu Card QR">' +
+          '<div class="big__s">Press and hold the image to save it to Photos</div>' +
+          '<div class="btns big__btns"><button class="btn" type="button" id="dlQr">Download</button><button class="btn" type="button" id="closeQr">Close</button></div>';
+        document.body.appendChild(ov);
+        ov.querySelector("#closeQr").addEventListener("click", function(){ ov.remove(); });
+        ov.querySelector("#dlQr").addEventListener("click", function(){
+          var a = document.createElement("a"); a.href = png; a.download = "onlu-card-" + first(me.n).toLowerCase() + ".png";
+          document.body.appendChild(a); a.click(); a.remove();
+        });
+      });
+    });
     document.getElementById("edit").addEventListener("click", function(){ viewForm(); scrollTo(0, 0); });
     document.getElementById("bigBtn").addEventListener("click", function(){
       var big = document.createElement("div"); big.className = "big"; big.setAttribute("role", "dialog"); big.setAttribute("aria-label", "Full-screen QR");
@@ -2935,11 +3034,12 @@ var qrcode = function() {
   // =========================================================
   // View 3: someone else's card, after scanning
   // =========================================================
-  function viewTheirs(c){
+  function viewTheirs(c, u, liveAt){
     var key = (c.n || "") + "|" + (c.em || c.li || c.wc || c.ig || c.ph || "");
-    var p = people().filter(function(x){ return x.k === key; })[0];
-    if (!p){ p = { k: key, c: c, note: "", at: today(), seen: [{ t: Date.now(), ev: c.ev || "" }] }; putPerson(p); }
-    else if (JSON.stringify(p.c) !== JSON.stringify(c)){ p.c = c; putPerson(p); }
+    var all = people();
+    var p = (u && all.filter(function(x){ return x.u === u; })[0]) || all.filter(function(x){ return x.k === key; })[0];
+    if (!p){ p = { k: key, c: c, note: "", at: today(), seen: [{ t: Date.now(), ev: c.ev || "" }] }; if (u) p.u = u; putPerson(p); }
+    else if (JSON.stringify(p.c) !== JSON.stringify(c) || (u && p.u !== u)){ p.c = c; if (u) p.u = u; putPerson(p); }
     var me = load(KEY_ME, null);
     var where = c.ev || "today";
     var fn = esc(first(c.n));
@@ -2954,6 +3054,7 @@ var qrcode = function() {
 
     app.innerHTML =
       cardHtml(c, (c.ev ? c.ev : "Met") + (c.d ? " · " + c.d : ""), p.photo, "Add photo") +
+      '<p class="livest on" id="livebadge"' + (liveAt ? "" : " hidden") + ">Live card \u00b7 updated " + (liveAt ? esc(ago(liveAt)) : "") + "</p>" +
       '<div class="btns">' +
         '<button class="btn primary" type="button" id="saveC">Save to contacts</button>' +
         (c.ag ? '<a class="btn full agentbtn" href="' + esc(webUrl(c.ag)) + '" target="_blank" rel="noopener">Ask ' + fn + "\u2019s AI agent</a>" : "") +
@@ -2986,6 +3087,12 @@ var qrcode = function() {
       '<div class="btns"><a class="btn full" href="/card/">' + (me ? "Back to my card" : "Make your own card") + "</a></div>";
 
     wireFallbacks(app);
+    if (u && !liveAt) fetchLive(u).then(function(data){
+      if (!data || !data.card || !data.card.n) return;
+      var latest = Object.assign({}, data.card); if (c.d) latest.d = c.d;
+      if (JSON.stringify(latest) !== JSON.stringify(c)) return viewTheirs(latest, u, data.updated);
+      var lb = document.getElementById("livebadge"); lb.textContent = "Live card \u00b7 updated " + ago(data.updated); lb.hidden = false;
+    });
     var noteEl = document.getElementById("note"), draftEl = document.getElementById("draft"), pinBtn = document.getElementById("pin");
     function paintSeen(){
       document.getElementById("seen").innerHTML = seenHtml();
@@ -3046,9 +3153,9 @@ var qrcode = function() {
 
   // ---------- router ----------
   function render(){
-    var m = location.hash.match(/^#c=([\w-]+)/);
+    var m = location.hash.match(/^#c=([\w-]+)(?:&u=([a-z0-9]{8,16}))?/);
     var them = m ? b64d(m[1]) : null;
-    if (them && them.n) return viewTheirs(them);
+    if (them && them.n) return viewTheirs(them, m[2] || "");
     var me = load(KEY_ME, null);
     if (me && me.n) return viewMine(me);
     viewForm();

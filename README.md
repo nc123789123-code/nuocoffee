@@ -88,6 +88,23 @@ curl -X POST https://coffeewithonlu.com/api/waitlist \
 
 A new row should appear in your Sheet within a second or two.
 
+## Onlu Card live updates (optional)
+
+`/card` works with no backend: each card travels inside its QR link. To let a
+saved QR always open the owner's latest card, switch on storage for
+`api/card.js`:
+
+1. Vercel → this project → **Storage** → **Create Database** → **Upstash for
+   Redis** (free plan) → connect it to the project for all environments. This
+   adds `KV_REST_API_URL` and `KV_REST_API_TOKEN`.
+2. **Redeploy**.
+3. Open `/card` on your phone. Under the QR it should say *"Live: people who
+   scanned you see your latest edits"*.
+
+Without it, `/api/card` answers 503 and the card quietly uses the copy in its
+link. Cards stored there hold contact details only (no photos, notes or map
+pins, which stay on each phone).
+
 ## The verticals
 
 The vertical taxonomy is the core of the product and lives in one place:
