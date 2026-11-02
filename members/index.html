@@ -126,6 +126,14 @@ legend small{font-weight:400;color:var(--dim);}
 .mrow__top span{font-size:.8rem;color:var(--dim);word-break:break-all;}
 .mrow__s{font-size:.8rem;color:var(--muted);margin-top:2px;}
 #csv{margin-bottom:4px;}
+.gbox{margin-top:16px;display:flex;flex-direction:column;align-items:center;gap:12px;}
+.gbox #gbtn{min-height:44px;display:flex;justify-content:center;width:100%;}
+.or{display:flex;align-items:center;gap:10px;width:100%;color:var(--dim);font-size:.8rem;}
+.or::before,.or::after{content:"";flex:1;height:1px;background:var(--line2);}
+.forgot{display:block;margin:10px auto 0;}
+.mrow__act{margin-top:4px;}
+.mrow__act .link{padding:4px 0;}
+.mrow__link{font-size:.78rem;color:var(--tiffany2);word-break:break-all;margin-top:4px;user-select:all;}
 .big{position:fixed;inset:0;z-index:40;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;overflow-y:auto;
   padding:calc(20px + env(safe-area-inset-top,0px)) 20px calc(20px + env(safe-area-inset-bottom,0px));}
 .big .qr{background:#fff;border-radius:20px;padding:16px;line-height:0;width:min(78vmin,420px);aspect-ratio:1;}
@@ -160,6 +168,7 @@ legend small{font-weight:400;color:var(--dim);}
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 <script src="/lib/qrcode.js"></script>
 <script>
 (function(){
@@ -315,6 +324,55 @@ legend small{font-weight:400;color:var(--dim);}
     document.getElementById("nn").addEventListener("click", function(){ clearScan(); boot(); });
   }
 
+  // ---------- Google sign-in ----------
+  var cfg = null, googleReady = false;
+  function getConfig(){ return cfg ? Promise.resolve(cfg) : api("config").then(function(r){ cfg = r.status === 200 ? r : {}; return cfg; }); }
+  function whenGoogle(cb, tries){
+    if (window.google && google.accounts && google.accounts.id) return cb();
+    if ((tries || 0) > 80) return;   // script blocked or offline: email still works
+    setTimeout(function(){ whenGoogle(cb, (tries || 0) + 1); }, 100);
+  }
+  function onGoogle(resp){
+    var codeEl = document.getElementById("code");
+    api("google", { credential: resp.credential, code: codeEl ? codeEl.value : scanCode }).then(function(r){
+      if (r.status !== 200){ var err = document.getElementById("err"); if (err){ err.textContent = r.error || "Google sign-in failed."; err.hidden = false; } return; }
+      state.tab = r.created ? "profile" : "people";
+      if (state.scan) state.autoConnect = true;
+      boot();
+    });
+  }
+  function setupGoogle(mode){
+    getConfig().then(function(c){
+      if (!c.googleClientId) return;
+      whenGoogle(function(){
+        var box = document.getElementById("gbox"), btn = document.getElementById("gbtn"); if (!box || !btn) return;
+        if (!googleReady){ google.accounts.id.initialize({ client_id: c.googleClientId, callback: onGoogle, ux_mode: "popup" }); googleReady = true; }
+        google.accounts.id.renderButton(btn, { theme: "filled_black", size: "large", shape: "pill", text: mode === "join" ? "signup_with" : "signin_with",
+          width: Math.min(360, btn.parentNode.clientWidth || 320) });
+        box.hidden = false;
+      });
+    });
+  }
+
+  // ---------- reset link (made by the host) ----------
+  function viewReset(tok){
+    document.getElementById("who").hidden = true;
+    app.innerHTML = '<h1>Set a <span class="grad">new password</span></h1>' +
+      '<form id="rs" novalidate><label for="np">New password <small>at least 8 characters</small><input id="np" type="password" autocomplete="new-password"></label>' +
+      '<label for="np2">Type it again<input id="np2" type="password" autocomplete="new-password"></label>' +
+      '<p class="err" id="rerr" hidden></p><button class="btn primary" type="submit">Save and sign in</button></form>';
+    document.getElementById("rs").addEventListener("submit", function(e){
+      e.preventDefault();
+      var a1 = document.getElementById("np").value, a2 = document.getElementById("np2").value, err = document.getElementById("rerr");
+      if (a1 !== a2){ err.textContent = "The two passwords don\u2019t match."; err.hidden = false; return; }
+      api("reset", { token: tok, password: a1 }).then(function(r){
+        if (r.status !== 200){ err.textContent = r.error || "Couldn\u2019t reset the password."; err.hidden = false; return; }
+        try { history.replaceState(null, "", location.pathname + location.search); } catch(e2){}
+        toast("Password updated"); state.tab = "people"; boot();
+      });
+    });
+  }
+
   // ---------- signed out ----------
   function viewAuth(mode){
     document.getElementById("who").hidden = true;
@@ -324,11 +382,12 @@ legend small{font-weight:400;color:var(--dim);}
         ? '<p class="hint" style="margin-top:18px">You scanned</p>' + publicCard(state.scan) +
           '<h1 style="font-size:1.35rem">Join Onlu Members to connect with <span class="grad">' + esc(first(state.scan.n)) + "</span></h1>"
         : '<h1>The people from <span class="grad">Onlu events</span></h1>' +
-          '<p class="lede">See the people from the events you went to, follow each other, and your LinkedIn, Instagram and WeChat unlock for each other. Nobody else sees them.</p>') +
+          '<p class="lede">See the people from the events you went to, follow each other, and your LinkedIn, Instagram and WeChat unlock for each other. Other members never see them.</p>') +
       '<div class="tabs" role="tablist">' +
         '<button type="button" role="tab" data-m="join" aria-selected="' + (mode === "join") + '">Join</button>' +
         '<button type="button" role="tab" data-m="login" aria-selected="' + (mode === "login") + '">Sign in</button>' +
       "</div>" +
+      '<div class="gbox" id="gbox" hidden><div id="gbtn"></div><p class="or"><span>or with email</span></p></div>' +
       '<form id="auth" novalidate>' +
         (mode === "join"
           ? '<label for="code">Event code <small>optional: from your Onlu event, or add it later</small><input id="code" autocomplete="off" autocapitalize="off" value="' + esc(decodeURIComponent(code)) + '" placeholder="From your Onlu event"></label>' +
@@ -338,7 +397,19 @@ legend small{font-weight:400;color:var(--dim);}
         '<label for="pw">Password <small>' + (mode === "join" ? "at least 8 characters" : "") + '</small><input id="pw" type="password" autocomplete="' + (mode === "join" ? "new-password" : "current-password") + '"></label>' +
         '<p class="err" id="err" hidden></p>' +
         '<button class="btn primary" type="submit">' + (mode === "join" ? "Join Onlu Members" : "Sign in") + "</button>" +
-      "</form>";
+      "</form>" +
+      (mode === "login"
+        ? '<button class="link forgot" type="button" id="forgot">Forgot password?</button>' +
+          '<div class="lock" id="forgotTxt" hidden></div>'
+        : "");
+    setupGoogle(mode);
+    var fg = document.getElementById("forgot");
+    if (fg) fg.addEventListener("click", function(){
+      var t = document.getElementById("forgotTxt");
+      t.innerHTML = "<span>" + (cfg && cfg.googleClientId ? "If your email is a Gmail or Google account, use <b>Sign in with Google</b> above with the same email and you\u2019re straight in. Otherwise m" : "M") +
+        "essage Karlie (WeChat, or hello@onlu.ai) and she\u2019ll send you a link to set a new password.</span>";
+      t.hidden = false; fg.hidden = true;
+    });
     app.querySelectorAll(".tabs button").forEach(function(b){ b.addEventListener("click", function(){ viewAuth(b.getAttribute("data-m")); }); });
     document.getElementById("auth").addEventListener("submit", function(e){
       e.preventDefault();
@@ -577,8 +648,20 @@ legend small{font-weight:400;color:var(--dim);}
         return '<div class="mrow"><div class="mrow__top"><b>' + esc(m.n) + "</b><span>" + esc(m.le || "") + "</span></div>" +
           '<div class="mrow__s">' + esc([m.r, m.v].filter(Boolean).join(" \u00b7 ")) + "</div>" +
           '<div class="mrow__s">' + esc(m.events.length ? m.events.join(", ") : "No event yet") + " \u00b7 " + m.following + " following \u00b7 " + m.followers + " followers" +
-          (m.created ? " \u00b7 joined " + esc(new Date(m.created).toLocaleDateString("en-US", { month: "short", day: "numeric" })) : "") + "</div></div>";
+          (m.created ? " \u00b7 joined " + esc(new Date(m.created).toLocaleDateString("en-US", { month: "short", day: "numeric" })) : "") + "</div>" +
+          '<div class="mrow__act"><button class="link" type="button" data-reset="' + esc(m.id) + '" data-name="' + esc(m.n) + '">Reset password link</button></div>' +
+          '<div class="mrow__link" hidden></div></div>';
       }).join("") : '<p class="empty">No members yet.</p>';
+      el.querySelectorAll("[data-reset]").forEach(function(b){ b.addEventListener("click", function(){
+        b.disabled = true;
+        api("resetlink", { id: b.getAttribute("data-reset") }).then(function(r){
+          b.disabled = false;
+          if (r.status !== 200){ toast(r.error || "Couldn\u2019t make a link"); return; }
+          var link = location.origin + "/members/#reset=" + r.token, box = b.parentNode.nextElementSibling;
+          box.textContent = "Send to " + b.getAttribute("data-name") + " (works once, for 24 hours): " + link; box.hidden = false;
+          copy(link, "Reset link");
+        });
+      }); });
       var btn = document.getElementById("csv"); btn.disabled = !rows.length;
       btn.addEventListener("click", function(){ downloadCsv(rows); });
     });
@@ -635,6 +718,8 @@ legend small{font-weight:400;color:var(--dim);}
   function loadPeople(){ return api("people").then(function(r){ if (r.status === 200){ state.people = r.people || []; state.pevents = r.events || {}; } }); }
 
   function boot(){
+    var rt = location.hash.match(/^#reset=([a-z0-9]{20,60})/);
+    if (rt) return viewReset(rt[1]);
     if (scanId && !state.scan){
       return api("card&id=" + scanId).then(function(r){
         if (r.status === 200) state.scan = r.card; else { toast(r.error || "That QR didn\u2019t work"); clearScan(); }

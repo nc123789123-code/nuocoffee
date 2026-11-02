@@ -5,6 +5,10 @@
      POST signup  { code?, name, email, password }  (code = an event's code, optional)
      POST login   { email, password }
      POST logout
+     GET  config                          → public settings (Google client id)
+     POST google  { credential, code? }   → sign in or join with Google
+     POST reset   { token, password }     → set a new password from a reset link
+     POST resetlink { id }                → (admin) make a one-time reset link
      POST join    { code }                → add another event I attended
      GET  me                              → my profile, my events, follows
      POST profile { …fields }
@@ -32,6 +36,7 @@
                         Hosts see every member and are the only ones who can
                         create events.
    Optional: SESSION_SECRET (defaults to a key derived from the Redis token).
+   Google sign-in uses GOOGLE_CLIENT_ID below (a public id, not a secret).
    ============================================================ */
 
 const crypto = require("crypto");
@@ -45,6 +50,10 @@ const ADMINS = String(process.env.ONLU_ADMIN_EMAIL || DEFAULT_HOST).split(",")
   .map((e) => e.trim().replace(/^["']+|["']+$/g, "").trim().toLowerCase()).filter(Boolean);
 const ADMIN = ADMINS[0] || "";
 const SECRET = process.env.SESSION_SECRET || crypto.createHash("sha256").update("onlu-session:" + (token || "")).digest("hex");
+// Google sign-in: the OAuth "Web application" client id from Google Cloud Console.
+// It is public (it ships in the page anyway), so it can live here or in GOOGLE_CLIENT_ID.
+const GOOGLE_CLIENT_ID = (process.env.GOOGLE_CLIENT_ID || "").trim();
+const TOKENINFO = process.env.GOOGLE_TOKENINFO_URL || "https://oauth2.googleapis.com/tokeninfo";
 const COOKIE = "onlu_s";
 const MONTH = 60 * 60 * 24 * 30;
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -174,6 +183,7 @@ module.exports = async (req, res) => {
       if (tries > 10) return send(res, 429, { error: "Too many attempts. Try again in 15 minutes." });
       const raw = await redis(["GET", `login:${email}`]);
       const rec = raw ? JSON.parse(raw) : null;
+      if (rec && !rec.hash) return send(res, 401, { error: "This account signs in with Google. Use the Google button." });
       const got = Buffer.from(hashPw(pw, rec ? rec.salt : "x"), "hex");
       const want = Buffer.from(rec ? rec.hash : "0".repeat(64), "hex");
       if (!rec || !crypto.timingSafeEqual(got, want)) return send(res, 401, { error: "Email or password doesn't match." });
@@ -183,6 +193,58 @@ module.exports = async (req, res) => {
     }
 
     if (a === "logout" && isPost) { setSession(res, ""); return send(res, 200, { ok: true }); }
+
+    if (a === "config" && req.method === "GET") return send(res, 200, { googleClientId: GOOGLE_CLIENT_ID });
+
+    if (a === "google" && isPost) {
+      if (!GOOGLE_CLIENT_ID) return send(res, 503, { error: "Google sign-in isn't set up yet." });
+      const cred = String(body.credential || "");
+      if (!cred || cred.length > 4096) return send(res, 400, { error: "Google didn't send a sign-in token." });
+      const r = await fetch(TOKENINFO + "?id_token=" + encodeURIComponent(cred));
+      const t = r.ok ? await r.json() : null;
+      const iss = t && String(t.iss || "");
+      if (!t || t.aud !== GOOGLE_CLIENT_ID || (iss !== "accounts.google.com" && iss !== "https://accounts.google.com") ||
+          String(t.email_verified) !== "true" || Number(t.exp) * 1000 < Date.now()) {
+        return send(res, 401, { error: "Google sign-in couldn't be verified. Try again." });
+      }
+      const email = String(t.email || "").toLowerCase();
+      if (!EMAIL_RE.test(email)) return send(res, 400, { error: "Your Google account has no usable email." });
+      const raw = await redis(["GET", `login:${email}`]);
+      let rec = raw ? JSON.parse(raw) : null, created = false;
+      if (rec && !(await redis(["EXISTS", `user:${rec.id}`]))) rec = null;
+      if (rec) {
+        if (!rec.google) { rec.google = true; await redis(["SET", `login:${email}`, JSON.stringify(rec)]); }
+      } else {
+        // a new member: Google has verified this email
+        const id = rid(12), name = str(t.name, 80) || email.split("@")[0];
+        const user = cleanProfile({ n: name }, { id, n: name, le: email, ev: [], s: { em: email }, created: Date.now() });
+        rec = { id, google: true };
+        await pipeline([["SET", `login:${email}`, JSON.stringify(rec)], ["SET", `user:${id}`, JSON.stringify(user)], ["SADD", "members", id]]);
+        created = true;
+      }
+      const code = normCode(body.code);
+      if (code && CODE_RE.test(code) && (await redis(["EXISTS", `event:${code}`]))) {
+        const u = await getUser(rec.id);
+        if (u && (u.ev || []).indexOf(code) < 0) await addToEvent(u, code);
+      }
+      setSession(res, rec.id);
+      return send(res, 200, { ok: true, created });
+    }
+
+    if (a === "reset" && isPost) {
+      const tok = str(body.token, 60), pw = String(body.password || "");
+      if (pw.length < 8) return send(res, 400, { error: "Use a password of at least 8 characters." });
+      const raw = /^[a-z0-9]{20,60}$/.test(tok) ? await redis(["GET", `reset:${tok}`]) : null;
+      const r = raw ? JSON.parse(raw) : null;
+      const u = r && r.exp > Date.now() ? await getUser(r.id) : null;
+      if (!u || !u.le) return send(res, 400, { error: "This reset link has expired or was already used. Ask Karlie for a new one." });
+      const lraw = await redis(["GET", `login:${u.le}`]);
+      const rec = Object.assign(lraw ? JSON.parse(lraw) : {}, { id: u.id });
+      rec.salt = rid(16); rec.hash = hashPw(pw, rec.salt);
+      await pipeline([["SET", `login:${u.le}`, JSON.stringify(rec)], ["DEL", `reset:${tok}`], ["DEL", `rl:${u.le}`]]);
+      setSession(res, u.id);
+      return send(res, 200, { ok: true });
+    }
 
     if (a === "card" && req.method === "GET") {
       const id = str(req.query && req.query.id, 20);
@@ -279,6 +341,15 @@ module.exports = async (req, res) => {
       const list = codes.map((c, i) => Object.assign({ code: c, count: counts[i] }, evs[c] || {}))
         .sort((x, y) => String(y.date || "").localeCompare(String(x.date || "")));
       return send(res, 200, { events: list });
+    }
+
+    if (a === "resetlink" && isPost) {
+      if (!admin) return send(res, 403, { error: "Only the host can make reset links." });
+      const target = await getUser(str(body.id, 20));
+      if (!target || !target.le) return send(res, 404, { error: "That member wasn't found." });
+      const tok = rid(32);
+      await redis(["SET", `reset:${tok}`, JSON.stringify({ id: target.id, exp: Date.now() + 24 * 3600 * 1000 }), "EX", 86400]);
+      return send(res, 200, { token: tok });
     }
 
     if (a === "export" && req.method === "GET") {
