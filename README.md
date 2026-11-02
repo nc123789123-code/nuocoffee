@@ -140,6 +140,10 @@ filters, each as What happened / Why it matters / Onlu take with sources.
   `news/index.html` (so search engines see them without JS).
 - The host can also post stories from the members area (Events tab → Post to
   Onlu Brief). Those are stored in Upstash and merged in when the pages load.
+- **Market pulse** comes from `api/markets.js`: public FRED CSVs (no key) for
+  CPI (index and YoY from CPIAUCNS, MoM from CPIAUCSL, as BLS reports them),
+  the Fed funds target range, 2/10/30-year Treasuries, 2s10s, the ICE BofA
+  high-yield spread, unemployment, Brent and the S&P 500. Cached 6 hours.
 - **Today in Finance** (live headlines) comes from `api/headlines.js`: Google
   News RSS searches by topic, major outlets first, cached by Vercel's CDN for
   30 minutes. No key needed; if the feeds fail the pages show a short note.

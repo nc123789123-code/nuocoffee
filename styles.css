@@ -226,6 +226,46 @@ body > *:not(.fx) { position: relative; z-index: 1; }
 .brief-src { margin: auto 0 0; font-family: var(--font-mono); font-size: 0.72rem; color: var(--dim); }
 .brief-src a { color: var(--tiffany-2); text-decoration: none; border-bottom: 1px solid rgba(155, 239, 228, 0.35); }
 .brief-more { text-align: center; margin: 28px 0 0; }
+.mk { --mk-line: var(--line); --mk-surface: var(--surface); --mk-surface-solid: var(--surface); --mk-text: var(--text); --mk-muted: var(--muted); --mk-dim: var(--dim);
+  --mk-accent: var(--tiffany-2); --mk-display: var(--font-display); --mk-mono: var(--font-mono); --mk-body: var(--font-body, inherit); }
+.mk--home { margin-top: 22px; }
+.mk--home .mk-tiles { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); margin-top: 10px; }
+.today-home__head a { font-size: 0.82rem; color: var(--tiffany-2); text-decoration: none; }
+[hidden] { display: none !important; }
+/* Market pulse */
+.mk .mk-tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-top:14px;}
+.mk-tile{border:1px solid var(--mk-line);border-radius:14px;padding:12px 14px;background:var(--mk-surface);min-width:0;}
+.mk-l{font-size:.76rem;color:var(--mk-muted);}
+.mk-v{font-family:var(--mk-display);font-weight:800;font-size:1.25rem;letter-spacing:-.02em;margin-top:2px;font-variant-numeric:tabular-nums;color:var(--mk-text);}
+.mk-c{font-size:.76rem;color:var(--mk-muted);margin-top:2px;}
+.mk-d{font-family:var(--mk-mono);font-size:.66rem;color:var(--mk-dim);margin-top:4px;}
+.cpi{border:1px solid var(--mk-line);border-radius:16px;padding:clamp(16px,3vw,22px);background:var(--mk-surface);}
+.cpi-k,.cpi-k2{font-family:var(--mk-mono);font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--mk-accent);}
+.cpi-k2{color:var(--mk-muted);margin-top:18px;}
+.cpi-sub{font-size:.88rem;color:var(--mk-muted);margin-top:2px;}
+.cpi-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:14px;}
+.cpi-stats span{display:block;font-size:.74rem;color:var(--mk-muted);}
+.cpi-stats b{display:block;font-family:var(--mk-display);font-weight:800;font-size:clamp(1.05rem,3.6vw,1.5rem);letter-spacing:-.02em;font-variant-numeric:tabular-nums;color:var(--mk-text);}
+@media (max-width:480px){.cpi-stats{grid-template-columns:repeat(2,minmax(0,1fr));}}
+.cpi-plot{position:relative;height:150px;margin-top:22px;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:3px;align-items:end;border-bottom:1px solid var(--mk-line);}
+.cpi-bar{position:relative;border:0;padding:0;min-height:2px;background:#0fa89f;border-radius:4px 4px 0 0;cursor:pointer;}
+.cpi-bar:hover,.cpi-bar:focus-visible{background:#14bfb4;outline:none;}
+.cpi-bar::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);white-space:nowrap;
+  background:var(--mk-text);color:#08131c;font:600 .74rem/1.3 var(--mk-body);padding:5px 8px;border-radius:8px;display:none;pointer-events:none;z-index:3;}
+.cpi-bar.tip-l::after{left:0;transform:none;}
+.cpi-bar.tip-r::after{left:auto;right:0;transform:none;}
+.cpi-bar:hover::after,.cpi-bar:focus-visible::after{display:block;}
+.cpi-val{position:absolute;bottom:calc(100% + 4px);right:0;font:700 .72rem var(--mk-mono);color:var(--mk-text);white-space:nowrap;}
+.cpi-target{position:absolute;left:0;right:0;border-top:1.5px dashed var(--mk-dim);pointer-events:none;z-index:1;}
+.cpi-target span{position:absolute;left:0;bottom:3px;font:.68rem var(--mk-mono);color:var(--mk-muted);background:var(--mk-surface-solid);padding:0 4px 0 0;}
+.cpi-x{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:3px;margin-top:6px;}
+.cpi-x span{font-size:.66rem;color:var(--mk-muted);text-align:center;}
+.cpi-table{margin-top:12px;font-size:.82rem;color:var(--mk-muted);}
+.cpi-table summary{cursor:pointer;color:var(--mk-accent);}
+.cpi-table table{border-collapse:collapse;margin-top:8px;font-variant-numeric:tabular-nums;}
+.cpi-table td,.cpi-table th{padding:3px 14px 3px 0;text-align:left;}
+.mk-src{font-family:var(--mk-mono);font-size:.68rem;color:var(--mk-dim);margin-top:10px;}
+
 .today-home { margin-top: 22px; background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 18px 22px; }
 .today-home__head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
 .today-home__head h3 { font-size: 1.05rem; letter-spacing: -0.01em; }
