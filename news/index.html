@@ -75,6 +75,21 @@ h1{font-family:var(--display);font-weight:800;letter-spacing:-.03em;line-height:
 .brief-src a{color:var(--tiffany2);text-decoration:none;border-bottom:1px solid rgba(155,239,228,.35);}
 .story__cta{font-size:.85rem;font-weight:600;color:var(--tiffany2);text-decoration:none;}
 
+.today{margin-top:24px;border:1px solid var(--line);border-radius:18px;background:var(--surface);padding:clamp(16px,3vw,22px);scroll-margin-top:20px;}
+.today__head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;}
+.today h2,.brief-h{font-family:var(--display);font-weight:600;font-size:1.1rem;letter-spacing:-.01em;}
+.today__upd{font-family:var(--mono);font-size:.7rem;color:var(--dim);}
+.today__sub{font-size:.86rem;color:var(--dim);margin-top:2px;}
+.hls{list-style:none;margin-top:10px;}
+.hl{padding:12px 0;border-top:1px solid var(--line);}
+.hl:first-child{border-top:0;}
+.hl__meta{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:.76rem;color:var(--dim);}
+.hl__cat{font-family:var(--mono);font-weight:700;font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:var(--hc);border:1px solid color-mix(in srgb,var(--hc) 45%,transparent);border-radius:999px;padding:2px 8px;}
+.hl__t{display:block;margin-top:5px;color:var(--text);text-decoration:none;font-weight:500;line-height:1.4;}
+.hl__t:hover{color:var(--hc);}
+.hl--empty{color:var(--dim);font-size:.9rem;}
+.brief-h{margin-top:34px;}
+.brief-h span{display:block;font-family:var(--body);font-weight:400;font-size:.85rem;color:var(--dim);margin-top:2px;}
 .join{margin-top:28px;border:1px solid rgba(46,224,208,.35);border-radius:18px;padding:20px;background:linear-gradient(135deg,rgba(46,224,208,.1),rgba(255,79,154,.07));}
 .join h2{font-family:var(--display);font-weight:600;font-size:1.1rem;margin-bottom:6px;}
 .join p{color:var(--muted);font-size:.95rem;}
@@ -99,6 +114,13 @@ h1{font-family:var(--display);font-weight:800;letter-spacing:-.03em;line-height:
     <p class="lede">Finance news for people who work in it: what happened, why it matters, and our take. Bring yours to the next coffee.</p>
   </header>
 
+  <section class="today" id="today" aria-labelledby="today-h">
+    <div class="today__head"><h2 id="today-h">Today in Finance</h2><span class="today__upd" id="today-upd"></span></div>
+    <p class="today__sub">Live headlines from financial news outlets, linked to the original.</p>
+    <ul class="hls" id="hls"><li class="hl hl--empty">Loading headlines…</li></ul>
+  </section>
+
+  <h2 class="brief-h">Onlu Brief <span>what happened, why it matters, our take</span></h2>
   <div class="filters" id="filters" role="group" aria-label="Filter by area"></div>
 
   <div class="stories" id="stories"><!--news:all--><article class="story" id="2026-11-02-marks" data-area="Credit" style="--ac:#2ee0d0"><div class="brief-meta"><span class="brief-area">Credit</span><time datetime="2026-11-02">Nov 2, 2026</time></div><h2 class="story__title">Private credit lenders disagree on what 12% of their shared borrowers are worth</h2><p class="story__short">Marks that differ by five points or more now cover 12.3% of borrowers held by several managers, up from 9.3% a year earlier.</p><div class="story__row"><div class="story__k">What happened</div><p>Among borrowers held by two or more private credit managers, the share whose marks differ by five points or more rose to 12.3% as of June 30, from 9.3% a year earlier, according to an analysis by the Frankfurt School of Finance &amp; Management reported by Bloomberg.</p></div><div class="story__row"><div class="story__k">Why it matters</div><ul><li>The same loan carried at different prices means a fund&#39;s NAV depends on who is doing the marking.</li><li>Dispersion tends to widen first in stressed names, before defaults show up.</li><li>It strengthens the case for independent valuation and fuller disclosure to LPs.</li></ul></div><div class="story__row take"><div class="story__k">Onlu take</div><p>Mark dispersion is an early warning. Before trusting a fund&#39;s yield, compare its marks with what co-lenders carry for the same loans.</p></div><div class="story__foot"><span class="brief-src">Sources: <a href="https://bloomberg.com/news/articles/2026-11-02/private-credit-lenders-disagree-on-debt-price-for-12-of-firms" target="_blank" rel="noopener">Bloomberg</a></span><a class="story__cta" href="/#waitlist">Talk it through at the next coffee →</a></div></article>
@@ -145,6 +167,11 @@ h1{font-family:var(--display);font-weight:800;letter-spacing:-.03em;line-height:
   }
   paint();
   if (location.hash){ var t = document.getElementById(location.hash.slice(1)); if (t) t.scrollIntoView(); }
+
+  N.loadHeadlines(document.getElementById("hls"), 20, function(d){
+    if (d && d.updated) document.getElementById("today-upd").textContent = "Updated " +
+      new Date(d.updated).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", timeZone: "America/New_York" }) + " ET";
+  });
 
   // stories the host posted from the members area
   fetch("/api/members?a=news").then(function(r){ return r.ok ? r.json() : null; }).then(function(d){

@@ -60,7 +60,32 @@
       "</article>";
   }
 
-  var api = { AREAS: AREAS, esc: esc, day: day, merge: merge, teaser: teaser, story: story };
+  // live headlines (Today in Finance)
+  var CATS = { "Markets": "#ffc35a", "Economy": "#8a9bff", "Credit": "#2ee0d0", "Banking": "#4cc4ff",
+               "AI": "#4d84ff", "Policy": "#93aec4", "Global": "#6fe39a" };
+  function ago(iso) {
+    var t = Date.parse(iso); if (!t) return "";
+    var m = Math.max(0, Math.round((Date.now() - t) / 60000));
+    if (m < 60) return m + "m ago";
+    var h = Math.round(m / 60); return h < 24 ? h + "h ago" : Math.round(h / 24) + "d ago";
+  }
+  function headline(it) {
+    return '<li class="hl" style="--hc:' + (CATS[it.c] || "#9befe4") + '">' +
+      '<div class="hl__meta"><span class="hl__cat">' + esc(it.c) + "</span>" + (it.s ? "<span>" + esc(it.s) + "</span>" : "") +
+      (it.d ? "<span>" + esc(ago(it.d)) + "</span>" : "") + "</div>" +
+      '<a class="hl__t" href="' + esc(safeUrl(it.u)) + '" target="_blank" rel="noopener">' + esc(it.t) + "</a></li>";
+  }
+  // fills a <ul> with headlines; returns quietly (with a note) if the feed is down
+  function loadHeadlines(ul, limit, onDone) {
+    fetch("/api/headlines").then(function (r) { return r.ok ? r.json() : null; }).then(function (d) {
+      var items = (d && d.items) || [];
+      ul.innerHTML = items.length ? items.slice(0, limit).map(headline).join("")
+        : '<li class="hl hl--empty">Live headlines are unavailable right now. Check back soon.</li>';
+      if (onDone) onDone(d);
+    }).catch(function () { ul.innerHTML = '<li class="hl hl--empty">Live headlines are unavailable right now. Check back soon.</li>'; });
+  }
+
+  var api = { AREAS: AREAS, CATS: CATS, esc: esc, day: day, merge: merge, teaser: teaser, story: story, headline: headline, loadHeadlines: loadHeadlines };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.OnluNews = api;
 })(this);
