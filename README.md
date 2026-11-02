@@ -106,19 +106,21 @@ link.
 
 ## Onlu Members (`/members`)
 
-Accounts for people who've been to an Onlu event. Members fill in a profile,
-browse the directory and follow each other; LinkedIn, Instagram, WeChat, email
-and phone are returned by `api/members.js` only when two members follow each
-other.
+Accounts for people who've been to an Onlu event. Each event has its own code;
+members see only the people who attended at least one of the same events, can
+follow only them, and get each other's LinkedIn, Instagram, WeChat, email and
+phone only when both follow each other. All of this is enforced in
+`api/members.js`.
 
 Uses the same Upstash database as live cards, plus one variable:
 
-- `ONLU_INVITE_CODE` – the code you share at events (case doesn't matter).
-  Sign-up stays closed until it's set. Change it whenever you like; existing
-  members keep their accounts.
+- `ONLU_ADMIN_EMAIL` – the host's email. That account signs up without a code,
+  sees every member, and gets an **Events** tab to create events. Each new
+  event gets a code (e.g. `credit-5xk8`) and a join link
+  (`/members/?code=credit-5xk8`) to share with the people who came.
 
-Share `coffeewithonlu.com/members/?code=YOURCODE` to prefill the code. Cards stored there hold contact details only (no photos, notes or map
-pins, which stay on each phone).
+Members who come to another event add its code under "Went to another Onlu
+event?" in the People tab.
 
 ## The verticals
 

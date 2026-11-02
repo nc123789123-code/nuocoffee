@@ -101,6 +101,13 @@ legend small{font-weight:400;color:var(--dim);}
 .tag.mutual{color:var(--ink);background:var(--tiffany);border-color:var(--tiffany);}
 .tag.back{color:var(--pink);border-color:rgba(255,79,154,.5);}
 .m__r{font-size:.88rem;color:var(--muted);}
+.m__ev{font-size:.8rem;color:var(--tiffany2);margin-top:8px;}
+.evcode{font-family:var(--mono);font-size:.8rem;color:var(--muted);margin-top:8px;}
+.evcode b{color:var(--text);font-size:.95rem;letter-spacing:.04em;}
+.joinev{margin-top:22px;border-top:1px solid var(--line);padding-top:16px;}
+.joinrow{display:flex;gap:8px;align-items:center;}
+.joinrow input{flex:1;min-width:0;}
+.tabs button{white-space:nowrap;}
 .m__o{font-size:.9rem;margin-top:8px;padding-left:10px;border-left:2px solid var(--pink);}
 .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;}
 .chip{font-size:.76rem;padding:4px 9px;border-radius:999px;background:rgba(185,168,255,.1);border:1px solid rgba(185,168,255,.35);color:var(--muted);}
@@ -127,7 +134,7 @@ legend small{font-weight:400;color:var(--dim);}
     <span class="who" id="who" hidden></span>
   </header>
   <main id="app"><p class="hint" style="margin-top:24px">Loading…</p></main>
-  <p class="foot">For people who've been to an Onlu event. Your socials are shown only to members you follow who follow you back.<br>
+  <p class="foot">You see the people from the events you attended. Your socials are shown only to members you follow who follow you back.<br>
     <a href="/">coffeewithonlu.com</a> · <a href="/card/">Onlu Card</a></p>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -142,7 +149,7 @@ legend small{font-weight:400;color:var(--dim);}
   var AV_EMOJI = ["\u2615", "\ud83d\udcc8", "\ud83c\udfe6", "\ud83e\udd16", "\ud83e\uddec", "\ud83c\udfc3", "\ud83c\udfa8", "\ud83c\udf0f"];
   var AV_COLORS = ["#2ee0d0", "#4cc4ff", "#ff4f9a", "#ffc35a", "#b9a8ff"];
   var MBTI = ["INTJ","INTP","ENTJ","ENTP","INFJ","INFP","ENFJ","ENFP","ISTJ","ISFJ","ESTJ","ESFJ","ISTP","ISFP","ESTP","ESFP"];
-  var state = { me: null, people: [], verticals: [], tab: "people", q: "", v: "" };
+  var state = { me: null, admin: false, myEvents: {}, people: [], pevents: {}, verticals: [], tab: "people", q: "", v: "", e: "" };
 
   // ---------- helpers ----------
   function esc(s){ return String(s == null ? "" : s).replace(/[&<>"']/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); }
@@ -152,6 +159,11 @@ legend small{font-weight:400;color:var(--dim);}
   function webUrl(v){ v = String(v || "").trim(); return !v ? "" : /^https?:\/\//i.test(v) ? v : "https://" + v; }
   function liUrl(v){ v = String(v || "").trim(); if (!v) return ""; if (/^https?:\/\//i.test(v)) return v; if (/linkedin\.com/i.test(v)) return "https://" + v; return "https://www.linkedin.com/in/" + v.replace(/^@/, ""); }
   function igHandle(v){ v = String(v || "").trim(); var m = v.match(/instagram\.com\/([^/?#]+)/i); return (m ? m[1] : v).replace(/^@/, ""); }
+  function evLabel(code){
+    var e = state.pevents[code] || state.myEvents[code]; if (!e) return code;
+    var d = e.date ? new Date(e.date + "T12:00:00").toLocaleDateString("en-US", { month: "short", day: "numeric" }) : "";
+    return e.name + (d ? " \u00b7 " + d : "");
+  }
   function avatar(u){
     return u.av && u.av.e ? '<span class="av" style="background:' + AV_COLORS[u.av.c | 0] + '">' + esc(u.av.e) + "</span>"
                           : '<span class="av"><span class="ini">' + esc(initials(u.n)) + "</span></span>";
@@ -186,14 +198,14 @@ legend small{font-weight:400;color:var(--dim);}
     var code = (location.search.match(/[?&]code=([^&]+)/) || [])[1] || "";
     app.innerHTML =
       '<h1>The people from <span class="grad">Onlu events</span></h1>' +
-      '<p class="lede">Find who you met, follow each other, and your LinkedIn, Instagram and WeChat unlock for each other. Nobody else sees them.</p>' +
+      '<p class="lede">See the people from the events you went to, follow each other, and your LinkedIn, Instagram and WeChat unlock for each other. Nobody else sees them.</p>' +
       '<div class="tabs" role="tablist">' +
         '<button type="button" role="tab" data-m="join" aria-selected="' + (mode === "join") + '">Join</button>' +
         '<button type="button" role="tab" data-m="login" aria-selected="' + (mode === "login") + '">Sign in</button>' +
       "</div>" +
       '<form id="auth" novalidate>' +
         (mode === "join"
-          ? '<label for="code">Event invite code <small>Karlie shares it at each Onlu event</small><input id="code" autocomplete="off" autocapitalize="off" value="' + esc(decodeURIComponent(code)) + '" placeholder="From your Onlu event"></label>' +
+          ? '<label for="code">Event code <small>Karlie shares it at each Onlu event</small><input id="code" autocomplete="off" autocapitalize="off" value="' + esc(decodeURIComponent(code)) + '" placeholder="From your Onlu event"></label>' +
             '<label for="name">Name<input id="name" autocomplete="name" placeholder="Karlie Chen"></label>'
           : "") +
         '<label for="email">Email<input id="email" type="email" autocomplete="email" placeholder="you@email.com"></label>' +
@@ -233,29 +245,53 @@ legend small{font-weight:400;color:var(--dim);}
       '<div class="tabs" role="tablist">' +
         '<button type="button" role="tab" data-t="people" aria-selected="' + (state.tab === "people") + '">People<span class="count">' + state.people.length + "</span></button>" +
         '<button type="button" role="tab" data-t="connected" aria-selected="' + (state.tab === "connected") + '">Connected<span class="count">' + mutual.length + "</span></button>" +
-        '<button type="button" role="tab" data-t="profile" aria-selected="' + (state.tab === "profile") + '">My profile</button>' +
+        '<button type="button" role="tab" data-t="profile" aria-selected="' + (state.tab === "profile") + '">Profile</button>' +
+        (state.admin ? '<button type="button" role="tab" data-t="events" aria-selected="' + (state.tab === "events") + '">Events</button>' : "") +
       "</div>" +
       '<div id="tab"></div>';
-    app.querySelectorAll(".tabs button").forEach(function(b){ b.addEventListener("click", function(){ state.tab = b.getAttribute("data-t"); viewApp(); }); });
+    app.querySelectorAll(".tabs button").forEach(function(b){ b.addEventListener("click", function(){
+      state.tab = b.getAttribute("data-t");
+      // the directory changes as people join, so refresh it whenever it's opened
+      if (state.tab === "people" || state.tab === "connected") loadPeople().then(viewApp); else viewApp();
+    }); });
     var tab = document.getElementById("tab");
     if (state.tab === "profile") return viewProfile(tab);
+    if (state.tab === "events") return viewEvents(tab);
     if (state.tab === "connected") return viewList(tab, mutual, "When you and someone follow each other, they show up here with their socials.");
     if (back.length) tab.insertAdjacentHTML("beforeend", '<p class="hint" style="margin-top:14px">' + back.length + (back.length === 1 ? " person follows" : " people follow") + " you. Follow back to swap socials.</p>");
-    viewList(tab, state.people, "No other members yet. Share the invite code at your next Onlu event.", true);
+    viewList(tab, state.people, state.admin ? "No members yet. Create an event and share its code." : "No one else from your events has joined yet. Share your event\u2019s code with the people you met.", true);
+    tab.insertAdjacentHTML("beforeend",
+      '<form id="joinEv" class="joinev" novalidate><label for="jcode">Went to another Onlu event? <small>add its code to see those people too</small>' +
+      '<span class="joinrow"><input id="jcode" autocomplete="off" autocapitalize="off" placeholder="Event code"><button class="btn sm" type="submit">Add</button></span></label>' +
+      '<p class="err" id="jerr" hidden></p></form>');
+    document.getElementById("joinEv").addEventListener("submit", function(e){
+      e.preventDefault();
+      var code = document.getElementById("jcode").value, err = document.getElementById("jerr");
+      api("join", { code: code }).then(function(r){
+        if (r.status !== 200){ err.textContent = r.error || "Couldn't add that event"; err.hidden = false; return; }
+        toast(r.already ? "You\u2019re already in that event" : "Event added");
+        boot();
+      });
+    });
   }
 
   function viewList(tab, list, emptyText, withTools){
     if (withTools){
       tab.insertAdjacentHTML("beforeend",
         '<div class="tools"><input id="q" type="search" placeholder="Search names, roles, firms, interests" value="' + esc(state.q) + '" aria-label="Search members">' +
-        '<div class="filters">' + [""].concat(state.verticals).map(function(v){
-          return '<button type="button" data-v="' + esc(v) + '" aria-pressed="' + (state.v === v) + '">' + esc(v || "Everyone") + "</button>"; }).join("") + "</div></div>");
+        (Object.keys(evCounts()).length > 1
+          ? '<div class="filters" id="fe">' + [""].concat(Object.keys(evCounts())).map(function(c){
+              return '<button type="button" data-e="' + esc(c) + '" aria-pressed="' + (state.e === c) + '">' + esc(c ? evLabel(c) : "All events") + "</button>"; }).join("") + "</div>"
+          : "") +
+        '<div class="filters" id="fv">' + [""].concat(state.verticals).map(function(v){
+          return '<button type="button" data-v="' + esc(v) + '" aria-pressed="' + (state.v === v) + '">' + esc(v || "Every area") + "</button>"; }).join("") + "</div></div>");
     }
     tab.insertAdjacentHTML("beforeend", '<div class="list" id="list"></div>');
     function paint(){
       var q = state.q.toLowerCase();
       var rows = list.filter(function(p){
         if (withTools && state.v && p.v !== state.v) return false;
+        if (withTools && state.e && (p.events || []).indexOf(state.e) < 0) return false;
         if (!q) return true;
         return [p.n, p.r, p.o, p.v, p.hm, p.ask, p.mb].join(" ").toLowerCase().indexOf(q) > -1;
       });
@@ -273,13 +309,22 @@ legend small{font-weight:400;color:var(--dim);}
     paint();
     if (withTools){
       document.getElementById("q").addEventListener("input", function(){ state.q = this.value; paint(); });
-      tab.querySelectorAll(".filters button").forEach(function(b){ b.addEventListener("click", function(){
+      tab.querySelectorAll("#fv button").forEach(function(b){ b.addEventListener("click", function(){
         state.v = b.getAttribute("data-v");
-        tab.querySelectorAll(".filters button").forEach(function(x){ x.setAttribute("aria-pressed", String(x === b)); });
+        tab.querySelectorAll("#fv button").forEach(function(x){ x.setAttribute("aria-pressed", String(x === b)); });
+        paint(); }); });
+      tab.querySelectorAll("#fe button").forEach(function(b){ b.addEventListener("click", function(){
+        state.e = b.getAttribute("data-e");
+        tab.querySelectorAll("#fe button").forEach(function(x){ x.setAttribute("aria-pressed", String(x === b)); });
         paint(); }); });
     }
   }
 
+  function evCounts(){
+    var c = {}; Object.keys(state.myEvents).forEach(function(k){ c[k] = 0; });
+    state.people.forEach(function(p){ (p.events || []).forEach(function(k){ c[k] = (c[k] || 0) + 1; }); });
+    return c;
+  }
   function card(p){
     var mutual = p.iFollow && p.followsMe, s = p.s || {};
     var chips = [];
@@ -302,6 +347,7 @@ legend small{font-weight:400;color:var(--dim);}
       '<div class="m__top">' + avatar(p) + '<div class="m__id"><div class="m__n">' + esc(p.n) +
         (mutual ? '<span class="tag mutual">Connected</span>' : p.followsMe ? '<span class="tag back">Follows you</span>' : "") + "</div>" +
         (p.r ? '<div class="m__r">' + esc(p.r) + "</div>" : "") + "</div></div>" +
+      (p.events && p.events.length ? '<div class="m__ev">' + (state.admin ? "Attended: " : "Both at: ") + esc(p.events.map(evLabel).join(", ")) + "</div>" : "") +
       (p.o ? '<div class="m__o">' + esc(p.o) + "</div>" : "") +
       (chips.length ? '<div class="chips">' + chips.join("") + "</div>" : "") +
       '<div class="m__act"><button class="btn sm' + (p.iFollow ? " on" : "") + '" type="button" data-follow="' + esc(p.id) + '">' + (p.iFollow ? "Following" : p.followsMe ? "Follow back" : "Follow") + "</button>" +
@@ -381,7 +427,45 @@ legend small{font-weight:400;color:var(--dim);}
     });
   }
 
-  function loadPeople(){ return api("people").then(function(r){ if (r.status === 200) state.people = r.people || []; }); }
+  function viewEvents(tab){
+    tab.innerHTML =
+      '<form id="newEv" novalidate><fieldset><legend>Create an event <small>you get its code and join link</small></legend>' +
+        '<label for="evn">Name<input id="evn" maxlength="80" placeholder="Credit coffee"></label>' +
+        '<label for="evd">Date<input id="evd" type="date"></label>' +
+        '<p class="err" id="everr" hidden></p>' +
+        '<button class="btn primary" type="submit">Create event</button></fieldset></form>' +
+      "<h2>Your events</h2><div class=\"list\" id=\"evlist\"><p class=\"hint\">Loading\u2026</p></div>";
+    function load(){
+      api("events").then(function(r){
+        var el = document.getElementById("evlist"); if (!el) return;
+        if (r.status !== 200){ el.innerHTML = '<p class="empty">' + esc(r.error || "Couldn't load events") + "</p>"; return; }
+        el.innerHTML = r.events.length ? r.events.map(function(e){
+          var link = location.origin + "/members/?code=" + e.code;
+          return '<article class="m"><div class="m__n">' + esc(e.name) + '<span class="tag">' + e.count + (e.count === 1 ? " member" : " members") + "</span></div>" +
+            (e.date ? '<div class="m__r">' + esc(new Date(e.date + "T12:00:00").toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric", year: "numeric" })) + "</div>" : "") +
+            '<div class="evcode">Code <b>' + esc(e.code) + "</b></div>" +
+            '<div class="m__act"><button class="btn sm" type="button" data-copy="' + esc(e.code) + '" data-label="Code">Copy code</button>' +
+            '<button class="btn sm" type="button" data-copy="' + esc(link) + '" data-label="Join link">Copy join link</button></div></article>';
+        }).join("") : '<p class="empty">No events yet. Create one above, then share its code or join link with the people who came.</p>';
+        el.querySelectorAll("[data-copy]").forEach(function(b){ b.addEventListener("click", function(){ copy(b.getAttribute("data-copy"), b.getAttribute("data-label")); }); });
+      });
+    }
+    load();
+    document.getElementById("newEv").addEventListener("submit", function(e){
+      e.preventDefault();
+      var btn = this.querySelector("button[type=submit]"), err = document.getElementById("everr");
+      btn.disabled = true; err.hidden = true;
+      api("event", { name: document.getElementById("evn").value, date: document.getElementById("evd").value }).then(function(r){
+        btn.disabled = false;
+        if (r.status !== 200){ err.textContent = r.error || "Couldn't create it"; err.hidden = false; return; }
+        document.getElementById("evn").value = ""; document.getElementById("evd").value = "";
+        toast("Created: " + r.code); load();
+        api("me").then(function(m){ if (m.status === 200) state.myEvents = m.events || {}; });
+      });
+    });
+  }
+
+  function loadPeople(){ return api("people").then(function(r){ if (r.status === 200){ state.people = r.people || []; state.pevents = r.events || {}; } }); }
 
   function boot(){
     api("me").then(function(r){
@@ -390,7 +474,7 @@ legend small{font-weight:400;color:var(--dim);}
         app.innerHTML = '<h1>Onlu <span class="grad">Members</span></h1><p class="empty">' + esc(r.error || "The members area isn't available right now.") + "</p>";
         return;
       }
-      state.me = r.me; state.verticals = r.verticals || [];
+      state.me = r.me; state.verticals = r.verticals || []; state.admin = !!r.admin; state.myEvents = r.events || {};
       loadPeople().then(viewApp);
     });
   }
