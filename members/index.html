@@ -121,6 +121,19 @@ legend small{font-weight:400;color:var(--dim);}
 .socials a,.socials button{font:inherit;font-size:.82rem;font-weight:600;color:var(--text);background:var(--surface2);border:1px solid var(--line2);border-radius:999px;padding:6px 11px;text-decoration:none;cursor:pointer;}
 .empty{font-size:.9rem;color:var(--dim);border:1px dashed var(--line2);border-radius:14px;padding:16px;margin-top:12px;}
 
+.big{position:fixed;inset:0;z-index:40;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;overflow-y:auto;
+  padding:calc(20px + env(safe-area-inset-top,0px)) 20px calc(20px + env(safe-area-inset-bottom,0px));}
+.big .qr{background:#fff;border-radius:20px;padding:16px;line-height:0;width:min(78vmin,420px);aspect-ratio:1;}
+.big .qr svg{width:100%;height:100%;display:block;}
+.qrcard{display:flex;align-items:center;gap:12px;}
+.qrsel{width:min(78vmin,420px);}
+.qrbtns{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;}
+.qrpng{width:min(80vw,400px);max-height:68vh;object-fit:contain;border-radius:16px;}
+.big .hint{text-align:center;max-width:340px;}
+.qrbtn{width:100%;margin-top:16px;flex-direction:column;gap:2px;background:linear-gradient(135deg,rgba(46,224,208,.16),rgba(255,79,154,.12));border-color:rgba(46,224,208,.45);}
+.qrbtn small{font-weight:400;font-size:.78rem;color:var(--muted);}
+.btns2{display:grid;grid-template-columns:2fr 1fr;gap:8px;margin-top:14px;}
+.m.scanned{margin-top:8px;}
 .toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%) translateY(20px);opacity:0;white-space:nowrap;
   background:var(--text);color:var(--ink);font-weight:600;font-size:.9rem;padding:10px 16px;border-radius:999px;transition:.2s;z-index:50;pointer-events:none;}
 .toast.on{opacity:1;transform:translateX(-50%) translateY(0);}
@@ -142,6 +155,7 @@ legend small{font-weight:400;color:var(--dim);}
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
+<script src="/lib/qrcode.js"></script>
 <script>
 (function(){
   "use strict";
@@ -152,7 +166,9 @@ legend small{font-weight:400;color:var(--dim);}
   var AV_EMOJI = ["\u2615", "\ud83d\udcc8", "\ud83c\udfe6", "\ud83e\udd16", "\ud83e\uddec", "\ud83c\udfc3", "\ud83c\udfa8", "\ud83c\udf0f"];
   var AV_COLORS = ["#2ee0d0", "#4cc4ff", "#ff4f9a", "#ffc35a", "#b9a8ff"];
   var MBTI = ["INTJ","INTP","ENTJ","ENTP","INFJ","INFP","ENFJ","ENFP","ISTJ","ISFJ","ESTJ","ESFJ","ISTP","ISFP","ESTP","ESFP"];
-  var state = { me: null, admin: false, myEvents: {}, people: [], pevents: {}, verticals: [], tab: "people", q: "", v: "", e: "" };
+  var scanId = (location.hash.match(/^#m=([a-z0-9]{8,20})/) || [])[1] || "";
+  var scanCode = decodeURIComponent((location.search.match(/[?&]code=([^&#]+)/) || [])[1] || "");
+  var state = { scan: null, autoConnect: false, followNote: "", me: null, admin: false, myEvents: {}, people: [], pevents: {}, verticals: [], tab: "people", q: "", v: "", e: "" };
 
   // ---------- helpers ----------
   function esc(s){ return String(s == null ? "" : s).replace(/[&<>"']/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); }
@@ -195,13 +211,115 @@ legend small{font-weight:400;color:var(--dim);}
             function(){ return { status: 0, error: "Can't reach the server. Check your connection." }; });
   }
 
+  // ---------- QR: my member card, scanned at events ----------
+  function qrMatrix(text){
+    qrcode.stringToBytes = qrcode.stringToBytesFuncs["UTF-8"];
+    var q = qrcode(0, "M"); q.addData(text, "Byte"); q.make(); return q;
+  }
+  function qrSvg(text){
+    if (typeof qrcode !== "function") return '<p style="color:#0a1520;padding:16px">QR unavailable. Use Copy link.</p>';
+    var q = qrMatrix(text), n = q.getModuleCount(), d = "";
+    for (var r = 0; r < n; r++) for (var c = 0; c < n; c++) if (q.isDark(r, c)) d += "M" + c + " " + r + "h1v1h-1z";
+    return '<svg viewBox="0 0 ' + n + " " + n + '" shape-rendering="crispEdges" role="img" aria-label="QR code"><path d="' + d + '" fill="#0a1520"/></svg>';
+  }
+  function qrPng(text, me, evName, done){
+    function draw(){
+      var W = 1080, H = 1350, cv = document.createElement("canvas"); cv.width = W; cv.height = H;
+      var g = cv.getContext("2d");
+      var bg = g.createLinearGradient(0, 0, W, H); bg.addColorStop(0, "#13283b"); bg.addColorStop(1, "#0a1520"); g.fillStyle = bg; g.fillRect(0, 0, W, H);
+      var bar = g.createLinearGradient(0, 0, W, 0); ["#9befe4", "#2ee0d0", "#4cc4ff", "#ff4f9a"].forEach(function(c, i){ bar.addColorStop(i / 3, c); });
+      g.fillStyle = bar; g.fillRect(0, 0, W, 16);
+      function fit(t, size, weight, fam, maxW){ do { g.font = weight + " " + size + "px " + fam; size -= 2; } while (g.measureText(t).width > maxW && size > 20); }
+      var top = "ONLU MEMBERS" + (evName ? "  \u00b7  " + evName.toUpperCase() : "");
+      g.fillStyle = "#9befe4"; fit(top, 30, "700", "'Space Mono', monospace", W - 180); g.fillText(top, 90, 128);
+      g.fillStyle = "#eef6fb"; fit(me.n || "", 80, "800", "Unbounded, sans-serif", W - 180); g.fillText(me.n || "", 90, 236);
+      if (me.r){ g.fillStyle = "#93aec4"; fit(me.r, 40, "500", "Outfit, sans-serif", W - 180); g.fillText(me.r, 90, 300); }
+      var box = 760, x = (W - box) / 2, y = 370, rad = 48;
+      g.fillStyle = "#fff"; g.beginPath(); g.moveTo(x + rad, y); g.arcTo(x + box, y, x + box, y + box, rad); g.arcTo(x + box, y + box, x, y + box, rad);
+      g.arcTo(x, y + box, x, y, rad); g.arcTo(x, y, x + box, y, rad); g.closePath(); g.fill();
+      var q = qrMatrix(text), n = q.getModuleCount(), pad = 44, cell = (box - pad * 2) / n; g.fillStyle = "#0a1520";
+      for (var r = 0; r < n; r++) for (var c = 0; c < n; c++) if (q.isDark(r, c)) g.fillRect(Math.floor(x + pad + c * cell), Math.floor(y + pad + r * cell), Math.ceil(cell), Math.ceil(cell));
+      g.textAlign = "center"; g.fillStyle = "#eef6fb"; g.font = "600 38px Outfit, sans-serif"; g.fillText("Scan with your camera to connect", W / 2, y + box + 92);
+      g.fillStyle = "#6d8aa3"; g.font = "400 28px 'Space Mono', monospace"; g.fillText("coffeewithonlu.com/members", W / 2, y + box + 146);
+      done(cv.toDataURL("image/png"));
+    }
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(draw, draw); else draw();
+  }
+  function myQrUrl(code){ return location.origin + "/members/" + (code ? "?code=" + encodeURIComponent(code) : "") + "#m=" + state.me.id; }
+  function showMyQr(){
+    var codes = Object.keys(state.myEvents).sort(function(a, b){ return String((state.myEvents[b] || {}).date || "").localeCompare(String((state.myEvents[a] || {}).date || "")); });
+    var sel = codes[0] || "";
+    var ov = document.createElement("div"); ov.className = "big"; ov.setAttribute("role", "dialog"); ov.setAttribute("aria-label", "My QR");
+    function paint(){
+      ov.innerHTML =
+        '<div class="qrcard">' + avatar(state.me) + '<div><div class="m__n">' + esc(state.me.n) + "</div>" + (state.me.r ? '<div class="m__r">' + esc(state.me.r) + "</div>" : "") + "</div></div>" +
+        '<div class="qr">' + qrSvg(myQrUrl(sel)) + "</div>" +
+        (codes.length > 1
+          ? '<label class="qrsel" for="qrev">People who scan join<select id="qrev">' + codes.map(function(c){ return '<option value="' + esc(c) + '"' + (c === sel ? " selected" : "") + ">" + esc(evLabel(c)) + "</option>"; }).join("") + "</select></label>"
+          : sel ? '<p class="hint">People who scan join <b>' + esc(evLabel(sel)) + "</b> and follow you.</p>"
+                : '<p class="hint">Add your event code first, so people from that event can connect with you.</p>') +
+        '<div class="qrbtns"><button class="btn" type="button" id="qrSave">Save QR image</button><button class="btn" type="button" id="qrCopy">Copy link</button>' +
+        '<button class="btn" type="button" id="qrClose">Close</button></div>';
+      var s2 = ov.querySelector("#qrev"); if (s2) s2.addEventListener("change", function(){ sel = s2.value; paint(); });
+      ov.querySelector("#qrClose").addEventListener("click", function(){ ov.remove(); });
+      ov.querySelector("#qrCopy").addEventListener("click", function(){ copy(myQrUrl(sel), "Link"); });
+      ov.querySelector("#qrSave").addEventListener("click", function(){
+        qrPng(myQrUrl(sel), state.me, sel ? (state.myEvents[sel] || {}).name : "", function(png){
+          ov.innerHTML = '<img class="qrpng" src="' + png + '" alt="My Onlu Members QR"><p class="hint">Press and hold the image to save it to Photos</p>' +
+            '<div class="qrbtns"><button class="btn" type="button" id="qrDl">Download</button><button class="btn" type="button" id="qrBack">Back</button></div>';
+          ov.querySelector("#qrBack").addEventListener("click", paint);
+          ov.querySelector("#qrDl").addEventListener("click", function(){
+            var a = document.createElement("a"); a.href = png; a.download = "onlu-members-" + (first(state.me.n) || "me").toLowerCase() + ".png";
+            document.body.appendChild(a); a.click(); a.remove();
+          });
+        });
+      });
+    }
+    paint(); document.body.appendChild(ov);
+    try { navigator.wakeLock && navigator.wakeLock.request("screen").catch(function(){}); } catch(e){}
+  }
+  function publicCard(p){
+    var chips = [];
+    if (p.v) chips.push('<span class="chip">' + esc(p.v) + "</span>");
+    if (p.mb) chips.push('<span class="chip"><b>' + esc(p.mb) + "</b></span>");
+    if (p.hm) chips.push('<span class="chip">From <b>' + esc(p.hm) + "</b></span>");
+    if (p.ask) chips.push('<span class="chip">Ask me about <b>' + esc(p.ask) + "</b></span>");
+    return '<article class="m scanned"><div class="m__top">' + avatar(p) + '<div class="m__id"><div class="m__n">' + esc(p.n) + "</div>" +
+      (p.r ? '<div class="m__r">' + esc(p.r) + "</div>" : "") + "</div></div>" +
+      (p.o ? '<div class="m__o">' + esc(p.o) + "</div>" : "") + (chips.length ? '<div class="chips">' + chips.join("") + "</div>" : "") + "</article>";
+  }
+  function clearScan(){ state.scan = null; scanId = ""; try { history.replaceState(null, "", location.pathname + location.search); } catch(e){} }
+  function connectScanned(){
+    var target = state.scan;
+    return api("connect", { id: target.id, code: scanCode }).then(function(r){
+      clearScan();
+      if (r.status !== 200){ toast(r.error || "Couldn't connect"); return boot(); }
+      toast(r.mutual ? "Connected with " + first(target.n) + ": socials unlocked" : "Following " + first(target.n));
+      state.tab = r.mutual ? "connected" : "people";
+      if (!r.mutual) state.followNote = "You follow " + first(target.n) + ". Your socials swap once " + first(target.n) + " follows you back or scans your QR.";
+      boot();
+    });
+  }
+  function viewScan(){
+    var p = state.scan;
+    app.innerHTML = '<p class="hint" style="margin-top:18px">You scanned</p>' + publicCard(p) +
+      '<div class="btns2"><button class="btn primary" type="button" id="cn">Connect with ' + esc(first(p.n)) + "</button>" +
+      '<button class="btn" type="button" id="nn">Not now</button></div>' +
+      '<p class="hint" style="margin-top:10px">You\u2019ll follow ' + esc(first(p.n)) + '. LinkedIn, Instagram and WeChat swap once you follow each other.</p>';
+    document.getElementById("cn").addEventListener("click", function(){ this.disabled = true; connectScanned(); });
+    document.getElementById("nn").addEventListener("click", function(){ clearScan(); boot(); });
+  }
+
   // ---------- signed out ----------
   function viewAuth(mode){
     document.getElementById("who").hidden = true;
     var code = (location.search.match(/[?&]code=([^&]+)/) || [])[1] || "";
     app.innerHTML =
-      '<h1>The people from <span class="grad">Onlu events</span></h1>' +
-      '<p class="lede">See the people from the events you went to, follow each other, and your LinkedIn, Instagram and WeChat unlock for each other. Nobody else sees them.</p>' +
+      (state.scan
+        ? '<p class="hint" style="margin-top:18px">You scanned</p>' + publicCard(state.scan) +
+          '<h1 style="font-size:1.35rem">Join Onlu Members to connect with <span class="grad">' + esc(first(state.scan.n)) + "</span></h1>"
+        : '<h1>The people from <span class="grad">Onlu events</span></h1>' +
+          '<p class="lede">See the people from the events you went to, follow each other, and your LinkedIn, Instagram and WeChat unlock for each other. Nobody else sees them.</p>') +
       '<div class="tabs" role="tablist">' +
         '<button type="button" role="tab" data-m="join" aria-selected="' + (mode === "join") + '">Join</button>' +
         '<button type="button" role="tab" data-m="login" aria-selected="' + (mode === "login") + '">Sign in</button>' +
@@ -227,6 +345,7 @@ legend small{font-weight:400;color:var(--dim);}
         btn.disabled = false;
         if (r.status !== 200){ err.textContent = r.error || "Something went wrong."; err.hidden = false; return; }
         state.tab = mode === "join" ? "profile" : "people";
+        if (state.scan) state.autoConnect = true;
         boot();
       });
     });
@@ -261,6 +380,9 @@ legend small{font-weight:400;color:var(--dim);}
     if (state.tab === "profile") return viewProfile(tab);
     if (state.tab === "events") return viewEvents(tab);
     if (state.tab === "connected") return viewList(tab, mutual, "When you and someone follow each other, they show up here with their socials.");
+    tab.insertAdjacentHTML("beforeend", '<button class="btn qrbtn" type="button" id="myqr">Show my QR <small>people scan it to connect with you</small></button>');
+    document.getElementById("myqr").addEventListener("click", showMyQr);
+    if (state.followNote){ tab.insertAdjacentHTML("beforeend", '<p class="lock" style="margin-top:12px">' + esc(state.followNote) + "</p>"); state.followNote = ""; }
     var noEvents = !state.admin && !Object.keys(state.myEvents).length;
     if (noEvents) tab.insertAdjacentHTML("beforeend", '<p class="lock" style="margin-top:16px">Add the code from the Onlu event you went to, and you\u2019ll see everyone else who was there.</p>');
     if (back.length) tab.insertAdjacentHTML("beforeend", '<p class="hint" style="margin-top:14px">' + back.length + (back.length === 1 ? " person follows" : " people follow") + " you. Follow back to swap socials.</p>");
@@ -473,16 +595,36 @@ legend small{font-weight:400;color:var(--dim);}
   function loadPeople(){ return api("people").then(function(r){ if (r.status === 200){ state.people = r.people || []; state.pevents = r.events || {}; } }); }
 
   function boot(){
+    if (scanId && !state.scan){
+      return api("card&id=" + scanId).then(function(r){
+        if (r.status === 200) state.scan = r.card; else { toast(r.error || "That QR didn\u2019t work"); clearScan(); }
+        boot();
+      });
+    }
     api("me").then(function(r){
-      if (r.status === 401) return viewAuth(/[?&]code=/.test(location.search) ? "join" : "login");
+      if (r.status === 401) return viewAuth(state.scan || /[?&]code=/.test(location.search) ? "join" : "login");
       if (r.status !== 200){
         app.innerHTML = '<h1>Onlu <span class="grad">Members</span></h1><p class="empty">' + esc(r.error || "The members area isn't available right now.") + "</p>";
         return;
       }
       state.me = r.me; state.verticals = r.verticals || []; state.admin = !!r.admin; state.myEvents = r.events || {};
+      if (state.scan){
+        header();
+        if (state.scan.id === state.me.id){ clearScan(); toast("That\u2019s your own QR"); }
+        else if (state.autoConnect){ state.autoConnect = false; return connectScanned(); }
+        else return viewScan();
+      }
       loadPeople().then(viewApp);
     });
   }
+  // a QR link opened while the page is already showing (only the #m= part changes)
+  window.addEventListener("hashchange", function(){
+    var m = location.hash.match(/^#m=([a-z0-9]{8,20})/);
+    if (!m) return;
+    scanId = m[1]; state.scan = null;
+    scanCode = decodeURIComponent((location.search.match(/[?&]code=([^&#]+)/) || [])[1] || "");
+    scrollTo(0, 0); boot();
+  });
   boot();
 })();
 </script>

@@ -10,6 +10,10 @@
      POST profile { …fields }
      GET  people                          → members who share an event with me
      POST follow  { id }   POST unfollow { id }
+     GET  card    ?id=                   → a member's public card (from their QR)
+     POST connect { id, code? }          → follow someone whose QR I scanned;
+                                           the QR's event code adds me to that
+                                           event if I wasn't in it yet
      GET  events                          → (admin) every event with head counts
      POST event   { name, date }          → (admin) create an event and its code
 
@@ -172,6 +176,13 @@ module.exports = async (req, res) => {
 
     if (a === "logout" && isPost) { setSession(res, ""); return send(res, 200, { ok: true }); }
 
+    if (a === "card" && req.method === "GET") {
+      const id = str(req.query && req.query.id, 20);
+      const u = /^[a-z0-9]{8,20}$/.test(id) ? await getUser(id) : null;
+      if (!u) return send(res, 404, { error: "This card wasn't found." });
+      return send(res, 200, { card: publicView(u) });
+    }
+
     // ----- signed-in actions -----
     const uid = verify(readCookie(req));
     const me = uid ? await getUser(uid) : null;
@@ -230,6 +241,23 @@ module.exports = async (req, res) => {
       const op = a === "follow" ? "SADD" : "SREM";
       await pipeline([[op, `follows:${uid}`, target], [op, `followers:${target}`, uid]]);
       return send(res, 200, { ok: true });
+    }
+
+    if (a === "connect" && isPost) {
+      const target = str(body.id, 20), code = normCode(body.code);
+      if (!target || !(await redis(["EXISTS", `user:${target}`]))) return send(res, 404, { error: "That member wasn't found." });
+      if (target === uid) return send(res, 400, { error: "That's your own QR." });
+      if (code) {
+        // the QR carries an event its owner attended; scanning it in person lets me join that event
+        if (!CODE_RE.test(code) || !(await redis(["SISMEMBER", `evm:${code}`, target]))) return send(res, 403, { error: "That QR's event code isn't valid." });
+        if ((me.ev || []).indexOf(code) < 0) await addToEvent(me, code);
+      } else if (!admin) {
+        const shared = await sharedMap(me);
+        if (!shared[target]) return send(res, 403, { error: "You can connect with people from the events you attended." });
+      }
+      const [, back] = await pipeline([["SADD", `follows:${uid}`, target], ["SISMEMBER", `follows:${target}`, uid]]);
+      await redis(["SADD", `followers:${target}`, uid]);
+      return send(res, 200, { ok: true, mutual: Boolean(back) });
     }
 
     // ----- host only -----

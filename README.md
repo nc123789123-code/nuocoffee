@@ -122,6 +122,14 @@ Uses the same Upstash database as live cards, plus one variable:
 Members who come to another event add its code under "Went to another Onlu
 event?" in the People tab.
 
+At events, members swap QRs: **Show my QR** (People tab) opens a full-screen
+QR, with "Save QR image" for Photos. It links to
+`/members/?code=<event>#m=<member id>`. Scanning it shows that member's public
+card (no socials); a signed-in scanner taps **Connect** to follow them, and a
+new person joins with the code prefilled and is connected automatically. The
+QR's event code adds the scanner to that event if they weren't in it. When both
+people scan each other, they're connected and their socials unlock.
+
 ## The verticals
 
 The vertical taxonomy is the core of the product and lives in one place:
