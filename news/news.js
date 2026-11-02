@@ -139,7 +139,7 @@
   // full: CPI card + every tile (for /news); compact: four tiles (for the homepage)
   function loadMarkets(el, compact) {
     fetch("/api/markets").then(function (r) { return r.ok ? r.json() : null; }).then(function (d) {
-      if (!d || (!d.cpi && !d.fed && !(d.tiles || []).length)) { el.hidden = true; return; }
+      if (!d || (!d.cpi && !d.fed && !(d.tiles || []).length)) { unavailable(); return; }
       var byId = {}; (d.tiles || []).forEach(function (t) { byId[t.id] = t; });
       var tiles = [];
       if (compact && d.cpi) tiles.push(tile("CPI inflation", signed(d.cpi.yoy, "%"), "year over year", monthName(d.cpi.month, true)));
@@ -150,7 +150,13 @@
       });
       el.querySelector(".mk-body").innerHTML = (!compact && d.cpi ? cpiCard(d.cpi) : "") + '<div class="mk-tiles">' + tiles.join("") + "</div>";
       el.hidden = false;
-    }).catch(function () { el.hidden = true; });
+    }).catch(unavailable);
+    // the homepage strip just stays hidden; /news says so, so an outage is visible
+    function unavailable() {
+      if (compact) { el.hidden = true; return; }
+      el.querySelector(".mk-body").innerHTML = '<p class="hl hl--empty">Market data is unavailable right now. Check back soon.</p>';
+      el.hidden = false;
+    }
   }
 
   var api = { AREAS: AREAS, CATS: CATS, esc: esc, day: day, merge: merge, teaser: teaser, story: story, headline: headline, loadHeadlines: loadHeadlines, loadMarkets: loadMarkets };

@@ -68,7 +68,8 @@ module.exports = async (req, res) => {
   const got = await Promise.all(keys.map((k) => series(k, ids[k])));
   const S = Object.fromEntries(keys.map((k, i) => [k, got[i]]));
 
-  const out = { updated: new Date().toISOString(), cpi: cpiBlock(S.CPIAUCNS, S.CPIAUCSL), fed: null, tiles: [] };
+  const out = { updated: new Date().toISOString(), cpi: cpiBlock(S.CPIAUCNS, S.CPIAUCSL), fed: null, tiles: [],
+    missing: keys.filter((k) => !S[k].length) };   // series FRED didn't return (helps diagnose)
 
   const up = latestAndMonthAgo(S.DFEDTARU), lo = latestAndMonthAgo(S.DFEDTARL);
   if (up && lo) out.fed = { lo: lo.v, hi: up.v, d: up.d };
