@@ -121,6 +121,19 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
 .chip{display:inline-flex;align-items:center;gap:7px;padding:6px 11px;border:1px solid var(--line);
   border-radius:999px;background:rgba(255,255,255,.03);font-size:.82rem;line-height:1.2;color:var(--text);}
 .chip::before{content:"";width:6px;height:6px;border-radius:50%;flex:none;background:var(--ac);box-shadow:0 0 8px var(--ac);}
+.ses{list-style:none;margin-top:10px;display:flex;flex-direction:column;}
+.ses li{display:grid;grid-template-columns:52px minmax(0,1fr) 64px auto;align-items:center;gap:10px;padding:8px 0;border-top:1px solid var(--line);font-size:.86rem;}
+.ses li:first-child{border-top:0;}
+.card .ses li{padding-left:0;}
+.card .ses li::before{display:none;}
+.ses__d{font-family:var(--mono);font-size:.7rem;color:var(--dim);white-space:nowrap;}
+.ses__t{color:var(--text);text-decoration:none;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.ses__t:hover{color:var(--tiffany2);}
+.ses__bar{height:6px;border-radius:3px;background:rgba(150,200,230,.1);overflow:hidden;}
+.ses__bar span{display:block;height:100%;border-radius:3px;background:#0fa89f;}
+.ses__n{font-family:var(--mono);font-weight:700;font-size:.8rem;color:var(--text);text-align:right;white-space:nowrap;}
+.ses__n em{font-style:normal;font-weight:400;color:var(--muted);font-size:.7rem;}
+@media (max-width:420px){.ses li{grid-template-columns:44px minmax(0,1fr) auto;}.ses__bar{display:none;}}
 .card .small{font-family:var(--mono);font-size:.68rem;color:var(--dim);margin-top:11px;line-height:1.6;}
 </style>
 </head>
@@ -259,26 +272,49 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
   ];
 
   var STATS = [
-    { ac:"var(--tiffany)",  n:{ zh:"10",   en:"10" },   k:{ zh:"5 月以来办过的场次", en:"sessions since May" } },
-    { ac:"var(--sky)",      n:{ zh:"80",   en:"80" },   k:{ zh:"累计参与人次（含重复参与者）", en:"attendances, including repeat attendees" } },
+    { ac:"var(--tiffany)",  n:{ zh:"12",   en:"12" },   k:{ zh:"5 月以来办过的场次", en:"sessions since May" } },
+    { ac:"var(--sky)",      n:{ zh:"85",   en:"85" },   k:{ zh:"7 月以来 11 场的报名人次（不含主办方）", en:"sign-ups across the 11 sessions since July, host excluded" } },
     { ac:"var(--pink)",     n:{ zh:"150+", en:"150+" }, k:{ zh:"小红书社群成员", en:"members in the Xiaohongshu group" } },
     { ac:"var(--tiffany2)", n:{ zh:"90%+", en:"90%+" }, k:{ zh:"参与者留下微信等联系方式", en:"of attendees leave a WeChat or other contact" } }
   ];
 
   var RECORD = [
     { ac:"var(--tiffany)", t:{ zh:"已办场次（主题）", en:"Sessions held, by theme" },
-      p:{ zh:"每 1–2 周一场，按主题分：私募信贷与信用投资 · Markets / Sales & Trading · 投行 · 量化 · AI · 数据中心融资，以及不定期的晚餐。下一场为 Finance × AI 创业 brainstorm（10 月 17 日）。",
-          en:"Every one to two weeks, organised by theme: private credit and credit investing, markets and sales & trading, investment banking, quant, AI, and data centre financing, plus occasional dinners. Next: a Finance × AI startup brainstorm on October 17." } },
+      p:{ zh:"每 1–2 周一场，按主题分：私募信贷与信用投资 · Markets / Sales & Trading · 投行 · 量化 · AI · 数据中心融资 · Finance × AI 创业，以及不定期的晚餐和 Onlu Newsroom 新闻讨论会。",
+          en:"Every one to two weeks, organised by theme: private credit and credit investing, markets and sales & trading, investment banking, quant, AI, data centre financing and Finance × AI startups, plus occasional dinners and the Onlu Newsroom news roundtable." } },
     { ac:"var(--sky)", t:{ zh:"每场的准备", en:"What goes into each one" },
       p:{ zh:"赛前按报名表和一对一沟通排座；每场有专门的议题页，附带来源与数据；主持控场、控时、点名，确保每个人都讲到话。<b>这不是报名就走的 mixer。</b>",
           en:"Seats are assigned in advance from the registration form and one-to-one messages; each session gets its own topic page with sourced figures; the host keeps time and calls on people so everyone speaks. <b>This is not a turn-up-and-mingle mixer.</b>" } },
     { ac:"var(--indigo)", t:{ zh:"对参与者免费，按背景筛选", en:"Free for attendees, screened by background" },
-      p:{ zh:"活动目前对参与者免费，这是有意为之：我们根据背景筛选报名，<b>保证每场都是真正相关的人。</b>",
-          en:"Sessions are intentionally free for attendees, and registrations are screened by background <b>so every table stays relevant.</b>" } },
+      p:{ zh:"咖啡局目前对参与者免费，这是有意为之：我们根据背景筛选报名，<b>保证每场都是真正相关的人。</b>",
+          en:"Coffee chats are intentionally free for attendees, and registrations are screened by background <b>so every table stays relevant.</b>" } },
     { ac:"var(--pink)", t:{ zh:"活动之间，社群是持续的", en:"The community runs between the events" },
       p:{ zh:"每场活动前后都通过小红书社群与微信触达同一批人：活动页、宣传图、报名与会后跟进。<b>90% 以上的参与者会留下联系方式，已有 8 位以上参与者回来参加了第二场甚至第三场。</b>",
           en:"The same people are reached through the Xiaohongshu group and WeChat before and after each session: the event page, the cards, registration and follow-up. <b>More than nine in ten attendees leave a contact, and at least eight have already come back for a second or third session.</b>" } }
   ];
+
+  /* Sign-ups per session, from the event pages (Nov 2): Partiful "Went" minus the host,
+     Luma registered guests (Luma already excludes the host). Not check-ins. */
+  var P = "https://partiful.com/e/", LU = "https://luma.com/";
+  var SESSIONS = [
+    { d:"2026-10-24", t:{ zh:"Onlu Newsroom vol.1", en:"Onlu Newsroom vol. 1" }, n:1,  u:LU+"cvo992fm" },
+    { d:"2026-10-17", t:{ zh:"Finance × AI 创业 Brainstorm", en:"Finance × AI startup brainstorm" }, n:4, u:LU+"7ul1f8qs" },
+    { d:"2026-10-11", t:{ zh:"基建 / 数据中心融资", en:"Infra / data center financing" }, n:15, u:LU+"jtdadov8" },
+    { d:"2026-10-03", t:{ zh:"信贷", en:"Credit" }, n:14, u:LU+"0yye7byv" },
+    { d:"2026-08-30", t:{ zh:"AI", en:"AI" }, n:16, u:LU+"ncrajhc1" },
+    { d:"2026-08-22", t:{ zh:"金融晚餐", en:"Finance dinner" }, n:8, u:LU+"wiw3w33f" },
+    { d:"2026-08-16", t:{ zh:"量化", en:"Quant" }, n:7, u:LU+"qelqjf9m" },
+    { d:"2026-08-09", t:{ zh:"投行", en:"Investment banking" }, n:6, u:P+"7NsXV90qdPXOfFBNf47k" },
+    { d:"2026-08-01", t:{ zh:"Markets / Sales & Trading", en:"Markets / sales & trading" }, n:5, u:P+"eoBkUCqT0DQWQ2SMddzn" },
+    { d:"2026-07-26", t:{ zh:"私募信贷", en:"Private credit" }, n:5, w:10, u:P+"xZ10AWcHiWPKhsZs5XEz" },
+    { d:"2026-07-12", t:{ zh:"金融 coffee chat", en:"Finance coffee chat" }, n:4, u:P+"1Hhjk5cmcu6eqHueeW4G" }
+  ];
+  var SES = {
+    t:{ zh:"每场报名", en:"Sign-ups by session" },
+    note:{ zh:"报名人数来自各场 Partiful / Luma 页面，不含主办方；是报名，不是签到人数。5 月 2 日首场（3 人）不在 Partiful / Luma 上，未列入。",
+           en:"Sign-ups from each session's Partiful or Luma page, host excluded; these are registrations, not check-ins. The first session, on May 2 (3 guests), was not on Partiful or Luma and is not listed." },
+    w:{ zh:"候补", en:"waitlisted" }, page:{ zh:"活动页", en:"Event page" }
+  };
 
   var TIERS = [
     { ac:"var(--tiffany)", n:{ zh:"单场", en:"Single session" }, p:{ zh:"$300", en:"$300" },
@@ -352,7 +388,17 @@ h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
              '</div><div class="stat__k">'+x.k[lang]+'</div></div>';
     }).join("");
 
-    document.getElementById("record-list").innerHTML = RECORD.map(function(x){
+    var MON = { zh:function(d){ return (+d.slice(5,7))+"月"+(+d.slice(8))+"日"; },
+                en:function(d){ return ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][+d.slice(5,7)-1]+" "+(+d.slice(8)); } };
+    var maxN = Math.max.apply(null, SESSIONS.map(function(x){ return x.n; }));
+    var sesCard = '<div class="card" style="--ac:var(--sky)"><p><b>'+SES.t[lang]+'</b></p><ol class="ses">'+
+      SESSIONS.map(function(x){
+        return '<li><span class="ses__d">'+MON[lang](x.d)+'</span>'+
+          '<a class="ses__t" href="'+x.u+'" target="_blank" rel="noopener" title="'+SES.page[lang]+'">'+x.t[lang]+' ↗</a>'+
+          '<span class="ses__bar"><span style="width:'+(x.n/maxN*100)+'%"></span></span>'+
+          '<span class="ses__n">'+x.n+(x.w ? ' <em>+'+x.w+' '+SES.w[lang]+'</em>' : '')+'</span></li>';
+      }).join('')+'</ol><p class="small">'+SES.note[lang]+'</p></div>';
+    document.getElementById("record-list").innerHTML = sesCard + RECORD.map(function(x){
       return '<div class="card" style="--ac:'+x.ac+'"><p><b>'+x.t[lang]+'</b></p><p>'+x.p[lang]+'</p></div>';
     }).join("");
 
