@@ -121,6 +121,11 @@ legend small{font-weight:400;color:var(--dim);}
 .socials a,.socials button{font:inherit;font-size:.82rem;font-weight:600;color:var(--text);background:var(--surface2);border:1px solid var(--line2);border-radius:999px;padding:6px 11px;text-decoration:none;cursor:pointer;}
 .empty{font-size:.9rem;color:var(--dim);border:1px dashed var(--line2);border-radius:14px;padding:16px;margin-top:12px;}
 
+.mrow{border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:var(--surface);}
+.mrow__top{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap;}
+.mrow__top span{font-size:.8rem;color:var(--dim);word-break:break-all;}
+.mrow__s{font-size:.8rem;color:var(--muted);margin-top:2px;}
+#csv{margin-bottom:4px;}
 .big{position:fixed;inset:0;z-index:40;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;overflow-y:auto;
   padding:calc(20px + env(safe-area-inset-top,0px)) 20px calc(20px + env(safe-area-inset-bottom,0px));}
 .big .qr{background:#fff;border-radius:20px;padding:16px;line-height:0;width:min(78vmin,420px);aspect-ratio:1;}
@@ -150,7 +155,7 @@ legend small{font-weight:400;color:var(--dim);}
     <span class="who" id="who" hidden></span>
   </header>
   <main id="app"><p class="hint" style="margin-top:24px">Loading…</p></main>
-  <p class="foot">You see the people from the events you attended. Your socials are shown only to members you follow who follow you back.<br>
+  <p class="foot">You see the people from the events you attended. Your socials are shown only to members you follow who follow you back, and to the Onlu host.<br>
     <a href="/">coffeewithonlu.com</a> · <a href="/card/">Onlu Card</a></p>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -519,7 +524,7 @@ legend small{font-weight:400;color:var(--dim);}
             '<div class="colors" style="margin-top:8px">' + AV_COLORS.map(function(c, i){ return '<button type="button" data-c="' + i + '" style="background:' + c + '" aria-label="Color ' + (i + 1) + '"></button>'; }).join("") + "</div></div>" +
         "</fieldset>" +
         '<fieldset><legend>Only people you\'re connected with see</legend>' +
-          '<p class="lock">You both have to follow each other. The server never sends these to anyone else.</p>' +
+          '<p class="lock">You both have to follow each other. Other members never see these; the Onlu host can, to run events.</p>' +
           '<label for="li">LinkedIn<input id="li" value="' + esc(s.li) + '" placeholder="linkedin.com/in/yourname"></label>' +
           '<div class="row2">' +
             '<label for="ig">Instagram<input id="ig" value="' + esc(s.ig) + '" placeholder="@handle"></label>' +
@@ -561,7 +566,22 @@ legend small{font-weight:400;color:var(--dim);}
         '<label for="evd">Date<input id="evd" type="date"></label>' +
         '<p class="err" id="everr" hidden></p>' +
         '<button class="btn primary" type="submit">Create event</button></fieldset></form>' +
-      "<h2>Your events</h2><div class=\"list\" id=\"evlist\"><p class=\"hint\">Loading\u2026</p></div>";
+      "<h2>Your events</h2><div class=\"list\" id=\"evlist\"><p class=\"hint\">Loading\u2026</p></div>" +
+      '<h2 id="mh">Members</h2><button class="btn" type="button" id="csv" disabled>Download CSV</button><div class="list" id="mlist"><p class="hint">Loading\u2026</p></div>';
+    api("export").then(function(r){
+      var el = document.getElementById("mlist"); if (!el) return;
+      if (r.status !== 200){ el.innerHTML = '<p class="empty">' + esc(r.error || "Couldn't load members") + "</p>"; return; }
+      var rows = r.members || [];
+      document.getElementById("mh").textContent = "Members (" + rows.length + ")";
+      el.innerHTML = rows.length ? rows.map(function(m){
+        return '<div class="mrow"><div class="mrow__top"><b>' + esc(m.n) + "</b><span>" + esc(m.le || "") + "</span></div>" +
+          '<div class="mrow__s">' + esc([m.r, m.v].filter(Boolean).join(" \u00b7 ")) + "</div>" +
+          '<div class="mrow__s">' + esc(m.events.length ? m.events.join(", ") : "No event yet") + " \u00b7 " + m.following + " following \u00b7 " + m.followers + " followers" +
+          (m.created ? " \u00b7 joined " + esc(new Date(m.created).toLocaleDateString("en-US", { month: "short", day: "numeric" })) : "") + "</div></div>";
+      }).join("") : '<p class="empty">No members yet.</p>';
+      var btn = document.getElementById("csv"); btn.disabled = !rows.length;
+      btn.addEventListener("click", function(){ downloadCsv(rows); });
+    });
     function load(){
       api("events").then(function(r){
         var el = document.getElementById("evlist"); if (!el) return;
@@ -590,6 +610,26 @@ legend small{font-weight:400;color:var(--dim);}
         api("me").then(function(m){ if (m.status === 200) state.myEvents = m.events || {}; });
       });
     });
+  }
+
+  function downloadCsv(rows){
+    var cols = [["Name", "n"], ["Login email", "le"], ["Role", "r"], ["Area", "v"], ["One line", "o"], ["MBTI", "mb"], ["From", "hm"], ["Languages", "lg"], ["Ask me about", "ask"],
+      ["LinkedIn", "s.li"], ["Instagram", "s.ig"], ["WeChat", "s.wc"], ["Contact email", "s.em"], ["Phone", "s.ph"],
+      ["Events", "events"], ["Following", "following"], ["Followers", "followers"], ["Joined", "created"], ["Updated", "updated"]];
+    function val(m, k){
+      var v = k.indexOf("s.") === 0 ? (m.s || {})[k.slice(2)] : m[k];
+      if (Array.isArray(v)) v = v.join("; ");
+      if ((k === "created" || k === "updated") && v) v = new Date(v).toISOString().slice(0, 16).replace("T", " ");
+      v = v == null ? "" : String(v);
+      if (/^[=+\-@]/.test(v)) v = "'" + v;            // keep spreadsheets from running it as a formula
+      return '"' + v.replace(/"/g, '""') + '"';
+    }
+    var csv = "\ufeff" + cols.map(function(c){ return '"' + c[0] + '"'; }).join(",") + "\r\n" +
+      rows.map(function(m){ return cols.map(function(c){ return val(m, c[1]); }).join(","); }).join("\r\n");
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8" }));
+    a.download = "onlu-members-" + new Date().toISOString().slice(0, 10) + ".csv";
+    document.body.appendChild(a); a.click(); setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 1500);
   }
 
   function loadPeople(){ return api("people").then(function(r){ if (r.status === 200){ state.people = r.people || []; state.pevents = r.events || {}; } }); }

@@ -16,6 +16,7 @@
                                            event if I wasn't in it yet
      GET  events                          → (admin) every event with head counts
      POST event   { name, date }          → (admin) create an event and its code
+     GET  export                          → (admin) every member's full record
 
    Rules, enforced here and nowhere else:
    • Anyone can make an account, but they see no one (and no one sees them)
@@ -269,6 +270,21 @@ module.exports = async (req, res) => {
       const list = codes.map((c, i) => Object.assign({ code: c, count: counts[i] }, evs[c] || {}))
         .sort((x, y) => String(y.date || "").localeCompare(String(x.date || "")));
       return send(res, 200, { events: list });
+    }
+
+    if (a === "export" && req.method === "GET") {
+      if (!admin) return send(res, 403, { error: "Only the host can see this." });
+      const ids = await redis(["SMEMBERS", "members"]);
+      const raws = ids.length ? await redis(["MGET", ...ids.map((x) => `user:${x}`)]) : [];
+      const users = raws.filter(Boolean).map((r) => JSON.parse(r));
+      const counts = users.length ? await pipeline(users.flatMap((u) => [["SCARD", `follows:${u.id}`], ["SCARD", `followers:${u.id}`]])) : [];
+      const evs = await getEvents(await redis(["SMEMBERS", "events"]));
+      const rows = users.map((u, i) => ({
+        id: u.id, n: u.n, le: u.le, r: u.r, v: u.v, o: u.o, mb: u.mb, hm: u.hm, lg: u.lg, ask: u.ask, s: u.s || {},
+        events: (u.ev || []).map((c) => (evs[c] ? evs[c].name + (evs[c].date ? " (" + evs[c].date + ")" : "") : c)),
+        following: counts[i * 2] || 0, followers: counts[i * 2 + 1] || 0, created: u.created, updated: u.updated,
+      })).sort((x, y) => (y.created || 0) - (x.created || 0));
+      return send(res, 200, { members: rows });
     }
 
     if (a === "event" && isPost) {
