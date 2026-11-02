@@ -28,16 +28,20 @@
      between two members who follow each other.
 
    Needs the Upstash Redis connection (see README) and:
-     ONLU_ADMIN_EMAIL – the host's email. That account sees every member and
-                        is the only one that can create events.
+     ONLU_ADMIN_EMAIL – host email(s), comma-separated; defaults to hello@onlu.ai.
+                        Hosts see every member and are the only ones who can
+                        create events.
    Optional: SESSION_SECRET (defaults to a key derived from the Redis token).
    ============================================================ */
 
 const crypto = require("crypto");
 const { redis, pipeline, configured, token } = require("./_redis");
 
-// one or more host emails, comma-separated; quotes pasted around the value are ignored
-const ADMINS = String(process.env.ONLU_ADMIN_EMAIL || "").split(",")
+// one or more host emails, comma-separated; quotes pasted around the value are ignored.
+// Without the variable, the Onlu account is the host (its login email is already registered,
+// so no one else can sign up with it).
+const DEFAULT_HOST = "hello@onlu.ai";
+const ADMINS = String(process.env.ONLU_ADMIN_EMAIL || DEFAULT_HOST).split(",")
   .map((e) => e.trim().replace(/^["']+|["']+$/g, "").trim().toLowerCase()).filter(Boolean);
 const ADMIN = ADMINS[0] || "";
 const SECRET = process.env.SESSION_SECRET || crypto.createHash("sha256").update("onlu-session:" + (token || "")).digest("hex");
@@ -197,7 +201,7 @@ module.exports = async (req, res) => {
       const [following, followers] = await pipeline([["SMEMBERS", `follows:${uid}`], ["SMEMBERS", `followers:${uid}`]]);
       const view = Object.assign({}, me); delete view.le;
       // hostSetup helps diagnose: is the variable visible to this deployment, and does my login email match it?
-      const hostSetup = { variableFound: ADMINS.length > 0, signedInAs: me.le || "(unknown: account made before host support)" };
+      const hostSetup = { variableFound: Boolean(process.env.ONLU_ADMIN_EMAIL), hosts: ADMINS, signedInAs: me.le || "(unknown: account made before host support)" };
       return send(res, 200, { me: view, admin, hostSetup, events: await getEvents(me.ev || []), following, followers, verticals: VERTICALS });
     }
 

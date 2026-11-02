@@ -114,7 +114,7 @@ phone only when both follow each other. All of this is enforced in
 
 Uses the same Upstash database as live cards, plus one variable:
 
-- `ONLU_ADMIN_EMAIL` – the host's email. That account signs up without a code,
+- `ONLU_ADMIN_EMAIL` – optional; host email(s), comma-separated, default `hello@onlu.ai`. Hosts sign up without a code,
   sees every member, and gets an **Events** tab to create events. Each new
   event gets a code (e.g. `credit-5xk8`) and a join link
   (`/members/?code=credit-5xk8`) to share with the people who came.
