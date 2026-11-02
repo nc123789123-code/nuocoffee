@@ -37,6 +37,8 @@
      `formVertical` should match a waitlist dropdown option.
      `time`  — e.g. "Saturday afternoon", "10:30 AM"
      `full`  — true once a table is full (shows a badge, RSVP = waitlist)
+     `partiful` / `luma` — event page links (shown on upcoming and past cards)
+     Events whose date has passed move to "Past events" automatically.
      Set EVENTS to [] to hide the upcoming section entirely.
      ============================================================ */
   const EVENTS = [
@@ -50,6 +52,7 @@
       note: "",
       full: false,
       partiful: "https://partiful.com/e/7NsXV90qdPXOfFBNf47k?c=NdK75lyX",
+      luma: "",
     },
     {
       title: "Finance Dinner",         // overrides the "<vertical> coffee" heading
@@ -62,6 +65,7 @@
       note: "Max 6 · dinner",
       full: false,
       partiful: "",  // add this dinner's Partiful link here
+      luma: "",      // add the Luma link here, if it was on Luma
     },
     {
       title: "AI / Finance coffee",
@@ -74,6 +78,7 @@
       note: "",
       full: false,
       partiful: "",  // add this coffee's Partiful link here
+      luma: "",      // add the Luma link here, if it was on Luma
     },
     {
       title: "Credit coffee chat",
@@ -86,6 +91,7 @@
       note: "35 seats · tables of 4–6",
       full: false,
       partiful: "",  // add this coffee's Partiful link here
+      luma: "",      // add the Luma link here, if it was on Luma
     },
     {
       title: "AI data center financing",
@@ -98,6 +104,7 @@
       note: "",
       full: false,
       partiful: "",  // add this coffee's Partiful link here
+      luma: "",      // add the Luma link here, if it was on Luma
     },
     {
       title: "Finance × AI startup brainstorm",
@@ -110,6 +117,7 @@
       note: "Small group · bring an idea, not a deck",
       full: false,
       partiful: "",  // add this coffee's Partiful link here
+      luma: "",      // add the Luma link here, if it was on Luma
     },
   ];
 
@@ -119,6 +127,43 @@
   function upcomingEvents() {
     var todayISO = new Date().toLocaleDateString("en-CA", { timeZone: "America/New_York" });
     return EVENTS.filter(function (ev) { return !ev.iso || ev.iso >= todayISO; });
+  }
+
+  // Events before today, newest first.
+  function pastEvents() {
+    var todayISO = new Date().toLocaleDateString("en-CA", { timeZone: "America/New_York" });
+    return EVENTS.filter(function (ev) { return ev.iso && ev.iso < todayISO; })
+      .sort(function (a, b) { return b.iso.localeCompare(a.iso); });
+  }
+
+  function linkOut(url, label) {
+    return '<a class="past-link" href="' + url.replace(/"/g, "&quot;") + '" target="_blank" rel="noopener">' + label + " ↗</a>";
+  }
+
+  function renderPast() {
+    var section = document.getElementById("past");
+    var host = document.getElementById("pastList");
+    if (!section || !host) return;
+    var events = pastEvents();
+    if (!events.length) { section.hidden = true; return; }
+    host.innerHTML = events.map(function (ev) {
+      var s = styleFor(ev.formVertical || ev.vertical);
+      var dt = new Date(ev.iso + "T12:00:00Z");
+      var links = (ev.luma ? linkOut(ev.luma, "Luma") : "") + (ev.partiful ? linkOut(ev.partiful, "Partiful") : "");
+      return (
+        '<li class="past-card" style="--tw:' + s.c + '">' +
+          '<div class="past-date"><span>' + dt.toLocaleDateString("en-US", { month: "short", timeZone: "UTC" }) + "</span><b>" +
+            dt.getUTCDate() + "</b></div>" +
+          '<div class="past-main">' +
+            '<h3 class="past-title">' + (ev.title || (ev.vertical + " coffee")) + "</h3>" +
+            '<p class="past-meta">' + [(ev.date || "").split(",")[0], ev.place].filter(Boolean).join(" · ") + "</p>" +
+            (links ? '<p class="past-links">' + links + "</p>" : "") +
+          "</div>" +
+          '<span class="past-icon" aria-hidden="true">' + svg(s.i) + "</span>" +
+        "</li>"
+      );
+    }).join("");
+    section.hidden = false;
   }
 
   // Lookup by label, populated during render, used by the RSVP handler.
@@ -200,6 +245,10 @@
               (ev.partiful
                 ? '<a class="tw-partiful" href="' + ev.partiful.replace(/"/g, "&quot;") +
                   '" target="_blank" rel="noopener">See it on Partiful ↗</a>'
+                : "") +
+              (ev.luma
+                ? '<a class="tw-partiful" href="' + ev.luma.replace(/"/g, "&quot;") +
+                  '" target="_blank" rel="noopener">See it on Luma ↗</a>'
                 : "") +
             "</span>" +
           "</div>" +
@@ -420,6 +469,7 @@
 
   document.addEventListener("DOMContentLoaded", function () {
     renderUpcoming();
+    renderPast();
     renderVerticals();
     initForm();
     initRsvp();
