@@ -144,6 +144,13 @@ filters, each as What happened / Why it matters / Onlu take with sources.
   CPI (index and YoY from CPIAUCNS, MoM from CPIAUCSL, as BLS reports them),
   the Fed funds target range, 2/10/30-year Treasuries, 2s10s, the ICE BofA
   high-yield spread, unemployment, Brent and the S&P 500. Cached 6 hours.
+- **Market summary** is written in the browser from the same numbers
+  (`summary()` in `news/news.js`): one headline sentence plus Equity, Rates,
+  Credit, Macro & Fed and Oil cards tagged Positive / Negative / Neutral by
+  one-month moves. Rule-based, no AI.
+- **Key dates to watch** is the `CAL` list in `news/news.js` (jobs, CPI,
+  retail sales, GDP/PCE, PPI, FOMC), taken from the BLS, BEA, Census and Fed
+  calendars. Add the next dates there when the list runs low.
 - **Today in Finance** (live headlines) comes from `api/headlines.js`: Google
   News RSS searches by topic, major outlets first, cached by Vercel's CDN for
   30 minutes. No key needed; if the feeds fail the pages show a short note.

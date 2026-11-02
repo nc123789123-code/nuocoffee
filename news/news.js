@@ -137,7 +137,7 @@
       "</div>";
   }
   // full: CPI card + every tile (for /news); compact: four tiles (for the homepage)
-  function loadMarkets(el, compact) {
+  function loadMarkets(el, compact, onData) {
     fetch("/api/markets").then(function (r) { return r.ok ? r.json() : null; }).then(function (d) {
       if (!d || (!d.cpi && !d.fed && !(d.tiles || []).length)) { unavailable(); return; }
       var byId = {}; (d.tiles || []).forEach(function (t) { byId[t.id] = t; });
@@ -150,6 +150,7 @@
       });
       el.querySelector(".mk-body").innerHTML = (!compact && d.cpi ? cpiCard(d.cpi) : "") + '<div class="mk-tiles">' + tiles.join("") + "</div>";
       el.hidden = false;
+      if (onData) onData(d);
     }).catch(unavailable);
     // the homepage strip just stays hidden; /news says so, so an outage is visible
     function unavailable() {
@@ -159,7 +160,107 @@
     }
   }
 
-  var api = { AREAS: AREAS, CATS: CATS, esc: esc, day: day, merge: merge, teaser: teaser, story: story, headline: headline, loadHeadlines: loadHeadlines, loadMarkets: loadMarkets };
+  // ---------- Key dates (official release calendars; 8:30 AM ET unless noted) ----------
+  var BLS_SCHED = "https://www.bls.gov/schedule/news_release/current_year.asp";
+  var BEA_SCHED = "https://www.bea.gov/news/schedule/2026";
+  var FED_CAL = "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm";
+  var CENSUS = "https://www.census.gov/retail/release_schedule.html";
+  var CAL = [
+    { d: "2026-11-06", t: "8:30 AM", e: "Jobs report", x: "October payrolls and unemployment rate", src: BLS_SCHED },
+    { d: "2026-11-10", t: "8:30 AM", e: "CPI inflation", x: "October consumer prices", src: BLS_SCHED },
+    { d: "2026-11-17", t: "8:30 AM", e: "Retail sales", x: "October retail and food services sales", src: CENSUS },
+    { d: "2026-11-25", t: "8:30 AM", e: "GDP and PCE", x: "Q3 GDP second estimate; October PCE inflation and spending", src: BEA_SCHED },
+    { d: "2026-12-04", t: "8:30 AM", e: "Jobs report", x: "November payrolls and unemployment rate", src: BLS_SCHED },
+    { d: "2026-12-09", t: "2:00 PM", e: "Fed decision", x: "FOMC rate decision, projections and dot plot (Dec 8\u20139)", src: FED_CAL },
+    { d: "2026-12-10", t: "8:30 AM", e: "CPI inflation", x: "November consumer prices", src: BLS_SCHED },
+    { d: "2026-12-15", t: "8:30 AM", e: "PPI", x: "November producer prices", src: BLS_SCHED },
+    { d: "2026-12-23", t: "8:30 AM", e: "PCE inflation", x: "November PCE; Q3 GDP third estimate", src: BEA_SCHED },
+    { d: "2027-01-27", t: "2:00 PM", e: "Fed decision", x: "FOMC rate decision (Jan 26\u201327, tentative)", src: FED_CAL }
+  ];
+  var WEEKDAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  function todayET() { return new Date().toLocaleDateString("en-CA", { timeZone: "America/New_York" }); }
+  function daysUntil(iso) { return Math.round((Date.parse(iso + "T12:00:00Z") - Date.parse(todayET() + "T12:00:00Z")) / 864e5); }
+  function calendarHtml(limit) {
+    var up = CAL.filter(function (c) { return c.d >= todayET(); }).slice(0, limit || 6);
+    if (!up.length) return '<p class="hl hl--empty">No dates scheduled yet.</p>';
+    return '<ol class="cal">' + up.map(function (c) {
+      var dt = new Date(c.d + "T12:00:00Z"), n = daysUntil(c.d);
+      return '<li class="cal-row"><div class="cal-date"><span>' + WEEKDAYS[dt.getUTCDay()] + "</span><b>" + MONTHS[dt.getUTCMonth()] + " " + dt.getUTCDate() + "</b></div>" +
+        '<div class="cal-main"><div class="cal-e">' + esc(c.e) + '<span class="cal-in">' + (n === 0 ? "Today" : n === 1 ? "Tomorrow" : "in " + n + " days") + "</span></div>" +
+        '<div class="cal-x">' + esc(c.x) + " \u00b7 " + esc(c.t) + ' ET \u00b7 <a href="' + esc(c.src) + '" target="_blank" rel="noopener">schedule</a></div></div></li>';
+    }).join("") + "</ol>";
+  }
+
+  // ---------- Summary, written from the numbers (no AI, nothing invented) ----------
+  function tone(x, posAt, negAt) {   // posAt/negAt: thresholds; sign tells direction
+    if (x == null) return "Neutral";
+    if (posAt > 0 ? x >= posAt : x <= posAt) return "Positive";
+    if (negAt > 0 ? x >= negAt : x <= negAt) return "Negative";
+    return "Neutral";
+  }
+  function nextCpi() {
+    var n = CAL.filter(function (x) { return x.e === "CPI inflation" && x.d >= todayET(); })[0];
+    if (!n) return "";
+    var dt = new Date(n.d + "T12:00:00Z");
+    return "Next CPI: " + MONTHS[dt.getUTCMonth()] + " " + dt.getUTCDate();
+  }
+  function bp(x) { return Math.abs(x) + " bp"; }
+  function pc(x) { return Math.abs(x).toFixed(1) + "%"; }
+  function summary(d) {
+    var by = {}; (d.tiles || []).forEach(function (t) { by[t.id] = t; });
+    var spx = by.SP500, y10 = by.DGS10, y30 = by.DGS30, y2 = by.DGS2, curve = by.T10Y2Y, hy = by.BAMLH0A0HYM2, oil = by.DCOILBRENTEU, ur = by.UNRATE, c = d.cpi;
+    var cards = [], head = [], infl = "";
+    if (spx && spx.change != null) {
+      var moved = Math.abs(spx.change) < 0.5 ? "were little changed" : (spx.change > 0 ? "rose " : "fell ") + pc(spx.change);
+      head.push("stocks " + moved + " over the past month");
+      cards.push({ k: "U.S. Equity", tag: tone(spx.change, 1, -1),
+        line: "The S&P 500 is at " + fmtVal(spx) + ", " + (Math.abs(spx.change) < 0.5 ? "about flat" : (spx.change > 0 ? "up " : "down ") + pc(spx.change)) + " over the past month.",
+        pts: ["Level: " + fmtVal(spx) + " (" + asOf(spx.d) + ")", "One-month change: " + (spx.change > 0 ? "+" : spx.change < 0 ? "\u2212" : "") + pc(spx.change)] });
+    }
+    if (y10 && y10.change != null) {
+      var dir = y10.change === 0 ? "was unchanged at " : (y10.change > 0 ? "rose " : "fell ") + bp(y10.change) + " to ";
+      head.push("the 10-year Treasury yield " + dir + fmtVal(y10));
+      var pts = [];
+      if (y2) pts.push("2-year: " + fmtVal(y2) + (y2.change != null ? " (" + (y2.change >= 0 ? "+" : "\u2212") + bp(y2.change) + ")" : ""));
+      if (curve) pts.push("2s10s curve: " + (curve.v >= 0 ? "+" : "\u2212") + Math.round(Math.abs(curve.v) * 100) + " bp" + (curve.v >= 0 ? " (upward sloping)" : " (inverted)"));
+      cards.push({ k: "Rates", tag: tone(y10.change, -10, 10),
+        line: "The 10-year yield " + dir + fmtVal(y10) + " over the month" + (y30 ? "; the 30-year is at " + fmtVal(y30) : "") + ".", pts: pts });
+    }
+    if (hy && hy.change != null) {
+      cards.push({ k: "Credit", tag: tone(hy.change, -10, 10),
+        line: "High-yield spreads " + (hy.change === 0 ? "were unchanged" : (hy.change > 0 ? "widened " : "tightened ") + bp(hy.change)) + " to " + Math.round(hy.v * 100) + " bp over Treasuries.",
+        pts: ["Wider spreads mean investors want more to hold riskier debt", "One-month change: " + (hy.change >= 0 ? "+" : "\u2212") + bp(hy.change)] });
+    }
+    if (c) {
+      var prev = c.history.length > 1 ? c.history[c.history.length - 2].yoy : null;
+      var rising = prev != null && c.yoy > prev;
+      var gap = c.yoy - c.target;
+      var mtag = c.yoy > 3 && rising ? "Negative" : c.yoy <= 2.5 && !rising ? "Positive" : "Neutral";
+      var fedTxt = d.fed ? ", with the Fed funds range at " + d.fed.lo.toFixed(2) + "\u2013" + d.fed.hi.toFixed(2) + "%" : "";
+      cards.push({ k: "Macro & Fed", tag: mtag,
+        line: "CPI inflation is " + c.yoy.toFixed(2) + "% year over year, " + (gap >= 0 ? Math.abs(gap).toFixed(2) + " points above" : Math.abs(gap).toFixed(2) + " points below") + " the Fed's 2% target" + fedTxt + ".",
+        pts: ["CPI month over month: " + (c.mom == null ? "n/a" : (c.mom >= 0 ? "+" : "\u2212") + Math.abs(c.mom).toFixed(2) + "%") + (prev != null ? (rising ? ", inflation rising" : ", inflation easing") : ""),
+              ur ? "Unemployment: " + fmtVal(ur) + " (" + monthName(ur.d.slice(0, 7), true) + ")" : "", nextCpi()].filter(Boolean) });
+      infl = "inflation is running at " + c.yoy.toFixed(2) + "%, " + (gap >= 0 ? "above" : "below") + " the Fed's 2% target";
+    }
+    if (oil && oil.change != null) {
+      cards.push({ k: "Oil", tag: Math.abs(oil.change) < 3 ? "Steady" : oil.change > 0 ? "Rising" : "Falling",
+        line: "Brent is at " + fmtVal(oil) + " a barrel, " + (Math.abs(oil.change) < 1 ? "about flat" : (oil.change > 0 ? "up " : "down ") + pc(oil.change)) + " over the past month.",
+        pts: ["Higher oil feeds inflation and squeezes airlines and consumers", "Lower oil eases both"] });
+    }
+    if (!cards.length) return "";
+    var cap = function (x) { return x.charAt(0).toUpperCase() + x.slice(1) + "."; };
+    var text = [head.join(", while "), infl].filter(Boolean).map(cap).join(" ");
+    return '<div class="sum-head">' + esc(text) + "</div>" + '<div class="sum-cards">' + cards.map(function (k) {
+      var cls = k.tag === "Positive" ? "pos" : k.tag === "Negative" ? "neg" : "neu";
+      return '<div class="sum-card"><div class="sum-top"><span class="sum-k">' + esc(k.k) + '</span><span class="sum-tag ' + cls + '">' + esc(k.tag) + "</span></div>" +
+        '<p class="sum-line">' + esc(k.line) + "</p>" + (k.pts.length ? "<ul>" + k.pts.map(function (x) { return "<li>" + esc(x) + "</li>"; }).join("") + "</ul>" : "") + "</div>";
+    }).join("") + "</div>";
+  }
+  function headlineOnly(d) { var m = /<div class="sum-head">([\s\S]*?)<\/div>/.exec(summary(d)); return m ? m[1] : ""; }
+
+  var api = { AREAS: AREAS, CATS: CATS, esc: esc, day: day, merge: merge, teaser: teaser, story: story, headline: headline, loadHeadlines: loadHeadlines,
+              loadMarkets: loadMarkets, calendarHtml: calendarHtml, summary: summary, headlineOnly: headlineOnly };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.OnluNews = api;
 })(this);

@@ -168,8 +168,13 @@
 <article class="brief-card" style="--ac:#4cc4ff"><div class="brief-meta"><span class="brief-area">AI</span><time datetime="2026-10-29">Oct 29, 2026</time></div><h3 class="brief-title"><a href="/news/#2026-10-29-msft">Microsoft borrows $25bn for AI in its first bond sale since 2017</a></h3><p class="brief-short">Orders reportedly peaked at $115bn, about 4.6 times the size of the deal.</p><p class="brief-src"><a href="https://247wallst.com/investing/2026/10/30/microsoft-is-borrowing-25-billion-for-ai-its-first-bond-sale-since-2017/" target="_blank" rel="noopener">24/7 Wall St. (as reported)</a></p></article>
 <article class="brief-card" style="--ac:#8a9bff"><div class="brief-meta"><span class="brief-area">Macro</span><time datetime="2026-10-28">Oct 28, 2026</time></div><h3 class="brief-title"><a href="/news/#2026-10-28-fed">The Fed holds at 3.75–4.00%, and two officials wanted a hike</a></h3><p class="brief-short">A 10–2 vote to hold after September&#39;s increase leaves the door open to one more hike in December.</p><p class="brief-src"><a href="https://www.cnbc.com/2026/10/28/fed-interest-rate-decision-october-2026.html" target="_blank" rel="noopener">CNBC</a> · <a href="https://www.federalreserve.gov/newsevents/pressreleases/monetary20261028a1.htm" target="_blank" rel="noopener">Federal Reserve</a></p></article><!--/news:home--></div>
         <div class="mk mk--home" id="home-markets" hidden>
-          <div class="today-home__head"><h3>Market pulse</h3><a href="/news/#markets">CPI and more →</a></div>
+          <div class="today-home__head"><h3>Market pulse</h3><a href="/news/#summary">Summary and CPI →</a></div>
+          <p class="sum-head" id="home-sum" hidden></p>
           <div class="mk-body"></div>
+        </div>
+        <div class="today-home mk">
+          <div class="today-home__head"><h3>Key dates to watch</h3><a href="/news/#dates">Full calendar →</a></div>
+          <div id="home-cal"></div>
         </div>
         <div class="today-home">
           <div class="today-home__head"><h3>Today in Finance</h3><span>Live headlines</span></div>
@@ -396,7 +401,11 @@
       var N = window.OnluNews, el = document.getElementById("brief-list");
       if (!N || !el) return;
       var base = []; try { base = JSON.parse(document.getElementById("news-home-data").textContent); } catch (e) {}
-      N.loadMarkets(document.getElementById("home-markets"), true);
+      document.getElementById("home-cal").innerHTML = N.calendarHtml(3);
+      N.loadMarkets(document.getElementById("home-markets"), true, function (d) {
+        var h = N.headlineOnly(d), el = document.getElementById("home-sum");
+        if (h) { el.innerHTML = h; el.hidden = false; }
+      });
       N.loadHeadlines(document.getElementById("home-hls"), 5);
       fetch("/api/members?a=news").then(function (r) { return r.ok ? r.json() : null; }).then(function (d) {
         if (!d || !d.items || !d.items.length) return;

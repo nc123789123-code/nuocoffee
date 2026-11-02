@@ -232,6 +232,32 @@ body > *:not(.fx) { position: relative; z-index: 1; }
 .mk--home .mk-tiles { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); margin-top: 10px; }
 .today-home__head a { font-size: 0.82rem; color: var(--tiffany-2); text-decoration: none; }
 [hidden] { display: none !important; }
+/* Market summary + key dates */
+.sum-head{border:1px solid var(--mk-line);border-left:3px solid var(--mk-accent);border-radius:14px;background:var(--mk-surface);padding:14px 16px;font-size:1rem;line-height:1.55;color:var(--mk-text);margin-top:12px;text-wrap:pretty;}
+.sum-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px;margin-top:10px;}
+.sum-card{border:1px solid var(--mk-line);border-radius:14px;background:var(--mk-surface);padding:14px 16px;min-width:0;}
+.sum-top{display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.sum-k{font-family:var(--mk-mono);font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--mk-muted);}
+.sum-tag{font-family:var(--mk-mono);font-size:.66rem;font-weight:700;letter-spacing:.06em;border-radius:999px;padding:2px 9px;border:1px solid currentColor;white-space:nowrap;}
+.sum-tag.pos{color:#6fe39a;background:rgba(111,227,154,.1);}
+.sum-tag.neg{color:#ff7a9c;background:rgba(255,122,156,.1);}
+.sum-tag.neu{color:var(--mk-muted);background:rgba(147,174,196,.08);}
+.sum-line{font-size:.92rem;line-height:1.5;color:var(--mk-text);margin:8px 0 0;}
+.sum-card ul{list-style:none;margin:8px 0 0;padding:0;display:flex;flex-direction:column;gap:3px;}
+.sum-card li{font-size:.8rem;color:var(--mk-muted);padding-left:12px;position:relative;}
+.sum-card li::before{content:"";position:absolute;left:0;top:.62em;width:4px;height:4px;border-radius:50%;background:var(--mk-dim);}
+.sum-note{font-family:var(--mk-mono);font-size:.68rem;color:var(--mk-dim);margin-top:10px;}
+.cal{list-style:none;margin:10px 0 0;padding:0;}
+.cal-row{display:flex;gap:14px;align-items:flex-start;padding:11px 0;border-top:1px solid var(--mk-line);}
+.cal-row:first-child{border-top:0;}
+.cal-date{flex:none;width:58px;text-align:center;border:1px solid var(--mk-line);border-radius:10px;padding:5px 0;background:var(--mk-surface);}
+.cal-date span{display:block;font-family:var(--mk-mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--mk-dim);}
+.cal-date b{display:block;font-family:var(--mk-display);font-weight:600;font-size:.86rem;color:var(--mk-text);white-space:nowrap;}
+.cal-main{min-width:0;}
+.cal-e{font-weight:600;color:var(--mk-text);display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;}
+.cal-in{font-family:var(--mk-mono);font-size:.68rem;font-weight:400;color:var(--mk-accent);}
+.cal-x{font-size:.82rem;color:var(--mk-muted);margin-top:2px;}
+.cal-x a{color:var(--mk-accent);}
 /* Market pulse */
 .mk .mk-tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-top:14px;}
 .mk-tile{border:1px solid var(--mk-line);border-radius:14px;padding:12px 14px;background:var(--mk-surface);min-width:0;}
