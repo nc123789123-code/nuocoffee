@@ -102,7 +102,22 @@ saved QR always open the owner's latest card, switch on storage for
    scanned you see your latest edits"*.
 
 Without it, `/api/card` answers 503 and the card quietly uses the copy in its
-link. Cards stored there hold contact details only (no photos, notes or map
+link.
+
+## Onlu Members (`/members`)
+
+Accounts for people who've been to an Onlu event. Members fill in a profile,
+browse the directory and follow each other; LinkedIn, Instagram, WeChat, email
+and phone are returned by `api/members.js` only when two members follow each
+other.
+
+Uses the same Upstash database as live cards, plus one variable:
+
+- `ONLU_INVITE_CODE` – the code you share at events (case doesn't matter).
+  Sign-up stays closed until it's set. Change it whenever you like; existing
+  members keep their accounts.
+
+Share `coffeewithonlu.com/members/?code=YOURCODE` to prefill the code. Cards stored there hold contact details only (no photos, notes or map
 pins, which stay on each phone).
 
 ## The verticals

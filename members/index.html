@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Onlu Members</title>
+<meta name="description" content="The Onlu community: people who've been to an Onlu event. Follow each other to swap socials." />
+<meta name="robots" content="noindex" />
+<meta name="theme-color" content="#0a1520" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;800&family=Outfit:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%232ee0d0%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M5%209h11v4a4%204%200%200%201-4%204H9a4%204%200%200%201-4-4V9Z%22%2F%3E%3Cpath%20d%3D%22M16%2010h2.4a2.4%202.4%200%200%201%200%204.8H16%22%2F%3E%3Cpath%20d%3D%22M8%203.4c-.5%201%20.5%201.6%200%202.6M11.5%203.4c-.5%201%20.5%201.6%200%202.6%22%2F%3E%3C%2Fsvg%3E" />
+<style>
+/* One phone-width column: a member directory with follow buttons; socials unlock when two people follow each other. */
+:root{
+  --bg:#0a1520; --surface:rgba(255,255,255,.04); --surface2:rgba(255,255,255,.07);
+  --text:#eef6fb; --muted:#93aec4; --dim:#6d8aa3; --line:rgba(150,200,230,.15); --line2:rgba(150,200,230,.28);
+  --tiffany:#2ee0d0; --tiffany2:#9befe4; --sky:#4cc4ff; --pink:#ff4f9a; --lilac:#b9a8ff; --ink:#08131c;
+  --grad:linear-gradient(100deg,var(--tiffany2),var(--tiffany) 30%,var(--sky) 58%,var(--pink) 92%);
+  --display:'Unbounded',system-ui,sans-serif;
+  --body:'Outfit',system-ui,-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
+  --mono:'Space Mono',ui-monospace,'Courier New',monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+[hidden]{display:none!important;}
+body{background:var(--bg);color:var(--text);font-family:var(--body);font-size:16px;line-height:1.5;
+  -webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%;overflow-x:hidden;
+  padding:env(safe-area-inset-top,0px) max(16px,env(safe-area-inset-right,0px)) calc(48px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));}
+.fx{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
+.blob{position:absolute;border-radius:50%;filter:blur(90px);}
+.b1{width:90vw;height:90vw;top:-30vh;right:-35vw;background:radial-gradient(circle,var(--tiffany),transparent 68%);opacity:.18;}
+.b2{width:80vw;height:80vw;bottom:-20vh;left:-35vw;background:radial-gradient(circle,var(--pink),transparent 68%);opacity:.12;}
+.wrap{position:relative;z-index:1;max-width:560px;margin-inline:auto;}
+
+.top{display:flex;align-items:center;gap:9px;padding:16px 0 4px;}
+.top a{display:flex;align-items:center;gap:9px;color:inherit;text-decoration:none;}
+.cup{color:var(--tiffany2);line-height:0;}
+.cup svg{width:22px;height:22px;}
+.brand{font-family:var(--display);font-weight:600;font-size:.88rem;letter-spacing:-.01em;}
+.top .who{margin-left:auto;font-size:.82rem;color:var(--dim);display:flex;align-items:center;gap:8px;min-width:0;}
+.top .who span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.link{font:inherit;font-size:.82rem;color:var(--tiffany2);background:none;border:0;cursor:pointer;padding:4px;}
+
+h1{font-family:var(--display);font-weight:800;letter-spacing:-.03em;line-height:1.08;font-size:1.7rem;margin:18px 0 8px;text-wrap:balance;}
+.grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.lede{color:var(--muted);}
+h2{font-family:var(--display);font-weight:600;font-size:.95rem;letter-spacing:-.01em;margin:26px 0 10px;}
+.hint{font-size:.85rem;color:var(--dim);}
+
+/* tabs */
+.tabs{display:flex;gap:4px;border:1px solid var(--line2);border-radius:999px;padding:3px;background:var(--surface);margin-top:16px;}
+.tabs button{flex:1;font:inherit;font-size:.86rem;font-weight:600;color:var(--muted);background:none;border:0;border-radius:999px;padding:9px 8px;cursor:pointer;}
+.tabs button[aria-selected="true"]{background:var(--text);color:var(--ink);}
+.tabs .count{font-family:var(--mono);font-size:.72rem;opacity:.8;margin-left:3px;}
+
+/* forms */
+form{display:flex;flex-direction:column;gap:12px;margin-top:16px;}
+label{display:flex;flex-direction:column;gap:5px;font-size:.82rem;font-weight:600;color:var(--muted);}
+label small{font-weight:400;color:var(--dim);}
+input,select,textarea{font:inherit;font-size:16px;color:var(--text);background:var(--surface);border:1px solid var(--line2);border-radius:12px;padding:11px 12px;width:100%;}
+input::placeholder{color:#55708a;}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+fieldset{border:1px solid var(--line);border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:10px;}
+legend{font-size:.82rem;font-weight:600;color:var(--muted);padding:0 4px;}
+legend small{font-weight:400;color:var(--dim);}
+.lock{display:flex;gap:8px;align-items:flex-start;font-size:.82rem;color:var(--tiffany2);background:rgba(46,224,208,.08);border:1px solid rgba(46,224,208,.25);border-radius:10px;padding:8px 10px;}
+.err{color:#ff9cc4;font-size:.88rem;}
+.ok{color:var(--tiffany2);font-size:.88rem;}
+
+.btn{font:inherit;font-size:.92rem;font-weight:600;color:var(--text);background:var(--surface2);border:1px solid var(--line2);
+  border-radius:14px;padding:12px;cursor:pointer;text-align:center;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:6px;}
+.btn.primary{background:var(--grad);color:var(--ink);border:0;font-weight:700;padding:14px;}
+.btn.sm{font-size:.82rem;padding:7px 12px;border-radius:999px;}
+.btn.on{background:transparent;color:var(--tiffany2);border-color:rgba(46,224,208,.5);}
+.btn:disabled{opacity:.6;cursor:default;}
+.btn:focus-visible,.tabs button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--tiffany);outline-offset:2px;}
+
+.emojis,.colors{display:flex;flex-wrap:wrap;gap:6px;}
+.emojis button{font-size:1.2rem;width:38px;height:38px;border-radius:10px;border:1px solid var(--line2);background:var(--surface);cursor:pointer;}
+.colors button{width:26px;height:26px;border-radius:50%;border:2px solid transparent;cursor:pointer;}
+.emojis button[aria-pressed="true"]{border-color:var(--tiffany);background:var(--surface2);}
+.colors button[aria-pressed="true"]{border-color:var(--text);}
+
+/* directory */
+.tools{display:flex;flex-direction:column;gap:10px;margin-top:16px;}
+.filters{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px;}
+.filters::-webkit-scrollbar{display:none;}
+.filters button{flex:none;font:inherit;font-size:.8rem;font-weight:600;color:var(--muted);background:var(--surface);border:1px solid var(--line2);border-radius:999px;padding:6px 12px;cursor:pointer;}
+.filters button[aria-pressed="true"]{background:var(--surface2);color:var(--text);border-color:var(--tiffany);}
+.list{display:flex;flex-direction:column;gap:10px;margin-top:12px;}
+.m{border:1px solid var(--line);border-radius:16px;background:var(--surface);padding:14px;}
+.m.mutual{border-color:rgba(46,224,208,.45);box-shadow:0 0 30px -18px rgba(46,224,208,.6);}
+.m__top{display:flex;gap:12px;align-items:flex-start;}
+.av{flex:none;width:48px;height:48px;border-radius:50%;display:grid;place-items:center;font-size:1.5rem;background:var(--surface2);overflow:hidden;}
+.av .ini{font-family:var(--display);font-weight:800;font-size:.9rem;color:var(--muted);}
+.m__id{flex:1;min-width:0;}
+.m__n{font-weight:700;font-size:1.02rem;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.tag{font-family:var(--mono);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;padding:2px 7px;border-radius:999px;border:1px solid var(--line2);color:var(--muted);font-weight:700;}
+.tag.mutual{color:var(--ink);background:var(--tiffany);border-color:var(--tiffany);}
+.tag.back{color:var(--pink);border-color:rgba(255,79,154,.5);}
+.m__r{font-size:.88rem;color:var(--muted);}
+.m__o{font-size:.9rem;margin-top:8px;padding-left:10px;border-left:2px solid var(--pink);}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;}
+.chip{font-size:.76rem;padding:4px 9px;border-radius:999px;background:rgba(185,168,255,.1);border:1px solid rgba(185,168,255,.35);color:var(--muted);}
+.chip b{color:var(--text);}
+.m__act{display:flex;gap:8px;align-items:center;margin-top:12px;flex-wrap:wrap;}
+.m__act .note{font-size:.8rem;color:var(--dim);}
+.socials{margin-top:12px;padding-top:12px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:6px;}
+.socials a,.socials button{font:inherit;font-size:.82rem;font-weight:600;color:var(--text);background:var(--surface2);border:1px solid var(--line2);border-radius:999px;padding:6px 11px;text-decoration:none;cursor:pointer;}
+.empty{font-size:.9rem;color:var(--dim);border:1px dashed var(--line2);border-radius:14px;padding:16px;margin-top:12px;}
+
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%) translateY(20px);opacity:0;white-space:nowrap;
+  background:var(--text);color:var(--ink);font-weight:600;font-size:.9rem;padding:10px 16px;border-radius:999px;transition:.2s;z-index:50;pointer-events:none;}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0);}
+.foot{margin-top:34px;padding-top:16px;border-top:1px solid var(--line);font-family:var(--mono);font-size:.7rem;color:var(--dim);line-height:1.8;}
+.foot a{color:var(--tiffany2);}
+@media (prefers-reduced-motion:reduce){.toast{transition:none;}}
+</style>
+</head>
+<body>
+<div class="fx"><span class="blob b1"></span><span class="blob b2"></span></div>
+<div class="wrap">
+  <header class="top">
+    <a href="/members/"><span class="cup" id="cup"></span><span class="brand">Onlu Members</span></a>
+    <span class="who" id="who" hidden></span>
+  </header>
+  <main id="app"><p class="hint" style="margin-top:24px">Loading…</p></main>
+  <p class="foot">For people who've been to an Onlu event. Your socials are shown only to members you follow who follow you back.<br>
+    <a href="/">coffeewithonlu.com</a> · <a href="/card/">Onlu Card</a></p>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  "use strict";
+  document.getElementById("cup").innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' +
+    '<path d="M5 9h11v4a4 4 0 0 1-4 4H9a4 4 0 0 1-4-4V9Z"/><path d="M16 10h2.4a2.4 2.4 0 0 1 0 4.8H16"/><path d="M8 3.4c-.5 1 .5 1.6 0 2.6M11.5 3.4c-.5 1 .5 1.6 0 2.6"/></svg>';
+
+  var app = document.getElementById("app");
+  var AV_EMOJI = ["\u2615", "\ud83d\udcc8", "\ud83c\udfe6", "\ud83e\udd16", "\ud83e\uddec", "\ud83c\udfc3", "\ud83c\udfa8", "\ud83c\udf0f"];
+  var AV_COLORS = ["#2ee0d0", "#4cc4ff", "#ff4f9a", "#ffc35a", "#b9a8ff"];
+  var MBTI = ["INTJ","INTP","ENTJ","ENTP","INFJ","INFP","ENFJ","ENFP","ISTJ","ISFJ","ESTJ","ESFJ","ISTP","ISFP","ESTP","ESFP"];
+  var state = { me: null, people: [], verticals: [], tab: "people", q: "", v: "" };
+
+  // ---------- helpers ----------
+  function esc(s){ return String(s == null ? "" : s).replace(/[&<>"']/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); }
+  function initials(n){ return String(n || "?").trim().split(/\s+/).slice(0, 2).map(function(w){ return w.charAt(0); }).join("").toUpperCase(); }
+  function first(n){ return String(n || "").trim().split(/\s+/)[0] || ""; }
+  function toast(m){ var t = document.getElementById("toast"); t.textContent = m; t.classList.add("on"); clearTimeout(toast.t); toast.t = setTimeout(function(){ t.classList.remove("on"); }, 1800); }
+  function webUrl(v){ v = String(v || "").trim(); return !v ? "" : /^https?:\/\//i.test(v) ? v : "https://" + v; }
+  function liUrl(v){ v = String(v || "").trim(); if (!v) return ""; if (/^https?:\/\//i.test(v)) return v; if (/linkedin\.com/i.test(v)) return "https://" + v; return "https://www.linkedin.com/in/" + v.replace(/^@/, ""); }
+  function igHandle(v){ v = String(v || "").trim(); var m = v.match(/instagram\.com\/([^/?#]+)/i); return (m ? m[1] : v).replace(/^@/, ""); }
+  function avatar(u){
+    return u.av && u.av.e ? '<span class="av" style="background:' + AV_COLORS[u.av.c | 0] + '">' + esc(u.av.e) + "</span>"
+                          : '<span class="av"><span class="ini">' + esc(initials(u.n)) + "</span></span>";
+  }
+  function copy(text, label){
+    function fb(){ var ta = document.createElement("textarea"); ta.value = text; ta.style.position = "fixed"; ta.style.opacity = "0"; document.body.appendChild(ta); ta.select();
+      try { document.execCommand("copy"); toast(label + " copied"); } catch(e){ toast("Select and copy it manually"); } ta.remove(); }
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(function(){ toast(label + " copied"); }, fb); else fb();
+  }
+  function vcard(p){
+    var e = function(s){ return String(s || "").replace(/\\/g, "\\\\").replace(/\n/g, "\\n").replace(/,/g, "\\,").replace(/;/g, "\\;"); };
+    var s = p.s || {}, L = ["BEGIN:VCARD", "VERSION:3.0", "FN:" + e(p.n), "N:" + e(p.n) + ";;;;"];
+    if (p.r) L.push("TITLE:" + e(p.r));
+    if (s.em) L.push("EMAIL;TYPE=INTERNET:" + e(s.em));
+    if (s.ph) L.push("TEL;TYPE=CELL:" + e(s.ph));
+    if (s.li) L.push("URL:" + e(liUrl(s.li)));
+    if (s.ig) L.push("X-SOCIALPROFILE;TYPE=instagram:" + e("https://instagram.com/" + igHandle(s.ig)));
+    var note = ["Onlu member"]; if (s.wc) note.push("WeChat: " + s.wc); if (p.o) note.push(p.o);
+    L.push("NOTE:" + e(note.join("\n")), "END:VCARD");
+    return L.join("\r\n");
+  }
+  function api(action, body){
+    return fetch("/api/members?a=" + action, body === undefined ? { credentials: "same-origin" }
+      : { method: "POST", credentials: "same-origin", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) })
+      .then(function(r){ return r.json().catch(function(){ return {}; }).then(function(j){ j.status = r.status; return j; }); },
+            function(){ return { status: 0, error: "Can't reach the server. Check your connection." }; });
+  }
+
+  // ---------- signed out ----------
+  function viewAuth(mode){
+    document.getElementById("who").hidden = true;
+    var code = (location.search.match(/[?&]code=([^&]+)/) || [])[1] || "";
+    app.innerHTML =
+      '<h1>The people from <span class="grad">Onlu events</span></h1>' +
+      '<p class="lede">Find who you met, follow each other, and your LinkedIn, Instagram and WeChat unlock for each other. Nobody else sees them.</p>' +
+      '<div class="tabs" role="tablist">' +
+        '<button type="button" role="tab" data-m="join" aria-selected="' + (mode === "join") + '">Join</button>' +
+        '<button type="button" role="tab" data-m="login" aria-selected="' + (mode === "login") + '">Sign in</button>' +
+      "</div>" +
+      '<form id="auth" novalidate>' +
+        (mode === "join"
+          ? '<label for="code">Event invite code <small>Karlie shares it at each Onlu event</small><input id="code" autocomplete="off" autocapitalize="off" value="' + esc(decodeURIComponent(code)) + '" placeholder="From your Onlu event"></label>' +
+            '<label for="name">Name<input id="name" autocomplete="name" placeholder="Karlie Chen"></label>'
+          : "") +
+        '<label for="email">Email<input id="email" type="email" autocomplete="email" placeholder="you@email.com"></label>' +
+        '<label for="pw">Password <small>' + (mode === "join" ? "at least 8 characters" : "") + '</small><input id="pw" type="password" autocomplete="' + (mode === "join" ? "new-password" : "current-password") + '"></label>' +
+        '<p class="err" id="err" hidden></p>' +
+        '<button class="btn primary" type="submit">' + (mode === "join" ? "Join Onlu Members" : "Sign in") + "</button>" +
+      "</form>";
+    app.querySelectorAll(".tabs button").forEach(function(b){ b.addEventListener("click", function(){ viewAuth(b.getAttribute("data-m")); }); });
+    document.getElementById("auth").addEventListener("submit", function(e){
+      e.preventDefault();
+      var btn = this.querySelector("button[type=submit]"), err = document.getElementById("err");
+      var body = { email: document.getElementById("email").value, password: document.getElementById("pw").value };
+      if (mode === "join"){ body.code = document.getElementById("code").value; body.name = document.getElementById("name").value; }
+      btn.disabled = true; err.hidden = true;
+      api(mode === "join" ? "signup" : "login", body).then(function(r){
+        btn.disabled = false;
+        if (r.status !== 200){ err.textContent = r.error || "Something went wrong."; err.hidden = false; return; }
+        state.tab = mode === "join" ? "profile" : "people";
+        boot();
+      });
+    });
+  }
+
+  // ---------- signed in ----------
+  function header(){
+    var who = document.getElementById("who");
+    who.innerHTML = "<span>" + esc(state.me.n) + '</span><button class="link" type="button" id="out">Sign out</button>';
+    who.hidden = false;
+    document.getElementById("out").onclick = function(){ api("logout", {}).then(function(){ state.me = null; viewAuth("login"); }); };
+  }
+
+  function viewApp(){
+    header();
+    var mutual = state.people.filter(function(p){ return p.iFollow && p.followsMe; });
+    var back = state.people.filter(function(p){ return p.followsMe && !p.iFollow; });
+    app.innerHTML =
+      '<div class="tabs" role="tablist">' +
+        '<button type="button" role="tab" data-t="people" aria-selected="' + (state.tab === "people") + '">People<span class="count">' + state.people.length + "</span></button>" +
+        '<button type="button" role="tab" data-t="connected" aria-selected="' + (state.tab === "connected") + '">Connected<span class="count">' + mutual.length + "</span></button>" +
+        '<button type="button" role="tab" data-t="profile" aria-selected="' + (state.tab === "profile") + '">My profile</button>' +
+      "</div>" +
+      '<div id="tab"></div>';
+    app.querySelectorAll(".tabs button").forEach(function(b){ b.addEventListener("click", function(){ state.tab = b.getAttribute("data-t"); viewApp(); }); });
+    var tab = document.getElementById("tab");
+    if (state.tab === "profile") return viewProfile(tab);
+    if (state.tab === "connected") return viewList(tab, mutual, "When you and someone follow each other, they show up here with their socials.");
+    if (back.length) tab.insertAdjacentHTML("beforeend", '<p class="hint" style="margin-top:14px">' + back.length + (back.length === 1 ? " person follows" : " people follow") + " you. Follow back to swap socials.</p>");
+    viewList(tab, state.people, "No other members yet. Share the invite code at your next Onlu event.", true);
+  }
+
+  function viewList(tab, list, emptyText, withTools){
+    if (withTools){
+      tab.insertAdjacentHTML("beforeend",
+        '<div class="tools"><input id="q" type="search" placeholder="Search names, roles, firms, interests" value="' + esc(state.q) + '" aria-label="Search members">' +
+        '<div class="filters">' + [""].concat(state.verticals).map(function(v){
+          return '<button type="button" data-v="' + esc(v) + '" aria-pressed="' + (state.v === v) + '">' + esc(v || "Everyone") + "</button>"; }).join("") + "</div></div>");
+    }
+    tab.insertAdjacentHTML("beforeend", '<div class="list" id="list"></div>');
+    function paint(){
+      var q = state.q.toLowerCase();
+      var rows = list.filter(function(p){
+        if (withTools && state.v && p.v !== state.v) return false;
+        if (!q) return true;
+        return [p.n, p.r, p.o, p.v, p.hm, p.ask, p.mb].join(" ").toLowerCase().indexOf(q) > -1;
+      });
+      var el = document.getElementById("list");
+      el.innerHTML = rows.length ? rows.map(card).join("") : '<p class="empty">' + esc(list.length ? "No one matches that search." : emptyText) + "</p>";
+      el.querySelectorAll("[data-follow]").forEach(function(b){ b.addEventListener("click", function(){ follow(b.getAttribute("data-follow"), b); }); });
+      el.querySelectorAll("[data-copy]").forEach(function(b){ b.addEventListener("click", function(){ copy(b.getAttribute("data-copy"), b.getAttribute("data-label")); }); });
+      el.querySelectorAll("[data-vcf]").forEach(function(b){ b.addEventListener("click", function(){
+        var p = state.people.filter(function(x){ return x.id === b.getAttribute("data-vcf"); })[0]; if (!p) return;
+        var a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([vcard(p)], { type: "text/vcard" }));
+        a.download = (p.n || "contact").replace(/[^\w\u4e00-\u9fff -]/g, "").trim().replace(/\s+/g, "-") + ".vcf";
+        document.body.appendChild(a); a.click(); setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 1500);
+      }); });
+    }
+    paint();
+    if (withTools){
+      document.getElementById("q").addEventListener("input", function(){ state.q = this.value; paint(); });
+      tab.querySelectorAll(".filters button").forEach(function(b){ b.addEventListener("click", function(){
+        state.v = b.getAttribute("data-v");
+        tab.querySelectorAll(".filters button").forEach(function(x){ x.setAttribute("aria-pressed", String(x === b)); });
+        paint(); }); });
+    }
+  }
+
+  function card(p){
+    var mutual = p.iFollow && p.followsMe, s = p.s || {};
+    var chips = [];
+    if (p.v) chips.push('<span class="chip">' + esc(p.v) + "</span>");
+    if (p.mb) chips.push('<span class="chip"><b>' + esc(p.mb) + "</b></span>");
+    if (p.hm) chips.push('<span class="chip">From <b>' + esc(p.hm) + "</b></span>");
+    if (p.lg) chips.push('<span class="chip">Speaks <b>' + esc(p.lg) + "</b></span>");
+    if (p.ask) chips.push('<span class="chip">Ask me about <b>' + esc(p.ask) + "</b></span>");
+    var soc = [];
+    if (mutual){
+      if (s.li) soc.push('<a href="' + esc(liUrl(s.li)) + '" target="_blank" rel="noopener">LinkedIn</a>');
+      if (s.ig) soc.push('<a href="https://instagram.com/' + esc(igHandle(s.ig)) + '" target="_blank" rel="noopener">@' + esc(igHandle(s.ig)) + "</a>");
+      if (s.wc) soc.push('<button type="button" data-copy="' + esc(s.wc) + '" data-label="WeChat ID">WeChat ' + esc(s.wc) + "</button>");
+      if (s.em) soc.push('<button type="button" data-copy="' + esc(s.em) + '" data-label="Email">' + esc(s.em) + "</button>");
+      if (s.ph) soc.push('<button type="button" data-copy="' + esc(s.ph) + '" data-label="Phone">' + esc(s.ph) + "</button>");
+      soc.push('<button type="button" data-vcf="' + esc(p.id) + '">Save contact</button>');
+    }
+    var note = mutual ? "" : p.iFollow ? "Socials unlock when " + esc(first(p.n)) + " follows back" : p.followsMe ? "Follow back to swap socials" : "";
+    return '<article class="m' + (mutual ? " mutual" : "") + '">' +
+      '<div class="m__top">' + avatar(p) + '<div class="m__id"><div class="m__n">' + esc(p.n) +
+        (mutual ? '<span class="tag mutual">Connected</span>' : p.followsMe ? '<span class="tag back">Follows you</span>' : "") + "</div>" +
+        (p.r ? '<div class="m__r">' + esc(p.r) + "</div>" : "") + "</div></div>" +
+      (p.o ? '<div class="m__o">' + esc(p.o) + "</div>" : "") +
+      (chips.length ? '<div class="chips">' + chips.join("") + "</div>" : "") +
+      '<div class="m__act"><button class="btn sm' + (p.iFollow ? " on" : "") + '" type="button" data-follow="' + esc(p.id) + '">' + (p.iFollow ? "Following" : p.followsMe ? "Follow back" : "Follow") + "</button>" +
+        (note ? '<span class="note">' + note + "</span>" : "") + "</div>" +
+      (soc.length ? '<div class="socials">' + soc.join("") + "</div>" : "") +
+      "</article>";
+  }
+
+  function follow(id, btn){
+    var p = state.people.filter(function(x){ return x.id === id; })[0]; if (!p) return;
+    btn.disabled = true;
+    api(p.iFollow ? "unfollow" : "follow", { id: id }).then(function(r){
+      if (r.status !== 200){ btn.disabled = false; toast(r.error || "Couldn't update"); return; }
+      // reload so socials appear (or disappear) exactly as the server decides
+      loadPeople().then(function(){
+        var np = state.people.filter(function(x){ return x.id === id; })[0];
+        if (np && np.iFollow && np.followsMe) toast("Connected with " + first(np.n));
+        viewApp();
+      });
+    });
+  }
+
+  function viewProfile(tab){
+    var me = state.me, s = me.s || {}, av = me.av ? { e: me.av.e, c: me.av.c | 0 } : { e: "", c: 0 };
+    tab.innerHTML =
+      '<form id="pf" novalidate>' +
+        '<fieldset><legend>Everyone in Onlu Members sees</legend>' +
+          '<label for="n">Name<input id="n" value="' + esc(me.n) + '"></label>' +
+          '<label for="r">Role<input id="r" maxlength="80" placeholder="Associate, private credit" value="' + esc(me.r) + '"></label>' +
+          '<label for="v">Area<select id="v">' + [""].concat(state.verticals).map(function(v){ return '<option value="' + esc(v) + '"' + (me.v === v ? " selected" : "") + ">" + esc(v || "\u2014") + "</option>"; }).join("") + "</select></label>" +
+          '<label for="o">One line <small>what you\'re working on, or who you want to meet</small><input id="o" maxlength="160" value="' + esc(me.o) + '" placeholder="Looking for people building AI tools for credit"></label>' +
+          '<div class="row2">' +
+            '<label for="mb">MBTI<select id="mb">' + [""].concat(MBTI).map(function(o){ return '<option value="' + o + '"' + (me.mb === o ? " selected" : "") + ">" + (o || "\u2014") + "</option>"; }).join("") + "</select></label>" +
+            '<label for="hm">From<input id="hm" maxlength="80" value="' + esc(me.hm) + '" placeholder="Shanghai"></label>' +
+          "</div>" +
+          '<div class="row2">' +
+            '<label for="lg">Languages<input id="lg" maxlength="80" value="' + esc(me.lg) + '" placeholder="\u4e2d\u6587, English"></label>' +
+            '<label for="ask">Ask me about<input id="ask" maxlength="80" value="' + esc(me.ask) + '" placeholder="Data center financing"></label>' +
+          "</div>" +
+          '<div><div class="hint" style="margin-bottom:6px">Avatar</div>' +
+            '<div class="emojis">' + AV_EMOJI.map(function(e){ return '<button type="button" data-e="' + e + '">' + e + "</button>"; }).join("") + "</div>" +
+            '<div class="colors" style="margin-top:8px">' + AV_COLORS.map(function(c, i){ return '<button type="button" data-c="' + i + '" style="background:' + c + '" aria-label="Color ' + (i + 1) + '"></button>'; }).join("") + "</div></div>" +
+        "</fieldset>" +
+        '<fieldset><legend>Only people you\'re connected with see</legend>' +
+          '<p class="lock">You both have to follow each other. The server never sends these to anyone else.</p>' +
+          '<label for="li">LinkedIn<input id="li" value="' + esc(s.li) + '" placeholder="linkedin.com/in/yourname"></label>' +
+          '<div class="row2">' +
+            '<label for="ig">Instagram<input id="ig" value="' + esc(s.ig) + '" placeholder="@handle"></label>' +
+            '<label for="wc">WeChat ID<input id="wc" value="' + esc(s.wc) + '" placeholder="wechat_id"></label>' +
+          "</div>" +
+          '<div class="row2">' +
+            '<label for="em">Email<input id="em" type="email" value="' + esc(s.em) + '"></label>' +
+            '<label for="ph">Phone<input id="ph" type="tel" value="' + esc(s.ph) + '" placeholder="optional"></label>' +
+          "</div>" +
+        "</fieldset>" +
+        '<p class="err" id="perr" hidden></p>' +
+        '<button class="btn primary" type="submit">Save profile</button>' +
+      "</form>";
+    function paintAv(){
+      tab.querySelectorAll(".emojis button").forEach(function(b){ b.setAttribute("aria-pressed", String(b.getAttribute("data-e") === av.e)); });
+      tab.querySelectorAll(".colors button").forEach(function(b){ b.setAttribute("aria-pressed", String(+b.getAttribute("data-c") === av.c)); });
+    }
+    tab.querySelectorAll(".emojis button").forEach(function(b){ b.addEventListener("click", function(){ var e = b.getAttribute("data-e"); av.e = av.e === e ? "" : e; paintAv(); }); });
+    tab.querySelectorAll(".colors button").forEach(function(b){ b.addEventListener("click", function(){ av.c = +b.getAttribute("data-c"); paintAv(); }); });
+    paintAv();
+    document.getElementById("pf").addEventListener("submit", function(e){
+      e.preventDefault();
+      var v = function(id){ return document.getElementById(id).value; };
+      var body = { n: v("n"), r: v("r"), v: v("v"), o: v("o"), mb: v("mb"), hm: v("hm"), lg: v("lg"), ask: v("ask"),
+                   av: av.e ? av : null, s: { li: v("li"), ig: v("ig"), wc: v("wc"), em: v("em"), ph: v("ph") } };
+      var btn = this.querySelector("button[type=submit]"); btn.disabled = true;
+      api("profile", body).then(function(r){
+        btn.disabled = false;
+        if (r.status !== 200){ var er = document.getElementById("perr"); er.textContent = r.error || "Couldn't save"; er.hidden = false; return; }
+        state.me = r.me; header(); toast("Profile saved");
+      });
+    });
+  }
+
+  function loadPeople(){ return api("people").then(function(r){ if (r.status === 200) state.people = r.people || []; }); }
+
+  function boot(){
+    api("me").then(function(r){
+      if (r.status === 401) return viewAuth(/[?&]code=/.test(location.search) ? "join" : "login");
+      if (r.status !== 200){
+        app.innerHTML = '<h1>Onlu <span class="grad">Members</span></h1><p class="empty">' + esc(r.error || "The members area isn't available right now.") + "</p>";
+        return;
+      }
+      state.me = r.me; state.verticals = r.verticals || [];
+      loadPeople().then(viewApp);
+    });
+  }
+  boot();
+})();
+</script>
+</body>
+</html>
