@@ -4,8 +4,10 @@
    GET /api/markets → { updated, cpi, fed, tiles: [...] }
 
    Reads public FRED series (Federal Reserve Bank of St. Louis) as CSV,
-   which needs no API key. Vercel's CDN caches the answer for 6 hours.
-   Any series that fails is simply left out.
+   which needs no API key, with keyless backups for when FRED refuses:
+   BLS (CPI, unemployment), Treasury.gov (yields), the New York Fed (Fed
+   funds range) and Stooq (S&P 500, Brent). Vercel's CDN caches the answer
+   for 6 hours. Any series that still fails is left out.
 
    CPI follows BLS headline conventions: the index level and year-over-year
    change use the not-seasonally-adjusted series (CPIAUCNS); month-over-month
@@ -13,21 +15,95 @@
    ============================================================ */
 
 const BASE = process.env.FRED_CSV_BASE || "https://fred.stlouisfed.org/graph/fredgraph.csv";
+// Backups, used for any series FRED doesn't return (FRED can refuse cloud servers).
+const BLS = process.env.BLS_API_BASE || "https://api.bls.gov/publicAPI/v1/timeseries/data/";
+const TREASURY = process.env.TREASURY_CSV_BASE || "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/daily-treasury-rates.csv";
+const NYFED = process.env.NYFED_API_BASE || "https://markets.newyorkfed.org/api/rates/unsecured/effr/last/60.json";
+const STOOQ = process.env.STOOQ_CSV_BASE || "https://stooq.com/q/d/l/";
 const DAY = 864e5;
+const UA = { "User-Agent": "Mozilla/5.0 (compatible; OnluBrief/1.0; +https://coffeewithonlu.com)" };
 
 function ymd(t) { return new Date(t).toISOString().slice(0, 10); }
 
-async function series(id, daysBack) {
-  const url = BASE + "?id=" + encodeURIComponent(id) + "&cosd=" + ymd(Date.now() - daysBack * DAY);
-  const ctrl = new AbortController(); const timer = setTimeout(() => ctrl.abort(), 8000);
+// fetch with a timeout; records "name:status" in errs on failure
+async function get(url, errs, name, opts) {
+  const ctrl = new AbortController(); const timer = setTimeout(() => ctrl.abort(), 6000);
   try {
-    const r = await fetch(url, { signal: ctrl.signal, headers: { "User-Agent": "Mozilla/5.0 (compatible; OnluBrief/1.0)" } });
-    if (!r.ok) return [];
-    return (await r.text()).trim().split(/\r?\n/).slice(1).map((line) => {
-      const [d, v] = line.split(",");
-      return { d: d && d.trim(), v: parseFloat(v) };
-    }).filter((x) => /^\d{4}-\d{2}-\d{2}$/.test(x.d) && isFinite(x.v));
-  } catch (e) { return []; } finally { clearTimeout(timer); }
+    const r = await fetch(url, Object.assign({ signal: ctrl.signal, headers: UA }, opts || {}));
+    if (!r.ok) { errs.push(name + ":" + r.status); return null; }
+    return await r.text();
+  } catch (e) { errs.push(name + ":" + (e.name === "AbortError" ? "timeout" : "error")); return null; }
+  finally { clearTimeout(timer); }
+}
+const ok = (x) => /^\d{4}-\d{2}-\d{2}$/.test(x.d) && isFinite(x.v);
+const asc = (rows) => rows.filter(ok).sort((a, b) => a.d.localeCompare(b.d));
+
+async function series(id, daysBack, errs) {
+  const text = await get(BASE + "?id=" + encodeURIComponent(id) + "&cosd=" + ymd(Date.now() - daysBack * DAY), errs, "FRED " + id);
+  if (!text || !/^[a-z_]+,/i.test(text)) { if (text) errs.push("FRED " + id + ":not csv"); return []; }
+  return asc(text.trim().split(/\r?\n/).slice(1).map((line) => { const [d, v] = line.split(","); return { d: d && d.trim(), v: parseFloat(v) }; }));
+}
+
+// BLS v1 (no key): CPI NSA, CPI SA, unemployment
+async function fromBLS(errs) {
+  const y = new Date().getUTCFullYear();
+  const text = await get(BLS, errs, "BLS", { method: "POST", headers: Object.assign({ "Content-Type": "application/json" }, UA),
+    body: JSON.stringify({ seriesid: ["CUUR0000SA0", "CUSR0000SA0", "LNS14000000"], startyear: String(y - 2), endyear: String(y) }) });
+  const out = {};
+  try {
+    const j = JSON.parse(text || "{}");
+    if (j.status !== "REQUEST_SUCCEEDED") { if (text) errs.push("BLS:" + (j.status || "bad")); return out; }
+    const map = { CUUR0000SA0: "CPIAUCNS", CUSR0000SA0: "CPIAUCSL", LNS14000000: "UNRATE" };
+    for (const s of j.Results.series || []) {
+      out[map[s.seriesID]] = asc((s.data || []).filter((x) => /^M(0[1-9]|1[0-2])$/.test(x.period))
+        .map((x) => ({ d: x.year + "-" + x.period.slice(1) + "-01", v: parseFloat(x.value) })));
+    }
+  } catch (e) { errs.push("BLS:parse"); }
+  return out;
+}
+
+// Treasury daily par yield curve (CSV per year)
+async function fromTreasury(errs) {
+  const now = new Date(), years = [now.getUTCFullYear()];
+  if (now.getUTCMonth() < 2) years.push(now.getUTCFullYear() - 1);
+  const rows = [];
+  for (const y of years) {
+    const text = await get(TREASURY + "/" + y + "/all?type=daily_treasury_yield_curve&field_tdr_date_value=" + y + "&page&_format=csv", errs, "Treasury " + y);
+    if (!text) continue;
+    const lines = text.trim().split(/\r?\n/);
+    const head = lines[0].split(",").map((h) => h.replace(/"/g, "").trim());
+    const i2 = head.indexOf("2 Yr"), i10 = head.indexOf("10 Yr"), i30 = head.indexOf("30 Yr");
+    if (i2 < 0 || i10 < 0) { errs.push("Treasury:columns"); continue; }
+    for (const line of lines.slice(1)) {
+      const c = line.split(","), m = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec((c[0] || "").replace(/"/g, ""));
+      if (m) rows.push({ d: m[3] + "-" + m[1] + "-" + m[2], y2: parseFloat(c[i2]), y10: parseFloat(c[i10]), y30: parseFloat(c[i30]) });
+    }
+  }
+  const pick = (k) => asc(rows.map((r) => ({ d: r.d, v: r[k] })));
+  return { DGS2: pick("y2"), DGS10: pick("y10"), DGS30: pick("y30"),
+           T10Y2Y: asc(rows.map((r) => ({ d: r.d, v: Math.round((r.y10 - r.y2) * 100) / 100 }))) };
+}
+
+// New York Fed: effective fed funds rate carries the target range
+async function fromNYFed(errs) {
+  const text = await get(NYFED, errs, "NYFed");
+  try {
+    const rates = (JSON.parse(text || "{}").refRates || []).filter((r) => r.targetRateTo != null);
+    return { DFEDTARU: asc(rates.map((r) => ({ d: r.effectiveDate, v: +r.targetRateTo }))),
+             DFEDTARL: asc(rates.map((r) => ({ d: r.effectiveDate, v: +r.targetRateFrom }))) };
+  } catch (e) { errs.push("NYFed:parse"); return {}; }
+}
+
+// Stooq daily closes: S&P 500 and Brent
+async function fromStooq(errs) {
+  const d1 = ymd(Date.now() - 60 * DAY).replace(/-/g, ""), d2 = ymd(Date.now()).replace(/-/g, "");
+  const one = async (sym, id) => {
+    const text = await get(STOOQ + "?s=" + encodeURIComponent(sym) + "&d1=" + d1 + "&d2=" + d2 + "&i=d", errs, "Stooq " + sym);
+    if (!text || !/^Date,/i.test(text)) { if (text) errs.push("Stooq " + sym + ":not csv"); return [id, []]; }
+    const lines = text.trim().split(/\r?\n/), head = lines[0].split(","), ic = head.indexOf("Close");
+    return [id, asc(lines.slice(1).map((l) => { const c = l.split(","); return { d: c[0], v: parseFloat(c[ic]) }; }))];
+  };
+  return Object.fromEntries(await Promise.all([one("^spx", "SP500"), one("cb.f", "DCOILBRENTEU")]));
 }
 
 const round = (x, n) => (x == null || !isFinite(x) ? null : Math.round(x * Math.pow(10, n)) / Math.pow(10, n));
@@ -64,12 +140,20 @@ module.exports = async (req, res) => {
     CPIAUCNS: 800, CPIAUCSL: 800, DFEDTARU: 60, DFEDTARL: 60, DGS2: 60, DGS10: 60, DGS30: 60,
     T10Y2Y: 60, BAMLH0A0HYM2: 60, UNRATE: 120, DCOILBRENTEU: 60, SP500: 60,
   };
-  const keys = Object.keys(ids);
-  const got = await Promise.all(keys.map((k) => series(k, ids[k])));
-  const S = Object.fromEntries(keys.map((k, i) => [k, got[i]]));
+  const keys = Object.keys(ids), errs = [];
+  // FRED and the backups run at the same time; FRED wins wherever it answered
+  const [got, ...backups] = await Promise.all([
+    Promise.all(keys.map((k) => series(k, ids[k], errs))), fromBLS(errs), fromTreasury(errs), fromNYFed(errs), fromStooq(errs)]);
+  const S = {}, source = {};
+  keys.forEach((k, i) => {
+    if (got[i].length) { S[k] = got[i]; source[k] = "FRED"; return; }
+    const alt = backups.find((b) => b && b[k] && b[k].length);
+    S[k] = alt ? alt[k] : [];
+    if (alt) source[k] = ["BLS", "Treasury", "NY Fed", "Stooq"][backups.indexOf(alt)];
+  });
 
   const out = { updated: new Date().toISOString(), cpi: cpiBlock(S.CPIAUCNS, S.CPIAUCSL), fed: null, tiles: [],
-    missing: keys.filter((k) => !S[k].length) };   // series FRED didn't return (helps diagnose)
+    source, missing: keys.filter((k) => !S[k].length), errors: errs };   // to diagnose outages
 
   const up = latestAndMonthAgo(S.DFEDTARU), lo = latestAndMonthAgo(S.DFEDTARL);
   if (up && lo) out.fed = { lo: lo.v, hi: up.v, d: up.d };
