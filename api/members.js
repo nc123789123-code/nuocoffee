@@ -36,7 +36,10 @@
 const crypto = require("crypto");
 const { redis, pipeline, configured, token } = require("./_redis");
 
-const ADMIN = String(process.env.ONLU_ADMIN_EMAIL || "").trim().toLowerCase();
+// one or more host emails, comma-separated; quotes pasted around the value are ignored
+const ADMINS = String(process.env.ONLU_ADMIN_EMAIL || "").split(",")
+  .map((e) => e.trim().replace(/^["']+|["']+$/g, "").trim().toLowerCase()).filter(Boolean);
+const ADMIN = ADMINS[0] || "";
 const SECRET = process.env.SESSION_SECRET || crypto.createHash("sha256").update("onlu-session:" + (token || "")).digest("hex");
 const COOKIE = "onlu_s";
 const MONTH = 60 * 60 * 24 * 30;
@@ -113,7 +116,7 @@ async function getEvents(codes) {
   raws.forEach((r, i) => { if (r) out[codes[i]] = JSON.parse(r); });
   return out;
 }
-const isAdmin = (u) => Boolean(ADMIN && u && u.le === ADMIN);
+const isAdmin = (u) => Boolean(u && u.le && ADMINS.indexOf(String(u.le).toLowerCase()) > -1);
 
 // who shares an event with me: id → [codes]
 async function sharedMap(me) {
@@ -193,7 +196,9 @@ module.exports = async (req, res) => {
     if (a === "me" && req.method === "GET") {
       const [following, followers] = await pipeline([["SMEMBERS", `follows:${uid}`], ["SMEMBERS", `followers:${uid}`]]);
       const view = Object.assign({}, me); delete view.le;
-      return send(res, 200, { me: view, admin, events: await getEvents(me.ev || []), following, followers, verticals: VERTICALS });
+      // hostSetup helps diagnose: is the variable visible to this deployment, and does my login email match it?
+      const hostSetup = { variableFound: ADMINS.length > 0, signedInAs: me.le || "(unknown: account made before host support)" };
+      return send(res, 200, { me: view, admin, hostSetup, events: await getEvents(me.ev || []), following, followers, verticals: VERTICALS });
     }
 
     if (a === "profile" && isPost) {
