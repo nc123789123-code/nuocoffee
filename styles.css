@@ -215,6 +215,7 @@ body > *:not(.fx) { position: relative; z-index: 1; }
 .thisweek .section__lede { margin-bottom: 36px; }
 
 /* ---------- Onlu Brief ---------- */
+.brief-list__head { margin: 28px 0 12px; }
 .brief-list { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
 .brief-card { display: flex; flex-direction: column; gap: 10px; background: var(--surface); border: 1px solid var(--line); border-top: 3px solid var(--ac); border-radius: 18px; padding: 22px; min-width: 0; }
 .brief-meta { display: flex; align-items: center; gap: 10px; font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.06em; color: var(--dim); }
@@ -229,7 +230,7 @@ body > *:not(.fx) { position: relative; z-index: 1; }
 .mk { --mk-line: var(--line); --mk-surface: var(--surface); --mk-surface-solid: var(--surface); --mk-text: var(--text); --mk-muted: var(--muted); --mk-dim: var(--dim);
   --mk-accent: var(--tiffany-2); --mk-display: var(--font-display); --mk-mono: var(--font-mono); --mk-body: var(--font-body, inherit); }
 .mk--home { margin-top: 22px; }
-.mk--home .mk-tiles { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); margin-top: 10px; }
+.mk.mk--home .mk-tiles { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); margin-top: 10px; }
 .today-home__head a { font-size: 0.82rem; color: var(--tiffany-2); text-decoration: none; }
 [hidden] { display: none !important; }
 /* Market summary + key dates */
