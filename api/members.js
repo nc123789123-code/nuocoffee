@@ -2,7 +2,7 @@
    Onlu Members — accounts, events, profiles and follows (Vercel function)
 
    One endpoint, chosen with ?a=:
-     POST signup  { code, name, email, password }   (code = an event's code)
+     POST signup  { code?, name, email, password }  (code = an event's code, optional)
      POST login   { email, password }
      POST logout
      POST join    { code }                → add another event I attended
@@ -14,6 +14,8 @@
      POST event   { name, date }          → (admin) create an event and its code
 
    Rules, enforced here and nowhere else:
+   • Anyone can make an account, but they see no one (and no one sees them)
+     until they add the code of an event they attended.
    • Members see only people who attended at least one of the same events.
      The admin (the host) sees everyone.
    • You can follow only people you share an event with.
@@ -21,8 +23,8 @@
      between two members who follow each other.
 
    Needs the Upstash Redis connection (see README) and:
-     ONLU_ADMIN_EMAIL – the host's email. That account can sign up without a
-                        code and is the only one that can create events.
+     ONLU_ADMIN_EMAIL – the host's email. That account sees every member and
+                        is the only one that can create events.
    Optional: SESSION_SECRET (defaults to a key derived from the Redis token).
    ============================================================ */
 
@@ -135,8 +137,6 @@ module.exports = async (req, res) => {
     if (a === "signup" && isPost) {
       const email = str(body.email, 120).toLowerCase(), pw = String(body.password || ""), name = str(body.name, 80);
       const code = normCode(body.code);
-      const asAdmin = ADMIN && email === ADMIN;
-      if (!asAdmin && !code) return send(res, 400, { error: "Enter the code from your Onlu event." });
       if (code && (!CODE_RE.test(code) || !(await redis(["EXISTS", `event:${code}`])))) {
         return send(res, 403, { error: "That event code isn't right. Ask Karlie for the code from your Onlu event." });
       }

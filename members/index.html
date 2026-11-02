@@ -105,6 +105,7 @@ legend small{font-weight:400;color:var(--dim);}
 .evcode{font-family:var(--mono);font-size:.8rem;color:var(--muted);margin-top:8px;}
 .evcode b{color:var(--text);font-size:.95rem;letter-spacing:.04em;}
 .joinev{margin-top:22px;border-top:1px solid var(--line);padding-top:16px;}
+.joinev.first{margin-top:12px;border-top:0;padding-top:0;}
 .joinrow{display:flex;gap:8px;align-items:center;}
 .joinrow input{flex:1;min-width:0;}
 .tabs button{white-space:nowrap;}
@@ -205,7 +206,7 @@ legend small{font-weight:400;color:var(--dim);}
       "</div>" +
       '<form id="auth" novalidate>' +
         (mode === "join"
-          ? '<label for="code">Event code <small>Karlie shares it at each Onlu event</small><input id="code" autocomplete="off" autocapitalize="off" value="' + esc(decodeURIComponent(code)) + '" placeholder="From your Onlu event"></label>' +
+          ? '<label for="code">Event code <small>optional: from your Onlu event, or add it later</small><input id="code" autocomplete="off" autocapitalize="off" value="' + esc(decodeURIComponent(code)) + '" placeholder="From your Onlu event"></label>' +
             '<label for="name">Name<input id="name" autocomplete="name" placeholder="Karlie Chen"></label>'
           : "") +
         '<label for="email">Email<input id="email" type="email" autocomplete="email" placeholder="you@email.com"></label>' +
@@ -258,10 +259,12 @@ legend small{font-weight:400;color:var(--dim);}
     if (state.tab === "profile") return viewProfile(tab);
     if (state.tab === "events") return viewEvents(tab);
     if (state.tab === "connected") return viewList(tab, mutual, "When you and someone follow each other, they show up here with their socials.");
+    var noEvents = !state.admin && !Object.keys(state.myEvents).length;
+    if (noEvents) tab.insertAdjacentHTML("beforeend", '<p class="lock" style="margin-top:16px">Add the code from the Onlu event you went to, and you\u2019ll see everyone else who was there.</p>');
     if (back.length) tab.insertAdjacentHTML("beforeend", '<p class="hint" style="margin-top:14px">' + back.length + (back.length === 1 ? " person follows" : " people follow") + " you. Follow back to swap socials.</p>");
-    viewList(tab, state.people, state.admin ? "No members yet. Create an event and share its code." : "No one else from your events has joined yet. Share your event\u2019s code with the people you met.", true);
+    if (!noEvents) viewList(tab, state.people, state.admin ? "No members yet. Create an event and share its code." : "No one else from your events has joined yet. Share your event\u2019s code with the people you met.", true);
     tab.insertAdjacentHTML("beforeend",
-      '<form id="joinEv" class="joinev" novalidate><label for="jcode">Went to another Onlu event? <small>add its code to see those people too</small>' +
+      '<form id="joinEv" class="joinev' + (noEvents ? " first" : "") + '" novalidate><label for="jcode">' + (noEvents ? "Your event code" : "Went to another Onlu event? <small>add its code to see those people too</small>") +
       '<span class="joinrow"><input id="jcode" autocomplete="off" autocapitalize="off" placeholder="Event code"><button class="btn sm" type="submit">Add</button></span></label>' +
       '<p class="err" id="jerr" hidden></p></form>');
     document.getElementById("joinEv").addEventListener("submit", function(e){

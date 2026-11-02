@@ -378,8 +378,18 @@ body > *:not(.fx) { position: relative; z-index: 1; }
   .waitlist { grid-template-columns: 1fr; }
   .strip__inner { grid-template-columns: repeat(2, 1fr); gap: 26px 12px; }
 }
+.hero__note .hero__members { color: var(--tiffany2); font-weight: 600; white-space: nowrap; text-decoration: none; }
+@media (max-width: 860px) {
+  .nav__links a:not(.btn) { display: none; }
+}
+.hero__note .hero__members:hover { color: var(--text); }
 @media (max-width: 620px) {
   .nav__links a:not(.btn) { display: none; }
+  .nav__links .btn--sm { padding: 8px 12px; font-size: 0.82rem; white-space: nowrap; }
+}
+@media (max-width: 480px) {
+  /* the hero's own "Save my spot" sits right below, so the nav keeps just Members */
+  .nav__links .btn--sm:not(.btn--ghost) { display: none; }
   .steps { grid-template-columns: 1fr; }
   .verticals { grid-template-columns: 1fr; }
   .field--row { grid-template-columns: 1fr; }
