@@ -43,68 +43,121 @@
      ============================================================ */
   const EVENTS = [
     {
-      vertical: "Investment Banking",
-      formVertical: "Investment Banking (M&A / Coverage)",
-      iso: "2026-08-09",
-      date: "Sunday, Aug 9",
-      time: "Afternoon",
-      place: "Midtown",
+      title: "Finance coffee chat",
+      vertical: "Finance",
+      formVertical: "Finance",
+      iso: "2026-07-12",
+      date: "Sunday, Jul 12",
+      time: "10:00 AM",
+      place: "Paper Coffee, NoMad",
       note: "",
       full: false,
-      partiful: "https://partiful.com/e/7NsXV90qdPXOfFBNf47k?c=NdK75lyX",
+      partiful: "https://partiful.com/e/1Hhjk5cmcu6eqHueeW4G",
       luma: "",
     },
     {
-      title: "Finance Dinner",         // overrides the "<vertical> coffee" heading
+      title: "Private credit coffee chat",
+      vertical: "Private Credit",
+      formVertical: "Private Credit",
+      iso: "2026-07-26",
+      date: "Sunday, Jul 26",
+      time: "10:30 AM",
+      place: "Shake Shack, Madison Square Park",
+      note: "",
+      full: false,
+      partiful: "https://partiful.com/e/xZ10AWcHiWPKhsZs5XEz",
+      luma: "",
+    },
+    {
+      title: "Markets / sales & trading coffee",
+      vertical: "Public Markets",
+      formVertical: "Public Markets",
+      iso: "2026-08-01",
+      date: "Saturday, Aug 1",
+      time: "3:00 PM",
+      place: "Paper Coffee, NoMad",
+      note: "",
+      full: false,
+      partiful: "https://partiful.com/e/eoBkUCqT0DQWQ2SMddzn",
+      luma: "",
+    },
+    {
+      title: "Investment banking coffee",
+      vertical: "Investment Banking",
+      formVertical: "Investment Banking",
+      iso: "2026-08-09",
+      date: "Sunday, Aug 9",
+      time: "2:00 PM",
+      place: "Paper Coffee, NoMad",
+      note: "",
+      full: false,
+      partiful: "https://partiful.com/e/7NsXV90qdPXOfFBNf47k",
+      luma: "",
+    },
+    {
+      title: "Quant coffee chat",
+      vertical: "Quant",
+      formVertical: "Quant",
+      iso: "2026-08-16",
+      date: "Sunday, Aug 16",
+      time: "2:30 PM",
+      place: "Ace Hotel lobby bar",
+      note: "",
+      full: false,
+      partiful: "",
+      luma: "https://luma.com/qelqjf9m",
+    },
+    {
+      title: "Finance dinner",
       vertical: "Finance Dinner",
       formVertical: "Finance Dinner",
       iso: "2026-08-22",
       date: "Saturday, Aug 22",
       time: "6:00 PM",
-      place: "West Chelsea restaurant",
-      note: "Max 6 · dinner",
+      place: "West Chelsea",
+      note: "",
       full: false,
-      partiful: "",  // add this dinner's Partiful link here
-      luma: "",      // add the Luma link here, if it was on Luma
+      partiful: "",
+      luma: "https://luma.com/wiw3w33f",
     },
     {
-      title: "AI / Finance coffee",
+      title: "AI coffee chat",
       vertical: "AI / Finance",
       formVertical: "AI / Finance",
       iso: "2026-08-30",
       date: "Sunday, Aug 30",
-      time: "Afternoon",
+      time: "2:30 PM",
       place: "Midtown",
       note: "",
       full: false,
-      partiful: "",  // add this coffee's Partiful link here
-      luma: "",      // add the Luma link here, if it was on Luma
+      partiful: "",
+      luma: "https://luma.com/ncrajhc1",
     },
     {
       title: "Credit coffee chat",
       vertical: "Credit",
       formVertical: "Credit",
-      iso: "2026-09-26",
-      date: "Saturday, Sep 26",
-      time: "4:00–7:00 PM",
-      place: "West Chelsea",
-      note: "35 seats · tables of 4–6",
+      iso: "2026-10-03",
+      date: "Saturday, Oct 3",
+      time: "2:00–4:00 PM",
+      place: "The 550 Garden, Midtown",
+      note: "",
       full: false,
-      partiful: "",  // add this coffee's Partiful link here
-      luma: "",      // add the Luma link here, if it was on Luma
+      partiful: "",
+      luma: "https://luma.com/0yye7byv",
     },
     {
-      title: "AI data center financing",
+      title: "Infra / data center financing coffee",
       vertical: "AI / Infra Financing",
       formVertical: "AI / Infra Financing",
       iso: "2026-10-11",
       date: "Sunday, Oct 11",
       time: "2:00–4:00 PM",
-      place: "Midtown",
+      place: "550 Madison Ave",
       note: "",
       full: false,
-      partiful: "",  // add this coffee's Partiful link here
-      luma: "",      // add the Luma link here, if it was on Luma
+      partiful: "",
+      luma: "https://luma.com/jtdadov8",
     },
     {
       title: "Finance × AI startup brainstorm",
@@ -113,11 +166,24 @@
       iso: "2026-10-17",
       date: "Saturday, Oct 17",
       time: "10:00–11:30 AM",
-      place: "",                        // add the neighbourhood once it's set
-      note: "Small group · bring an idea, not a deck",
+      place: "Chelsea",
+      note: "",
       full: false,
-      partiful: "",  // add this coffee's Partiful link here
-      luma: "",      // add the Luma link here, if it was on Luma
+      partiful: "",
+      luma: "https://luma.com/7ul1f8qs",
+    },
+    {
+      title: "Onlu Newsroom vol. 1",
+      vertical: "Newsroom",
+      formVertical: "Newsroom",
+      iso: "2026-10-24",
+      date: "Saturday, Oct 24",
+      time: "10:00 AM–12:00 PM",
+      place: "Midtown",
+      note: "First paid Onlu event",
+      full: false,
+      partiful: "",
+      luma: "https://luma.com/cvo992fm",
     },
   ];
 
@@ -157,12 +223,16 @@
           '<div class="past-main">' +
             '<h3 class="past-title">' + (ev.title || (ev.vertical + " coffee")) + "</h3>" +
             '<p class="past-meta">' + [(ev.date || "").split(",")[0], ev.place].filter(Boolean).join(" · ") + "</p>" +
+            (ev.note ? '<p class="past-note">' + ev.note + "</p>" : "") +
             (links ? '<p class="past-links">' + links + "</p>" : "") +
           "</div>" +
           '<span class="past-icon" aria-hidden="true">' + svg(s.i) + "</span>" +
         "</li>"
       );
     }).join("");
+    var count = document.getElementById("pastCount");
+    if (count) count.textContent = events.length + " small tables across New York since " +
+      new Date(events[events.length - 1].iso + "T12:00:00Z").toLocaleDateString("en-US", { month: "long", timeZone: "UTC" }) + ", one theme at a time.";
     section.hidden = false;
   }
 
@@ -180,6 +250,7 @@
   function styleFor(name) {
     var n = (name || "").toLowerCase();
     if (n.indexOf("dinner") > -1 || n.indexOf("lunch") > -1) return { c: "var(--pink)", i: "dinner" };
+    if (n.indexOf("newsroom") > -1)       return { c: "var(--violet)",    i: "receipt" };
     if (/\bai\b/.test(n))                 return { c: "var(--sky)",       i: "cpu" };
     if (n.indexOf("private equity") > -1) return { c: "var(--tiffany)",   i: "bank" };
     if (n.indexOf("private credit") > -1) return { c: "var(--tiffany)",   i: "receipt" };
