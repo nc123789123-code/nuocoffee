@@ -100,6 +100,8 @@ h2{font-family:var(--display);font-weight:600;font-size:.95rem;letter-spacing:-.
 .tick{flex-direction:row;align-items:center;gap:8px;color:var(--text);}
 .tick input{width:auto;accent-color:var(--tiffany);}
 select{font:inherit;font-size:16px;color:var(--text);background:var(--surface);border:1px solid var(--line2);border-radius:12px;padding:11px 12px;width:100%;}
+select{-webkit-appearance:none;appearance:none;background:var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239befe4' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 12px center/18px;padding-right:40px;cursor:pointer;}
+select option{background:#13283b;color:#eef6fb;}
 .about{margin-top:14px;padding-top:12px;border-top:1px solid var(--line);}
 .about__p{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
 .about__p span{font-size:.8rem;padding:5px 10px;border-radius:999px;background:rgba(185,168,255,.12);border:1px solid rgba(185,168,255,.4);color:var(--muted);}
@@ -2853,8 +2855,8 @@ var qrcode = function() {
           '<input id="ag" name="ag" type="url" placeholder="chatgpt.com/g/your-agent" value="' + esc(me.ag) + '"></label>' +
         '<details class="health" id="abt"' + (me.mb || me.zd || me.hm || me.lg || me.ask ? " open" : "") + "><summary>About you <small>optional \u00b7 MBTI and more</small></summary>" +
           '<div class="row2">' +
-            '<label for="mb">MBTI<select id="mb">' + [""].concat(MBTI).map(function(o){ return '<option value="' + o + '"' + (me.mb === o ? " selected" : "") + ">" + (o || "\u2014") + "</option>"; }).join("") + "</select></label>" +
-            '<label for="zd">Zodiac<select id="zd">' + [""].concat(ZODIAC).map(function(o){ return '<option value="' + o + '"' + (me.zd === o ? " selected" : "") + ">" + (o || "\u2014") + "</option>"; }).join("") + "</select></label>" +
+            '<label for="mb">MBTI<select id="mb">' + [""].concat(MBTI).map(function(o){ return '<option value="' + o + '"' + (me.mb === o ? " selected" : "") + ">" + (o || "Choose\u2026") + "</option>"; }).join("") + "</select></label>" +
+            '<label for="zd">Zodiac<select id="zd">' + [""].concat(ZODIAC).map(function(o){ return '<option value="' + o + '"' + (me.zd === o ? " selected" : "") + ">" + (o || "Choose\u2026") + "</option>"; }).join("") + "</select></label>" +
           "</div>" +
           '<div class="row2">' +
             '<label for="hm">From<input id="hm" maxlength="40" placeholder="Shanghai" value="' + esc(me.hm) + '"></label>' +
@@ -2873,7 +2875,7 @@ var qrcode = function() {
           '<p class="hint">Off unless you switch it on. Only what you fill in is shown, and anyone who scans your card can see it.</p>' +
           '<label class="tick" for="wOn"><input id="wOn" type="checkbox"' + (me.wOn ? " checked" : "") + "> Show this on my card</label>" +
           '<label for="wsrc">From<select id="wsrc">' + ["", "Oura", "Apple Health", "Whoop", "Garmin", "Fitbit"].map(function(o){
-              return '<option value="' + o + '"' + ((me.w && me.w.src) === o ? " selected" : "") + ">" + (o || "\u2014") + "</option>"; }).join("") + "</select></label>" +
+              return '<option value="' + o + '"' + ((me.w && me.w.src) === o ? " selected" : "") + ">" + (o || "Choose\u2026") + "</option>"; }).join("") + "</select></label>" +
           '<div class="row2">' +
             '<label for="wsl">Sleep score<input id="wsl" inputmode="numeric" maxlength="3" placeholder="85" value="' + esc(me.w && me.w.sl) + '"></label>' +
             '<label for="wrd">Readiness<input id="wrd" inputmode="numeric" maxlength="3" placeholder="78" value="' + esc(me.w && me.w.rd) + '"></label>' +
@@ -2881,7 +2883,7 @@ var qrcode = function() {
           '<div class="row2">' +
             '<label for="wst">Steps a day<input id="wst" inputmode="numeric" placeholder="8,000" value="' + esc(me.w && me.w.st) + '"></label>' +
             '<label for="wch">Rhythm<select id="wch">' + ["", "Early bird", "Night owl"].map(function(o){
-              return '<option value="' + o + '"' + ((me.w && me.w.ch) === o ? " selected" : "") + ">" + (o || "\u2014") + "</option>"; }).join("") + "</select></label>" +
+              return '<option value="' + o + '"' + ((me.w && me.w.ch) === o ? " selected" : "") + ">" + (o || "Choose\u2026") + "</option>"; }).join("") + "</select></label>" +
           "</div>" +
           '<label for="wact">Into<input id="wact" maxlength="40" placeholder="Running, pilates, tennis" value="' + esc(me.w && me.w.act) + '"></label>' +
         "</details>" +

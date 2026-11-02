@@ -61,6 +61,8 @@ label{display:flex;flex-direction:column;gap:5px;font-size:.82rem;font-weight:60
 label small{font-weight:400;color:var(--dim);}
 input,select,textarea{font:inherit;font-size:16px;color:var(--text);background:var(--surface);border:1px solid var(--line2);border-radius:12px;padding:11px 12px;width:100%;}
 input::placeholder{color:#55708a;}
+select{-webkit-appearance:none;appearance:none;background:var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239befe4' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 12px center/18px;padding-right:40px;cursor:pointer;}
+select option{background:#13283b;color:#eef6fb;}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
 fieldset{border:1px solid var(--line);border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:10px;}
 legend{font-size:.82rem;font-weight:600;color:var(--muted);padding:0 4px;}
@@ -380,10 +382,10 @@ legend small{font-weight:400;color:var(--dim);}
         '<fieldset><legend>Everyone in Onlu Members sees</legend>' +
           '<label for="n">Name<input id="n" value="' + esc(me.n) + '"></label>' +
           '<label for="r">Role<input id="r" maxlength="80" placeholder="Associate, private credit" value="' + esc(me.r) + '"></label>' +
-          '<label for="v">Area<select id="v">' + [""].concat(state.verticals).map(function(v){ return '<option value="' + esc(v) + '"' + (me.v === v ? " selected" : "") + ">" + esc(v || "\u2014") + "</option>"; }).join("") + "</select></label>" +
+          '<label for="v">Area<select id="v">' + [""].concat(state.verticals).map(function(v){ return '<option value="' + esc(v) + '"' + (me.v === v ? " selected" : "") + ">" + esc(v || "Choose\u2026") + "</option>"; }).join("") + "</select></label>" +
           '<label for="o">One line <small>what you\'re working on, or who you want to meet</small><input id="o" maxlength="160" value="' + esc(me.o) + '" placeholder="Looking for people building AI tools for credit"></label>' +
           '<div class="row2">' +
-            '<label for="mb">MBTI<select id="mb">' + [""].concat(MBTI).map(function(o){ return '<option value="' + o + '"' + (me.mb === o ? " selected" : "") + ">" + (o || "\u2014") + "</option>"; }).join("") + "</select></label>" +
+            '<label for="mb">MBTI<select id="mb">' + [""].concat(MBTI).map(function(o){ return '<option value="' + o + '"' + (me.mb === o ? " selected" : "") + ">" + (o || "Choose\u2026") + "</option>"; }).join("") + "</select></label>" +
             '<label for="hm">From<input id="hm" maxlength="80" value="' + esc(me.hm) + '" placeholder="Shanghai"></label>' +
           "</div>" +
           '<div class="row2">' +
