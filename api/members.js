@@ -21,6 +21,9 @@
      GET  events                          → (admin) every event with head counts
      POST event   { name, date }          → (admin) create an event and its code
      GET  export                          → (admin) every member's full record
+     GET  news                            → Onlu Brief stories the host posted (public)
+     POST news-add { title, … }           → (admin) post a story
+     POST news-del { id }                 → (admin) remove a posted story
 
    Rules, enforced here and nowhere else:
    • Anyone can make an account, but they see no one (and no one sees them)
@@ -61,6 +64,7 @@ const CODE_RE = /^[a-z0-9-]{3,40}$/;
 
 const PUBLIC = ["n", "r", "o", "v", "mb", "hm", "lg", "ask"];
 const PRIVATE = ["li", "ig", "wc", "em", "ph"];
+const NEWS_AREAS = ["Credit", "Macro", "AI", "Tech", "Healthcare", "Consumer", "Real estate", "Resources"];
 const VERTICALS = ["Credit", "Quant & trading", "PE & real assets", "Investment banking", "Research & strategy", "AI & tech", "Healthcare", "Other"];
 
 // ---------- helpers ----------
@@ -195,6 +199,11 @@ module.exports = async (req, res) => {
     if (a === "logout" && isPost) { setSession(res, ""); return send(res, 200, { ok: true }); }
 
     if (a === "config" && req.method === "GET") return send(res, 200, { googleClientId: GOOGLE_CLIENT_ID });
+
+    if (a === "news" && req.method === "GET") {
+      const raw = await redis(["GET", "news"]);
+      return send(res, 200, { items: raw ? JSON.parse(raw) : [] });
+    }
 
     if (a === "google" && isPost) {
       if (!GOOGLE_CLIENT_ID) return send(res, 503, { error: "Google sign-in isn't set up yet." });
@@ -350,6 +359,35 @@ module.exports = async (req, res) => {
       const tok = rid(32);
       await redis(["SET", `reset:${tok}`, JSON.stringify({ id: target.id, exp: Date.now() + 24 * 3600 * 1000 }), "EX", 86400]);
       return send(res, 200, { token: tok });
+    }
+
+    if (a === "news-add" && isPost) {
+      if (!admin) return send(res, 403, { error: "Only the host can post stories." });
+      const title = str(body.title, 160);
+      if (!title) return send(res, 400, { error: "Give the story a headline." });
+      const date = /^\d{4}-\d{2}-\d{2}$/.test(str(body.date, 10)) ? str(body.date, 10) : new Date().toISOString().slice(0, 10);
+      const area = NEWS_AREAS.indexOf(body.area) > -1 ? body.area : "Credit";
+      const url = str(body.srcUrl, 500);
+      if (url && !/^https?:\/\//i.test(url)) return send(res, 400, { error: "The source link should start with https://" });
+      const item = {
+        id: date + "-" + rid(5), date, area, title,
+        short: str(body.short, 240), what: str(body.what, 1500), take: str(body.take, 500),
+        why: String(body.why || "").split(/\n+/).map((x) => x.trim().replace(/^[-•*]\s*/, "").slice(0, 400)).filter(Boolean).slice(0, 4),
+        src: url ? [{ n: str(body.srcName, 80) || url.replace(/^https?:\/\/(www\.)?/i, "").split("/")[0], u: url }] : [],
+        posted: Date.now(),
+      };
+      const raw = await redis(["GET", "news"]);
+      const list = [item].concat(raw ? JSON.parse(raw) : []).slice(0, 200);
+      await redis(["SET", "news", JSON.stringify(list)]);
+      return send(res, 200, { item });
+    }
+
+    if (a === "news-del" && isPost) {
+      if (!admin) return send(res, 403, { error: "Only the host can remove stories." });
+      const raw = await redis(["GET", "news"]);
+      const list = (raw ? JSON.parse(raw) : []).filter((x) => x.id !== str(body.id, 40));
+      await redis(["SET", "news", JSON.stringify(list)]);
+      return send(res, 200, { ok: true });
     }
 
     if (a === "export" && req.method === "GET") {

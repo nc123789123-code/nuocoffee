@@ -59,7 +59,9 @@ h2{font-family:var(--display);font-weight:600;font-size:.95rem;letter-spacing:-.
 form{display:flex;flex-direction:column;gap:12px;margin-top:16px;}
 label{display:flex;flex-direction:column;gap:5px;font-size:.82rem;font-weight:600;color:var(--muted);}
 label small{font-weight:400;color:var(--dim);}
-input,select,textarea{font:inherit;font-size:16px;color:var(--text);background:var(--surface);border:1px solid var(--line2);border-radius:12px;padding:11px 12px;width:100%;}
+input,select,textarea{resize:vertical;}
+h2 small.hint{display:block;font-family:var(--body);font-weight:400;font-size:.78rem;margin-top:2px;}
+textarea{font:inherit;font-size:16px;color:var(--text);background:var(--surface);border:1px solid var(--line2);border-radius:12px;padding:11px 12px;width:100%;}
 input::placeholder{color:#55708a;}
 select{-webkit-appearance:none;appearance:none;background:var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239befe4' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 12px center/18px;padding-right:40px;cursor:pointer;}
 select option{background:#13283b;color:#eef6fb;}
@@ -638,7 +640,47 @@ legend small{font-weight:400;color:var(--dim);}
         '<p class="err" id="everr" hidden></p>' +
         '<button class="btn primary" type="submit">Create event</button></fieldset></form>' +
       "<h2>Your events</h2><div class=\"list\" id=\"evlist\"><p class=\"hint\">Loading\u2026</p></div>" +
+      '<h2>Post to Onlu Brief <small class="hint">shows on the homepage and coffeewithonlu.com/news</small></h2>' +
+      '<form id="nf" novalidate><fieldset>' +
+        '<label for="nt">Headline<input id="nt" maxlength="160" placeholder="The Fed holds, and two officials wanted a hike"></label>' +
+        '<div class="row2"><label for="nd">Date<input id="nd" type="date"></label>' +
+        '<label for="na">Area<select id="na">' + ["Credit", "Macro", "AI", "Tech", "Healthcare", "Consumer", "Real estate", "Resources"].map(function(x){ return "<option>" + x + "</option>"; }).join("") + "</select></label></div>" +
+        '<label for="ns">One line <small>shown on the homepage card</small><input id="ns" maxlength="240"></label>' +
+        '<label for="nw">What happened<textarea id="nw" rows="3"></textarea></label>' +
+        '<label for="ny">Why it matters <small>one point per line</small><textarea id="ny" rows="3"></textarea></label>' +
+        '<label for="nk">Onlu take<textarea id="nk" rows="2"></textarea></label>' +
+        '<div class="row2"><label for="nsn">Source name<input id="nsn" placeholder="Bloomberg"></label>' +
+        '<label for="nsu">Source link<input id="nsu" type="url" placeholder="https://\u2026"></label></div>' +
+        '<p class="err" id="nerr" hidden></p><button class="btn primary" type="submit">Post story</button>' +
+      '</fieldset></form><div class="list" id="nlist"></div>' +
       '<h2 id="mh">Members</h2><button class="btn" type="button" id="csv" disabled>Download CSV</button><div class="list" id="mlist"><p class="hint">Loading\u2026</p></div>';
+    function loadNews(){
+      api("news").then(function(r){
+        var el = document.getElementById("nlist"); if (!el) return;
+        var items = (r && r.items) || [];
+        el.innerHTML = items.length ? items.map(function(it){
+          return '<div class="mrow"><div class="mrow__top"><b>' + esc(it.title) + "</b><span>" + esc(it.area + " \u00b7 " + it.date) + "</span></div>" +
+            '<div class="mrow__act"><a class="link" href="/news/#' + esc(it.id) + '" target="_blank" rel="noopener">View</a> \u00b7 ' +
+            '<button class="link" type="button" data-ndel="' + esc(it.id) + '">Remove</button></div></div>';
+        }).join("") : '<p class="hint">Stories you post appear here. The built-in stories stay on the site too.</p>';
+        el.querySelectorAll("[data-ndel]").forEach(function(b){ b.addEventListener("click", function(){
+          api("news-del", { id: b.getAttribute("data-ndel") }).then(function(){ toast("Removed"); loadNews(); });
+        }); });
+      });
+    }
+    loadNews();
+    document.getElementById("nd").value = new Date().toISOString().slice(0, 10);
+    document.getElementById("nf").addEventListener("submit", function(e){
+      e.preventDefault();
+      var v = function(id){ return document.getElementById(id).value; }, err = document.getElementById("nerr"), btn = this.querySelector("button[type=submit]");
+      btn.disabled = true; err.hidden = true;
+      api("news-add", { title: v("nt"), date: v("nd"), area: v("na"), short: v("ns"), what: v("nw"), why: v("ny"), take: v("nk"), srcName: v("nsn"), srcUrl: v("nsu") }).then(function(r){
+        btn.disabled = false;
+        if (r.status !== 200){ err.textContent = r.error || "Couldn\u2019t post it"; err.hidden = false; return; }
+        ["nt", "ns", "nw", "ny", "nk", "nsn", "nsu"].forEach(function(id){ document.getElementById(id).value = ""; });
+        toast("Posted to Onlu Brief"); loadNews();
+      });
+    });
     api("export").then(function(r){
       var el = document.getElementById("mlist"); if (!el) return;
       if (r.status !== 200){ el.innerHTML = '<p class="empty">' + esc(r.error || "Couldn't load members") + "</p>"; return; }

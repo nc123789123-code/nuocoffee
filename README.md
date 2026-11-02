@@ -130,6 +130,17 @@ new person joins with the code prefilled and is connected automatically. The
 QR's event code adds the scanner to that event if they weren't in it. When both
 people scan each other, they're connected and their socials unlock.
 
+## Onlu Brief (news)
+
+The homepage shows the three latest stories; `/news` lists them all with area
+filters, each as What happened / Why it matters / Onlu take with sources.
+
+- Built-in stories live in `news/items.json`. After editing it, run
+  `node tools/build-news.js` to write them into `index.html` and
+  `news/index.html` (so search engines see them without JS).
+- The host can also post stories from the members area (Events tab → Post to
+  Onlu Brief). Those are stored in Upstash and merged in when the pages load.
+
 ## The verticals
 
 The vertical taxonomy is the core of the product and lives in one place:
