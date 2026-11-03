@@ -249,6 +249,18 @@ body > *:not(.fx) { position: relative; z-index: 1; }
 .mk.mk--home .mk-tiles { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); margin-top: 10px; }
 .today-home__head a { font-size: 0.82rem; color: var(--tiffany-2); text-decoration: none; }
 [hidden] { display: none !important; }
+/* Live ticker under the hero */
+.tk { display: block; text-decoration: none; color: inherit; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: rgba(6, 14, 22, 0.55); }
+.tk-in { display: flex; align-items: center; gap: 16px; padding-top: 11px; padding-bottom: 11px; }
+.tk-k { flex: none; display: inline-flex; align-items: center; gap: 7px; font-family: var(--font-mono); font-size: 0.68rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--tiffany-2); }
+.tk-row { display: flex; gap: 22px; overflow-x: auto; scrollbar-width: none; min-width: 0; -webkit-mask-image: linear-gradient(90deg, #000 92%, transparent); mask-image: linear-gradient(90deg, #000 92%, transparent); }
+.tk-row::-webkit-scrollbar { display: none; }
+.tk-i { flex: none; display: inline-flex; align-items: baseline; gap: 7px; font-size: 0.84rem; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.tk-l { color: var(--muted); }
+.tk-v { color: var(--text); font-weight: 600; }
+.tk-c { font-weight: 600; font-size: 0.8rem; }
+.tk-c.up { color: #6fe39a; } .tk-c.down { color: #ff7a9c; } .tk-c.flat { color: var(--muted); }
+.tk:hover .tk-l { color: var(--text); }
 /* Markets now */
 .qt-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;}
 .qt-status{font-family:var(--mk-mono);font-size:.7rem;color:var(--mk-dim);display:inline-flex;align-items:center;gap:6px;}

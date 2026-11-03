@@ -198,6 +198,28 @@
         qChg(q) + '<div class="qt-sp-w ' + (q.chg > 0 ? "up" : q.chg < 0 ? "down" : "flat") + '">' + spark(q) + "</div></div>";
     }).join("") + "</div>";
   }
+  // slim one-line ticker: name, level, today's change
+  function tickerHtml(d) {
+    return (d.items || []).map(function (q) {
+      var cls = q.chg > 0 ? "up" : q.chg < 0 ? "down" : "flat";
+      var c = qChg(q).replace(/<span class="qt-abs">[\s\S]*?<\/span>/, "").replace(/<\/?div[^>]*>/g, "");
+      return '<span class="tk-i"><span class="tk-l">' + esc(q.label) + '</span><span class="tk-v">' + qVal(q) + '</span><span class="tk-c ' + cls + '">' + c + "</span></span>";
+    }).join("");
+  }
+  function loadTicker(el) {
+    if (!el) return;
+    var row = el.querySelector(".tk-row");
+    function load() {
+      fetch("/api/quotes").then(function (r) { return r.ok ? r.json() : null; }).then(function (d) {
+        if (!d || !d.items || !d.items.length) { if (!row.innerHTML) el.hidden = true; return; }
+        row.innerHTML = tickerHtml(d);
+        var dot = el.querySelector(".qt-dot"); if (dot) dot.hidden = d.open !== true;   // green dot only while the market is open
+        el.hidden = false;
+      }).catch(function () { if (!row.innerHTML) el.hidden = true; });
+    }
+    load();
+    setInterval(function () { if (document.visibilityState === "visible") load(); }, 60000);
+  }
   function loadQuotes(el, limit) {
     if (!el) return;
     var body = el.querySelector(".qt-body"), st = el.querySelector(".qt-status");
@@ -322,7 +344,7 @@
   function headlineOnly(d) { var m = /<div class="sum-head">([\s\S]*?)<\/div>/.exec(summary(d)); return m ? m[1] : ""; }
 
   var api = { AREAS: AREAS, CATS: CATS, esc: esc, day: day, merge: merge, teaser: teaser, story: story, headline: headline, loadHeadlines: loadHeadlines,
-              loadMarkets: loadMarkets, loadQuotes: loadQuotes, quotesHtml: quotesHtml, calendarHtml: calendarHtml, summary: summary, headlineOnly: headlineOnly };
+              loadMarkets: loadMarkets, loadQuotes: loadQuotes, quotesHtml: quotesHtml, loadTicker: loadTicker, calendarHtml: calendarHtml, summary: summary, headlineOnly: headlineOnly };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.OnluNews = api;
 })(this);
