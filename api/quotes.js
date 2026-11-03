@@ -6,25 +6,27 @@
      t time of the last price (ISO) · spark intraday prices for a small line
 
    Reads Yahoo Finance's public chart endpoint (intraday, no key). Anything
-   Yahoo doesn't return falls back to Stooq's daily CSV (last two closes).
+   Yahoo doesn't return (it often refuses cloud servers) comes from CNBC's
+   public quote feed, then Stooq's daily CSV (last two closes).
    Vercel's CDN caches the answer for 60 seconds. Quotes can be delayed.
    ============================================================ */
 
 const YAHOO = process.env.YAHOO_CHART_BASE || "https://query1.finance.yahoo.com/v8/finance/chart/";
+const CNBC = process.env.CNBC_QUOTE_BASE || "https://quote.cnbc.com/quote-html-webservice/restQuote/symbolType/symbol";
 const STOOQ = process.env.STOOQ_CSV_BASE || "https://stooq.com/q/d/l/";
 const UA = { "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36" };
 
-// [id, label, Yahoo symbol, Stooq symbol, kind]  kind: index | yield | price
+// [id, label, Yahoo symbol, Stooq symbol, kind, CNBC symbol]  kind: index | yield | price
 const LIST = [
-  ["SPX", "S&P 500", "^GSPC", "^spx", "index"],
-  ["NDX", "Nasdaq", "^IXIC", "^ndq", "index"],
-  ["DJI", "Dow", "^DJI", "^dji", "index"],
-  ["RUT", "Russell 2000", "^RUT", "", "index"],
-  ["VIX", "VIX", "^VIX", "", "index"],
-  ["TNX", "10-year yield", "^TNX", "", "yield"],
-  ["BRENT", "Brent", "BZ=F", "cb.f", "price"],
-  ["GOLD", "Gold", "GC=F", "gc.f", "price"],
-  ["BTC", "Bitcoin", "BTC-USD", "btcusd", "price"],
+  ["SPX", "S&P 500", "^GSPC", "^spx", "index", ".SPX"],
+  ["NDX", "Nasdaq", "^IXIC", "^ndq", "index", ".IXIC"],
+  ["DJI", "Dow", "^DJI", "^dji", "index", ".DJI"],
+  ["RUT", "Russell 2000", "^RUT", "", "index", ".RUT"],
+  ["VIX", "VIX", "^VIX", "", "index", ".VIX"],
+  ["TNX", "10-year yield", "^TNX", "", "yield", "US10Y"],
+  ["BRENT", "Brent", "BZ=F", "cb.f", "price", "@LCO.1"],
+  ["GOLD", "Gold", "GC=F", "gc.f", "price", "@GC.1"],
+  ["BTC", "Bitcoin", "BTC-USD", "btcusd", "price", "BTC.CM="],
 ];
 
 async function get(url, errs, name) {
@@ -76,6 +78,35 @@ async function fromYahoo(sym, kind, errs) {
   try { return fromYahooJson(text, kind); } catch (e) { errs.push("Yahoo " + sym + ":parse"); return null; }
 }
 
+// CNBC quote feed: one request for every symbol; numbers arrive as text like "6,812.40" or "4.155%"
+const toNum = (x) => { const n = parseFloat(String(x == null ? "" : x).replace(/[,%+\s]/g, "")); return isFinite(n) ? n : NaN; };
+function fromCnbcJson(text) {
+  const j = JSON.parse(text);
+  let list = j && j.FormattedQuoteResult && j.FormattedQuoteResult.FormattedQuote;
+  if (list && !Array.isArray(list)) list = [list];
+  const out = {};
+  for (const q of list || []) {
+    const row = LIST.find((l) => l[5] === q.symbol);
+    if (!row) continue;
+    const kind = row[4], v = toNum(q.last);
+    let prev = toNum(q.previous_day_closing);
+    if (!isFinite(prev) && isFinite(toNum(q.change))) prev = v - toNum(q.change);
+    const x = finish(kind, v, prev);
+    if (!x) continue;
+    const t = Date.parse(q.last_time);
+    x.t = isFinite(t) ? new Date(t).toISOString() : null; x.spark = [];
+    out[row[0]] = x;
+  }
+  return out;
+}
+async function fromCnbc(errs) {
+  const url = CNBC + "?symbols=" + encodeURIComponent(LIST.map((l) => l[5]).join("|")) +
+    "&requestMethod=itv&noform=1&partnerId=2&fund=1&exthrs=1&output=json&events=1";
+  const text = await get(url, errs, "CNBC");
+  if (!text) return {};
+  try { return fromCnbcJson(text); } catch (e) { errs.push("CNBC:parse"); return {}; }
+}
+
 // Stooq daily CSV: last row vs the row before (the last row can be today's partial day)
 async function fromStooq(sym, kind, errs) {
   if (!sym) return null;
@@ -93,10 +124,23 @@ async function fromStooq(sym, kind, errs) {
   return out;
 }
 
+// weekday 9:30 AM–4:00 PM New York time (exchange holidays not handled)
+function nyOpen() {
+  const p = Object.fromEntries(new Intl.DateTimeFormat("en-US", { timeZone: "America/New_York", weekday: "short", hour: "2-digit", minute: "2-digit", hour12: false })
+    .formatToParts(new Date()).map((x) => [x.type, x.value]));
+  const m = (+p.hour % 24) * 60 + +p.minute;
+  return !/Sat|Sun/.test(p.weekday) && m >= 570 && m < 960;
+}
+
 module.exports = async (req, res) => {
   const errs = [];
-  const got = await Promise.all(LIST.map(async ([id, label, ysym, ssym, kind]) => {
-    const q = (await fromYahoo(ysym, kind, errs)) || (await fromStooq(ssym, kind, errs));
+  const [yahoo, cnbc] = await Promise.all([Promise.all(LIST.map((l) => fromYahoo(l[2], l[4], errs))), fromCnbc(errs)]);
+  const source = {};
+  const got = await Promise.all(LIST.map(async ([id, label, ysym, ssym, kind], i) => {
+    let q = yahoo[i], src = "Yahoo";
+    if (!q && cnbc[id]) { q = cnbc[id]; src = "CNBC"; }
+    if (!q) { q = await fromStooq(ssym, kind, errs); src = "Stooq"; }
+    if (q) source[id] = src;
     return q ? Object.assign({ id, label, kind }, q) : null;
   }));
   const items = got.filter(Boolean);
@@ -104,8 +148,9 @@ module.exports = async (req, res) => {
   const now = Date.now() / 1000;
   const out = {
     updated: new Date().toISOString(),
-    open: spx ? now >= spx.session.start && now < spx.session.end : null,   // U.S. stock market regular hours
+    open: spx ? now >= spx.session.start && now < spx.session.end : (source.SPX === "CNBC" ? nyOpen() : null),   // U.S. regular hours
     items: items.map((x) => { const y = Object.assign({}, x); delete y.session; return y; }),
+    source,
     missing: LIST.map((l) => l[0]).filter((id) => !items.some((x) => x.id === id)),
     errors: errs,
   };
@@ -113,3 +158,4 @@ module.exports = async (req, res) => {
   res.status(200).json(out);
 };
 module.exports.fromYahooJson = fromYahooJson;
+module.exports.fromCnbcJson = fromCnbcJson;

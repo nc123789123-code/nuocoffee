@@ -202,13 +202,20 @@
     var body = el.querySelector(".qt-body"), st = el.querySelector(".qt-status");
     function load() {
       fetch("/api/quotes").then(function (r) { return r.ok ? r.json() : null; }).then(function (d) {
-        if (!d || !d.items || !d.items.length) { if (!body.innerHTML) el.hidden = true; return; }
+        if (!d || !d.items || !d.items.length) { fail(); return; }
         body.innerHTML = quotesHtml(d, limit);
         var daily = d.items.every(function (q) { return q.daily; });
         if (st) st.innerHTML = daily ? "As of the last close" : (d.open === true ? '<span class="qt-dot"></span>U.S. market open' : d.open === false ? "U.S. market closed" : "") +
           (d.updated ? (d.open != null ? " · " : "") + "updated " + etTime(d.updated) : "");
         el.hidden = false;
-      }).catch(function () { if (!body.innerHTML) el.hidden = true; });
+      }).catch(fail);
+    }
+    // keep what's showing; on /news say so, on the homepage just stay hidden
+    function fail() {
+      if (body.querySelector(".qt-list")) return;
+      if (el.hasAttribute("data-quiet")) { el.hidden = true; return; }
+      body.innerHTML = '<p class="hl hl--empty">Live quotes are unavailable right now. Check back soon.</p>';
+      el.hidden = false;
     }
     load();
     setInterval(function () { if (document.visibilityState === "visible") load(); }, 60000);
