@@ -172,19 +172,6 @@
       partiful: "",
       luma: "https://luma.com/7ul1f8qs",
     },
-    {
-      title: "Onlu Newsroom vol. 1",
-      vertical: "Newsroom",
-      formVertical: "Newsroom",
-      iso: "2026-10-24",
-      date: "Saturday, Oct 24",
-      time: "10:00 AM–12:00 PM",
-      place: "",
-      note: "",
-      full: false,
-      partiful: "",
-      luma: "https://luma.com/cvo992fm",
-    },
   ];
 
   // Keep only events today or later (events without an `iso` always show).
