@@ -173,6 +173,7 @@
     var arrow = flat ? "●" : up ? "▲" : "▼";
     var sign = up ? "+" : flat ? "" : "−";
     var main = q.kind === "yield" ? sign + Math.abs(q.chg).toFixed(1) + " bp" : sign + Math.abs(q.pct).toFixed(2) + "%";
+    if (q.basis) main += " " + q.basis;
     var sub = q.kind === "yield" ? "" : ' <span class="qt-abs">' + sign + num(Math.abs(q.chg), q.kind === "price" && q.v >= 1000 ? 0 : 2) + "</span>";
     return '<div class="qt-c ' + (flat ? "flat" : up ? "up" : "down") + '"><span aria-hidden="true">' + arrow + "</span> " + main + sub + "</div>";
   }

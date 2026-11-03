@@ -7,12 +7,15 @@
 
    Reads Yahoo Finance's public chart endpoint (intraday, no key). Anything
    Yahoo doesn't return (it often refuses cloud servers) comes from CNBC's
-   public quote feed, then Stooq's daily CSV (last two closes).
+   public quote feed, then Finnhub ETF quotes (if FINNHUB_API_KEY is set),
+   CoinGecko for bitcoin, then Stooq's daily CSV (last two closes).
    Vercel's CDN caches the answer for 60 seconds. Quotes can be delayed.
    ============================================================ */
 
 const YAHOO = process.env.YAHOO_CHART_BASE || "https://query1.finance.yahoo.com/v8/finance/chart/";
 const CNBC = process.env.CNBC_QUOTE_BASE || "https://quote.cnbc.com/quote-html-webservice/restQuote/symbolType/symbol";
+const FINNHUB = process.env.FINNHUB_API_BASE || "https://finnhub.io/api/v1/quote";
+const COINGECKO = process.env.COINGECKO_API_BASE || "https://api.coingecko.com/api/v3/simple/price";
 const STOOQ = process.env.STOOQ_CSV_BASE || "https://stooq.com/q/d/l/";
 const UA = { "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36" };
 
@@ -107,6 +110,40 @@ async function fromCnbc(errs) {
   try { return fromCnbcJson(text); } catch (e) { errs.push("CNBC:parse"); return {}; }
 }
 
+// Finnhub (free key in FINNHUB_API_KEY): real-time ETF quotes standing in for each index.
+// Shown with the ETF's ticker and price so nobody mistakes them for index levels.
+const ETF = { SPX: "SPY", NDX: "QQQ", DJI: "DIA", RUT: "IWM", GOLD: "GLD", BRENT: "BNO" };
+async function fromFinnhub(errs) {
+  const key = process.env.FINNHUB_API_KEY;
+  if (!key) return {};
+  const out = {};
+  await Promise.all(Object.keys(ETF).map(async (id) => {
+    const text = await get(FINNHUB + "?symbol=" + ETF[id] + "&token=" + encodeURIComponent(key), errs, "Finnhub " + ETF[id]);
+    try {
+      const j = JSON.parse(text || "{}");
+      if (!(j.c > 0)) return;
+      const x = finish("price", j.c, j.pc);
+      if (!x) return;
+      x.t = j.t ? new Date(j.t * 1000).toISOString() : null; x.spark = []; x.etf = ETF[id];
+      out[id] = x;
+    } catch (e) { errs.push("Finnhub " + ETF[id] + ":parse"); }
+  }));
+  return out;
+}
+
+// CoinGecko (no key): bitcoin price and 24-hour change
+async function fromCoinGecko(errs) {
+  const text = await get(COINGECKO + "?ids=bitcoin&vs_currencies=usd&include_24hr_change=true&include_last_updated_at=true", errs, "CoinGecko");
+  try {
+    const b = JSON.parse(text || "{}").bitcoin;
+    if (!b || !(b.usd > 0)) return null;
+    const x = finish("price", b.usd, isFinite(b.usd_24h_change) ? b.usd / (1 + b.usd_24h_change / 100) : NaN);
+    if (!x) return null;
+    x.t = b.last_updated_at ? new Date(b.last_updated_at * 1000).toISOString() : null; x.spark = []; x.basis = "24h";
+    return x;
+  } catch (e) { errs.push("CoinGecko:parse"); return null; }
+}
+
 // Stooq daily CSV: last row vs the row before (the last row can be today's partial day)
 async function fromStooq(sym, kind, errs) {
   if (!sym) return null;
@@ -134,11 +171,13 @@ function nyOpen() {
 
 module.exports = async (req, res) => {
   const errs = [];
-  const [yahoo, cnbc] = await Promise.all([Promise.all(LIST.map((l) => fromYahoo(l[2], l[4], errs))), fromCnbc(errs)]);
+  const [yahoo, cnbc, fh, cg] = await Promise.all([Promise.all(LIST.map((l) => fromYahoo(l[2], l[4], errs))), fromCnbc(errs), fromFinnhub(errs), fromCoinGecko(errs)]);
   const source = {};
   const got = await Promise.all(LIST.map(async ([id, label, ysym, ssym, kind], i) => {
     let q = yahoo[i], src = "Yahoo";
     if (!q && cnbc[id]) { q = cnbc[id]; src = "CNBC"; }
+    if (!q && fh[id]) { q = fh[id]; src = "Finnhub"; label = label + " (" + q.etf + ")"; kind = "price"; }
+    if (!q && id === "BTC" && cg) { q = cg; src = "CoinGecko"; }
     if (!q) { q = await fromStooq(ssym, kind, errs); src = "Stooq"; }
     if (q) source[id] = src;
     return q ? Object.assign({ id, label, kind }, q) : null;
@@ -148,7 +187,7 @@ module.exports = async (req, res) => {
   const now = Date.now() / 1000;
   const out = {
     updated: new Date().toISOString(),
-    open: spx ? now >= spx.session.start && now < spx.session.end : (source.SPX === "CNBC" ? nyOpen() : null),   // U.S. regular hours
+    open: spx ? now >= spx.session.start && now < spx.session.end : (source.SPX === "CNBC" || source.SPX === "Finnhub" ? nyOpen() : null),   // U.S. regular hours
     items: items.map((x) => { const y = Object.assign({}, x); delete y.session; return y; }),
     source,
     missing: LIST.map((l) => l[0]).filter((id) => !items.some((x) => x.id === id)),
