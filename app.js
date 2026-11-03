@@ -20,6 +20,7 @@
     calendar:  '<rect x="3.5" y="5" width="17" height="15.5" rx="2"/><path d="M3.5 9.5h17M8 3v4M16 3v4"/>',
     clock:     '<circle cx="12" cy="12" r="8.4"/><path d="M12 7.6V12l3 1.8"/>',
     pin:       '<path d="M12 21s6.8-5.4 6.8-11A6.8 6.8 0 1 0 5.2 10c0 5.6 6.8 11 6.8 11Z"/><circle cx="12" cy="10" r="2.4"/>',
+    pulse:     '<path d="M3 12h4l2.2-5.5 4 11 2.3-5.5H21"/>',
     dinner:    '<path d="M6 3v6a1.9 1.9 0 0 0 3.8 0V3"/><path d="M7.9 9v12"/><path d="M16.6 3c-1.4 0-2.4 1.9-2.4 4.6s1 3.9 2.4 3.9v9.5"/>',
   };
 
@@ -42,6 +43,20 @@
      Set EVENTS to [] to hide the upcoming section entirely.
      ============================================================ */
   const EVENTS = [
+    {
+      title: "Healthcare × Finance × AI",
+      vertical: "Healthcare × Finance × AI",
+      formVertical: "Healthcare × Finance × AI",
+      iso: "2026-11-08",
+      date: "Sunday, Nov 8",
+      time: "2:00–4:00 PM",
+      place: "NYC · location shared after signup",
+      note: "Healthcare investing · policy · AI in biotech and care delivery",
+      full: false,
+      poster: "/social/onlu-healthcare-1108-xhs-1080x1440.png",
+      partiful: "",
+      luma: "",      // add the Luma link here, if it was on Luma
+    },
     {
       title: "Finance coffee chat",
       vertical: "Finance",
@@ -236,6 +251,7 @@
   function styleFor(name) {
     var n = (name || "").toLowerCase();
     if (n.indexOf("dinner") > -1 || n.indexOf("lunch") > -1) return { c: "var(--pink)", i: "dinner" };
+    if (n.indexOf("healthcare") > -1)     return { c: "var(--pink)",      i: "pulse" };
     if (/\bai\b/.test(n))                 return { c: "var(--sky)",       i: "cpu" };
     if (n.indexOf("private equity") > -1) return { c: "var(--tiffany)",   i: "bank" };
     if (n.indexOf("private credit") > -1) return { c: "var(--tiffany)",   i: "receipt" };
@@ -305,6 +321,10 @@
               (ev.luma
                 ? '<a class="tw-partiful" href="' + ev.luma.replace(/"/g, "&quot;") +
                   '" target="_blank" rel="noopener">See it on Luma ↗</a>'
+                : "") +
+              (ev.poster
+                ? '<a class="tw-partiful" href="' + ev.poster.replace(/"/g, "&quot;") +
+                  '" target="_blank" rel="noopener">See the poster ↗</a>'
                 : "") +
             "</span>" +
           "</div>" +
