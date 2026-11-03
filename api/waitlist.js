@@ -27,9 +27,19 @@ async function check(res) {
     } catch (e) { out.scriptReply = "could not reach it: " + e.message; }
   }
   if (store.configured) {
-    try { out.subscribersSaved = await store.redis(["SCARD", "subs"]); } catch (e) { out.subscribersSaved = "error"; }
+    try {
+      const [n, last] = await store.pipeline([["SCARD", "subs"], ["GET", "sheet:last"]]);
+      out.subscribersSaved = n;
+      out.lastSheetPost = last ? JSON.parse(last) : null;   // what the Sheet said to the most recent signup
+    } catch (e) { out.subscribersSaved = "error"; }
   }
   return res.status(200).json(out);
+}
+
+// remember how the Sheet answered the last signup (shown by ?check=1)
+async function noteSheet(type, ok, detail) {
+  if (!store.configured) return;
+  try { await store.redis(["SET", "sheet:last", JSON.stringify({ at: new Date().toISOString(), type, ok, detail: detail || "" })]); } catch (e) {}
 }
 
 // keep a copy of every subscriber in Upstash, so the list survives a Sheet problem
@@ -101,6 +111,7 @@ module.exports = async (req, res) => {
   const webhook = process.env.SHEETS_WEBHOOK_URL;
   if (!webhook) {
     console.error("SHEETS_WEBHOOK_URL is not set");
+    await noteSheet(type, false, "SHEETS_WEBHOOK_URL is not set");
     if (saved) return res.status(200).json({ ok: true, sheet: false });
     return res.status(500).json({ error: "Server not configured", detail: "SHEETS_WEBHOOK_URL is not set" });
   }
@@ -138,13 +149,17 @@ module.exports = async (req, res) => {
 
     if (!resp.ok || out.error || out.ok !== true) {
       console.error("Sheets webhook failed", resp.status, text.slice(0, 300));
+      const detail = "sheet " + resp.status + ": " + (out.error || text.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim().slice(0, 160));
+      await noteSheet(type, false, detail);
       if (saved) return res.status(200).json({ ok: true, sheet: false });
-      return res.status(502).json({ error: "Could not save signup", detail: "sheet " + resp.status + ": " + (out.error || text.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim().slice(0, 120)) });
+      return res.status(502).json({ error: "Could not save signup", detail });
     }
+    await noteSheet(type, true, out.updated ? "updated existing row" : "row added");
 
     return res.status(200).json({ ok: true });
   } catch (err) {
     console.error("Sheets webhook error", err);
+    await noteSheet(type, false, "sheet unreachable: " + err.message);
     if (saved) return res.status(200).json({ ok: true, sheet: false });
     return res.status(502).json({ error: "Could not save signup", detail: "sheet unreachable: " + err.message });
   }
