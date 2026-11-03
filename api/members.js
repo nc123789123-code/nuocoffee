@@ -405,6 +405,14 @@ module.exports = async (req, res) => {
       return send(res, 200, { members: rows });
     }
 
+    if (a === "subs" && req.method === "GET") {
+      if (!admin) return send(res, 403, { error: "Only the host can see this." });
+      const emails = await redis(["SMEMBERS", "subs"]);
+      const raws = emails.length ? await redis(["MGET", ...emails.map((e) => `sub:${e}`)]) : [];
+      const subs = raws.filter(Boolean).map((r) => JSON.parse(r)).sort((x, y) => (y.updated || 0) - (x.updated || 0));
+      return send(res, 200, { subs });
+    }
+
     if (a === "event" && isPost) {
       if (!admin) return send(res, 403, { error: "Only the host can create events." });
       const name = str(body.name, 80), date = str(body.date, 10);

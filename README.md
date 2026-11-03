@@ -98,6 +98,11 @@ email for every signup, and the subscriber gets a confirmation. After pulling
 this change, paste the new `sheets-endpoint.gs` into Apps Script and publish a
 new version (Deploy → Manage deployments → Edit → New version).
 
+Every subscriber is also saved in Upstash, so the list survives a Sheet
+problem: the host sees it in `/members` → Events → **Email subscribers**, with a
+CSV download. To check the Sheet connection, open `/api/waitlist?check=1`
+(shows whether `SHEETS_WEBHOOK_URL` is set and what the script answers).
+
 ## Onlu Card live updates (optional)
 
 `/card` works with no backend: each card travels inside its QR link. To let a

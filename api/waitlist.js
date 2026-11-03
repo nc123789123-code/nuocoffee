@@ -13,8 +13,43 @@
    ============================================================ */
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const store = require("./_redis");
+
+// GET /api/waitlist?check=1 — is the Sheet hooked up? (no secrets shown)
+async function check(res) {
+  const out = { webhookSet: !!process.env.SHEETS_WEBHOOK_URL, tokenSet: !!process.env.SHEETS_TOKEN, backupStorage: store.configured };
+  if (out.webhookSet) {
+    try {
+      const r = await fetch(process.env.SHEETS_WEBHOOK_URL, { redirect: "follow" });
+      const text = await r.text();
+      out.scriptStatus = r.status;
+      out.scriptReply = /^\s*\{/.test(text) ? JSON.parse(text) : "not JSON (" + text.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim().slice(0, 140) + ")";
+    } catch (e) { out.scriptReply = "could not reach it: " + e.message; }
+  }
+  if (store.configured) {
+    try { out.subscribersSaved = await store.redis(["SCARD", "subs"]); } catch (e) { out.subscribersSaved = "error"; }
+  }
+  return res.status(200).json(out);
+}
+
+// keep a copy of every subscriber in Upstash, so the list survives a Sheet problem
+async function saveSubscriber(x) {
+  if (!store.configured) return false;
+  try {
+    const key = "sub:" + x.email.toLowerCase();
+    const old = await store.redis(["GET", key]);
+    const prev = old ? JSON.parse(old) : {};
+    await store.pipeline([
+      ["SET", key, JSON.stringify({ email: x.email, name: x.name || prev.name || "", topics: x.topics, page: x.page || prev.page || "",
+        first: prev.first || Date.now(), updated: Date.now() })],
+      ["SADD", "subs", x.email.toLowerCase()],
+    ]);
+    return true;
+  } catch (e) { console.error("subscriber backup failed", e); return false; }
+}
 
 module.exports = async (req, res) => {
+  if (req.method === "GET" && /[?&]check=1/.test(req.url || "")) return check(res);
   if (req.method !== "POST") {
     res.setHeader("Allow", "POST");
     return res.status(405).json({ error: "Method not allowed" });
@@ -61,10 +96,13 @@ module.exports = async (req, res) => {
     return res.status(400).json({ error: "Missing vertical, role, or availability" });
   }
 
+  const saved = type === "subscribe" ? await saveSubscriber({ email, name, topics, page: notes.replace(/^Signed up on /, "") }) : false;
+
   const webhook = process.env.SHEETS_WEBHOOK_URL;
   if (!webhook) {
     console.error("SHEETS_WEBHOOK_URL is not set");
-    return res.status(500).json({ error: "Server not configured" });
+    if (saved) return res.status(200).json({ ok: true, sheet: false });
+    return res.status(500).json({ error: "Server not configured", detail: "SHEETS_WEBHOOK_URL is not set" });
   }
 
   try {
@@ -100,12 +138,14 @@ module.exports = async (req, res) => {
 
     if (!resp.ok || out.error || out.ok !== true) {
       console.error("Sheets webhook failed", resp.status, text.slice(0, 300));
-      return res.status(502).json({ error: "Could not save signup" });
+      if (saved) return res.status(200).json({ ok: true, sheet: false });
+      return res.status(502).json({ error: "Could not save signup", detail: "sheet " + resp.status + ": " + (out.error || text.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim().slice(0, 120)) });
     }
 
     return res.status(200).json({ ok: true });
   } catch (err) {
     console.error("Sheets webhook error", err);
-    return res.status(502).json({ error: "Could not save signup" });
+    if (saved) return res.status(200).json({ ok: true, sheet: false });
+    return res.status(502).json({ error: "Could not save signup", detail: "sheet unreachable: " + err.message });
   }
 };

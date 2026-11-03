@@ -653,7 +653,9 @@ legend small{font-weight:400;color:var(--dim);}
         '<label for="nsu">Source link<input id="nsu" type="url" placeholder="https://\u2026"></label></div>' +
         '<p class="err" id="nerr" hidden></p><button class="btn primary" type="submit">Post story</button>' +
       '</fieldset></form><div class="list" id="nlist"></div>' +
-      '<h2 id="mh">Members</h2><button class="btn" type="button" id="csv" disabled>Download CSV</button><div class="list" id="mlist"><p class="hint">Loading\u2026</p></div>';
+      '<h2 id="mh">Members</h2><button class="btn" type="button" id="csv" disabled>Download CSV</button><div class="list" id="mlist"><p class="hint">Loading\u2026</p></div>' +
+      '<h2 id="sh">Email subscribers</h2><p class="hint">From the "Get the Onlu Brief and event invites" form. Also in the Subscribers tab of your Google Sheet.</p>' +
+      '<button class="btn" type="button" id="scsv" disabled>Download CSV</button><div class="list" id="slist"><p class="hint">Loading\u2026</p></div>';
     function loadNews(){
       api("news").then(function(r){
         var el = document.getElementById("nlist"); if (!el) return;
@@ -706,6 +708,27 @@ legend small{font-weight:400;color:var(--dim);}
       }); });
       var btn = document.getElementById("csv"); btn.disabled = !rows.length;
       btn.addEventListener("click", function(){ downloadCsv(rows); });
+    });
+    api("subs").then(function(r){
+      var el = document.getElementById("slist"); if (!el) return;
+      if (r.status !== 200){ el.innerHTML = '<p class="empty">' + esc(r.error || "Couldn't load subscribers") + "</p>"; return; }
+      var rows = r.subs || [];
+      document.getElementById("sh").textContent = "Email subscribers (" + rows.length + ")";
+      el.innerHTML = rows.length ? rows.map(function(x){
+        return '<div class="mrow"><div class="mrow__top"><b>' + esc(x.email) + "</b><span>" + esc(x.topics || "") + "</span></div>" +
+          '<div class="mrow__s">' + esc([x.name, x.page, x.updated ? new Date(x.updated).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : ""].filter(Boolean).join(" \u00b7 ")) + "</div></div>";
+      }).join("") : '<p class="empty">No subscribers yet.</p>';
+      var b = document.getElementById("scsv"); b.disabled = !rows.length;
+      b.addEventListener("click", function(){
+        var q = function(v){ v = v == null ? "" : String(v); if (/^[=+\-@]/.test(v)) v = "'" + v; return '"' + v.replace(/"/g, '""') + '"'; };
+        var csv = "\ufeff" + ["Email", "Name", "Wants", "Signed up on", "First signup", "Last update"].map(q).join(",") + "\r\n" +
+          rows.map(function(x){ return [x.email, x.name, x.topics, x.page, x.first ? new Date(x.first).toISOString().slice(0, 16).replace("T", " ") : "",
+            x.updated ? new Date(x.updated).toISOString().slice(0, 16).replace("T", " ") : ""].map(q).join(","); }).join("\r\n");
+        var a2 = document.createElement("a");
+        a2.href = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8" }));
+        a2.download = "onlu-subscribers-" + new Date().toISOString().slice(0, 10) + ".csv";
+        document.body.appendChild(a2); a2.click(); setTimeout(function(){ URL.revokeObjectURL(a2.href); a2.remove(); }, 1500);
+      });
     });
     function load(){
       api("events").then(function(r){
