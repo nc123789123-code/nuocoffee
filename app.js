@@ -236,7 +236,6 @@
   function styleFor(name) {
     var n = (name || "").toLowerCase();
     if (n.indexOf("dinner") > -1 || n.indexOf("lunch") > -1) return { c: "var(--pink)", i: "dinner" };
-    if (n.indexOf("newsroom") > -1)       return { c: "var(--violet)",    i: "receipt" };
     if (/\bai\b/.test(n))                 return { c: "var(--sky)",       i: "cpu" };
     if (n.indexOf("private equity") > -1) return { c: "var(--tiffany)",   i: "bank" };
     if (n.indexOf("private credit") > -1) return { c: "var(--tiffany)",   i: "receipt" };
