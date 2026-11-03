@@ -144,6 +144,11 @@ filters, each as What happened / Why it matters / Onlu take with sources.
   CPI (index and YoY from CPIAUCNS, MoM from CPIAUCSL, as BLS reports them),
   the Fed funds target range, 2/10/30-year Treasuries, 2s10s, the ICE BofA
   high-yield spread, unemployment, Brent and the S&P 500. Cached 6 hours.
+- **Markets now** comes from `api/quotes.js`: S&P 500, Nasdaq, Dow, Russell
+  2000, VIX, the 10-year yield, Brent, gold and bitcoin with today's change and
+  an intraday line, from Yahoo Finance's public chart endpoint (Stooq daily
+  closes as a backup). Cached 60 seconds; the pages refresh it every minute.
+  Quotes can be delayed. `/api/quotes` lists `missing` and `errors` if any fail.
 - **Market summary** is written in the browser from the same numbers
   (`summary()` in `news/news.js`): one headline sentence plus Equity, Rates,
   Credit, Macro & Fed and Oil cards tagged Positive / Negative / Neutral by

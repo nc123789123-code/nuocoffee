@@ -174,6 +174,11 @@
         <p class="eyebrow eyebrow--center">Onlu Brief</p>
         <h2 class="section__title">This week in finance.</h2>
         <p class="section__lede">Where markets are, what's coming up, and the stories our tables are talking about. Bring your take to the next coffee.</p>
+        <div class="mk mk--home" id="home-now" hidden>
+          <div class="today-home__head qt-head"><h3>Markets now</h3><span class="qt-status"></span></div>
+          <div class="qt-body"></div>
+          <p class="qt-note">Change vs the previous close. Quotes from Yahoo Finance, may be delayed.</p>
+        </div>
         <div class="mk mk--home" id="home-markets" hidden>
           <div class="today-home__head"><h3>Market summary</h3><a href="/news/#markets">CPI and more →</a></div>
           <div id="home-sum" hidden></div>
@@ -413,6 +418,7 @@
       var N = window.OnluNews, el = document.getElementById("brief-list");
       if (!N || !el) return;
       var base = []; try { base = JSON.parse(document.getElementById("news-home-data").textContent); } catch (e) {}
+      N.loadQuotes(document.getElementById("home-now"));
       document.getElementById("home-cal").innerHTML = N.calendarHtml(3);
       N.loadMarkets(document.getElementById("home-markets"), true, function (d) {
         var h = N.summary(d), el = document.getElementById("home-sum");

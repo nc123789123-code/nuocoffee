@@ -160,6 +160,60 @@
     }
   }
 
+  // ---------- Markets now (index levels and today's change, refreshed every minute) ----------
+  function num(v, d) { return Number(v).toLocaleString("en-US", { minimumFractionDigits: d, maximumFractionDigits: d }); }
+  function qVal(q) {
+    if (q.kind === "yield") return num(q.v, 2) + "%";
+    if (q.kind === "price") return "$" + num(q.v, q.v >= 1000 ? 0 : 2);
+    return num(q.v, q.id === "VIX" ? 2 : 2);
+  }
+  function qChg(q) {
+    if (q.pct == null) return "";
+    var up = q.chg > 0, flat = q.chg === 0;
+    var arrow = flat ? "●" : up ? "▲" : "▼";
+    var sign = up ? "+" : flat ? "" : "−";
+    var main = q.kind === "yield" ? sign + Math.abs(q.chg).toFixed(1) + " bp" : sign + Math.abs(q.pct).toFixed(2) + "%";
+    var sub = q.kind === "yield" ? "" : ' <span class="qt-abs">' + sign + num(Math.abs(q.chg), q.kind === "price" && q.v >= 1000 ? 0 : 2) + "</span>";
+    return '<div class="qt-c ' + (flat ? "flat" : up ? "up" : "down") + '"><span aria-hidden="true">' + arrow + "</span> " + main + sub + "</div>";
+  }
+  function spark(q) {
+    var p = q.spark || [];
+    if (p.length < 3) return '<div class="qt-sp qt-sp--none"></div>';
+    var all = p.concat(q.prev != null ? [q.prev] : []);
+    var lo = Math.min.apply(null, all), hi = Math.max.apply(null, all), span = hi - lo || 1;
+    var y = function (v) { return (26 - (v - lo) / span * 24).toFixed(1); };
+    var pts = p.map(function (v, i) { return (i / (p.length - 1) * 100).toFixed(1) + "," + y(v); }).join(" ");
+    var base = q.prev != null ? '<line x1="0" x2="100" y1="' + y(q.prev) + '" y2="' + y(q.prev) + '" class="qt-base"/>' : "";
+    return '<svg class="qt-sp" viewBox="0 0 100 28" preserveAspectRatio="none" aria-hidden="true">' + base +
+      '<polyline points="' + pts + '" vector-effect="non-scaling-stroke"/></svg>';
+  }
+  function etTime(iso) {
+    return new Date(iso).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", timeZone: "America/New_York" }) + " ET";
+  }
+  function quotesHtml(d, limit) {
+    var items = (d.items || []).slice(0, limit || 99);
+    return '<div class="qt-list" style="--qn:' + items.length + '">' + items.map(function (q) {
+      return '<div class="qt-item"><div class="qt-l">' + esc(q.label) + '</div><div class="qt-v">' + qVal(q) + "</div>" +
+        qChg(q) + '<div class="qt-sp-w ' + (q.chg > 0 ? "up" : q.chg < 0 ? "down" : "flat") + '">' + spark(q) + "</div></div>";
+    }).join("") + "</div>";
+  }
+  function loadQuotes(el, limit) {
+    if (!el) return;
+    var body = el.querySelector(".qt-body"), st = el.querySelector(".qt-status");
+    function load() {
+      fetch("/api/quotes").then(function (r) { return r.ok ? r.json() : null; }).then(function (d) {
+        if (!d || !d.items || !d.items.length) { if (!body.innerHTML) el.hidden = true; return; }
+        body.innerHTML = quotesHtml(d, limit);
+        var daily = d.items.every(function (q) { return q.daily; });
+        if (st) st.innerHTML = daily ? "As of the last close" : (d.open === true ? '<span class="qt-dot"></span>U.S. market open' : d.open === false ? "U.S. market closed" : "") +
+          (d.updated ? (d.open != null ? " · " : "") + "updated " + etTime(d.updated) : "");
+        el.hidden = false;
+      }).catch(function () { if (!body.innerHTML) el.hidden = true; });
+    }
+    load();
+    setInterval(function () { if (document.visibilityState === "visible") load(); }, 60000);
+  }
+
   // ---------- Key dates (official release calendars; 8:30 AM ET unless noted) ----------
   var BLS_SCHED = "https://www.bls.gov/schedule/news_release/current_year.asp";
   var BEA_SCHED = "https://www.bea.gov/news/schedule/2026";
@@ -260,7 +314,7 @@
   function headlineOnly(d) { var m = /<div class="sum-head">([\s\S]*?)<\/div>/.exec(summary(d)); return m ? m[1] : ""; }
 
   var api = { AREAS: AREAS, CATS: CATS, esc: esc, day: day, merge: merge, teaser: teaser, story: story, headline: headline, loadHeadlines: loadHeadlines,
-              loadMarkets: loadMarkets, calendarHtml: calendarHtml, summary: summary, headlineOnly: headlineOnly };
+              loadMarkets: loadMarkets, loadQuotes: loadQuotes, quotesHtml: quotesHtml, calendarHtml: calendarHtml, summary: summary, headlineOnly: headlineOnly };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.OnluNews = api;
 })(this);

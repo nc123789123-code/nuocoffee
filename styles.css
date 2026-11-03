@@ -249,6 +249,26 @@ body > *:not(.fx) { position: relative; z-index: 1; }
 .mk.mk--home .mk-tiles { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); margin-top: 10px; }
 .today-home__head a { font-size: 0.82rem; color: var(--tiffany-2); text-decoration: none; }
 [hidden] { display: none !important; }
+/* Markets now */
+.qt-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;}
+.qt-status{font-family:var(--mk-mono);font-size:.7rem;color:var(--mk-dim);display:inline-flex;align-items:center;gap:6px;}
+.qt-dot{width:7px;height:7px;border-radius:50%;background:#6fe39a;box-shadow:0 0 8px #6fe39a;}
+.qt-list{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(138px,1fr);gap:10px;overflow-x:auto;scrollbar-width:none;margin-top:10px;padding-bottom:2px;}
+.qt-list::-webkit-scrollbar{display:none;}
+.qt-item{border:1px solid var(--mk-line);border-radius:14px;background:var(--mk-surface);padding:11px 13px 9px;min-width:0;}
+.qt-l{font-size:.76rem;color:var(--mk-muted);white-space:nowrap;}
+.qt-v{font-family:var(--mk-display);font-weight:800;font-size:1.08rem;letter-spacing:-.02em;margin-top:2px;font-variant-numeric:tabular-nums;color:var(--mk-text);white-space:nowrap;}
+.qt-c{font-size:.76rem;font-weight:600;margin-top:1px;white-space:nowrap;font-variant-numeric:tabular-nums;}
+.qt-c.up{color:#6fe39a;} .qt-c.down{color:#ff7a9c;} .qt-c.flat{color:var(--mk-muted);}
+.qt-abs{font-weight:400;color:var(--mk-dim);}
+.qt-sp-w{margin-top:6px;height:28px;}
+.qt-sp{display:block;width:100%;height:28px;overflow:visible;}
+.qt-sp polyline{fill:none;stroke-width:1.6;stroke-linejoin:round;stroke-linecap:round;}
+.qt-sp-w.up polyline{stroke:#6fe39a;} .qt-sp-w.down polyline{stroke:#ff7a9c;} .qt-sp-w.flat polyline{stroke:var(--mk-muted);}
+.qt-base{stroke:var(--mk-dim);stroke-width:1;stroke-dasharray:2 3;vector-effect:non-scaling-stroke;opacity:.7;}
+.qt-note{font-family:var(--mk-mono);font-size:.66rem;color:var(--mk-dim);margin-top:8px;}
+@media (min-width:1000px){#home-now .qt-list{grid-auto-flow:row;grid-template-columns:repeat(var(--qn,9),minmax(0,1fr));overflow:visible;}
+  #home-now .qt-abs{display:none;} #home-now .qt-v{font-size:1rem;} #home-now .qt-item{padding:10px 11px 8px;}}
 /* Market summary + key dates */
 .sum-head{border:1px solid var(--mk-line);border-left:3px solid var(--mk-accent);border-radius:14px;background:var(--mk-surface);padding:14px 16px;font-size:1rem;line-height:1.55;color:var(--mk-text);margin-top:12px;text-wrap:pretty;}
 .sum-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px;margin-top:10px;}
