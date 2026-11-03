@@ -88,6 +88,16 @@ curl -X POST https://coffeewithonlu.com/api/waitlist \
 
 A new row should appear in your Sheet within a second or two.
 
+## Email list (news and events)
+
+The **Get the Onlu Brief and event invites** form (homepage and `/news`,
+`lib/subscribe.js`) posts to `/api/waitlist` with `type: "subscribe"`. Each
+email gets one row in a **Subscribers** tab of the same Sheet (Topics column:
+`News`, `Events` or both; signing up again updates the row), the host gets an
+email for every signup, and the subscriber gets a confirmation. After pulling
+this change, paste the new `sheets-endpoint.gs` into Apps Script and publish a
+new version (Deploy → Manage deployments → Edit → New version).
+
 ## Onlu Card live updates (optional)
 
 `/card` works with no backend: each card travels inside its QR link. To let a

@@ -3,6 +3,8 @@
 
    Receives a signup from the site, validates it, and forwards it to
    a Google Apps Script web app that appends a row to your Sheet.
+   type: "waitlist" (default) | "rsvp" | "subscribe" (email list for
+   news and/or events; name optional, topics = "News, Events").
 
    Required environment variables (set in the Vercel dashboard):
      SHEETS_WEBHOOK_URL  – the Apps Script web-app URL (see sheets-endpoint.gs)
@@ -46,8 +48,11 @@ module.exports = async (req, res) => {
   // Name and a valid email are always required. The detailed waitlist form
   // additionally requires vertical, role, and availability (enforced client-
   // side); RSVPs carry those from the featured event.
-  if (!name) {
+  if (!name && type !== "subscribe") {
     return res.status(400).json({ error: "Name is required" });
+  }
+  if (type === "subscribe" && !topics) {
+    return res.status(400).json({ error: "Pick news, events or both" });
   }
   if (!EMAIL_RE.test(email)) {
     return res.status(400).json({ error: "A valid email is required" });

@@ -209,6 +209,9 @@ body > *:not(.fx) { position: relative; z-index: 1; }
 .tw-partiful:hover { color: var(--tw); border-bottom-color: color-mix(in srgb, var(--tw) 55%, transparent); }
 
 /* Upcoming coffees — list of event cards */
+/* Email signup */
+.subscribe { padding-top: 0; }
+.subscribe__wrap { max-width: 760px; }
 /* Past events */
 .past .section__lede a { color: var(--tiffany-2); }
 .past-list { list-style: none; margin: 28px auto 0; padding: 0; display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }

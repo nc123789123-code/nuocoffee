@@ -6,8 +6,9 @@
  *
  * ── One-time setup ──────────────────────────────────────────────
  *  1. Create a Google Sheet. Tabs are auto-created (with headers) as signups
- *     arrive: one "Waitlist" tab, plus one tab per coffee for its RSVPs
- *     (e.g. "Quant · Aug 1"). The header row for every tab is:
+ *     arrive: one "Waitlist" tab, one "Subscribers" tab (email list for news
+ *     and events), plus one tab per coffee for its RSVPs (e.g.
+ *     "Quant · Aug 1"). The header row for every tab is:
  *       Timestamp | Name | Vertical | Role | Available | Goals | Email | LinkedIn | Source | Instagram | WeChat | Event | MBTI | Topics | Notes
  *  2. In the Sheet: Extensions → Apps Script. Delete the sample code,
  *     paste this whole file, and Save.
@@ -50,6 +51,8 @@ function doPost(e) {
     var tabName;
     if (data.type === 'rsvp') {
       tabName = sanitizeTab(data.eventTab || data.event || 'RSVP');
+    } else if (data.type === 'subscribe') {
+      tabName = 'Subscribers';
     } else {
       tabName = 'Waitlist';
     }
@@ -58,6 +61,25 @@ function doPost(e) {
     if (!sheet) {
       sheet = ss.insertSheet(tabName);
       sheet.appendRow(HEADERS);
+    }
+
+    // Subscribers: one row per email. Signing up again updates the choices.
+    if (data.type === 'subscribe') {
+      var email = String(data.email || '').trim().toLowerCase();
+      var last = sheet.getLastRow();
+      if (last > 1) {
+        var emails = sheet.getRange(2, 7, last - 1, 1).getValues();
+        for (var i = 0; i < emails.length; i++) {
+          if (String(emails[i][0]).trim().toLowerCase() === email) {
+            var r = i + 2;
+            sheet.getRange(r, 1).setValue(data.submittedAt || new Date().toISOString());
+            if (data.name) sheet.getRange(r, 2).setValue(data.name);
+            sheet.getRange(r, 14).setValue(data.topics || '');
+            notifyHost(data, tabName, true);
+            return json({ ok: true, updated: true });
+          }
+        }
+      }
     }
 
     sheet.appendRow([
@@ -106,14 +128,17 @@ function testEmail() {
 
 // Email the host a summary of each new signup. Wrapped so a mail
 // failure never blocks the signup from being saved.
-function notifyHost(data, tabName) {
+function notifyHost(data, tabName, updated) {
   try {
     var to = Session.getEffectiveUser().getEmail();
     if (!to) return;
     var isRsvp = data.type === 'rsvp';
-    var subject = 'New ' + (isRsvp ? 'RSVP' : 'waitlist signup') +
-      ' — ' + (data.name || 'someone') +
-      (isRsvp && data.event ? ' (' + data.event + ')' : '');
+    var subject = data.type === 'subscribe'
+      ? (updated ? 'Subscriber updated' : 'New subscriber') + ' — ' + (data.email || '') +
+        (data.topics ? ' (' + data.topics + ')' : '')
+      : 'New ' + (isRsvp ? 'RSVP' : 'waitlist signup') +
+        ' — ' + (data.name || 'someone') +
+        (isRsvp && data.event ? ' (' + data.event + ')' : '');
     var lines = [
       'Tab: ' + tabName,
       data.event ? 'Event: ' + data.event : '',
@@ -142,7 +167,14 @@ function sendConfirmation(data) {
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return;
     var first = (data.name || 'there').split(' ')[0];
     var subject, body;
-    if (data.type === 'rsvp') {
+    if (data.type === 'subscribe') {
+      subject = "You're subscribed — Coffee with Onlu";
+      body = 'Hi ' + first + ",\n\n" +
+        "Thanks for subscribing to " + (data.topics === 'News' ? 'the Onlu Brief' : data.topics === 'Events' ? 'Onlu event invites' : 'the Onlu Brief and event invites') + ". " +
+        "We'll be in touch.\n\n" +
+        "To unsubscribe, just reply to this email with \"unsubscribe\".\n\n" +
+        "Coffee with Onlu\nhttps://coffeewithonlu.com";
+    } else if (data.type === 'rsvp') {
       subject = "You're in — " + (data.event || 'Coffee with Onlu');
       body = 'Hi ' + first + ",\n\n" +
         "You're confirmed for " + (data.event || 'the coffee') + ". " +
