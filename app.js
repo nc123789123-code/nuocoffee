@@ -55,7 +55,7 @@
       full: false,
       poster: "/social/onlu-healthcare-1108-xhs-1080x1440.png",
       partiful: "",
-      luma: "",      // add the Luma link here, if it was on Luma
+      luma: "https://luma.com/vqu3f4bn",
     },
     {
       title: "Finance coffee chat",
