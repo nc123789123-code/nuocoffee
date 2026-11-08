@@ -53,6 +53,7 @@
       place: "NYC · location shared after signup",
       note: "Healthcare investing · policy · AI in biotech and care delivery",
       full: false,
+      page: "/healthcare/",            // topics and flow for attendees
       poster: "/social/onlu-healthcare-1108-xhs-1080x1440.png",
       partiful: "",
       luma: "https://luma.com/vqu3f4bn",
@@ -321,6 +322,10 @@
               (ev.luma
                 ? '<a class="tw-partiful" href="' + ev.luma.replace(/"/g, "&quot;") +
                   '" target="_blank" rel="noopener">See it on Luma ↗</a>'
+                : "") +
+              (ev.page
+                ? '<a class="tw-partiful" href="' + ev.page.replace(/"/g, "&quot;") +
+                  '">Topics and flow →</a>'
                 : "") +
               (ev.poster
                 ? '<a class="tw-partiful" href="' + ev.poster.replace(/"/g, "&quot;") +

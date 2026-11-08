@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>主持准备 — Healthcare coffee</title>
+<meta name="description" content="Host notes for the Nov 8 Healthcare × Finance × AI coffee." />
+<meta name="robots" content="noindex" />
+<meta name="theme-color" content="#0a1520" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%232ee0d0%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M5%209h11v4a4%204%200%200%201-4%204H9a4%204%200%200%201-4-4V9Z%22%2F%3E%3Cpath%20d%3D%22M16%2010h2.4a2.4%202.4%200%200%201%200%204.8H16%22%2F%3E%3Cpath%20d%3D%22M8%203.4c-.5%201%20.5%201.6%200%202.6M11.5%203.4c-.5%201%20.5%201.6%200%202.6%22%2F%3E%3C%2Fsvg%3E" />
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@600;800&family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+
+:root{
+  --bg:#0a1520; --surface:rgba(255,255,255,.035);
+  --text:#eef6fb; --muted:#93aec4; --dim:#6d8aa3; --line:rgba(150,200,230,.14);
+  --tiffany:#2ee0d0; --tiffany2:#9befe4; --sky:#4cc4ff; --indigo:#8a9bff; --pink:#ff4f9a;
+  --display:'Unbounded',system-ui,sans-serif;
+  --body:'Outfit',system-ui,-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
+  --mono:'Space Mono',ui-monospace,'Courier New',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:var(--body);font-size:16px;
+  line-height:1.55;-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%;
+  padding-bottom:60px;overflow-x:hidden;}
+
+.fx{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
+.blob{position:absolute;border-radius:50%;filter:blur(90px);}
+.b1{width:80vw;height:80vw;top:-26vh;right:-30vw;
+  background:radial-gradient(circle,var(--tiffany),transparent 68%);opacity:.22;}
+.b2{width:75vw;height:75vw;bottom:-14vh;left:-30vw;
+  background:radial-gradient(circle,var(--pink),transparent 68%);opacity:.13;}
+.wrap{position:relative;z-index:1;max-width:640px;margin-inline:auto;padding:0 18px;}
+
+.bar{position:sticky;top:0;z-index:20;background:rgba(6,14,22,.9);
+  -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);}
+.bar__in{max-width:640px;margin-inline:auto;padding:10px 18px;display:flex;align-items:center;gap:10px;}
+.cup{color:var(--tiffany2);line-height:0;flex:none;}
+.cup svg{width:21px;height:21px;display:block;}
+.bar__n{font-family:var(--display);font-weight:600;font-size:.85rem;letter-spacing:-.01em;}
+.lang{margin-left:auto;flex:none;white-space:nowrap;font-family:var(--mono);font-weight:700;
+  font-size:.7rem;letter-spacing:.1em;color:var(--muted);background:var(--surface);
+  border:1px solid var(--line);border-radius:999px;padding:7px 13px;cursor:pointer;
+  -webkit-tap-highlight-color:transparent;}
+
+header{padding:32px 0 4px;}
+.eyebrow{font-family:var(--mono);text-transform:uppercase;letter-spacing:.18em;
+  font-size:.68rem;font-weight:700;color:var(--tiffany2);}
+h1{font-family:var(--display);font-weight:800;letter-spacing:-.025em;line-height:1.08;
+  font-size:clamp(1.8rem,8vw,2.5rem);margin:.32em 0 .36em;}
+.grad{background:linear-gradient(100deg,var(--tiffany2),var(--tiffany) 30%,var(--sky) 58%,var(--pink) 92%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;}
+.facts{font-family:var(--mono);font-size:.78rem;color:var(--dim);letter-spacing:.04em;line-height:1.7;}
+.lede{font-size:.95rem;color:var(--muted);margin-top:16px;line-height:1.6;}
+.lede b{color:var(--text);font-weight:600;}
+
+h2{font-family:var(--display);font-weight:600;letter-spacing:-.015em;font-size:1.05rem;
+  margin:38px 0 12px;display:flex;align-items:center;gap:9px;}
+h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
+  background:var(--ac,var(--tiffany));box-shadow:0 0 12px var(--ac,var(--tiffany));}
+
+.flow{list-style:none;border:1px solid var(--line);border-radius:14px;background:var(--surface);overflow:hidden;}
+.flow li{display:flex;gap:14px;padding:12px 15px;border-top:1px solid var(--line);font-size:.92rem;line-height:1.45;}
+.flow li:first-child{border-top:0;}
+.flow .t{font-family:var(--mono);font-size:.74rem;color:var(--tiffany2);flex:none;width:44px;padding-top:2px;}
+.flow .s{color:var(--dim);font-size:.82rem;display:block;margin-top:2px;}
+
+.topic{border:1px solid var(--line);border-radius:14px;background:var(--surface);
+  padding:15px;margin-bottom:10px;border-left:3px solid var(--ac);}
+.topic__n{font-family:var(--mono);font-size:.64rem;font-weight:700;letter-spacing:.14em;color:var(--ac);}
+.topic__t{font-weight:600;font-size:1rem;margin:5px 0 9px;line-height:1.4;}
+.topic ul{list-style:none;display:flex;flex-direction:column;gap:7px;}
+.topic li{position:relative;padding-left:16px;font-size:.9rem;color:var(--muted);line-height:1.5;}
+.topic li::before{content:"";position:absolute;left:0;top:.6em;width:5px;height:5px;
+  border-radius:50%;background:var(--ac);opacity:.75;}
+
+.bring{border:1px solid rgba(46,224,208,.3);background:rgba(46,224,208,.07);border-radius:14px;
+  padding:14px 15px;font-size:.9rem;color:var(--muted);line-height:1.6;}
+.bring b{color:var(--text);font-weight:600;}
+
+.foot{margin:40px 0 10px;padding-top:18px;border-top:1px solid var(--line);
+  font-family:var(--mono);font-size:.7rem;color:var(--dim);line-height:1.8;}
+.foot a{color:var(--tiffany2);}
+
+.wrap{max-width:680px;}
+.facts a,.lede a{color:var(--tiffany2);}
+.bar__in{max-width:680px;}
+.bar__n a{color:inherit;text-decoration:none;}
+.jump{display:flex;gap:7px;overflow-x:auto;scrollbar-width:none;margin-left:auto;min-width:0;}
+.jump::-webkit-scrollbar{display:none;}
+.jump a{flex:none;font-family:var(--mono);font-size:.68rem;font-weight:700;letter-spacing:.06em;color:var(--muted);
+  text-decoration:none;padding:6px 11px;border-radius:999px;border:1px solid var(--line);background:var(--surface);}
+h2{scroll-margin-top:64px;}
+h3{font-size:.95rem;font-weight:600;margin:16px 0 6px;}
+p.txt{font-size:.92rem;color:var(--muted);line-height:1.65;margin:8px 0;}
+p.txt b,li b{color:var(--text);font-weight:600;}
+.card{border:1px solid var(--line);border-radius:14px;background:var(--surface);padding:15px 16px;margin-bottom:10px;border-left:3px solid var(--ac,var(--tiffany));}
+.card > p{font-size:.9rem;color:var(--muted);line-height:1.6;margin-top:6px;}
+.card > p:first-child{margin-top:0;}
+.k{font-family:var(--mono);font-size:.64rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ac,var(--tiffany));}
+.t{font-weight:600;font-size:1rem;margin:4px 0 8px;line-height:1.4;}
+ul.dots{list-style:none;display:flex;flex-direction:column;gap:6px;margin:6px 0;}
+ul.dots li{position:relative;padding-left:16px;font-size:.9rem;color:var(--muted);line-height:1.55;}
+ul.dots li::before{content:"";position:absolute;left:0;top:.62em;width:5px;height:5px;border-radius:50%;background:var(--ac,var(--tiffany));opacity:.8;}
+ol.qs{list-style:none;counter-reset:q;display:flex;flex-direction:column;gap:9px;margin:8px 0;}
+ol.qs li{counter-increment:q;position:relative;padding-left:30px;font-size:.92rem;line-height:1.55;color:var(--text);}
+ol.qs li::before{content:"Q" counter(q);position:absolute;left:0;top:1px;font-family:var(--mono);font-size:.7rem;font-weight:700;color:var(--ac,var(--tiffany));}
+ol.qs li .zh{display:block;color:var(--muted);font-size:.86rem;margin-top:2px;}
+ol.qs li .f{display:block;color:var(--dim);font-size:.82rem;margin-top:3px;}
+.flow .t{font-weight:400;margin:0;}
+.flow b{font-weight:600;}
+.facts-box{border:1px solid rgba(76,196,255,.3);background:rgba(76,196,255,.06);border-radius:14px;padding:14px 16px;}
+.facts-box li{font-size:.88rem;}
+.src{font-family:var(--mono);font-size:.68rem;color:var(--dim);}
+.src a,.links a{color:var(--tiffany2);text-decoration:none;border-bottom:1px solid rgba(155,239,228,.35);}
+.links{list-style:none;display:flex;flex-direction:column;gap:6px;font-size:.84rem;color:var(--muted);}
+table{width:100%;border-collapse:collapse;font-size:.84rem;margin:8px 0;}
+th,td{text-align:left;padding:7px 8px 7px 0;border-top:1px solid var(--line);vertical-align:top;color:var(--muted);}
+th{color:var(--text);font-weight:600;border-top:0;font-size:.78rem;}
+.say{border-left:2px solid var(--pink);padding:8px 0 8px 12px;margin:10px 0;font-size:.92rem;line-height:1.7;color:var(--text);}
+.say .lbl{display:block;font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;color:var(--pink);font-weight:700;margin-bottom:2px;}
+.mine{border:1px dashed rgba(255,79,154,.45);border-radius:12px;padding:11px 13px;margin:10px 0;font-size:.88rem;color:var(--muted);line-height:1.6;}
+.mine .lbl{display:block;font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;color:var(--pink);font-weight:700;margin-bottom:3px;}
+.mine b{color:var(--text);}
+.time{display:inline-block;font-family:var(--mono);font-size:.66rem;font-weight:700;color:#08131c;background:var(--ac,var(--tiffany));border-radius:999px;padding:2px 8px;margin-right:6px;vertical-align:2px;}
+.cut{font-family:var(--mono);font-size:.7rem;color:#ffc35a;margin-top:6px;}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;}
+.chk{list-style:none;display:flex;flex-direction:column;gap:6px;}
+.chk li{font-size:.88rem;color:var(--muted);}
+.chk li::before{content:"\2610  ";color:var(--tiffany2);}
+dl.gl{display:grid;grid-template-columns:minmax(90px,max-content) 1fr;gap:6px 12px;font-size:.84rem;}
+dl.gl dt{font-weight:600;color:var(--text);}
+dl.gl dd{color:var(--muted);}
+.cta{display:inline-block;margin-top:10px;font-weight:700;font-size:.9rem;color:#08131c;text-decoration:none;
+  background:linear-gradient(100deg,var(--tiffany2),var(--tiffany) 30%,var(--sky) 58%,var(--pink) 92%);border-radius:999px;padding:10px 18px;}
+</style>
+</head>
+<body>
+<div class="fx"><span class="blob b1"></span><span class="blob b2"></span></div>
+<nav class="bar"><div class="bar__in">
+  <span class="cup"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9h11v4a4 4 0 0 1-4 4H9a4 4 0 0 1-4-4V9Z"/><path d="M16 10h2.4a2.4 2.4 0 0 1 0 4.8H16"/><path d="M8 3.4c-.5 1 .5 1.6 0 2.6M11.5 3.4c-.5 1 .5 1.6 0 2.6"/></svg></span>
+  <span class="bar__n"><a href="/">Coffee with Onlu</a></span>
+  <span class="jump"><a href="#glance">速览</a><a href="#s1">01</a><a href="#s2">02</a><a href="#s3">03</a><a href="#s4">04</a><a href="#s5">05</a><a href="#close">收尾</a><a href="#gloss">术语</a></span>
+</div></nav>
+<div class="wrap">
+
+  <header>
+    <p class="eyebrow">主持准备 · 不对外</p>
+    <h1>Healthcare ×<br><span class="grad">Finance × AI</span></h1>
+    <p class="facts">周日 11月8日 · 2:00–4:00 PM · 参与者页面：<a href="/healthcare/" target="_blank" rel="noopener">/healthcare</a></p>
+    <p class="lede"><b>今天的一条主线：</b>Healthcare 的长期需求很稳定，但支付政策、AI 和选举，正在改变<b>价值在哪里被创造、利润被谁拿走</b>。每一段都往这条线上拉。</p>
+  </header>
+
+  <h2 id="glance" style="--ac:var(--tiffany2)">一页速览</h2>
+  <ol class="flow">
+    <li><span class="t">2:00</span><span><b>开场 + 自我介绍</b>（15'）<span class="s">每人 ≤1 分钟：做什么 + 最关注的一个趋势</span></span></li>
+    <li><span class="t">2:15</span><span><b>Healthcare 还防御吗</b>（20'）<span class="s">必问 Q1、Q2；Q3 可跳</span></span></li>
+    <li><span class="t">2:35</span><span><b>监管与支付</b>（20'）<span class="s">用本周 CMS 数字开头</span></span></li>
+    <li><span class="t">2:55</span><span><b>AI × 医疗服务</b>（15'）<span class="s">核心是“谁拿走 AI 省下的钱”</span></span></li>
+    <li><span class="t">3:10</span><span><b>AI × Biotech</b>（20'）<span class="s">估值问题最容易吵起来，留时间</span></span></li>
+    <li><span class="t">3:30</span><span><b>中期选举 × Healthcare</b>（20'）<span class="s">只聊对行业和投资的影响，不聊站队</span></span></li>
+    <li><span class="t">3:50</span><span><b>收尾：只投一个细分领域</b>（10'）<span class="s">每人一句，4:00 准时结束</span></span></li>
+  </ol>
+  <p class="cut">超时怎么砍：先砍 02 的 Q3（payer vs provider）、04 的商业模式部分；05 只保留 Medicaid 和“怎么给不确定性定价”。收尾不砍。</p>
+
+  <div class="grid2" style="margin-top:12px">
+    <div class="card" style="--ac:var(--tiffany)"><div class="k">开场前</div>
+      <ul class="chk">
+        <li>Luma 签到页打开</li>
+        <li>手机上开好 /members 的 QR（Show my QR）</li>
+        <li>参与者页面链接发到群里：coffeewithonlu.com/healthcare</li>
+        <li>本页的“本周数字”再看一遍</li>
+        <li>计时器：每段结束前 2 分钟提醒自己</li>
+      </ul></div>
+    <div class="card" style="--ac:var(--pink)"><div class="k">点名思路（按背景，不点名公司）</div>
+      <ul class="dots" style="--ac:var(--pink)">
+        <li>PE / Private Credit → 01 的 Q1、Q2，02 的 ASC</li>
+        <li>保险 / 医院 / 临床背景 → 02 的 payer vs provider</li>
+        <li>Tech / AI → 03 全部</li>
+        <li>Biotech / Pharma / 研究 → 04</li>
+        <li>宏观 / 政策 / 法律 → 05</li>
+        <li>还没说话的人 → 收尾时先问他们</li>
+      </ul></div>
+  </div>
+
+  <h2 id="open" style="--ac:var(--tiffany2)">一、开场 <span class="time" style="--ac:var(--tiffany2)">2:00–2:15</span></h2>
+  <div class="say"><span class="lbl">开场（可直接说）</span>
+    大家好，欢迎来到 Coffee with Onlu！我们之前办过 Private Credit、投行、Quant、AI 和 Data Center 融资等不同主题的 coffee chat，今天专门聊 Healthcare 和 Finance。<br><br>
+    Healthcare 很有意思：一方面需求相对稳定，人口老龄化带来长期增长；另一方面，收入和利润又受保险支付、政府监管、人工成本和技术变化影响。而且这一周正好发生了好几件事：周二中期选举，民主党拿下了国会两院；周三 CMS 公布了 2027 年 Medicare 的医生收费表和门诊支付规则。<br><br>
+    今天没有正式演讲，希望大家从自己的行业出发分享观察。我们先轮流介绍一下：现在做什么，加上最近最关注的一个 Healthcare 趋势，一句话就好。
+  </div>
+  <ul class="dots" style="--ac:var(--tiffany2)">
+    <li>约定两句：内容可以带走，但不对外引用名字和公司；观点不代表雇主。</li>
+    <li>自我介绍时<b>记下每个人提到的趋势</b>，后面每一段都可以 callback：“刚才 ___ 提到 ___，正好接这个话题”。</li>
+    <li>自己最后一个介绍，把话题顺到 01。</li>
+  </ul>
+
+  <h2 id="s1" style="--ac:var(--tiffany)">二、Healthcare 还是防御性行业吗？ <span class="time">2:15–2:35</span></h2>
+  <p class="txt"><b>目标：</b>把“需求防御”和“现金流防御”分开，引出 roll-up 模式是否还成立。</p>
+  <h3>30 秒背景</h3>
+  <p class="txt">传统上 Healthcare 被当作 defensive sector：需求刚性、老龄化、部分业务有经常性收入、市场高度分散有整合机会。PE 过去在专科诊所管理（PPM）、牙科、皮肤科、医美、行为健康、居家护理与临终关怀、ASC 和 Healthcare IT 都很活跃。</p>
+  <ol class="qs" style="--ac:var(--tiffany)">
+    <li>Healthcare is often considered defensive. But is it really defensive from an investor's perspective?<span class="zh">需求稳定，盈利能力是否同样稳定？</span><span class="f">追问：经济下行时，哪类医疗服务的量最先掉？（医美、牙科这类自费项目 vs 医保覆盖的项目）</span></li>
+    <li>Is the traditional healthcare roll-up model still attractive?<span class="zh">收购小诊所 → 规模效应 → 改善运营 → multiple arbitrage。</span><span class="f">追问：高利率下，买入倍数和退出倍数的差还够吗？人工（护士、医生）成本占比高的业务，整合后真的能降本吗？</span></li>
+    <li>Which healthcare subsectors offer the most attractive risk-adjusted returns today?<span class="zh">行为健康 / 居家护理 / 专科诊所 / 医疗器械 / Healthcare IT</span><span class="f">让每人只选一个，说一个理由，最快。</span></li>
+  </ol>
+  <div class="mine"><span class="lbl">我可以分享</span>
+    我之前看过一些 Healthcare Services 的投资机会，包括行为健康和医美。我的体会是：<b>患者需求稳定，收入不一定稳定。</b>以行为健康为例，除了需求，还要看保险报销（reimbursement）、患者支付结构（payer mix）、床位或设施利用率、人工成本和合规。<br>
+    站在 Private Credit 的角度，我最关注 <b>EBITDA 的可持续性</b>（有多少是一次性调整、多少靠还没落地的协同）和下行情景：报销降 5%、工资涨 5%，利息覆盖倍数还剩多少？<br>
+    <b>抛出的问题：</b>Healthcare businesses may have defensive demand, but do they necessarily have defensive cash flows?
+  </div>
+  <p class="txt"><b>过渡：</b>“说到收入不稳定，很大一部分原因是价格不是医疗机构自己定的，而是 Medicare、Medicaid 和保险公司。正好这周 CMS 刚公布了明年的支付规则……”</p>
+
+  <h2 id="s2" style="--ac:var(--indigo)">三、监管与支付 <span class="time" style="--ac:var(--indigo)">2:35–2:55</span></h2>
+  <p class="txt"><b>目标：</b>让大家理解“价格是被定的”，再讨论门诊转移和 payer vs provider。</p>
+  <h3>三个付款方，一句话版</h3>
+  <ul class="dots" style="--ac:var(--indigo)">
+    <li><b>Medicare：</b>联邦医保，主要是 65 岁以上；医生按收费表（PFS）付，医院门诊按 OPPS，ASC 有自己的费率。</li>
+    <li><b>Medicaid：</b>低收入等人群，联邦和州共同出资，各州差异大，费率通常最低。</li>
+    <li><b>商业保险：</b>价格靠谈判，网络协议、预授权和拒赔率直接影响收入。</li>
+  </ul>
+  <h3>① Medicare 医生收费表（11/4 终版）</h3>
+  <ul class="dots" style="--ac:var(--indigo)">
+    <li>conversion factor（非 QP）<b>$32.63，−2.31%</b>（2026 年 $33.40）；QP $32.95，−1.83%。</li>
+    <li>为什么降：法定更新是 +0.25%（QP +0.75%），但 2026 年一次性 +2.5% 到期，再加约 −0.12% 的预算中性调整。终版比 7 月提案（约 −1.68%）降得更多。</li>
+    <li>不是所有服务都降：门诊 E/M 复杂度附加码改成 modifier，CMS 称基础 E/M 支付 +16%（ACO 参与者 +32%）。可以讨论：这可能让以看诊为主的初级保健相对受益，以操作为主的专科压力更大。</li>
+  </ul>
+  <p class="txt"><span class="src">来源：<a href="https://www.cms.gov/newsroom/fact-sheets/calendar-year-cy-2027-medicare-physician-fee-schedule-final-rule" target="_blank" rel="noopener">CMS：2027 PFS 终版</a> · <a href="https://www.aha.org/news/headline/2026-11-04-cms-issues-cy-2027-physician-fee-schedule-final-rule" target="_blank" rel="noopener">AHA</a></span></p>
+  <ol class="qs" style="--ac:var(--indigo)">
+    <li>如果人工成本每年涨 3–5%，Medicare 支付却在降，利润率能靠什么维持？<span class="f">引导：提高患者量和效率、调 payer mix、上 AI 降行政成本、做 value-based care……哪个最现实？</span></li>
+  </ol>
+  <h3>② 门诊转移（Outpatient shift）与 ASC</h3>
+  <ul class="dots" style="--ac:var(--indigo)">
+    <li>驱动：患者便利、技术进步（微创、麻醉）、流程效率、不同场景成本差异。</li>
+    <li>2027 OPPS/ASC 终版：ASC 更新 <b>+2.3%</b>；医院院外科室部分不含造影剂影像改为 site-neutral 支付；340B 药品支付下调。Becker's 根据 CMS 预测指出：白内障、结肠镜、硬膜外注射相对吃亏，器械较重的骨科和神经刺激类手术受益。</li>
+  </ul>
+  <p class="txt"><span class="src">来源：<a href="https://www.cms.gov/newsroom/fact-sheets/calendar-year-2027-hospital-outpatient-prospective-payment-system-opps-ambulatory-surgical-center-0" target="_blank" rel="noopener">CMS：2027 OPPS/ASC 终版</a> · <a href="https://taxnews.ey.com/news/2026-2380-cms-issues-cy-2027-outpatient-prospective-payment-system-ambulatory-surgical-center-final-rule" target="_blank" rel="noopener">EY</a> · <a href="https://www.beckersasc.com/asc-news/what-cms-final-opps-2027-rule-means-for-asc-leaders-more-cases-less-pay/" target="_blank" rel="noopener">Becker's ASC</a></span></p>
+  <ol class="qs" style="--ac:var(--indigo)">
+    <li>Are ambulatory surgery centers still attractive investment opportunities?<span class="f">看什么：手术量、病种结构（procedure mix）、支付、和医生的关系（医生持股）、经营杠杆。</span></li>
+  </ol>
+  <h3>③ Payer vs Provider</h3>
+  <p class="txt">保险方想控制支出，医疗方想要合理报酬。大型保险公司和医疗集团都在做纵向整合，例如 UnitedHealth 旗下的 Optum 同时拥有大量医生和服务网络。</p>
+  <ol class="qs" style="--ac:var(--indigo)">
+    <li>Who has more pricing power in healthcare today — payers or providers?<span class="f">追问：在你熟悉的市场里，是地区龙头医院更强，还是大保险公司更强？纵向整合会让这种关系更紧张还是更稳定？</span></li>
+  </ol>
+  <p class="txt"><b>过渡：</b>“既然价格很难涨，医疗机构能做的就是降成本，这就是很多人对 AI 的期待……”</p>
+
+  <h2 id="s3" style="--ac:var(--sky)">四、AI × 医疗服务 <span class="time" style="--ac:var(--sky)">2:55–3:10</span></h2>
+  <p class="txt"><b>目标：</b>从“AI 能做什么”转到“谁拿走 AI 创造的价值”。</p>
+  <table>
+    <tr><th>场景</th><th>AI 的作用</th><th>潜在商业价值</th></tr>
+    <tr><td>Medical scribe</td><td>自动生成临床记录</td><td>减少医生行政工作</td></tr>
+    <tr><td>RCM</td><td>编码、账单、拒赔处理</td><td>改善收款效率</td></tr>
+    <tr><td>Prior authorization</td><td>辅助保险预授权</td><td>降低人工处理成本</td></tr>
+    <tr><td>Medical imaging</td><td>辅助影像分析</td><td>提高工作效率</td></tr>
+    <tr><td>Patient engagement</td><td>预约与患者沟通</td><td>降低运营成本</td></tr>
+  </table>
+  <ol class="qs" style="--ac:var(--sky)">
+    <li>Where will AI create the most economic value in healthcare?<span class="zh">降低行政成本、提高医生效率，还是改善诊断与治疗？</span></li>
+    <li>Who captures the economic benefits of AI adoption?<span class="zh">如果 AI 帮医院省下 20% 行政成本：医院留住利润？保险方要求降价？软件商拿走？</span><span class="f">有趣的角度：保险方也在用 AI 审核和拒赔，医院用 AI 申诉，最后会不会变成“AI 对 AI”的军备竞赛，谁都没省钱？</span></li>
+    <li>Is healthcare AI primarily a software opportunity or a healthcare services opportunity?<span class="zh">数据隐私与合规、系统集成成本、医疗责任、很长的医院采购周期，会不会限制它像 SaaS 一样赚钱？</span></li>
+  </ol>
+  <p class="txt"><b>过渡：</b>“AI 在医疗服务里主要是提效。但如果用在药物研发上，它有没有可能改变整个 Biotech 的经济模型？”</p>
+
+  <h2 id="s4" style="--ac:var(--pink)">五、AI × Biotech <span class="time" style="--ac:var(--pink)">3:10–3:30</span></h2>
+  <p class="txt"><b>目标：</b>区分“更快”和“更成功”，再落到估值。</p>
+  <h3>30 秒背景</h3>
+  <ul class="dots" style="--ac:var(--pink)">
+    <li><b>Discovery：</b>靶点识别、分子设计、蛋白结构预测、候选药筛选。</li>
+    <li><b>Clinical：</b>试验设计、患者招募、生物标志物、患者分层。</li>
+    <li><b>Development：</b>老药新用、毒性预测、生产优化。</li>
+    <li>2026 年 1 月 14 日 FDA × EMA 发布 10 条 AI 良好实践原则（以人为本、基于风险、明确使用场景、数据治理、全生命周期管理等），自愿遵循。说明监管认真对待 AI，但<b>安全、有效、质量的门槛没变</b>。<span class="src">来源：<a href="https://www.jonesday.com/de/insights/2026/01/ema-and-fda-align-on-good-ai-practice-in-drug-development" target="_blank" rel="noopener">Jones Day：FDA × EMA AI 原则</a> · <a href="https://www.nsf.org/life-science-regulatory-news/fda-and-ema-release-guiding-principles-of-good-ai-practice-in-drug-development" target="_blank" rel="noopener">NSF</a></span></li>
+  </ul>
+  <ol class="qs" style="--ac:var(--pink)">
+    <li>Will AI actually improve drug development success rates, or just accelerate early-stage discovery?<span class="f">关键点：大部分钱花在临床阶段。如果只是让更多候选药更快进临床，失败率不变，总成本可能反而更高。</span></li>
+    <li>Who captures the value: AI platforms, biotechs or large pharma?<span class="zh">Pharma 有资本、临床经验、商业化渠道和监管能力；平台有算法、数据和可复用的分子设计能力。壁垒到底在哪？</span></li>
+    <li>Should AI biotech companies be valued like software or like traditional biotech?<span class="zh">没有获批药物的 AI biotech，用科技股倍数，还是按 rNPV（风险调整后的净现值）？</span></li>
+  </ol>
+  <h3>三种商业模式</h3>
+  <ul class="dots" style="--ac:var(--pink)">
+    <li><b>Platform / licensing：</b>合作研发、授权费、里程碑付款；风险低、上限也低。</li>
+    <li><b>Asset ownership：</b>自己推进管线，承担临床风险，也拿全部商业化收益。</li>
+    <li><b>Hybrid：</b>两者结合，目前最常见。</li>
+  </ul>
+  <div class="mine"><span class="lbl">我可以分享</span>
+    AI Biotech 最大的问题不是技术是否先进，而是<b>技术优势能否转化为更高的研发成功率和可持续的商业回报</b>。如果早期发现快了很多、临床成功率没变，公司整体风险其实没有根本改变。<br>
+    所以我更看：高质量的专有数据、临床验证结果、大型 Pharma 合作、能否减少研发资本需求、可持续的 IP。<br>
+    <b>抛出的问题：</b>If AI makes drug discovery significantly cheaper, does that make biotech a better investment, or simply increase competition and reduce the value of individual drug candidates?
+  </div>
+  <p class="txt"><b>过渡：</b>“药物值多少钱，最后也取决于药价政策。这就要说到这周的中期选举……”</p>
+
+  <h2 id="s5" style="--ac:#ffc35a">六、中期选举 × Healthcare <span class="time" style="--ac:#ffc35a">3:30–3:50</span></h2>
+  <p class="txt"><b>目标：</b>只聊对行业和投资的影响。有人开始聊站队时，拉回“如果你在投一家公司，你怎么定价这个风险”。</p>
+  <div class="say"><span class="lbl">事实先说清（30 秒）</span>
+    11 月 3 日中期选举，民主党赢得众议院和参议院（截至 11/4 的报道仍有少数席位在计票）。但新国会 2027 年 1 月 3 日才就职，特朗普仍是总统、有否决权，重大医疗政策需要立法或行政程序，民主党内部对医保改革也有分歧。<b>赢得国会不等于政策马上逆转。</b>
+  </div>
+  <p class="txt"><span class="src">来源：<a href="https://www.cbsnews.com/live-updates/senate-election-results-2026/" target="_blank" rel="noopener">CBS News</a> · <a href="https://www.cnbc.com/2026/11/04/2026-midterm-election-results-live-updates.html" target="_blank" rel="noopener">CNBC</a></span></p>
+  <h3>1. Medicaid</h3>
+  <p class="txt">2025 年预算法案的 Medicaid 改动：据 KFF 引用的 CBO 估计，2025–2034 年减少联邦支出约 $9,110 亿，2034 年无保险人数增加约 750 万；扩张人群的工作要求最迟 2027 年 1 月 1 日起实施。民主党可能尝试修改，但需要总统签字。<span class="src">来源：<a href="https://www.kff.org/elections/midterm-election-update-medicaid-changes/" target="_blank" rel="noopener">KFF：Medicaid</a></span></p>
+  <ol class="qs" style="--ac:#ffc35a">
+    <li>Which healthcare subsectors are most exposed to Medicaid reimbursement and coverage changes?<span class="zh">行为健康、医院（尤其安全网医院）、居家护理、护理院、农村医疗。</span></li>
+  </ol>
+  <h3>2. ACA</h3>
+  <p class="txt">增强版保费补贴 2025 年底到期；众议院 1 月通过三年延期（230–196），参议院没表决。补贴恢复让参保人增加，但保险公司能否赚钱还要看 MLR、风险池、定价和使用率。<span class="src">来源：<a href="https://www.astho.org/communications/blog/2026/aca-enhanced-premium-tax-credits-legislative-developments-2025-2026/" target="_blank" rel="noopener">ASTHO：ACA 补贴</a> · <a href="https://www.cbpp.org/blog/ask-an-expert-enhanced-premium-tax-credit-ptc-expiration" target="_blank" rel="noopener">CBPP</a></span></p>
+  <ol class="qs" style="--ac:#ffc35a">
+    <li>Would an expansion of ACA subsidies benefit insurers, healthcare providers, or patients the most?</li>
+  </ol>
+  <h3>3. 药价与 Pharma</h3>
+  <p class="txt">药价是两党共同关注的话题。对 Biotech 投资来说，药价会直接影响峰值销售假设、rNPV、授权估值、Pharma 并购和早期融资。</p>
+  <ol class="qs" style="--ac:#ffc35a">
+    <li>How should policymakers balance drug affordability with incentives for pharmaceutical innovation?</li>
+  </ol>
+  <h3>4. 对 Healthcare PE 的监管</h3>
+  <p class="txt">未来国会可能更关注：行业集中度、PE 持有医疗机构、收费方式、价格透明和患者结果。更严监管不一定对所有 PE 投资影响一样。</p>
+  <ol class="qs" style="--ac:#ffc35a">
+    <li>Could increased scrutiny of healthcare private equity change how investors value provider businesses?</li>
+  </ol>
+  <h3>5. 拉回投资（这一段的收尾问题）</h3>
+  <p class="txt">如果今天要投一家 Healthcare 公司，你怎么考虑：不同支付来源的风险、医保政策变化、医疗成本上升、政策执行的不确定性、债务保护与融资结构？</p>
+  <ol class="qs" style="--ac:#ffc35a">
+    <li>With Democrats controlling Congress and Trump remaining in the White House, how should healthcare investors price regulatory uncertainty over the next two years?</li>
+  </ol>
+
+  <h2 id="close" style="--ac:var(--tiffany2)">七、总结与开放讨论 <span class="time" style="--ac:var(--tiffany2)">3:50–4:00</span></h2>
+  <ol class="qs" style="--ac:var(--tiffany2)">
+    <li>If you could invest in only one healthcare subsector for the next five to ten years, what would it be and why?<span class="zh">AI 药物发现、医疗软件、行为健康、专科诊所、医疗器械、门诊、Pharma / Biotech、医疗融资……每人一句，先问今天说得少的人。</span></li>
+  </ol>
+  <div class="say"><span class="lbl">收尾（可直接说）</span>
+    今天聊了投资、科技和政策。我觉得一个挺有意思的结论是：<b>Healthcare 的长期需求可能很稳定，但技术和政策正在改变价值创造和利润分配的方式。</b><br><br>
+    谢谢大家今天来！希望除了交流观点，也认识了新朋友。大家可以在 coffeewithonlu.com 的 Members 里扫码互加，交换联系方式；网站上也可以订阅 Onlu Brief 和之后的活动。如果对哪个话题特别感兴趣，告诉我，我们可以再办一场更深入的专题。
+  </div>
+
+  <h2 id="help" style="--ac:var(--indigo)">临场应急</h2>
+  <div class="grid2">
+    <div class="card" style="--ac:var(--indigo)"><div class="k">冷场</div>
+      <ul class="dots" style="--ac:var(--indigo)">
+        <li>改成选择题：“行为健康和居家护理，选一个更看好的？”</li>
+        <li>点背景最相关的人：“你们组最近看这类 deal 多吗？”</li>
+        <li>自己先给一个有争议的观点，再问“谁不同意？”</li>
+      </ul></div>
+    <div class="card" style="--ac:var(--indigo)"><div class="k">一个人说太久</div>
+      <ul class="dots" style="--ac:var(--indigo)">
+        <li>“这个点很好，我想听听另一个角度，___ 你怎么看？”</li>
+        <li>提醒时间：“我们还有 5 分钟，快速听两个人。”</li>
+      </ul></div>
+    <div class="card" style="--ac:var(--indigo)"><div class="k">跑题或聊到政治立场</div>
+      <ul class="dots" style="--ac:var(--indigo)">
+        <li>“我们拉回到投资：这会让哪类公司的现金流更不确定？”</li>
+      </ul></div>
+    <div class="card" style="--ac:var(--indigo)"><div class="k">被问到不确定的数字</div>
+      <ul class="dots" style="--ac:var(--indigo)">
+        <li>只说本页有来源的数字；其他的说“我会后查一下发到群里”。</li>
+      </ul></div>
+  </div>
+
+  <h2 id="news" style="--ac:var(--sky)">本周数字（带来源）</h2>
+  
+<div class="facts-box" style="--ac:var(--sky)"><ul class="dots">
+  <li><b>11/3 中期选举：</b>民主党赢得众议院和参议院（截至 11/4 报道，仍有少数席位在计票）。新一届国会 <b>2027 年 1 月 3 日</b>就职，特朗普仍是总统、保有否决权。<span class="src">来源：<a href="https://www.cbsnews.com/live-updates/senate-election-results-2026/" target="_blank" rel="noopener">CBS News</a> · <a href="https://www.cnbc.com/2026/11/04/2026-midterm-election-results-live-updates.html" target="_blank" rel="noopener">CNBC</a></span></li>
+  <li><b>11/4 Medicare 医生收费表（PFS）2027 终版：</b>conversion factor（非 QP）<b>$32.63，比 2026 年 −2.31%</b>；QP（高级 APM 参与者）$32.95，−1.83%。主因是 2026 年一次性 +2.5% 到期。同时把门诊 E/M 复杂度附加码改成 modifier，CMS 称基础 E/M 支付因此 +16%。<span class="src">来源：<a href="https://www.cms.gov/newsroom/fact-sheets/calendar-year-cy-2027-medicare-physician-fee-schedule-final-rule" target="_blank" rel="noopener">CMS：2027 PFS 终版</a> · <a href="https://www.aha.org/news/headline/2026-11-04-cms-issues-cy-2027-physician-fee-schedule-final-rule" target="_blank" rel="noopener">AHA</a></span></li>
+  <li><b>11/4 门诊 / ASC（OPPS/ASC）2027 终版：</b>ASC 支付更新 <b>+2.3%</b>；医院院外科室的部分不含造影剂影像改按接近医生收费表的较低价格支付（site-neutral）；340B 药品支付下调。2027 年 1 月 1 日生效。<span class="src">来源：<a href="https://www.cms.gov/newsroom/fact-sheets/calendar-year-2027-hospital-outpatient-prospective-payment-system-opps-ambulatory-surgical-center-0" target="_blank" rel="noopener">CMS：2027 OPPS/ASC 终版</a> · <a href="https://taxnews.ey.com/news/2026-2380-cms-issues-cy-2027-outpatient-prospective-payment-system-ambulatory-surgical-center-final-rule" target="_blank" rel="noopener">EY</a> · <a href="https://www.beckersasc.com/asc-news/what-cms-final-opps-2027-rule-means-for-asc-leaders-more-cases-less-pay/" target="_blank" rel="noopener">Becker's ASC</a></span></li>
+  <li><b>ACA 增强版保费补贴</b> 2025 年底到期；众议院 2026 年 1 月 8 日以 230–196 通过三年延期，参议院至今未表决。<span class="src">来源：<a href="https://www.astho.org/communications/blog/2026/aca-enhanced-premium-tax-credits-legislative-developments-2025-2026/" target="_blank" rel="noopener">ASTHO：ACA 补贴</a> · <a href="https://www.cbpp.org/blog/ask-an-expert-enhanced-premium-tax-credit-ptc-expiration" target="_blank" rel="noopener">CBPP</a></span></li>
+  <li><b>Medicaid：</b>据 KFF 引用的 CBO 估计，2025 年预算法案的 Medicaid 改动在 2025–2034 年减少联邦支出约 <b>$9,110 亿</b>，并使 2034 年无保险人数增加约 <b>750 万</b>；扩张人群的工作要求最迟 <b>2027 年 1 月 1 日</b>起实施。<span class="src">来源：<a href="https://www.kff.org/elections/midterm-election-update-medicaid-changes/" target="_blank" rel="noopener">KFF：Medicaid</a></span></li>
+  <li><b>2026 年 1 月 14 日：</b>FDA 与欧洲药管局 EMA 联合发布药物研发中使用 AI 的 <b>10 条良好实践原则</b>（自愿遵循，不改变安全性、有效性、质量的审批标准）。<span class="src">来源：<a href="https://www.jonesday.com/de/insights/2026/01/ema-and-fda-align-on-good-ai-practice-in-drug-development" target="_blank" rel="noopener">Jones Day：FDA × EMA AI 原则</a> · <a href="https://www.nsf.org/life-science-regulatory-news/fda-and-ema-release-guiding-principles-of-good-ai-practice-in-drug-development" target="_blank" rel="noopener">NSF</a></span></li>
+</ul></div>
+
+
+  <h2 id="gloss" style="--ac:var(--tiffany)">术语速查</h2>
+  <dl class="gl">
+    <dt>PFS / CF</dt><dd>Medicare 医生收费表；conversion factor 是把相对价值单位（RVU）换算成美元的系数。</dd>
+    <dt>QP / APM</dt><dd>高级替代支付模式（Advanced APM）的合格参与者，适用较高的 conversion factor。</dd>
+    <dt>OPPS / ASC</dt><dd>医院门诊支付系统 / 独立门诊手术中心。</dd>
+    <dt>Site-neutral</dt><dd>同样的服务在医院门诊和诊所付同样的价格，压缩医院门诊的溢价。</dd>
+    <dt>340B</dt><dd>符合条件的医院以折扣价购药的联邦项目，医院靠价差获益。</dd>
+    <dt>E/M</dt><dd>Evaluation &amp; Management，门诊看诊收费代码。</dd>
+    <dt>RCM</dt><dd>Revenue cycle management：从登记、编码、出账到收款和拒赔申诉。</dd>
+    <dt>Prior auth</dt><dd>保险预授权：某些治疗要先获保险方批准才付款。</dd>
+    <dt>MLR</dt><dd>Medical loss ratio：保费中花在医疗上的比例，ACA 设有下限。</dd>
+    <dt>Payer mix</dt><dd>收入来自 Medicare、Medicaid、商业保险和自费的比例。</dd>
+    <dt>PPM / MSO</dt><dd>医生诊所管理公司 / 管理服务机构；很多州禁止非医生直接拥有诊所，PE 常通过 MSO 架构投资。</dd>
+    <dt>rNPV</dt><dd>风险调整后的净现值：按每个临床阶段的成功概率折算未来现金流，Biotech 常用估值方法。</dd>
+    <dt>Value-based care</dt><dd>按结果或人头付费，而不是按服务次数付费。</dd>
+  </dl>
+
+  <p class="foot">Coffee with Onlu · <a href="/">coffeewithonlu.com</a><br>An Onlu Intel project · NYC</p>
+</div>
+</body>
+</html>
