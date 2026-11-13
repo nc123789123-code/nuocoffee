@@ -67,7 +67,7 @@
       note: "Closed-door panel · infra PE, project finance and M&A advisory",
       full: false,
       partiful: "",
-      luma: "",
+      luma: "https://luma.com/fq4y5lqk",
     },
     {
       title: "Healthcare × Finance × AI",
