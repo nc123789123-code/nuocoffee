@@ -62,7 +62,7 @@
       formVertical: "AI / Infra Financing",
       iso: "2026-12-12",
       date: "Saturday, Dec 12",
-      time: "3:00–5:30 PM",
+      time: "3:15–5:30 PM",
       place: "NYC · location shared after signup",
       note: "Closed-door panel · infra PE, project finance and M&A advisory",
       full: false,
