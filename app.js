@@ -44,6 +44,32 @@
      ============================================================ */
   const EVENTS = [
     {
+      title: "Credit coffee chat & dessert sharing",
+      vertical: "Credit",
+      formVertical: "Credit",
+      iso: "2026-11-15",
+      date: "Sunday, Nov 15",
+      time: "3:30–5:30 PM",
+      place: "NYC · location shared after signup",
+      note: "Credit coffee chat + 杀糕局 (dessert sharing)",
+      full: false,
+      partiful: "",
+      luma: "",
+    },
+    {
+      title: "Infrastructure Investment & Financing",
+      vertical: "AI / Infra Financing",
+      formVertical: "AI / Infra Financing",
+      iso: "2026-12-12",
+      date: "Saturday, Dec 12",
+      time: "3:00–5:30 PM",
+      place: "NYC · location shared after signup",
+      note: "Closed-door panel · infra PE, project finance and M&A advisory",
+      full: false,
+      partiful: "",
+      luma: "",
+    },
+    {
       title: "Healthcare × Finance × AI",
       vertical: "Healthcare × Finance × AI",
       formVertical: "Healthcare × Finance × AI",
@@ -340,7 +366,7 @@
     host.innerHTML =
       '<p class="eyebrow eyebrow--center">Upcoming</p>' +
       '<h2 class="section__title">Pull up a chair.</h2>' +
-      '<p class="section__lede">Coffees and dinners in NYC — always small groups of 4–6, however many show up. Grab a seat.</p>' +
+      '<p class="section__lede">Coffees, dinners and small closed-door panels in NYC, always kept small. Grab a seat.</p>' +
       '<div class="tw-list">' + cards + "</div>";
     section.hidden = false;
 
