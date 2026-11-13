@@ -54,7 +54,7 @@
       note: "Credit coffee chat + 杀糕局 (dessert sharing)",
       full: false,
       partiful: "",
-      luma: "",
+      luma: "https://luma.com/67hfqwcq",
     },
     {
       title: "Infrastructure Investment & Financing",
