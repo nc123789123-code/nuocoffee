@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Panelist brief — Infrastructure panel, Dec 12</title>
+<meta name="description" content="Discussion framework and run of show for the Coffee with Onlu infrastructure panel." />
+<meta name="robots" content="noindex" />
+<meta name="theme-color" content="#0a1520" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%232ee0d0%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M5%209h11v4a4%204%200%200%201-4%204H9a4%204%200%200%201-4-4V9Z%22%2F%3E%3Cpath%20d%3D%22M16%2010h2.4a2.4%202.4%200%200%201%200%204.8H16%22%2F%3E%3Cpath%20d%3D%22M8%203.4c-.5%201%20.5%201.6%200%202.6M11.5%203.4c-.5%201%20.5%201.6%200%202.6%22%2F%3E%3C%2Fsvg%3E" />
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@600;800&family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+
+:root{
+  --bg:#0a1520; --surface:rgba(255,255,255,.035);
+  --text:#eef6fb; --muted:#93aec4; --dim:#6d8aa3; --line:rgba(150,200,230,.14);
+  --tiffany:#2ee0d0; --tiffany2:#9befe4; --sky:#4cc4ff; --indigo:#8a9bff; --pink:#ff4f9a;
+  --display:'Unbounded',system-ui,sans-serif;
+  --body:'Outfit',system-ui,-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
+  --mono:'Space Mono',ui-monospace,'Courier New',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:var(--body);font-size:16px;
+  line-height:1.55;-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%;
+  padding-bottom:60px;overflow-x:hidden;}
+
+.fx{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
+.blob{position:absolute;border-radius:50%;filter:blur(90px);}
+.b1{width:80vw;height:80vw;top:-26vh;right:-30vw;
+  background:radial-gradient(circle,var(--tiffany),transparent 68%);opacity:.22;}
+.b2{width:75vw;height:75vw;bottom:-14vh;left:-30vw;
+  background:radial-gradient(circle,var(--pink),transparent 68%);opacity:.13;}
+.wrap{position:relative;z-index:1;max-width:640px;margin-inline:auto;padding:0 18px;}
+
+.bar{position:sticky;top:0;z-index:20;background:rgba(6,14,22,.9);
+  -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);}
+.bar__in{max-width:640px;margin-inline:auto;padding:10px 18px;display:flex;align-items:center;gap:10px;}
+.cup{color:var(--tiffany2);line-height:0;flex:none;}
+.cup svg{width:21px;height:21px;display:block;}
+.bar__n{font-family:var(--display);font-weight:600;font-size:.85rem;letter-spacing:-.01em;}
+.lang{margin-left:auto;flex:none;white-space:nowrap;font-family:var(--mono);font-weight:700;
+  font-size:.7rem;letter-spacing:.1em;color:var(--muted);background:var(--surface);
+  border:1px solid var(--line);border-radius:999px;padding:7px 13px;cursor:pointer;
+  -webkit-tap-highlight-color:transparent;}
+
+header{padding:32px 0 4px;}
+.eyebrow{font-family:var(--mono);text-transform:uppercase;letter-spacing:.18em;
+  font-size:.68rem;font-weight:700;color:var(--tiffany2);}
+h1{font-family:var(--display);font-weight:800;letter-spacing:-.025em;line-height:1.08;
+  font-size:clamp(1.8rem,8vw,2.5rem);margin:.32em 0 .36em;}
+.grad{background:linear-gradient(100deg,var(--tiffany2),var(--tiffany) 30%,var(--sky) 58%,var(--pink) 92%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;}
+.facts{font-family:var(--mono);font-size:.78rem;color:var(--dim);letter-spacing:.04em;line-height:1.7;}
+.lede{font-size:.95rem;color:var(--muted);margin-top:16px;line-height:1.6;}
+.lede b{color:var(--text);font-weight:600;}
+
+h2{font-family:var(--display);font-weight:600;letter-spacing:-.015em;font-size:1.05rem;
+  margin:38px 0 12px;display:flex;align-items:center;gap:9px;}
+h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
+  background:var(--ac,var(--tiffany));box-shadow:0 0 12px var(--ac,var(--tiffany));}
+
+.flow{list-style:none;border:1px solid var(--line);border-radius:14px;background:var(--surface);overflow:hidden;}
+.flow li{display:flex;gap:14px;padding:12px 15px;border-top:1px solid var(--line);font-size:.92rem;line-height:1.45;}
+.flow li:first-child{border-top:0;}
+.flow .t{font-family:var(--mono);font-size:.74rem;color:var(--tiffany2);flex:none;width:44px;padding-top:2px;}
+.flow .s{color:var(--dim);font-size:.82rem;display:block;margin-top:2px;}
+
+.topic{border:1px solid var(--line);border-radius:14px;background:var(--surface);
+  padding:15px;margin-bottom:10px;border-left:3px solid var(--ac);}
+.topic__n{font-family:var(--mono);font-size:.64rem;font-weight:700;letter-spacing:.14em;color:var(--ac);}
+.topic__t{font-weight:600;font-size:1rem;margin:5px 0 9px;line-height:1.4;}
+.topic ul{list-style:none;display:flex;flex-direction:column;gap:7px;}
+.topic li{position:relative;padding-left:16px;font-size:.9rem;color:var(--muted);line-height:1.5;}
+.topic li::before{content:"";position:absolute;left:0;top:.6em;width:5px;height:5px;
+  border-radius:50%;background:var(--ac);opacity:.75;}
+
+.bring{border:1px solid rgba(46,224,208,.3);background:rgba(46,224,208,.07);border-radius:14px;
+  padding:14px 15px;font-size:.9rem;color:var(--muted);line-height:1.6;}
+.bring b{color:var(--text);font-weight:600;}
+
+.foot{margin:40px 0 10px;padding-top:18px;border-top:1px solid var(--line);
+  font-family:var(--mono);font-size:.7rem;color:var(--dim);line-height:1.8;}
+.foot a{color:var(--tiffany2);}
+
+.wrap{max-width:680px;}
+.facts a,.lede a{color:var(--tiffany2);}
+.bar__in{max-width:680px;}
+.bar__n a{color:inherit;text-decoration:none;}
+.jump{display:flex;gap:7px;overflow-x:auto;scrollbar-width:none;margin-left:auto;min-width:0;}
+.jump::-webkit-scrollbar{display:none;}
+.jump a{flex:none;font-family:var(--mono);font-size:.68rem;font-weight:700;letter-spacing:.06em;color:var(--muted);
+  text-decoration:none;padding:6px 11px;border-radius:999px;border:1px solid var(--line);background:var(--surface);}
+h2{scroll-margin-top:64px;}
+h3{font-size:.95rem;font-weight:600;margin:16px 0 6px;}
+p.txt{font-size:.92rem;color:var(--muted);line-height:1.65;margin:8px 0;}
+p.txt b,li b{color:var(--text);font-weight:600;}
+.card{border:1px solid var(--line);border-radius:14px;background:var(--surface);padding:15px 16px;margin-bottom:10px;border-left:3px solid var(--ac,var(--tiffany));}
+.card > p{font-size:.9rem;color:var(--muted);line-height:1.6;margin-top:6px;}
+.card > p:first-child{margin-top:0;}
+.k{font-family:var(--mono);font-size:.64rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ac,var(--tiffany));}
+.t{font-weight:600;font-size:1rem;margin:4px 0 8px;line-height:1.4;}
+ul.dots{list-style:none;display:flex;flex-direction:column;gap:6px;margin:6px 0;}
+ul.dots li{position:relative;padding-left:16px;font-size:.9rem;color:var(--muted);line-height:1.55;}
+ul.dots li::before{content:"";position:absolute;left:0;top:.62em;width:5px;height:5px;border-radius:50%;background:var(--ac,var(--tiffany));opacity:.8;}
+ol.qs{list-style:none;counter-reset:q;display:flex;flex-direction:column;gap:9px;margin:8px 0;}
+ol.qs li{counter-increment:q;position:relative;padding-left:30px;font-size:.92rem;line-height:1.55;color:var(--text);}
+ol.qs li::before{content:"Q" counter(q);position:absolute;left:0;top:1px;font-family:var(--mono);font-size:.7rem;font-weight:700;color:var(--ac,var(--tiffany));}
+ol.qs li .zh{display:block;color:var(--muted);font-size:.86rem;margin-top:2px;}
+ol.qs li .f{display:block;color:var(--dim);font-size:.82rem;margin-top:3px;}
+.flow .t{font-weight:400;margin:0;}
+.flow b{font-weight:600;}
+.facts-box{border:1px solid rgba(76,196,255,.3);background:rgba(76,196,255,.06);border-radius:14px;padding:14px 16px;}
+.facts-box li{font-size:.88rem;}
+.src{font-family:var(--mono);font-size:.68rem;color:var(--dim);}
+.src a,.links a{color:var(--tiffany2);text-decoration:none;border-bottom:1px solid rgba(155,239,228,.35);}
+.links{list-style:none;display:flex;flex-direction:column;gap:6px;font-size:.84rem;color:var(--muted);}
+table{width:100%;border-collapse:collapse;font-size:.84rem;margin:8px 0;}
+th,td{text-align:left;padding:7px 8px 7px 0;border-top:1px solid var(--line);vertical-align:top;color:var(--muted);}
+th{color:var(--text);font-weight:600;border-top:0;font-size:.78rem;}
+.say{border-left:2px solid var(--pink);padding:8px 0 8px 12px;margin:10px 0;font-size:.92rem;line-height:1.7;color:var(--text);}
+.say .lbl{display:block;font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;color:var(--pink);font-weight:700;margin-bottom:2px;}
+.mine{border:1px dashed rgba(255,79,154,.45);border-radius:12px;padding:11px 13px;margin:10px 0;font-size:.88rem;color:var(--muted);line-height:1.6;}
+.mine .lbl{display:block;font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;color:var(--pink);font-weight:700;margin-bottom:3px;}
+.mine b{color:var(--text);}
+.time{display:inline-block;font-family:var(--mono);font-size:.66rem;font-weight:700;color:#08131c;background:var(--ac,var(--tiffany));border-radius:999px;padding:2px 8px;margin-right:6px;vertical-align:2px;}
+.cut{font-family:var(--mono);font-size:.7rem;color:#ffc35a;margin-top:6px;}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;}
+.chk{list-style:none;display:flex;flex-direction:column;gap:6px;}
+.chk li{font-size:.88rem;color:var(--muted);}
+.chk li::before{content:"\2610  ";color:var(--tiffany2);}
+dl.gl{display:grid;grid-template-columns:minmax(90px,max-content) 1fr;gap:6px 12px;font-size:.84rem;}
+dl.gl dt{font-weight:600;color:var(--text);}
+dl.gl dd{color:var(--muted);}
+.cta{display:inline-block;margin-top:10px;font-weight:700;font-size:.9rem;color:#08131c;text-decoration:none;
+  background:linear-gradient(100deg,var(--tiffany2),var(--tiffany) 30%,var(--sky) 58%,var(--pink) 92%);border-radius:999px;padding:10px 18px;}
+</style>
+</head>
+<body>
+<div class="fx"><span class="blob b1"></span><span class="blob b2"></span></div>
+<nav class="bar"><div class="bar__in">
+  <span class="cup"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9h11v4a4 4 0 0 1-4 4H9a4 4 0 0 1-4-4V9Z"/><path d="M16 10h2.4a2.4 2.4 0 0 1 0 4.8H16"/><path d="M8 3.4c-.5 1 .5 1.6 0 2.6M11.5 3.4c-.5 1 .5 1.6 0 2.6"/></svg></span>
+  <span class="bar__n"><a href="/">Coffee with Onlu</a></span>
+  <span class="jump"><a href="#flow">流程</a><a href="#ask">准备</a><a href="#topics">话题</a><a href="#rules">约定</a></span>
+</div></nav>
+<div class="wrap">
+
+  <header>
+    <p class="eyebrow">嘉宾资料 · Panelist brief</p>
+    <h1>Infrastructure &amp;<br><span class="grad">Digital Infrastructure</span></h1>
+    <p class="facts">周六 12月12日 · 3:00–5:30 PM · 纽约 · 闭门 Panel · <a href="https://luma.com/fq4y5lqk" target="_blank" rel="noopener">Luma</a></p>
+    <p class="lede"><b>感谢您抽时间参加！</b>这页是给嘉宾的讨论框架和活动安排。以下为初步框架，具体问题和时间可以根据各位的背景和兴趣灵活调整，<b>欢迎提出希望重点分享的交易案例或讨论方向。</b></p>
+  </header>
+
+  <h2 id="flow" style="--ac:var(--tiffany2)">活动流程（120 分钟）</h2>
+  <ol class="flow">
+    <li><span class="t">0:00</span><span><b>开场及嘉宾介绍</b><span class="s">10 分钟 · 全体 · 每位约 1–2 分钟：背景 + 目前关注的方向</span></span></li>
+    <li><span class="t">0:10</span><span><b>AI 基础设施投资趋势</b><span class="s">15 分钟 · Infrastructure PE / M&amp;A</span></span></li>
+    <li><span class="t">0:25</span><span><b>融资结构与资本来源</b><span class="s">20 分钟 · Project Finance / Private Credit</span></span></li>
+    <li><span class="t">0:45</span><span><b>Infrastructure M&amp;A：交易定价与执行</b><span class="s">15 分钟 · Energy &amp; Infrastructure M&amp;A</span></span></li>
+    <li><span class="t">1:00</span><span><b>估值、信用分析与投资风险</b><span class="s">10 分钟 · Infrastructure PE / Project Finance</span></span></li>
+    <li><span class="t">1:10</span><span><b>未来投资机会与市场展望</b><span class="s">10 分钟 · 全体</span></span></li>
+    <li><span class="t">1:20</span><span><b>观众 Q&amp;A</b><span class="s">10 分钟 · 全体</span></span></li>
+    <li><span class="t">1:30</span><span><b>Networking</b><span class="s">30 分钟 · 自由交流</span></span></li>
+  </ol>
+  <p class="txt">各环节标注的是<b>主要回答的嘉宾背景</b>，其他嘉宾随时欢迎补充或提出不同看法。不需要准备 slides。</p>
+
+  <h2 id="ask" style="--ac:var(--pink)">想请您提前想一想</h2>
+  <div class="card" style="--ac:var(--pink)">
+    <ul class="dots" style="--ac:var(--pink)">
+      <li><b>开场 1–2 分钟：</b>您的背景，以及最近最关注的一个方向。</li>
+      <li><b>1–2 个交易或项目案例</b>（可匿名、可模糊数字）：最能说明您观点的那种。</li>
+      <li><b>一个“不太主流”的观点</b>：市场可能高估或低估了什么。</li>
+      <li><b>收尾一句话：</b>如果现在配置资本，您最看好哪个细分领域？</li>
+      <li>有不想谈或不方便谈的话题，提前告诉主持人即可，我们会绕开。</li>
+    </ul>
+  </div>
+
+  <h2 id="topics" style="--ac:var(--tiffany)">讨论话题</h2>
+  
+  <div class="card" style="--ac:var(--tiffany)">
+    <div class="k">01 · 15 分钟 · Infrastructure PE / M&amp;A</div>
+    <div class="t">AI 基础设施投资趋势</div>
+    <ol class="qs" style="--ac:var(--tiffany)"><li>AI 算力需求如何改变传统基础设施投资逻辑？数据中心是否正在成为核心基础设施资产类别？</li><li>当前北美数据中心及数字基础设施的投资、并购和估值趋势如何？</li><li>数据中心、GPU 算力、电力基础设施等领域，哪些投资机会最具吸引力？</li></ol>
+  </div>
+  
+  <div class="card" style="--ac:var(--sky)">
+    <div class="k">02 · 20 分钟 · Project Finance / Private Credit</div>
+    <div class="t">融资结构与资本来源</div>
+    <ol class="qs" style="--ac:var(--sky)"><li>数据中心不同发展阶段，如何选择 Project Finance、Acquisition Finance、Corporate Finance 或 Private Credit？</li><li>银行和 Private Credit 在数字基础设施融资中的角色如何演变？</li><li>GPU Financing 与传统 Project Finance 有何不同？如何评估设备折旧、技术迭代及残值风险？</li><li>贷款机构如何评估租户信用、长期合同、电力供应、建设风险及 Sponsor Support？</li></ol>
+  </div>
+  
+  <div class="card" style="--ac:var(--indigo)">
+    <div class="k">03 · 15 分钟 · Energy &amp; Infrastructure M&amp;A</div>
+    <div class="t">Infrastructure M&amp;A：交易定价与执行</div>
+    <ol class="qs" style="--ac:var(--indigo)"><li>基础设施 M&amp;A 中常见的 Purchase Price Mechanisms：Locked Box、Completion Accounts 及 Purchase Price Adjustments。</li><li>Signing-to-Closing（Interim Period）期间常见的交易风险：经营变化、建设延期、融资条件及监管审批等。</li><li>如何通过 SPA 中的 Price Adjustments、Interim Covenants、Closing Conditions 等条款反映和分配交易风险？</li><li>数据中心及其他基础设施资产在估值、尽调及交易执行方面有哪些特殊考虑？</li></ol>
+  </div>
+  
+  <div class="card" style="--ac:var(--pink)">
+    <div class="k">04 · 10 分钟 · Infrastructure PE / Project Finance</div>
+    <div class="t">估值、信用分析与投资风险</div>
+    <ol class="qs" style="--ac:var(--pink)"><li>PE 如何评估数据中心项目的投资回报、杠杆水平和退出策略？</li><li>从 Credit Underwriting 角度，数据中心及 GPU 融资有哪些容易被低估的风险？</li><li>如何对建设延期、需求放缓、电力供应不足等情景做 Downside Stress Test？</li></ol>
+  </div>
+  
+  <div class="card" style="--ac:#ffc35a">
+    <div class="k">05 · 10 分钟 · 全体嘉宾</div>
+    <div class="t">未来投资机会与市场展望</div>
+    <ol class="qs" style="--ac:#ffc35a"><li>未来 12–24 个月，数字基础设施领域最值得关注的投资及融资机会在哪里？</li><li>电力供应及能源成本是否会成为数据中心发展的主要瓶颈？</li><li>再融资、资产证券化及二级市场是否会带来新的投资机会？</li><li>如果现在配置资本，各位最看好哪些细分领域？</li></ol>
+  </div>
+  <div class="card" style="--ac:var(--tiffany2)">
+    <div class="k">06 · 10 分钟 · 全体</div>
+    <div class="t">观众 Q&amp;A</div>
+    <p>开放观众提问，围绕投资机会、融资结构、交易执行及市场风险。主持人会帮忙筛选和控时。</p>
+  </div>
+
+  <h2 id="room" style="--ac:var(--sky)">现场是谁</h2>
+  <p class="txt">小规模闭门交流。来的主要是纽约的金融从业者，背景包括基础设施和能源投资、数据中心投融资、Private Credit、Project Finance、投行和 M&amp;A，也有关注 AI 基础设施的科技背景朋友。报名会按背景筛选。</p>
+
+  <h2 id="rules" style="--ac:var(--indigo)">闭门约定</h2>
+  <ul class="dots" style="--ac:var(--indigo)">
+    <li>观点可以被带走讨论，但<b>不对外引用发言者的姓名和机构</b>（Chatham House 规则）。</li>
+    <li>各位以个人身份发言，不代表所在机构；请不要分享任何非公开或保密信息，案例可以匿名处理。</li>
+    <li>宣传中只写嘉宾的领域，不写姓名和机构。</li>
+    <li>如果您的机构需要事先合规审批，告诉我们，我们可以提供活动说明。</li>
+  </ul>
+
+  <h2 id="context" style="--ac:var(--tiffany2)">近期市场动态（供参考）</h2>
+  <div class="facts-box" style="--ac:var(--sky)"><ul class="dots">
+    <li><b>Microsoft</b> 10 月 29 日发行 $250 亿高级无抵押债券，为 2017 年以来首次发债，用于 AI 投入；据报道认购峰值约 $1,150 亿。<span class="src">来源：<a href="https://247wallst.com/investing/2026/10/30/microsoft-is-borrowing-25-billion-for-ai-its-first-bond-sale-since-2017/" target="_blank" rel="noopener">24/7 Wall St.（as reported）</a></span></li>
+    <li><b>Barclays</b> 据 Bloomberg 10 月 28 日报道，正为超过 $100 亿的 AI 基础设施（数据中心）贷款购买信用保险，对冲敞口。<span class="src">来源：<a href="https://www.bloomberg.com/news/articles/2026-10-28/barclays-turns-to-insurers-to-hedge-billions-of-data-center-debt" target="_blank" rel="noopener">Bloomberg</a></span></li>
+    <li><b>Private credit 压力：</b>Moody's 统计的 607 家借款人中，截至 2026 年 6 月的 12 个月违约率 4.0%；把 PIK 修改和到期展期算进去是 5.8%。<span class="src">来源：<a href="https://www.moodys.com/web/en/us/site-assets/risk-assessments-within-private-credit.pdf" target="_blank" rel="noopener">Moody's</a> · <a href="https://www.bloomberg.com/news/articles/2026-10-14/us-private-credit-stress-masked-by-growing-pik-use-moody-s-says" target="_blank" rel="noopener">Bloomberg</a></span></li>
+  </ul></div>
+  <p class="txt">更多新闻和市场数据：<a href="/news/" target="_blank" rel="noopener">coffeewithonlu.com/news</a></p>
+
+  <h2 id="gloss" style="--ac:var(--tiffany)">术语对照（观众背景不同，供参考）</h2>
+  <dl class="gl">
+    <dt>Locked box</dt><dd>以某个历史资产负债表日定价，之后不再调整，靠“漏损”（leakage）条款保护买方。</dd>
+    <dt>Completion accounts</dt><dd>交割后按交割日的实际营运资本、净债务等调整价格。</dd>
+    <dt>Interim covenants</dt><dd>签约到交割之间，卖方经营上的限制和承诺。</dd>
+    <dt>Project finance</dt><dd>以单个项目的现金流和合同为还款来源的无追索或有限追索融资。</dd>
+    <dt>Sponsor support</dt><dd>项目股东提供的完工担保、超支承诺等支持。</dd>
+    <dt>Residual value</dt><dd>设备（如 GPU）在租期或贷款到期时的剩余价值。</dd>
+    <dt>Powered shell</dt><dd>已接通电力、但内部设备由租户自配的数据中心建筑。</dd>
+    <dt>Hyperscaler</dt><dd>大型云服务商，通常是数据中心最重要的长期租户。</dd>
+    <dt>PPA</dt><dd>Power purchase agreement，长期购电协议。</dd>
+    <dt>ABS</dt><dd>资产证券化，数据中心和光纤资产已有相关发行。</dd>
+  </dl>
+
+  <h2 id="contact" style="--ac:var(--pink)">联系</h2>
+  <p class="txt">有任何问题、想调整话题或时间分配，请直接联系主持人 Karlie（微信，或邮件 <a href="mailto:hello@onlu.ai" target="_blank" rel="noopener">hello@onlu.ai</a>）。地点会单独发给各位。</p>
+  <a class="cta" href="https://luma.com/fq4y5lqk" target="_blank" rel="noopener">活动 Luma 页面 →</a>
+
+  <p class="foot">Coffee with Onlu · <a href="/">coffeewithonlu.com</a><br>An Onlu Intel project · NYC</p>
+</div>
+</body>
+</html>
