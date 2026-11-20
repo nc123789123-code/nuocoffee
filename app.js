@@ -57,6 +57,19 @@
       luma: "https://luma.com/67hfqwcq",
     },
     {
+      title: "Crypto × TradFi",
+      vertical: "Crypto × TradFi",
+      formVertical: "Crypto × TradFi",
+      iso: "2026-11-21",
+      date: "Saturday, Nov 21",
+      time: "4:15–5:45 PM",
+      place: "Midtown",
+      note: "",
+      full: false,
+      partiful: "",
+      luma: "https://luma.com/nazevcy3",
+    },
+    {
       title: "Infrastructure Investment & Financing",
       vertical: "AI / Infra Financing",
       formVertical: "AI / Infra Financing",
@@ -278,6 +291,7 @@
   function styleFor(name) {
     var n = (name || "").toLowerCase();
     if (n.indexOf("dinner") > -1 || n.indexOf("lunch") > -1) return { c: "var(--pink)", i: "dinner" };
+    if (n.indexOf("crypto") > -1)         return { c: "var(--indigo)",    i: "chart" };
     if (n.indexOf("healthcare") > -1)     return { c: "var(--pink)",      i: "pulse" };
     if (/\bai\b/.test(n))                 return { c: "var(--sky)",       i: "cpu" };
     if (n.indexOf("private equity") > -1) return { c: "var(--tiffany)",   i: "bank" };
