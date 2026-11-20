@@ -1,0 +1,121 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Coffee with Onlu — logo concepts, round 2</title>
+<link rel="stylesheet" href="fonts.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;800&family=Outfit:wght@400;600;700&family=Space+Mono:wght@400;700&display=swap">
+<style>
+:root{
+  --bg:#0a1520; --text:#eef6fb; --muted:#93aec4; --dim:#6d8aa3;
+  --tiffany:#2ee0d0; --tiffany2:#9befe4; --sky:#4cc4ff; --pink:#ff4f9a;
+  --display:'Unbounded',system-ui,sans-serif; --body:'Outfit',system-ui,sans-serif; --mono:'Space Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#2a2a2a;display:flex;flex-wrap:wrap;gap:30px;padding:30px;font-family:var(--body);}
+.tile{position:relative;width:800px;height:800px;background:var(--bg);display:grid;place-items:center;overflow:hidden;isolation:isolate;}
+.tile.light{background:#f5f1ea;}
+.tile::before{content:"";position:absolute;inset:15%;border-radius:50%;background:radial-gradient(circle,rgba(46,224,208,.20),transparent 65%);filter:blur(40px);z-index:-1;}
+.tile.light::before{display:none;}
+.wide{width:1640px;height:560px;}
+.label{position:absolute;left:28px;top:22px;font:700 20px var(--mono);letter-spacing:.14em;color:var(--dim);}
+.light .label{color:#9a8f80;}
+svg{display:block;overflow:visible;}
+.lock{display:flex;flex-direction:column;align-items:center;gap:26px;}
+.word{font-family:var(--display);font-weight:800;letter-spacing:-.04em;color:var(--text);line-height:1;}
+.light .word{color:#0a1520;}
+.sub{font:700 22px var(--mono);letter-spacing:.32em;color:var(--muted);text-transform:uppercase;}
+.light .sub{color:#7a6f62;}
+.row{display:flex;align-items:center;}
+</style><style>
+.lockup{width:1400px;height:520px;}
+.two{background:linear-gradient(100deg,#9befe4,#2ee0d0 30%,#4cc4ff 60%,#ff4f9a);-webkit-background-clip:text;background-clip:text;color:transparent;letter-spacing:-.02em;}
+</style>
+
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#9befe4"/><stop offset=".35" stop-color="#2ee0d0"/>
+      <stop offset=".65" stop-color="#4cc4ff"/><stop offset="1" stop-color="#ff4f9a"/>
+    </linearGradient>
+    <linearGradient id="gt" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#9befe4"/><stop offset="1" stop-color="#2ee0d0"/>
+    </linearGradient>
+    <linearGradient id="gp" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#4cc4ff"/><stop offset="1" stop-color="#ff4f9a"/>
+    </linearGradient>
+  </defs>
+</svg>
+
+
+<svg width="0" height="0" style="position:absolute"><defs>
+  <linearGradient id="gpk" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4cc4ff"/><stop offset="1" stop-color="#ff4f9a"/></linearGradient>
+  <linearGradient id="gtq" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9befe4"/><stop offset="1" stop-color="#2ee0d0"/></linearGradient>
+  <clipPath id="hl"><path d="M0 -340 C -95 -120 95 120 0 340 L-420 340 L-420 -340 Z"/></clipPath>
+  <clipPath id="he"><ellipse rx="215" ry="310"/></clipPath>
+  <clipPath id="hr"><path d="M0 -340 C -95 -120 95 120 0 340 L420 340 L420 -340 Z"/></clipPath>
+</defs></svg>
+
+<svg width="0" height="0" style="position:absolute"><defs>
+  <linearGradient id="gpk" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4cc4ff"/><stop offset="1" stop-color="#ff4f9a"/></linearGradient>
+  <linearGradient id="gtq" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9befe4"/><stop offset="1" stop-color="#2ee0d0"/></linearGradient>
+  <clipPath id="hl"><path d="M0 -340 C -95 -120 95 120 0 340 L-420 340 L-420 -340 Z"/></clipPath>
+  <clipPath id="he"><ellipse rx="215" ry="310"/></clipPath>
+  <clipPath id="hr"><path d="M0 -340 C -95 -120 95 120 0 340 L420 340 L420 -340 Z"/></clipPath>
+</defs></svg>
+<div class="tile lockup" id="lH"><span class="label">H · ONLU COFFEE CHAT</span>
+  <div class="row" style="gap:44px"><svg viewBox="0 0 1000 1000" width="300" height="300">
+    <g transform="translate(500 500) rotate(-32)">
+      <ellipse rx="215" ry="310" fill="url(#gtq)" clip-path="url(#hl)"/>
+      <ellipse rx="215" ry="310" fill="url(#gpk)" clip-path="url(#hr)"/>
+      <path d="M0 -340 C -95 -120 95 120 0 340" fill="none" stroke="#0a1520" stroke-width="40" clip-path="url(#he)"/>
+    </g>
+  </svg>
+    <div><div class="word" style="font-size:118px">Onlu</div><div class="word two" style="font-size:58px;margin-top:14px">Coffee Chat</div></div>
+  </div>
+</div>
+<div class="tile lockup" id="lE"><span class="label">E · ONLU COFFEE CHAT</span>
+  <div class="row" style="gap:44px"><svg viewBox="0 0 1000 1000" width="300" height="300">
+    <g transform="translate(375 560) rotate(14)">
+      <path d="M-120 -40 h-30 a62 62 0 0 0 0 124 h30" fill="none" stroke="#9befe4" stroke-width="40" stroke-linecap="round"/>
+      <path d="M-120 -120 H120 V40 A120 120 0 0 1 0 160 A120 120 0 0 1 -120 40 Z" fill="url(#gtq)"/>
+    </g>
+    <g transform="translate(625 560) rotate(-14)">
+      <path d="M120 -40 h30 a62 62 0 0 1 0 124 h-30" fill="none" stroke="#ff4f9a" stroke-width="40" stroke-linecap="round"/>
+      <path d="M-120 -120 H120 V40 A120 120 0 0 1 0 160 A120 120 0 0 1 -120 40 Z" fill="url(#gpk)"/>
+    </g>
+    <path d="M500 330 V265 M430 350 L392 300 M570 350 L608 300" stroke="url(#g)" stroke-width="30" stroke-linecap="round"/>
+  </svg>
+    <div><div class="word" style="font-size:118px">Onlu</div><div class="word two" style="font-size:58px;margin-top:14px">Coffee Chat</div></div>
+  </div>
+</div>
+<div class="tile lockup" id="lG"><span class="label">G · ONLU COFFEE CHAT</span>
+  <div class="row" style="gap:44px"><svg viewBox="0 0 1000 1000" width="300" height="300">
+    <path d="M330 160 H610 A80 80 0 0 1 690 240 V290 A80 80 0 0 1 610 370 H470 L420 430 L426 370 H330 A80 80 0 0 1 250 290 V240 A80 80 0 0 1 330 160 Z" fill="url(#g)"/>
+    <circle cx="380" cy="265" r="26" fill="#0a1520"/><circle cx="470" cy="265" r="26" fill="#0a1520"/><circle cx="560" cy="265" r="26" fill="#0a1520"/>
+    <path d="M290 500 H650 V630 A180 180 0 0 1 470 810 A180 180 0 0 1 290 630 Z" fill="none" stroke="url(#g)" stroke-width="48" stroke-linejoin="round"/>
+    <path d="M674 545 h30 a64 64 0 0 1 0 128 h-34" fill="none" stroke="url(#gp)" stroke-width="44" stroke-linecap="round"/>
+  </svg>
+    <div><div class="word" style="font-size:118px">Onlu</div><div class="word two" style="font-size:58px;margin-top:14px">Coffee Chat</div></div>
+  </div>
+</div>
+<div class="tile lockup" id="lB"><span class="label">B · ONLU COFFEE CHAT</span>
+  <div class="row" style="gap:44px"><svg viewBox="0 0 1000 1000" width="300" height="300">
+    <path d="M395 150 c-34 40 34 70 0 110 M505 150 c-34 40 34 70 0 110" fill="none" stroke="url(#g)" stroke-width="40" stroke-linecap="round"/>
+    <path d="M690 420 h42 a92 92 0 0 1 0 184 h-42" fill="none" stroke="url(#gp)" stroke-width="54" stroke-linecap="round"/>
+    <path d="M250 340 H700 V560 A225 225 0 0 1 475 785 H350 Q290 800 226 858 Q262 790 250 700 Z" fill="url(#g)" stroke-linejoin="round"/>
+    <circle cx="375" cy="560" r="34" fill="#0a1520"/><circle cx="475" cy="560" r="34" fill="#0a1520"/><circle cx="575" cy="560" r="34" fill="#0a1520"/>
+  </svg>
+    <div><div class="word" style="font-size:118px">Onlu</div><div class="word two" style="font-size:58px;margin-top:14px">Coffee Chat</div></div>
+  </div>
+</div>
+<div class="tile lockup" id="lF"><span class="label">F · ONLU COFFEE CHAT</span>
+  <div class="row" style="gap:44px"><svg viewBox="0 0 1000 1000" width="300" height="300">
+    <circle cx="390" cy="500" r="230" fill="none" stroke="url(#gt)" stroke-width="50"/>
+    <circle cx="610" cy="500" r="230" fill="none" stroke="url(#gp)" stroke-width="50"/>
+    <path d="M160 500 H100" stroke="#9befe4" stroke-width="50" stroke-linecap="round"/>
+    <path d="M840 500 H900" stroke="#ff4f9a" stroke-width="50" stroke-linecap="round"/>
+    <path d="M500 298 A230 230 0 0 1 500 702 A230 230 0 0 1 500 298Z" fill="url(#g)"/>
+    <path d="M500 330 C 462 420 538 580 500 670" fill="none" stroke="#0a1520" stroke-width="22" stroke-linecap="round"/>
+  </svg>
+    <div><div class="word" style="font-size:118px">Onlu</div><div class="word two" style="font-size:58px;margin-top:14px">Coffee Chat</div></div>
+  </div>
+</div>
