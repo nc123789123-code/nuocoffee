@@ -1,0 +1,108 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Coffee with Onlu — logo concepts</title>
+<link rel="stylesheet" href="fonts.css">
+<style>
+:root{
+  --bg:#0a1520; --text:#eef6fb; --muted:#93aec4; --dim:#6d8aa3;
+  --tiffany:#2ee0d0; --tiffany2:#9befe4; --sky:#4cc4ff; --pink:#ff4f9a;
+  --display:'Unbounded',system-ui,sans-serif; --body:'Outfit',system-ui,sans-serif; --mono:'Space Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#2a2a2a;display:flex;flex-wrap:wrap;gap:30px;padding:30px;font-family:var(--body);}
+.tile{position:relative;width:800px;height:800px;background:var(--bg);display:grid;place-items:center;overflow:hidden;isolation:isolate;}
+.tile.light{background:#f5f1ea;}
+.tile::before{content:"";position:absolute;inset:15%;border-radius:50%;background:radial-gradient(circle,rgba(46,224,208,.20),transparent 65%);filter:blur(40px);z-index:-1;}
+.tile.light::before{display:none;}
+.wide{width:1640px;height:560px;}
+.label{position:absolute;left:28px;top:22px;font:700 20px var(--mono);letter-spacing:.14em;color:var(--dim);}
+.light .label{color:#9a8f80;}
+svg{display:block;overflow:visible;}
+.lock{display:flex;flex-direction:column;align-items:center;gap:26px;}
+.word{font-family:var(--display);font-weight:800;letter-spacing:-.04em;color:var(--text);line-height:1;}
+.light .word{color:#0a1520;}
+.sub{font:700 22px var(--mono);letter-spacing:.32em;color:var(--muted);text-transform:uppercase;}
+.light .sub{color:#7a6f62;}
+.row{display:flex;align-items:center;}
+</style>
+
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#9befe4"/><stop offset=".35" stop-color="#2ee0d0"/>
+      <stop offset=".65" stop-color="#4cc4ff"/><stop offset="1" stop-color="#ff4f9a"/>
+    </linearGradient>
+    <linearGradient id="gt" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#9befe4"/><stop offset="1" stop-color="#2ee0d0"/>
+    </linearGradient>
+    <linearGradient id="gp" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#4cc4ff"/><stop offset="1" stop-color="#ff4f9a"/>
+    </linearGradient>
+  </defs>
+</svg>
+
+<!-- A · Two cups, one table: two top-view cups whose rims overlap -->
+<div class="tile" id="a"><span class="label">A · TWO CUPS</span>
+  <svg viewBox="0 0 1000 1000" width="620" height="620">
+    <path d="M500 298 A230 230 0 0 1 500 702 A230 230 0 0 1 500 298Z" fill="url(#g)"/>
+    <circle cx="390" cy="500" r="230" fill="none" stroke="url(#gt)" stroke-width="54"/>
+    <circle cx="610" cy="500" r="230" fill="none" stroke="url(#gp)" stroke-width="54"/>
+    <path d="M160 500 H96" stroke="#9befe4" stroke-width="54" stroke-linecap="round"/>
+    <path d="M840 500 H904" stroke="#ff4f9a" stroke-width="54" stroke-linecap="round"/>
+  </svg>
+</div>
+
+<!-- B · Chat over coffee: the cup is a speech bubble -->
+<div class="tile" id="b"><span class="label">B · CHAT CUP</span>
+  <svg viewBox="0 0 1000 1000" width="600" height="600">
+    <path d="M395 150 c-34 40 34 70 0 110 M505 150 c-34 40 34 70 0 110" fill="none" stroke="url(#g)" stroke-width="40" stroke-linecap="round"/>
+    <path d="M690 420 h42 a92 92 0 0 1 0 184 h-42" fill="none" stroke="url(#gp)" stroke-width="54" stroke-linecap="round"/>
+    <path d="M250 340 H700 V560 A225 225 0 0 1 475 785 H350 Q290 800 226 858 Q262 790 250 700 Z" fill="url(#g)" stroke-linejoin="round"/>
+    <circle cx="375" cy="560" r="34" fill="#0a1520"/><circle cx="475" cy="560" r="34" fill="#0a1520"/><circle cx="575" cy="560" r="34" fill="#0a1520"/>
+  </svg>
+</div>
+
+<!-- C · onlu wordmark, the u is the cup -->
+<div class="tile wide" id="c"><span class="label">C · WORDMARK, U = CUP</span>
+  <div class="lock" style="gap:22px">
+    <div class="sub" style="letter-spacing:.5em;margin-left:.5em">Coffee with</div>
+    <div class="word" style="font-size:250px">onl<svg viewBox="0 0 280 300" width="280" height="300" style="display:inline-block;vertical-align:baseline;margin-left:12px">
+        <path d="M78 55 c-16 20 16 34 0 54 M130 55 c-16 20 16 34 0 54" fill="none" stroke="url(#g)" stroke-width="20" stroke-linecap="round"/>
+        <path d="M206 178 h8 a30 30 0 0 1 0 60 h-10" fill="none" stroke="url(#gp)" stroke-width="22" stroke-linecap="round"/>
+        <path d="M29 178 V198 A73 73 0 0 0 175 198 V178" fill="none" stroke="url(#g)" stroke-width="58" stroke-linecap="round"/>
+      </svg></div>
+    <div class="sub" style="letter-spacing:.5em;margin-left:.5em;color:var(--dim)">NYC</div>
+  </div>
+</div>
+
+<!-- D · Monogram: O as a top-view cup with a heart of foam-free coffee and a handle -->
+<div class="tile" id="d"><span class="label">D · O-CUP MONOGRAM</span>
+  <div class="lock">
+    <svg viewBox="0 0 1000 1000" width="460" height="460">
+      <circle cx="470" cy="500" r="300" fill="none" stroke="url(#g)" stroke-width="90"/>
+      <circle cx="470" cy="500" r="150" fill="url(#g)" opacity=".9"/>
+      <path d="M800 500 H880" stroke="#ff4f9a" stroke-width="90" stroke-linecap="round"/>
+    </svg>
+    <div class="word" style="font-size:52px">Coffee with Onlu</div>
+  </div>
+</div>
+
+<!-- light versions to check the marks on paper -->
+<div class="tile light" id="a-light"><span class="label">A · ON LIGHT</span>
+  <svg viewBox="0 0 1000 1000" width="620" height="620">
+    <path d="M500 298 A230 230 0 0 1 500 702 A230 230 0 0 1 500 298Z" fill="url(#g)"/>
+    <circle cx="390" cy="500" r="230" fill="none" stroke="#0fa89f" stroke-width="54"/>
+    <circle cx="610" cy="500" r="230" fill="none" stroke="#e8407f" stroke-width="54"/>
+    <path d="M160 500 H96" stroke="#0fa89f" stroke-width="54" stroke-linecap="round"/>
+    <path d="M840 500 H904" stroke="#e8407f" stroke-width="54" stroke-linecap="round"/>
+  </svg>
+</div>
+<div class="tile light" id="b-light"><span class="label">B · ON LIGHT</span>
+  <svg viewBox="0 0 1000 1000" width="600" height="600">
+    <path d="M395 150 c-34 40 34 70 0 110 M505 150 c-34 40 34 70 0 110" fill="none" stroke="url(#g)" stroke-width="40" stroke-linecap="round"/>
+    <path d="M690 420 h42 a92 92 0 0 1 0 184 h-42" fill="none" stroke="url(#gp)" stroke-width="54" stroke-linecap="round"/>
+    <path d="M250 340 H700 V560 A225 225 0 0 1 475 785 H350 Q290 800 226 858 Q262 790 250 700 Z" fill="url(#g)"/>
+    <circle cx="375" cy="560" r="34" fill="#f5f1ea"/><circle cx="475" cy="560" r="34" fill="#f5f1ea"/><circle cx="575" cy="560" r="34" fill="#f5f1ea"/>
+  </svg>
+</div>
+
