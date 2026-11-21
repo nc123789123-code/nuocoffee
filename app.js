@@ -67,6 +67,7 @@
       note: "",
       full: false,
       partiful: "",
+      page: "/crypto/",
       luma: "https://luma.com/nazevcy3",
     },
     {
