@@ -1,0 +1,120 @@
+<!doctype html><meta charset="utf-8"><title>IG recap</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;800&family=Outfit:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#222;display:flex;flex-wrap:wrap;gap:30px;padding:30px;}
+.s{position:relative;width:1080px;height:1350px;background:#0a1520;color:#eef6fb;overflow:hidden;isolation:isolate;padding:200px 90px 90px;font-family:'Outfit',sans-serif;}
+.s::before{content:"";position:absolute;width:900px;height:900px;right:-300px;top:-260px;border-radius:50%;background:radial-gradient(circle,rgba(46,224,208,.28),transparent 65%);filter:blur(40px);z-index:-1;}
+.s::after{content:"";position:absolute;width:800px;height:800px;left:-320px;bottom:-300px;border-radius:50%;background:radial-gradient(circle,rgba(255,79,154,.20),transparent 65%);filter:blur(40px);z-index:-1;}
+.grid{position:absolute;inset:0;z-index:-1;background-image:linear-gradient(rgba(150,200,230,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(150,200,230,.05) 1px,transparent 1px);background-size:54px 54px;}
+.brand{position:absolute;left:90px;top:60px;display:flex;align-items:center;gap:16px;}
+.brand b{display:block;font:800 30px 'Unbounded';letter-spacing:-.03em;line-height:1;}
+.brand span{display:block;font:600 18px 'Unbounded';margin-top:5px;background:linear-gradient(100deg,#9befe4,#2ee0d0 30%,#4cc4ff 62%,#ff4f9a);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.pg{position:absolute;right:90px;top:80px;font:700 20px 'Space Mono';letter-spacing:.2em;color:#6d8aa3;}
+.k{font:700 22px 'Space Mono';letter-spacing:.28em;text-transform:uppercase;color:#9befe4;}
+h1{font:800 104px/1.02 'Unbounded';letter-spacing:-.045em;margin:26px 0 0;}
+h2{font:800 72px/1.06 'Unbounded';letter-spacing:-.04em;margin:22px 0 0;}
+.gr{background:linear-gradient(100deg,#9befe4,#2ee0d0 30%,#4cc4ff 62%,#ff4f9a);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.lede{font-size:34px;line-height:1.4;color:#93aec4;margin-top:30px;max-width:860px;}
+.lede b{color:#eef6fb;font-weight:600;}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:70px;}
+.st{border:1px solid rgba(150,200,230,.18);border-radius:26px;padding:28px 26px;background:rgba(255,255,255,.035);}
+.st b{display:block;font:800 64px 'Unbounded';letter-spacing:-.04em;}
+.st span{display:block;font-size:24px;color:#93aec4;margin-top:10px;line-height:1.3;}
+.swipe{position:absolute;left:90px;bottom:80px;font:700 22px 'Space Mono';letter-spacing:.22em;color:#6d8aa3;}
+.tl{list-style:none;margin-top:46px;display:flex;flex-direction:column;}
+.tl li{display:flex;align-items:center;gap:26px;padding:12px 0;border-top:1px solid rgba(150,200,230,.12);font-size:32px;}
+.tl li:first-child{border-top:0;}
+.tl .d{width:130px;flex:none;font:700 24px 'Space Mono';color:#6d8aa3;letter-spacing:.06em;}
+.tl .dot{width:16px;height:16px;border-radius:50%;background:var(--c);box-shadow:0 0 14px var(--c);flex:none;}
+.tl .e{font-weight:500;}
+.chips{display:flex;flex-wrap:wrap;gap:16px;margin-top:56px;}
+.chip{font:600 36px 'Outfit';padding:20px 32px;border-radius:999px;border:2px solid color-mix(in srgb,var(--c) 60%,transparent);background:color-mix(in srgb,var(--c) 12%,transparent);color:#eef6fb;}
+.steps{display:flex;flex-direction:column;gap:26px;margin-top:60px;}
+.step{display:flex;gap:28px;align-items:flex-start;border:1px solid rgba(150,200,230,.16);border-radius:26px;padding:38px 34px;background:rgba(255,255,255,.035);}
+.step i{font:800 38px 'Unbounded';font-style:normal;flex:none;width:70px;}
+.step b{display:block;font:600 36px 'Outfit';}
+.step span{display:block;font-size:27px;color:#93aec4;margin-top:6px;line-height:1.35;}
+.bars{display:flex;flex-direction:column;gap:18px;margin-top:44px;}
+.bt{display:flex;justify-content:space-between;font-size:30px;}
+.bt b{font:700 28px 'Space Mono';}
+.tr{height:16px;border-radius:8px;background:rgba(150,200,230,.1);margin-top:10px;overflow:hidden;}
+.tr i{display:block;height:100%;border-radius:8px;}
+.note{font:400 21px 'Space Mono';color:#6d8aa3;margin-top:34px;line-height:1.5;}
+.cta{margin-top:60px;border-radius:30px;padding:40px;background:linear-gradient(135deg,rgba(46,224,208,.16),rgba(255,79,154,.12));border:1px solid rgba(46,224,208,.4);}
+.cta .k{color:#ff8fbf;}
+.cta h3{font:800 54px/1.1 'Unbounded';letter-spacing:-.035em;margin-top:18px;}
+.cta p{font-size:30px;color:#93aec4;margin-top:16px;}
+.url{display:inline-block;margin-top:56px;font:800 40px 'Unbounded';letter-spacing:-.02em;color:#08131c;padding:24px 40px;border-radius:999px;background:linear-gradient(100deg,#9befe4,#2ee0d0 30%,#4cc4ff 62%,#ff4f9a);}
+.big{display:flex;justify-content:center;margin-top:10px;}
+</style>
+<svg width="0" height="0" style="position:absolute"><defs>
+  <linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9befe4"/><stop offset=".35" stop-color="#2ee0d0"/><stop offset=".65" stop-color="#4cc4ff"/><stop offset="1" stop-color="#ff4f9a"/></linearGradient>
+  <radialGradient id="coffee" cx=".45" cy=".4" r=".7"><stop offset="0" stop-color="#5a3624"/><stop offset="1" stop-color="#2a170f"/></radialGradient>
+</defs></svg>
+<section class="s" id="s1"><div class="brand"><svg viewBox="130 130 740 740" width="64" height="64" style="display:block;flex:none">
+  <circle cx="500" cy="500" r="350" fill="rgba(255,255,255,.04)" stroke="rgba(150,200,230,.22)" stroke-width="6"/>
+  <circle cx="500" cy="500" r="275" fill="url(#g)"/><circle cx="500" cy="500" r="236" fill="url(#coffee)"/>
+  <path d="M410 395 H590 A80 80 0 0 1 670 475 V505 A80 80 0 0 1 590 585 H460 L392 640 L408 578 A80 80 0 0 1 330 505 V475 A80 80 0 0 1 410 395 Z" fill="#f3e6d3"/>
+  <circle cx="430" cy="490" r="20" fill="#5a3624"/><circle cx="500" cy="490" r="20" fill="#5a3624"/><circle cx="570" cy="490" r="20" fill="#5a3624"/></svg><div><b>Onlu</b><span>Coffee Chat</span></div></div><div class="pg">01 / 06</div><div class="grid"></div>
+  <p class="k">New York · since May</p>
+  <h1>What we&#39;ve <span class="gr">brewed</span> so far.</h1>
+  <p class="lede">Small, themed coffees for people who work in finance. <b>Real conversations, zero cold DMs.</b></p>
+  <div class="stats"><div class="st"><b>10+</b><span>themed sessions</span></div><div class="st"><b>80+</b><span>sign-ups since July</span></div><div class="st"><b>150+</b><span>in our Xiaohongshu group</span></div></div>
+  <div class="big" style="margin-top:80px"><svg viewBox="130 130 740 740" width="250" height="250" style="display:block;flex:none">
+  <circle cx="500" cy="500" r="350" fill="rgba(255,255,255,.04)" stroke="rgba(150,200,230,.22)" stroke-width="6"/>
+  <circle cx="500" cy="500" r="275" fill="url(#g)"/><circle cx="500" cy="500" r="236" fill="url(#coffee)"/>
+  <path d="M410 395 H590 A80 80 0 0 1 670 475 V505 A80 80 0 0 1 590 585 H460 L392 640 L408 578 A80 80 0 0 1 330 505 V475 A80 80 0 0 1 410 395 Z" fill="#f3e6d3"/>
+  <circle cx="430" cy="490" r="20" fill="#5a3624"/><circle cx="500" cy="490" r="20" fill="#5a3624"/><circle cx="570" cy="490" r="20" fill="#5a3624"/></svg></div>
+  <p class="swipe">SWIPE →</p></section>
+<section class="s" id="s2"><div class="brand"><svg viewBox="130 130 740 740" width="64" height="64" style="display:block;flex:none">
+  <circle cx="500" cy="500" r="350" fill="rgba(255,255,255,.04)" stroke="rgba(150,200,230,.22)" stroke-width="6"/>
+  <circle cx="500" cy="500" r="275" fill="url(#g)"/><circle cx="500" cy="500" r="236" fill="url(#coffee)"/>
+  <path d="M410 395 H590 A80 80 0 0 1 670 475 V505 A80 80 0 0 1 590 585 H460 L392 640 L408 578 A80 80 0 0 1 330 505 V475 A80 80 0 0 1 410 395 Z" fill="#f3e6d3"/>
+  <circle cx="430" cy="490" r="20" fill="#5a3624"/><circle cx="500" cy="490" r="20" fill="#5a3624"/><circle cx="570" cy="490" r="20" fill="#5a3624"/></svg><div><b>Onlu</b><span>Coffee Chat</span></div></div><div class="pg">02 / 06</div><div class="grid"></div>
+  <p class="k">The tables so far</p><h2>A coffee every <span class="gr">1–2 weeks</span></h2>
+  <ul class="tl"><li><span class="d">Jul 12</span><span class="dot" style="--c:#2ee0d0"></span><span class="e">Finance coffee chat</span></li><li><span class="d">Jul 26</span><span class="dot" style="--c:#2ee0d0"></span><span class="e">Private credit</span></li><li><span class="d">Aug 1</span><span class="dot" style="--c:#4cc4ff"></span><span class="e">Markets / sales & trading</span></li><li><span class="d">Aug 9</span><span class="dot" style="--c:#4d84ff"></span><span class="e">Investment banking</span></li><li><span class="d">Aug 16</span><span class="dot" style="--c:#4cc4ff"></span><span class="e">Quant</span></li><li><span class="d">Aug 22</span><span class="dot" style="--c:#ff4f9a"></span><span class="e">Finance dinner</span></li><li><span class="d">Aug 30</span><span class="dot" style="--c:#4cc4ff"></span><span class="e">AI</span></li><li><span class="d">Oct 3</span><span class="dot" style="--c:#2ee0d0"></span><span class="e">Credit</span></li><li><span class="d">Oct 11</span><span class="dot" style="--c:#8a9bff"></span><span class="e">Infra / data center financing</span></li><li><span class="d">Oct 17</span><span class="dot" style="--c:#4cc4ff"></span><span class="e">Finance × AI startup brainstorm</span></li><li><span class="d">Nov 8</span><span class="dot" style="--c:#ff4f9a"></span><span class="e">Healthcare × Finance × AI</span></li><li><span class="d">Nov 15</span><span class="dot" style="--c:#2ee0d0"></span><span class="e">Credit + dessert sharing</span></li></ul></section>
+<section class="s" id="s3"><div class="brand"><svg viewBox="130 130 740 740" width="64" height="64" style="display:block;flex:none">
+  <circle cx="500" cy="500" r="350" fill="rgba(255,255,255,.04)" stroke="rgba(150,200,230,.22)" stroke-width="6"/>
+  <circle cx="500" cy="500" r="275" fill="url(#g)"/><circle cx="500" cy="500" r="236" fill="url(#coffee)"/>
+  <path d="M410 395 H590 A80 80 0 0 1 670 475 V505 A80 80 0 0 1 590 585 H460 L392 640 L408 578 A80 80 0 0 1 330 505 V475 A80 80 0 0 1 410 395 Z" fill="#f3e6d3"/>
+  <circle cx="430" cy="490" r="20" fill="#5a3624"/><circle cx="500" cy="490" r="20" fill="#5a3624"/><circle cx="570" cy="490" r="20" fill="#5a3624"/></svg><div><b>Onlu</b><span>Coffee Chat</span></div></div><div class="pg">03 / 06</div><div class="grid"></div>
+  <p class="k">What we talk about</p><h2>One theme <span class="gr">per table</span></h2>
+  <p class="lede">From private credit to crypto, every coffee has a topic, a short brief with sources, and people who actually work on it.</p>
+  <div class="chips"><span class="chip" style="--c:#2ee0d0">Private credit</span><span class="chip" style="--c:#4d84ff">Investment banking</span><span class="chip" style="--c:#4cc4ff">Quant</span><span class="chip" style="--c:#4cc4ff">Sales & trading</span><span class="chip" style="--c:#4cc4ff">AI</span><span class="chip" style="--c:#8a9bff">Data center financing</span><span class="chip" style="--c:#4cc4ff">Finance × AI startups</span><span class="chip" style="--c:#ff4f9a">Healthcare</span><span class="chip" style="--c:#a970ff">Crypto × TradFi</span><span class="chip" style="--c:#8a9bff">Infrastructure</span><span class="chip" style="--c:#ff4f9a">Finance dinners</span><span class="chip" style="--c:#ffc35a">Market news</span></div>
+  </section>
+<section class="s" id="s4"><div class="brand"><svg viewBox="130 130 740 740" width="64" height="64" style="display:block;flex:none">
+  <circle cx="500" cy="500" r="350" fill="rgba(255,255,255,.04)" stroke="rgba(150,200,230,.22)" stroke-width="6"/>
+  <circle cx="500" cy="500" r="275" fill="url(#g)"/><circle cx="500" cy="500" r="236" fill="url(#coffee)"/>
+  <path d="M410 395 H590 A80 80 0 0 1 670 475 V505 A80 80 0 0 1 590 585 H460 L392 640 L408 578 A80 80 0 0 1 330 505 V475 A80 80 0 0 1 410 395 Z" fill="#f3e6d3"/>
+  <circle cx="430" cy="490" r="20" fill="#5a3624"/><circle cx="500" cy="490" r="20" fill="#5a3624"/><circle cx="570" cy="490" r="20" fill="#5a3624"/></svg><div><b>Onlu</b><span>Coffee Chat</span></div></div><div class="pg">04 / 06</div><div class="grid"></div>
+  <p class="k">How it works</p><h2>Not a <span class="gr">mixer.</span></h2>
+  <div class="steps">
+    <div class="step"><i class="gr">01</i><div><b>Pick a theme</b><span>Credit, banking, quant, AI, infra, healthcare and more.</span></div></div>
+    <div class="step"><i class="gr">02</i><div><b>Small tables</b><span>Seated by background, so everyone at the table is relevant.</span></div></div>
+    <div class="step"><i class="gr">03</i><div><b>A real agenda</b><span>A topic page with sourced numbers, and a host who makes sure everyone talks.</span></div></div>
+    <div class="step"><i class="gr">04</i><div><b>Stay in touch</b><span>Scan each other in Onlu Members and swap contacts after.</span></div></div>
+  </div></section>
+<section class="s" id="s5"><div class="brand"><svg viewBox="130 130 740 740" width="64" height="64" style="display:block;flex:none">
+  <circle cx="500" cy="500" r="350" fill="rgba(255,255,255,.04)" stroke="rgba(150,200,230,.22)" stroke-width="6"/>
+  <circle cx="500" cy="500" r="275" fill="url(#g)"/><circle cx="500" cy="500" r="236" fill="url(#coffee)"/>
+  <path d="M410 395 H590 A80 80 0 0 1 670 475 V505 A80 80 0 0 1 590 585 H460 L392 640 L408 578 A80 80 0 0 1 330 505 V475 A80 80 0 0 1 410 395 Z" fill="#f3e6d3"/>
+  <circle cx="430" cy="490" r="20" fill="#5a3624"/><circle cx="500" cy="490" r="20" fill="#5a3624"/><circle cx="570" cy="490" r="20" fill="#5a3624"/></svg><div><b>Onlu</b><span>Coffee Chat</span></div></div><div class="pg">05 / 06</div><div class="grid"></div>
+  <p class="k">Who&#39;s at the table</p><h2>Mostly <span class="gr">Associates &amp; VPs</span></h2>
+  <p class="lede">Buy side and sell side, a few years in.</p>
+  <div class="bars"><div class="bar"><div class="bt"><span>Credit</span><b>26%</b></div><div class="tr"><i style="width:100%;background:#2ee0d0"></i></div></div><div class="bar"><div class="bt"><span>Quant & trading</span><b>23%</b></div><div class="tr"><i style="width:88%;background:#4cc4ff"></i></div></div><div class="bar"><div class="bt"><span>PE, real assets & AM</span><b>15%</b></div><div class="tr"><i style="width:58%;background:#8a9bff"></i></div></div><div class="bar"><div class="bt"><span>Investment banking</span><b>12%</b></div><div class="tr"><i style="width:46%;background:#ff4f9a"></i></div></div><div class="bar"><div class="bt"><span>Strategy, research & risk</span><b>10%</b></div><div class="tr"><i style="width:38%;background:#0fa89f"></i></div></div><div class="bar"><div class="bt"><span>AI & technology</span><b>7%</b></div><div class="tr"><i style="width:27%;background:#4d84ff"></i></div></div><div class="bar"><div class="bt"><span>Students & early career</span><b>4%</b></div><div class="tr"><i style="width:15%;background:#9befe4"></i></div></div><div class="bar"><div class="bt"><span>Other</span><b>3%</b></div><div class="tr"><i style="width:12%;background:#6d8aa3"></i></div></div></div>
+  <p class="note">Share of 69 distinct participants with a stated background, from our attendee lists. Roles only, no names or firms.</p></section>
+<section class="s" id="s6"><div class="brand"><svg viewBox="130 130 740 740" width="64" height="64" style="display:block;flex:none">
+  <circle cx="500" cy="500" r="350" fill="rgba(255,255,255,.04)" stroke="rgba(150,200,230,.22)" stroke-width="6"/>
+  <circle cx="500" cy="500" r="275" fill="url(#g)"/><circle cx="500" cy="500" r="236" fill="url(#coffee)"/>
+  <path d="M410 395 H590 A80 80 0 0 1 670 475 V505 A80 80 0 0 1 590 585 H460 L392 640 L408 578 A80 80 0 0 1 330 505 V475 A80 80 0 0 1 410 395 Z" fill="#f3e6d3"/>
+  <circle cx="430" cy="490" r="20" fill="#5a3624"/><circle cx="500" cy="490" r="20" fill="#5a3624"/><circle cx="570" cy="490" r="20" fill="#5a3624"/></svg><div><b>Onlu</b><span>Coffee Chat</span></div></div><div class="pg">06 / 06</div><div class="grid"></div>
+  <p class="k">Pull up a chair</p><h2>Your <span class="gr">seat</span> is waiting.</h2>
+  <div class="cta"><p class="k">Next up · Sat Dec 12</p><h3>Infrastructure Investment &amp; Financing</h3><p>A small closed-door panel with infra PE, project finance and M&amp;A advisory voices.</p></div>
+  <div class="url">coffeewithonlu.com</div>
+  <p class="lede" style="font-size:28px">Sign up for events and the Onlu Brief on the site.</p>
+  <div class="big" style="margin-top:70px"><svg viewBox="130 130 740 740" width="260" height="260" style="display:block;flex:none">
+  <circle cx="500" cy="500" r="350" fill="rgba(255,255,255,.04)" stroke="rgba(150,200,230,.22)" stroke-width="6"/>
+  <circle cx="500" cy="500" r="275" fill="url(#g)"/><circle cx="500" cy="500" r="236" fill="url(#coffee)"/>
+  <path d="M410 395 H590 A80 80 0 0 1 670 475 V505 A80 80 0 0 1 590 585 H460 L392 640 L408 578 A80 80 0 0 1 330 505 V475 A80 80 0 0 1 410 395 Z" fill="#f3e6d3"/>
+  <circle cx="430" cy="490" r="20" fill="#5a3624"/><circle cx="500" cy="490" r="20" fill="#5a3624"/><circle cx="570" cy="490" r="20" fill="#5a3624"/></svg></div></section>
