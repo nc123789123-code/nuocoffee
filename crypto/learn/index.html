@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Crypto × TradFi 101 — host guide</title>
+<meta name="description" content="Bilingual beginner guide for hosting the Coffee with Onlu Crypto × TradFi coffee." />
+<meta name="robots" content="noindex" />
+<meta name="theme-color" content="#0a1520" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%232ee0d0%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M5%209h11v4a4%204%200%200%201-4%204H9a4%204%200%200%201-4-4V9Z%22%2F%3E%3Cpath%20d%3D%22M16%2010h2.4a2.4%202.4%200%200%201%200%204.8H16%22%2F%3E%3Cpath%20d%3D%22M8%203.4c-.5%201%20.5%201.6%200%202.6M11.5%203.4c-.5%201%20.5%201.6%200%202.6%22%2F%3E%3C%2Fsvg%3E" />
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@600;800&family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+
+:root{
+  --bg:#0a1520; --surface:rgba(255,255,255,.035);
+  --text:#eef6fb; --muted:#93aec4; --dim:#6d8aa3; --line:rgba(150,200,230,.14);
+  --tiffany:#2ee0d0; --tiffany2:#9befe4; --sky:#4cc4ff; --indigo:#8a9bff; --pink:#ff4f9a;
+  --display:'Unbounded',system-ui,sans-serif;
+  --body:'Outfit',system-ui,-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
+  --mono:'Space Mono',ui-monospace,'Courier New',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:var(--body);font-size:16px;
+  line-height:1.55;-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%;
+  padding-bottom:60px;overflow-x:hidden;}
+
+.fx{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
+.blob{position:absolute;border-radius:50%;filter:blur(90px);}
+.b1{width:80vw;height:80vw;top:-26vh;right:-30vw;
+  background:radial-gradient(circle,var(--tiffany),transparent 68%);opacity:.22;}
+.b2{width:75vw;height:75vw;bottom:-14vh;left:-30vw;
+  background:radial-gradient(circle,var(--pink),transparent 68%);opacity:.13;}
+.wrap{position:relative;z-index:1;max-width:640px;margin-inline:auto;padding:0 18px;}
+
+.bar{position:sticky;top:0;z-index:20;background:rgba(6,14,22,.9);
+  -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);}
+.bar__in{max-width:640px;margin-inline:auto;padding:10px 18px;display:flex;align-items:center;gap:10px;}
+.cup{color:var(--tiffany2);line-height:0;flex:none;}
+.cup svg{width:21px;height:21px;display:block;}
+.bar__n{font-family:var(--display);font-weight:600;font-size:.85rem;letter-spacing:-.01em;}
+.lang{margin-left:auto;flex:none;white-space:nowrap;font-family:var(--mono);font-weight:700;
+  font-size:.7rem;letter-spacing:.1em;color:var(--muted);background:var(--surface);
+  border:1px solid var(--line);border-radius:999px;padding:7px 13px;cursor:pointer;
+  -webkit-tap-highlight-color:transparent;}
+
+header{padding:32px 0 4px;}
+.eyebrow{font-family:var(--mono);text-transform:uppercase;letter-spacing:.18em;
+  font-size:.68rem;font-weight:700;color:var(--tiffany2);}
+h1{font-family:var(--display);font-weight:800;letter-spacing:-.025em;line-height:1.08;
+  font-size:clamp(1.8rem,8vw,2.5rem);margin:.32em 0 .36em;}
+.grad{background:linear-gradient(100deg,var(--tiffany2),var(--tiffany) 30%,var(--sky) 58%,var(--pink) 92%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;}
+.facts{font-family:var(--mono);font-size:.78rem;color:var(--dim);letter-spacing:.04em;line-height:1.7;}
+.lede{font-size:.95rem;color:var(--muted);margin-top:16px;line-height:1.6;}
+.lede b{color:var(--text);font-weight:600;}
+
+h2{font-family:var(--display);font-weight:600;letter-spacing:-.015em;font-size:1.05rem;
+  margin:38px 0 12px;display:flex;align-items:center;gap:9px;}
+h2::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;
+  background:var(--ac,var(--tiffany));box-shadow:0 0 12px var(--ac,var(--tiffany));}
+
+.flow{list-style:none;border:1px solid var(--line);border-radius:14px;background:var(--surface);overflow:hidden;}
+.flow li{display:flex;gap:14px;padding:12px 15px;border-top:1px solid var(--line);font-size:.92rem;line-height:1.45;}
+.flow li:first-child{border-top:0;}
+.flow .t{font-family:var(--mono);font-size:.74rem;color:var(--tiffany2);flex:none;width:44px;padding-top:2px;}
+.flow .s{color:var(--dim);font-size:.82rem;display:block;margin-top:2px;}
+
+.topic{border:1px solid var(--line);border-radius:14px;background:var(--surface);
+  padding:15px;margin-bottom:10px;border-left:3px solid var(--ac);}
+.topic__n{font-family:var(--mono);font-size:.64rem;font-weight:700;letter-spacing:.14em;color:var(--ac);}
+.topic__t{font-weight:600;font-size:1rem;margin:5px 0 9px;line-height:1.4;}
+.topic ul{list-style:none;display:flex;flex-direction:column;gap:7px;}
+.topic li{position:relative;padding-left:16px;font-size:.9rem;color:var(--muted);line-height:1.5;}
+.topic li::before{content:"";position:absolute;left:0;top:.6em;width:5px;height:5px;
+  border-radius:50%;background:var(--ac);opacity:.75;}
+
+.bring{border:1px solid rgba(46,224,208,.3);background:rgba(46,224,208,.07);border-radius:14px;
+  padding:14px 15px;font-size:.9rem;color:var(--muted);line-height:1.6;}
+.bring b{color:var(--text);font-weight:600;}
+
+.foot{margin:40px 0 10px;padding-top:18px;border-top:1px solid var(--line);
+  font-family:var(--mono);font-size:.7rem;color:var(--dim);line-height:1.8;}
+.foot a{color:var(--tiffany2);}
+
+.wrap{max-width:680px;}
+.facts a,.lede a{color:var(--tiffany2);}
+.bar__in{max-width:680px;}
+.bar__n a{color:inherit;text-decoration:none;}
+.jump{display:flex;gap:7px;overflow-x:auto;scrollbar-width:none;margin-left:auto;min-width:0;}
+.jump::-webkit-scrollbar{display:none;}
+.jump a{flex:none;font-family:var(--mono);font-size:.68rem;font-weight:700;letter-spacing:.06em;color:var(--muted);
+  text-decoration:none;padding:6px 11px;border-radius:999px;border:1px solid var(--line);background:var(--surface);}
+h2{scroll-margin-top:64px;}
+h3{font-size:.95rem;font-weight:600;margin:16px 0 6px;}
+p.txt{font-size:.92rem;color:var(--muted);line-height:1.65;margin:8px 0;}
+p.txt b,li b{color:var(--text);font-weight:600;}
+.card{border:1px solid var(--line);border-radius:14px;background:var(--surface);padding:15px 16px;margin-bottom:10px;border-left:3px solid var(--ac,var(--tiffany));}
+.card > p{font-size:.9rem;color:var(--muted);line-height:1.6;margin-top:6px;}
+.card > p:first-child{margin-top:0;}
+.k{font-family:var(--mono);font-size:.64rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ac,var(--tiffany));}
+.t{font-weight:600;font-size:1rem;margin:4px 0 8px;line-height:1.4;}
+ul.dots{list-style:none;display:flex;flex-direction:column;gap:6px;margin:6px 0;}
+ul.dots li{position:relative;padding-left:16px;font-size:.9rem;color:var(--muted);line-height:1.55;}
+ul.dots li::before{content:"";position:absolute;left:0;top:.62em;width:5px;height:5px;border-radius:50%;background:var(--ac,var(--tiffany));opacity:.8;}
+ol.qs{list-style:none;counter-reset:q;display:flex;flex-direction:column;gap:9px;margin:8px 0;}
+ol.qs li{counter-increment:q;position:relative;padding-left:30px;font-size:.92rem;line-height:1.55;color:var(--text);}
+ol.qs li::before{content:"Q" counter(q);position:absolute;left:0;top:1px;font-family:var(--mono);font-size:.7rem;font-weight:700;color:var(--ac,var(--tiffany));}
+ol.qs li .zh{display:block;color:var(--muted);font-size:.86rem;margin-top:2px;}
+ol.qs li .f{display:block;color:var(--dim);font-size:.82rem;margin-top:3px;}
+.flow .t{font-weight:400;margin:0;}
+.flow b{font-weight:600;}
+.facts-box{border:1px solid rgba(76,196,255,.3);background:rgba(76,196,255,.06);border-radius:14px;padding:14px 16px;}
+.facts-box li{font-size:.88rem;}
+.src{font-family:var(--mono);font-size:.68rem;color:var(--dim);}
+.src a,.links a{color:var(--tiffany2);text-decoration:none;border-bottom:1px solid rgba(155,239,228,.35);}
+.links{list-style:none;display:flex;flex-direction:column;gap:6px;font-size:.84rem;color:var(--muted);}
+table{width:100%;border-collapse:collapse;font-size:.84rem;margin:8px 0;}
+th,td{text-align:left;padding:7px 8px 7px 0;border-top:1px solid var(--line);vertical-align:top;color:var(--muted);}
+th{color:var(--text);font-weight:600;border-top:0;font-size:.78rem;}
+.say{border-left:2px solid var(--pink);padding:8px 0 8px 12px;margin:10px 0;font-size:.92rem;line-height:1.7;color:var(--text);}
+.say .lbl{display:block;font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;color:var(--pink);font-weight:700;margin-bottom:2px;}
+.mine{border:1px dashed rgba(255,79,154,.45);border-radius:12px;padding:11px 13px;margin:10px 0;font-size:.88rem;color:var(--muted);line-height:1.6;}
+.mine .lbl{display:block;font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;color:var(--pink);font-weight:700;margin-bottom:3px;}
+.mine b{color:var(--text);}
+.time{display:inline-block;font-family:var(--mono);font-size:.66rem;font-weight:700;color:#08131c;background:var(--ac,var(--tiffany));border-radius:999px;padding:2px 8px;margin-right:6px;vertical-align:2px;}
+.cut{font-family:var(--mono);font-size:.7rem;color:#ffc35a;margin-top:6px;}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;}
+.chk{list-style:none;display:flex;flex-direction:column;gap:6px;}
+.chk li{font-size:.88rem;color:var(--muted);}
+.chk li::before{content:"\2610  ";color:var(--tiffany2);}
+dl.gl{display:grid;grid-template-columns:minmax(90px,max-content) 1fr;gap:6px 12px;font-size:.84rem;}
+dl.gl dt{font-weight:600;color:var(--text);}
+dl.gl dd{color:var(--muted);}
+.cta{display:inline-block;margin-top:10px;font-weight:700;font-size:.9rem;color:#08131c;text-decoration:none;
+  background:linear-gradient(100deg,var(--tiffany2),var(--tiffany) 30%,var(--sky) 58%,var(--pink) 92%);border-radius:999px;padding:10px 18px;}
+</style>
+</head>
+<body>
+<div class="fx"><span class="blob b1"></span><span class="blob b2"></span></div>
+<nav class="bar"><div class="bar__in">
+  <span class="cup"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9h11v4a4 4 0 0 1-4 4H9a4 4 0 0 1-4-4V9Z"/><path d="M16 10h2.4a2.4 2.4 0 0 1 0 4.8H16"/><path d="M8 3.4c-.5 1 .5 1.6 0 2.6M11.5 3.4c-.5 1 .5 1.6 0 2.6"/></svg></span>
+  <span class="bar__n"><a href="/">Coffee with Onlu</a></span>
+  <span class="jump"><a href="#p2">CEX/DEX</a><a href="#p3">Perps</a><a href="#p4">Stable</a><a href="#p5">RWA</a><a href="#p7">Practice</a><a href="#p8">Flow</a></span>
+</div></nav>
+<div class="wrap"><style>
+h2{scroll-margin-top:100px;}
+.en{display:block;color:var(--text);font-size:.92rem;line-height:1.6;margin:6px 0;}
+.zh{display:block;color:var(--muted);font-size:.9rem;line-height:1.7;margin:4px 0;}
+.part{font-family:var(--mono);font-size:.66rem;font-weight:700;letter-spacing:.16em;color:var(--dim);margin:42px 0 -30px;text-transform:uppercase;}
+.vs{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;margin:10px 0;}
+.vs > div{border:1px solid var(--line);border-left:3px solid var(--ac);border-radius:12px;padding:12px 13px;background:var(--surface);}
+.vs b{display:block;font-size:.98rem;margin-bottom:2px;}
+.vs .tag{font-family:var(--mono);font-size:.64rem;letter-spacing:.1em;color:var(--ac);text-transform:uppercase;}
+.vs p{font-size:.85rem;color:var(--muted);line-height:1.55;margin-top:6px;}
+.vs .key{color:var(--text);font-weight:600;}
+.ob{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0;font-family:var(--mono);font-size:.82rem;}
+.ob > div{border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:var(--surface);}
+.ob .h{font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px;}
+.ob .r{display:flex;justify-content:space-between;padding:3px 0;}
+.bid .h,.bid .r span:first-child{color:#6fe39a;} .ask .h,.ask .r span:first-child{color:#ff7a9c;}
+.say2{border:1px solid rgba(255,79,154,.35);background:rgba(255,79,154,.06);border-radius:12px;padding:11px 13px;margin:10px 0;}
+.say2 .lbl{display:block;font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;color:var(--pink);font-weight:700;margin-bottom:4px;}
+.say2 p{font-size:.9rem;line-height:1.6;color:var(--text);}
+.warnbox{border:1px solid rgba(255,195,90,.35);background:rgba(255,195,90,.07);border-radius:12px;padding:11px 13px;margin:10px 0;font-size:.88rem;color:#ffe2a8;line-height:1.6;}
+.calc{border:1px solid rgba(76,196,255,.3);background:rgba(76,196,255,.05);border-radius:14px;padding:14px 15px;margin:12px 0;}
+.calc label{display:block;font-size:.82rem;color:var(--muted);margin-top:10px;}
+.calc label b{color:var(--text);font-family:var(--mono);float:right;}
+.calc input[type=range]{width:100%;accent-color:var(--tiffany);margin-top:6px;}
+.out{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin-top:14px;}
+.out div{border:1px solid var(--line);border-radius:10px;padding:9px 11px;background:var(--surface);}
+.out span{display:block;font-size:.72rem;color:var(--dim);}
+.out b{display:block;font-family:var(--display);font-weight:800;font-size:1.15rem;margin-top:2px;font-variant-numeric:tabular-nums;}
+.out .neg{color:#ff7a9c;} .out .pos{color:#6fe39a;}
+.liq{margin-top:10px;font-size:.82rem;color:#ffc35a;}
+.flowchart{display:flex;flex-direction:column;align-items:center;gap:6px;margin:12px 0;}
+.node{border:1px solid var(--line);border-radius:12px;padding:10px 14px;background:var(--surface);text-align:center;min-width:220px;}
+.node b{display:block;font-size:.92rem;} .node span{font-size:.78rem;color:var(--muted);}
+.arrow{font-family:var(--mono);font-size:.72rem;color:var(--dim);}
+.invs{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;}
+.invs .node{min-width:90px;padding:8px 12px;}
+.card2{border:1px solid rgba(46,224,208,.35);border-radius:16px;padding:16px;background:linear-gradient(135deg,rgba(46,224,208,.08),rgba(255,79,154,.05));margin:12px 0;}
+.card2 .n{font-family:var(--mono);font-size:.68rem;color:var(--dim);letter-spacing:.1em;}
+.card2 .q{font-weight:600;font-size:1.02rem;margin:6px 0 2px;}
+.card2 .qz{color:var(--muted);font-size:.9rem;}
+.card2 .ansx{margin-top:12px;border-top:1px solid var(--line);padding-top:10px;}
+.btnrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;}
+.btnrow button{font:700 .72rem var(--mono);letter-spacing:.08em;color:var(--text);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:8px 13px;cursor:pointer;}
+.btnrow button.pri{color:#08131c;background:linear-gradient(100deg,var(--tiffany2),var(--tiffany) 40%,var(--sky));border:0;}
+</style>
+  <header>
+    <p class="eyebrow">Host prep · Beginner guide · 中文 + English</p>
+    <h1>Crypto ×<br><span class="grad">TradFi 101</span></h1>
+    <p class="facts">For Sat, Nov 21 · run-of-show: <a href="/crypto/prep/" target="_blank" rel="noopener">/crypto/prep</a> · participant page: <a href="/crypto/" target="_blank" rel="noopener">/crypto</a></p>
+    <p class="lede"><b>目标不是成为 Crypto trader，而是能讲清楚 Hyperliquid、Binance、稳定币和 RWA 之间的关系，并主持一场有深度的讨论。</b><br>每个概念都按 What it is → How it works → Why it matters → How to discuss it 来讲。</p>
+  </header>
+
+  <div class="say2"><span class="lbl">先掌握这三块 · Learn these three first</span>
+    <p>1. Hyperliquid vs. Binance &nbsp;·&nbsp; 2. Perpetual futures &nbsp;·&nbsp; 3. RWA tokenization（你的 Private Credit 优势）</p></div>
+
+  <p class="part">Part 1</p>
+  <h2 id="p1" style="--ac:var(--tiffany2)">Blockchain &amp; smart contracts 区块链与智能合约</h2>
+  <h3>Blockchain 区块链</h3>
+  <span class="en">A blockchain is a shared digital ledger kept by a network of computers rather than one institution. It records transactions according to agreed rules.</span><span class="zh">可以理解为一本由多方共同维护的电子账本。在银行，你的余额由银行内部系统记录；在区块链上，余额和转账由网络共同验证和记录，已确认的交易很难被单方修改。</span>
+  <div class="vs">
+    <div style="--ac:var(--dim)"><span class="tag">Bank 银行</span><b>One institution keeps the ledger</b><p>一家机构维护账本</p></div>
+    <div style="--ac:var(--tiffany)"><span class="tag">Blockchain 区块链</span><b>Many nodes verify the ledger</b><p>多个节点共同验证</p></div>
+  </div>
+  <div class="warnbox">Why it matters: different parties can share one transaction system without trusting a single company to keep the records. But it does <b>not</b> guarantee a transaction is legal, an asset is real, or the code has no bugs. 不同区块链的去中心化程度和安全性也不一样。</div>
+
+  <h3>Smart contract 智能合约</h3>
+  <span class="en">A program deployed on a blockchain that executes pre-set rules automatically.</span><span class="zh">部署在区块链上的程序，条件满足时自动执行。</span>
+  <p class="txt"><b>Private credit example 例子：</b>a borrower pays $1M of interest in a supported digital asset; the contract automatically sends $600k to Investor A and $400k to Investor B. TradFi can automate this too; the difference is that every party can verify the result on one shared system, and other apps can plug into it. 这就是 <b>programmability（可编程性）</b>。</p>
+
+  <p class="part">Part 2</p>
+  <h2 id="p2" style="--ac:var(--sky)">Binance vs. Hyperliquid vs. Uniswap</h2>
+  <p class="txt">这是最需要理解的区别。</p>
+  <div class="vs">
+    <div style="--ac:#ffc35a"><span class="tag">CEX · 中心化交易所</span><b>Binance</b><p>你把资产存进 Binance，它负责撮合、记账和提现。</p><p class="key">Key idea: trust the operator.</p><p>10 月被盗约 63 亿美元，用户靠 Binance 自有资金补足：用户的安全取决于一家公司。</p></div>
+    <div style="--ac:var(--sky)"><span class="tag">On-chain order book DEX</span><b>Hyperliquid</b><p>用自己控制的钱包下单，订单、成交和持仓由它自己的区块链处理。</p><p class="key">Key idea: trade through blockchain infrastructure.</p></div>
+    <div style="--ac:var(--pink)"><span class="tag">AMM · 自动做市</span><b>Uniswap</b><p>不用订单簿，而是和流动性池兑换，价格由智能合约按池内资产计算。</p><p class="key">Key idea: trade against a pool.</p></div>
+  </div>
+  <h3>买 $10,000 ETH，三种方式 · Buying $10k of ETH</h3>
+  <ul class="dots" style="--ac:var(--sky)">
+    <li><b>Binance:</b> 在 Binance 下单，内部撮合系统匹配买卖双方并更新你的账户余额。</li>
+    <li><b>Hyperliquid:</b> 用钱包控制的账户下单，链上交易系统撮合并更新状态。</li>
+    <li><b>Uniswap:</b> 用 USDC 和池子换 ETH，合约按池内流动性和定价规则完成兑换。</li>
+  </ul>
+  <h3>Order book 订单簿（示意，非实时数据）</h3>
+  <div class="ob">
+    <div class="bid"><div class="h">Bids 买单</div><div class="r"><span>$2,998</span><span>85 ETH</span></div><div class="r"><span>$2,997</span><span>60 ETH</span></div><div class="r"><span>$2,996</span><span>45 ETH</span></div></div>
+    <div class="ask"><div class="h">Asks 卖单</div><div class="r"><span>$3,001</span><span>45 ETH</span></div><div class="r"><span>$3,002</span><span>70 ETH</span></div><div class="r"><span>$3,003</span><span>95 ETH</span></div></div>
+  </div>
+  <p class="txt">买卖双方挂出愿意成交的价格，系统撮合。<b>Liquidity pool 流动性池</b>则像一个自动兑换池：池里有 ETH 和 USDC，你按合约定价直接兑换，不用等别人挂单。</p>
+  <div class="say2"><span class="lbl">You can say</span><p>Binance and Hyperliquid both use order books, but Binance runs its matching engine centrally, while Hyperliquid processes trading on its blockchain. Uniswap uses a different model based on liquidity pools.</p></div>
+
+  <p class="part">Part 3</p>
+  <h2 id="p3" style="--ac:var(--tiffany)">Perpetual futures 永续合约</h2>
+  <span class="en">A derivative that tracks an underlying asset's price with no fixed expiry. You can go long or short, with leverage.</span><span class="zh">没有固定到期日的衍生品，可以做多、做空、加杠杆。是 Hyperliquid 的核心产品。</span>
+  <div class="calc">
+    <b>Leverage calculator 杠杆模拟</b>
+    <label>Margin 保证金 <b id="mv">$10,000</b><input type="range" id="m" min="1000" max="50000" step="1000" value="10000"></label>
+    <label>Leverage 杠杆 <b id="lv">5×</b><input type="range" id="l" min="1" max="20" step="1" value="5"></label>
+    <label>BTC price move 价格变化 <b id="pv">−5%</b><input type="range" id="p" min="-15" max="15" step="1" value="-5"></label>
+    <div class="out"><div><span>Position 名义本金</span><b id="o1"></b></div><div><span>P&amp;L 浮动盈亏</span><b id="o2"></b></div><div><span>Return on margin 保证金回报</span><b id="o3"></b></div></div>
+    <p class="liq" id="liq"></p>
+    <p class="src">Simplified long: ignores funding, fees and slippage. Liquidation happens earlier than shown because of maintenance margin. 简化模型，未计资金费率、手续费和滑点；实际会因维持保证金提前强平。</p>
+  </div>
+  <h3>Funding rate 资金费率</h3>
+  <ul class="dots" style="--ac:var(--tiffany)">
+    <li>Perp above spot → longs usually pay shorts. 合约价高于现货：通常多头付空头。</li>
+    <li>Perp below spot → shorts usually pay longs. 合约价低于现货：通常空头付多头。</li>
+    <li>It's a payment between traders, not usually an exchange fee. 是多空之间的支付，通常不是交易所的收入。</li>
+  </ul>
+  <div class="say2"><span class="lbl">Host question · 主持问题</span><p>Why have perpetual futures become so popular in crypto, compared with dated futures?<br><span class="zh">参考：不用定期展期，适合持续持有杠杆仓位；但资金费率可能很高，杠杆清算风险也大。</span></p></div>
+
+  <p class="part">Part 4</p>
+  <h2 id="p4" style="--ac:var(--pink)">Stablecoins 稳定币</h2>
+  <span class="en">A token designed to hold a stable price, usually $1. USDC is issued by Circle, USDT by Tether.</span><span class="zh">旨在维持稳定价值的数字代币，通常与美元 1:1 挂钩。$1,000 可以换成 1,000 USDC，在支持的链上转账、交易、支付或用于 DeFi。发行商持有现金和短期国债等储备，支持符合条件的赎回。</span>
+  <div class="warnbox"><b>Not a bank deposit:</b> USDC is not FDIC-insured. Holders take issuer, reserve, custody and de-peg risk. 不是有 FDIC 保险的存款。<br><b>Regulation:</b> the OCC's GENIUS Act rule for payment stablecoin issuers was finalized Oct 21 and takes effect Jan 18, 2027. <span class="src">Source: <a href="https://www.occ.gov/news-issuances/news-releases/2026/nr-occ-2026-92.html" target="_blank" rel="noopener">OCC</a></span></div>
+  <p class="txt"><b>Why banks care 银行为什么关心：</b>跨境支付要经过多家中介，受结算时间和时区限制；稳定币可以全天候转移数字美元。但最终换回银行账户里的美元，仍然需要金融机构和合规安排。</p>
+  <div class="say2"><span class="lbl">You can say</span><p>Stablecoins bring a familiar asset, the U.S. dollar, onto blockchain rails. The value isn't a new currency; it's faster, more programmable transfers of dollars.</p></div>
+
+  <p class="part">Part 5 · your strongest topic</p>
+  <h2 id="p5" style="--ac:var(--indigo)">RWA &amp; tokenization 资产代币化</h2>
+  <span class="en">Tokenization represents the rights or economic interest in an asset as tokens on a blockchain.</span><span class="zh">把某项资产的权利或经济利益表示为链上代币。例如一个基金持有 1 亿美元的 Private Credit 资产：</span>
+  <div class="flowchart">
+    <div class="node"><b>Borrower 借款人</b><span>$100M loan</span></div><div class="arrow">loan cash flows ↓</div>
+    <div class="node"><b>Fund / SPV</b><span>holds the loan, issues tokens</span></div><div class="arrow">tokenized interests ↓</div>
+    <div class="invs"><div class="node"><b>Investor A</b></div><div class="node"><b>Investor B</b></div><div class="node"><b>Investor C</b></div></div>
+  </div>
+  <p class="src">Illustrative. Legal rights depend on the SPV, fund documents and token terms; a token isn't necessarily a direct claim on the borrower. 示意图，实际权利取决于 SPV、基金文件和代币条款。</p>
+  <h3>Why tokenize a loan? 为什么上链</h3>
+  <ul class="dots" style="--ac:var(--indigo)">
+    <li><b>Faster settlement</b> 减少人工结算步骤</li><li><b>Fractional ownership</b> 更容易拆成小份额</li>
+    <li><b>Programmable distributions</b> 自动分配利息、执行转让限制</li><li><b>Shared recordkeeping</b> 在共享账本上记录持有人和交易</li>
+  </ul>
+  <div class="warnbox"><b>Tokenization does not eliminate credit risk.</b> 借款人违约，代币照样亏损。没有买家，即使 24/7 可转让也没有真正的流动性。<b>Credit angle:</b> daily-tradable tokens on quarterly-marked loans create a liquidity and valuation mismatch.</div>
+  <table>
+    <tr><th></th><th>Securitization 证券化</th><th>Tokenization 代币化</th></tr>
+    <tr><td>主要目的</td><td>资产池融资、风险分层</td><td>数字化表示和转让权益</td></tr>
+    <tr><td>改变信用风险分配？</td><td>可以（tranching）</td><td>不一定</td></tr>
+    <tr><td>需要 SPV？</td><td>经常需要</td><td>视结构而定</td></tr>
+    <tr><td>需要区块链？</td><td>不需要</td><td>通常需要</td></tr>
+    <tr><td>创造流动性？</td><td>取决于证券和市场</td><td>同样不保证</td></tr>
+  </table>
+  <div class="say2"><span class="lbl">You can say</span><p>Securitization changes how risk and cash flows are structured. Tokenization changes how ownership is recorded and transferred. The two can coexist, for example a tokenized tranche of a securitization.</p></div>
+
+  <p class="part">Part 6</p>
+  <h2 id="p6" style="--ac:var(--sky)">What is Hyperliquid trying to become?</h2>
+  <p class="txt">它不只想做 BTC、ETH 永续合约。基础设施包括：</p>
+  <ul class="dots" style="--ac:var(--sky)">
+    <li><b>HyperCore:</b> 交易和核心金融功能的执行层 · the trading engine.</li>
+    <li><b>HyperEVM:</b> 支持开发者构建智能合约应用 · Ethereum-compatible apps.</li>
+    <li><b>HIP-3:</b> 符合要求（质押 HYPE 等）的开发者可以部署新的永续合约市场，不用从零搭交易所。</li>
+    <li><b>HIP-4:</b> 预测 / 结果市场，据报道 2026 年 5 月上线主网。</li>
+  </ul>
+  <p class="txt">它仍然依赖预言机（价格来源）、流动性、风险管理和监管框架。本周规模：24 小时永续成交约 $10.7B，未平仓约 $5.5B。<span class="src">Source: <a href="https://defillama.com/exchange/hyperliquid" target="_blank" rel="noopener">DefiLlama</a></span></p>
+  <div class="say2"><span class="lbl">An important nuance</span><p>Binance has APIs and its own BNB Chain ecosystem, so it isn't "not programmable". The difference is that Hyperliquid's trading engine and its on-chain app ecosystem are directly connected. 区别不是 Binance 不可编程，而是 Hyperliquid 的交易基础设施和链上应用生态连接得更直接。</p></div>
+
+  <p class="part">Part 7</p>
+  <h2 id="p7" style="--ac:var(--pink)">Practice your answers 练习</h2>
+  <p class="txt">先自己用两三句话回答，再点开参考答案。</p>
+  <div class="card2" id="card">
+    <div class="n" id="cn"></div><div class="q" id="cq"></div><div class="qz" id="cz"></div>
+    <div class="ansx" id="ca" hidden></div>
+    <div class="btnrow"><button type="button" class="pri" id="reveal">Reveal answer 看答案</button><button type="button" id="prev">← Prev</button><button type="button" id="next">Next →</button></div>
+  </div>
+
+  <p class="part">Part 8</p>
+  <h2 id="p8" style="--ac:var(--tiffany2)">A simple 90-minute flow</h2>
+  <table>
+    <tr><th>Time</th><th>Topic</th><th>Your opening question</th></tr>
+    <tr><td>4:15</td><td>Intros</td><td>What's your background and interest in crypto?</td></tr>
+    <tr><td>4:30</td><td>Hyperliquid</td><td>Why does the market need an on-chain Binance? (Use the Binance hack.)</td></tr>
+    <tr><td>4:50</td><td>RWA</td><td>Does tokenization actually solve a real financial problem?</td></tr>
+    <tr><td>5:05</td><td>Stablecoins</td><td>Could stablecoins replace part of the payment infrastructure?</td></tr>
+    <tr><td>5:20</td><td>Crypto × TradFi</td><td>Where is the real investment opportunity?</td></tr>
+    <tr><td>5:35</td><td>Closing</td><td>What part of crypto will matter most in five years?</td></tr>
+  </table>
+  <p class="txt">Answer sketches for each topic are on <a href="/crypto/prep/" target="_blank" rel="noopener">/crypto/prep</a>.</p>
+
+  <h2 id="six" style="--ac:var(--tiffany)">Six words that carry the whole night</h2>
+  <table>
+    <tr><th>Term</th><th>中文</th><th>一句话</th></tr>
+    <tr><td>Blockchain</td><td>区块链</td><td>多方共同维护的交易账本</td></tr>
+    <tr><td>Smart contract</td><td>智能合约</td><td>自动执行预设规则的链上程序</td></tr>
+    <tr><td>DEX</td><td>去中心化交易所</td><td>通过链上基础设施交易</td></tr>
+    <tr><td>Perpetual futures</td><td>永续合约</td><td>没有到期日的衍生品</td></tr>
+    <tr><td>Stablecoin</td><td>稳定币</td><td>旨在维持稳定价值的数字代币</td></tr>
+    <tr><td>Tokenization</td><td>资产代币化</td><td>把资产权益表示为链上代币</td></tr>
+  </table>
+
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  var fmt = function(x){ return (x < 0 ? "\u2212$" : "$") + Math.abs(Math.round(x)).toLocaleString("en-US"); };
+  function calc(){
+    var m = +$("m").value, l = +$("l").value, p = +$("p").value / 100, pos = m * l, pnl = pos * p, r = pnl / m;
+    $("mv").textContent = fmt(m); $("lv").textContent = l + "\u00d7"; $("pv").textContent = (p > 0 ? "+" : p < 0 ? "\u2212" : "") + Math.abs(p * 100) + "%";
+    $("o1").textContent = fmt(pos);
+    $("o2").textContent = (pnl > 0 ? "+" : "") + fmt(pnl); $("o2").className = pnl < 0 ? "neg" : pnl > 0 ? "pos" : "";
+    $("o3").textContent = (r > 0 ? "+" : r < 0 ? "\u2212" : "") + Math.abs(r * 100).toFixed(1) + "%"; $("o3").className = r < 0 ? "neg" : r > 0 ? "pos" : "";
+    var wipe = 100 / l;
+    $("liq").textContent = r <= -1 ? "Margin wiped out: this position would have been liquidated before this move. 保证金已亏光，仓位早已被强平。"
+      : "At " + l + "\u00d7, a move of about \u2212" + wipe.toFixed(1) + "% wipes out the margin; liquidation comes earlier. " + l + " 倍杠杆下，约 \u2212" + wipe.toFixed(1) + "% 就亏光保证金，实际更早强平。";
+  }
+  ["m","l","p"].forEach(function(id){ $(id).addEventListener("input", calc); }); calc();
+
+  var C = [["What is the difference between Binance and Hyperliquid?","Binance 和 Hyperliquid 有什么区别？","Both use order books, but Binance runs its matching engine and holds your assets centrally, so you trust the company (as the $6.3B hack showed, users depend on its balance sheet). On Hyperliquid you trade from a wallet you control, and orders and positions are processed by its blockchain.","两者都用订单簿。Binance 由公司集中撮合并托管你的资产，你需要信任这家公司（10 月 63 亿美元被盗事件说明，用户的安全取决于它的资产负债表）。Hyperliquid 上你用自己控制的钱包交易，订单和持仓由它的区块链处理。"],["What is a perpetual future, and what is the funding rate?","什么是永续合约？什么是资金费率？","A perp is a derivative that tracks an asset with no expiry date, so you can hold a leveraged long or short without rolling. Because it never expires, a funding rate keeps it close to spot: when the perp trades above spot, longs usually pay shorts, and vice versa.","永续合约是没有到期日的衍生品，可以持续持有杠杆多空仓位，不用展期。因为不到期，需要资金费率让价格贴近现货：合约价高于现货时，通常多头付给空头，反之亦然。"],["Is a stablecoin the same as a dollar in a bank?","稳定币和银行里的美元一样吗？","No. A stablecoin like USDC is a token backed by the issuer's reserves of cash and short-term Treasuries. It moves 24/7 on blockchains, but it isn't an FDIC-insured deposit, and you're exposed to the issuer, its reserves and custody, and the risk of losing the peg.","不一样。USDC 等稳定币由发行商的现金和短期国债储备支撑，可以 24/7 在链上转账，但不是有 FDIC 保险的存款，持有人承担发行商、储备、托管和脱锚风险。"],["How is tokenization different from securitization?","代币化和资产证券化有什么区别？","Securitization changes how risk and cash flows are structured, for example through tranches. Tokenization changes how ownership is recorded and transferred. A tokenized loan still carries the same credit risk, and a token that trades 24/7 isn't liquid unless there are buyers.","证券化改变风险和现金流的结构，比如分层。代币化改变权益的记录和转让方式。代币化的贷款信用风险不变；即使代币可以 24/7 转让，没有买家也谈不上流动性。"],["Is the HYPE token like a share in an exchange?","HYPE 代币像交易所的股票吗？","Not legally. If the protocol uses fees to buy back tokens, you can compare fee yield to exchange multiples. But holding the token gives no legal claim on profits, no board and no bankruptcy rights. A strong protocol and an overvalued token can both be true.","法律上不是。如果协议用手续费回购代币，可以拿费用收益和交易所估值倍数比较；但持有代币没有对利润的法定索取权，没有董事会，也没有破产清偿权。协议很好和代币被高估可以同时成立。"]], i = 0;
+  function show(){
+    var c = C[i]; $("cn").textContent = "HOST PRACTICE \u00b7 " + (i + 1) + " / " + C.length;
+    $("cq").textContent = c[0]; $("cz").textContent = c[1];
+    $("ca").innerHTML = '<span class="en"></span><span class="zh"></span>';
+    $("ca").querySelector(".en").textContent = c[2]; $("ca").querySelector(".zh").textContent = c[3];
+    $("ca").hidden = true; $("reveal").textContent = "Reveal answer \u770b\u7b54\u6848";
+  }
+  $("reveal").addEventListener("click", function(){ var h = !$("ca").hidden; $("ca").hidden = h; this.textContent = h ? "Reveal answer \u770b\u7b54\u6848" : "Hide answer \u6536\u8d77"; });
+  $("next").addEventListener("click", function(){ i = (i + 1) % C.length; show(); });
+  $("prev").addEventListener("click", function(){ i = (i - 1 + C.length) % C.length; show(); });
+  show();
+})();
+</script>
+  <p class="foot">Coffee with Onlu · <a href="/">coffeewithonlu.com</a><br>An Onlu Intel project · NYC</p>
+</div>
+</body>
+</html>
