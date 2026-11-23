@@ -691,3 +691,7 @@ h1, h2, h3, .brief-title { font-variant-numeric: lining-nums proportional-nums; 
 /* calendar event names are titles too */
 .cal-e { font-family: var(--font-display) !important; font-weight: 400 !important; font-size: 1.2rem; letter-spacing: -0.01em; }
 .cal-in { font-size: 0.78rem; }
+/* Today in Finance: headlines are titles, tags match the Onlu Brief labels */
+.hl__t { font-family: var(--font-display) !important; font-weight: 400 !important; font-size: 1.22rem; line-height: 1.3; letter-spacing: -0.01em; margin-top: 4px; font-variant-numeric: lining-nums; }
+.hl__cat { border: 0 !important; padding: 0 !important; border-radius: 0 !important; }
+.hl { padding: 14px 0; }
