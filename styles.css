@@ -648,3 +648,46 @@ h1, h2, h3 { font-weight: 400; letter-spacing: -0.015em; line-height: 1.02; }
 .hero__title { font-size: clamp(3rem, 8.6vw, 6.4rem); letter-spacing: -0.03em; }
 .section__title { font-size: clamp(2.3rem, 5.6vw, 4rem); letter-spacing: -0.025em; }
 .tw-vertical { letter-spacing: -0.02em; }
+
+/* ---------- Type roles (one rule per role, so the page reads as one system) ----------
+   Serif  (Playfair Display): headings, card titles, big numbers, FAQ questions, brand.
+   Sans   (Inter):            every sentence and UI string: body, meta lines, notes, links, buttons, forms.
+   Mono   (IBM Plex Mono):    short UPPERCASE labels only: eyebrows, tags, months, stat labels. */
+:root { --mk-display: var(--font-display); --mk-body: var(--font-body); --mk-mono: var(--font-mono); }
+
+/* serif */
+h1, h2, h3, .brand__name, .tw-vertical, .past-title, .brief-title, .vert__name, .faq summary,
+.stat__num, .past-date b, .cal-date b, .mk-v, .qt-v, .cpi-stats b, .strip__item, .step__num {
+  font-family: var(--font-display) !important; font-weight: 400 !important; letter-spacing: -0.015em;
+}
+.step h3, .faq summary { font-size: 1.5rem; }
+.past-title, .brief-title, .vert__name { font-size: 1.35rem !important; line-height: 1.2 !important; }
+.today-home__head h3, .sub h2, .sub h3, .mk h2, .brief-list__head h3 { font-size: 1.6rem !important; }
+
+/* sans: sentence-length text that used to be mono */
+.hero__note, .tw-meta, .tw-note, .tw-partiful, .past-meta, .past-link, .brief-meta time, .brief-src,
+.qt-status, .qt-note, .sum-note, .cal-in, .cal-x, .mk-d, .mk-src, .today-home__head span, .hl__meta,
+.footer__part, .footer__legal, .form__fine, .sub-fine, .field__hint {
+  font-family: var(--font-body) !important; letter-spacing: 0 !important; text-transform: none !important;
+}
+.hero__note, .tw-meta, .past-meta, .brief-meta time, .footer__legal, .footer__part { font-size: 0.86rem !important; }
+.tw-note, .tw-partiful, .past-link, .brief-src, .qt-note, .sum-note, .mk-src, .form__fine, .sub-fine, .field__hint { font-size: 0.82rem !important; }
+.hero__note b, .hero__note strong { font-weight: 600; }
+
+/* mono: uppercase labels only, one size and spacing */
+.eyebrow, .tw-pill, .tw-badge, .brief-area, .past-date span, .stat__label, .vert__tag, .field label .opt,
+.hl__cat, .sum-k, .sum-tag, .cpi-k, .cpi-k2, .cal-date span, .tk-k, .onlu-intel {
+  font-family: var(--font-mono) !important; font-weight: 500 !important; text-transform: uppercase;
+  font-size: 0.68rem !important; letter-spacing: 0.2em !important;
+}
+.eyebrow { font-size: 0.72rem !important; letter-spacing: 0.26em !important; }
+
+/* sans weights: 400 text, 600 emphasis and controls */
+body, p, li { font-weight: 400; }
+.btn, .field label, .tw-actions .btn, .sub-row button { font-family: var(--font-body) !important; font-weight: 600 !important; letter-spacing: 0.01em; }
+/* lining figures everywhere, so numbers sit on the baseline in the serif too */
+body, h1, h2, h3, .brand__name, .stat__num, .past-date b, .cal-date b, .mk-v, .qt-v, .cpi-stats b, .brief-title { font-variant-numeric: lining-nums tabular-nums; }
+h1, h2, h3, .brief-title { font-variant-numeric: lining-nums proportional-nums; }
+/* calendar event names are titles too */
+.cal-e { font-family: var(--font-display) !important; font-weight: 400 !important; font-size: 1.2rem; letter-spacing: -0.01em; }
+.cal-in { font-size: 0.78rem; }
