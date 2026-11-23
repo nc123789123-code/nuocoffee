@@ -6,7 +6,7 @@
 <title>Onlu Members</title>
 <meta name="description" content="The Onlu community: people who've been to an Onlu event. Follow each other to swap socials." />
 <meta name="robots" content="noindex" />
-<meta name="theme-color" content="#0a1520" />
+<meta name="theme-color" content="#1c1614" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;800&family=Outfit:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" />
@@ -59,7 +59,8 @@ h2{font-family:var(--display);font-weight:600;font-size:.95rem;letter-spacing:-.
 form{display:flex;flex-direction:column;gap:12px;margin-top:16px;}
 label{display:flex;flex-direction:column;gap:5px;font-size:.82rem;font-weight:600;color:var(--muted);}
 label small{font-weight:400;color:var(--dim);}
-input,select,textarea{resize:vertical;}
+input,select,textarea{font:inherit;font-size:16px;color:var(--text);background:var(--surface);border:1px solid var(--line2);border-radius:12px;padding:11px 12px;width:100%;}
+textarea{resize:vertical;}
 h2 small.hint{display:block;font-family:var(--body);font-weight:400;font-size:.78rem;margin-top:2px;}
 textarea{font:inherit;font-size:16px;color:var(--text);background:var(--surface);border:1px solid var(--line2);border-radius:12px;padding:11px 12px;width:100%;}
 input::placeholder{color:#55708a;}
@@ -156,12 +157,13 @@ legend small{font-weight:400;color:var(--dim);}
 .foot a{color:var(--tiffany2);}
 @media (prefers-reduced-motion:reduce){.toast{transition:none;}}
 </style>
+<link rel="stylesheet" href="/lib/editorial.css" />
 </head>
 <body>
 <div class="fx"><span class="blob b1"></span><span class="blob b2"></span></div>
 <div class="wrap">
   <header class="top">
-    <a href="/members/"><span class="cup" id="cup"></span><span class="brand">Onlu Members</span></a>
+    <a href="/members/"><span class="cup" id="cup"></span><span class="brand">Onlu <em style="color:var(--tiffany)">Members</em></span></a>
     <span class="who" id="who" hidden></span>
   </header>
   <main id="app"><p class="hint" style="margin-top:24px">Loading…</p></main>
@@ -175,8 +177,9 @@ legend small{font-weight:400;color:var(--dim);}
 <script>
 (function(){
   "use strict";
-  document.getElementById("cup").innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' +
-    '<path d="M5 9h11v4a4 4 0 0 1-4 4H9a4 4 0 0 1-4-4V9Z"/><path d="M16 10h2.4a2.4 2.4 0 0 1 0 4.8H16"/><path d="M8 3.4c-.5 1 .5 1.6 0 2.6M11.5 3.4c-.5 1 .5 1.6 0 2.6"/></svg>';
+  document.getElementById("cup").innerHTML = '<svg viewBox="130 130 740 740" style="width:28px;height:28px"><defs><linearGradient id="cm-g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9befe4"/><stop offset=".4" stop-color="#2ee0d0"/><stop offset=".7" stop-color="#4cc4ff"/><stop offset="1" stop-color="#c58bd6"/></linearGradient></defs>' +
+    '<circle cx="500" cy="500" r="330" fill="url(#cm-g)"/><circle cx="500" cy="500" r="268" fill="#4a2c1f"/><path d="M410 395 H590 A80 80 0 0 1 670 475 V505 A80 80 0 0 1 590 585 H460 L392 640 L408 578 A80 80 0 0 1 330 505 V475 A80 80 0 0 1 410 395 Z" fill="#f3e6d3"/>' +
+    '<circle cx="430" cy="490" r="20" fill="#5a3624"/><circle cx="500" cy="490" r="20" fill="#5a3624"/><circle cx="570" cy="490" r="20" fill="#5a3624"/></svg>';
 
   var app = document.getElementById("app");
   var AV_EMOJI = ["\u2615", "\ud83d\udcc8", "\ud83c\udfe6", "\ud83e\udd16", "\ud83e\uddec", "\ud83c\udfc3", "\ud83c\udfa8", "\ud83c\udf0f"];
