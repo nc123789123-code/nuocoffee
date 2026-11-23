@@ -191,3 +191,18 @@ the `VERTICALS` array at the top of `app.js`, plus the `<select>` in
 4. Optional LinkedIn verification as a "verified" signal, once it's worth something
 5. Scheduling + café suggestions; light membership
 6. Expand verticals, then cities and industries
+
+### Fund spotlight
+
+`news/fund.json` holds one leading fund (name, facts, a dated history, why it
+matters, what to watch, sources). `node tools/build-news.js` writes it into
+`/news` (full section, `#fund`) and a short card on the homepage. Replace the
+file's contents to feature a different fund.
+
+### Daily updates
+
+A scheduled task runs on weekdays at about 6:40 AM New York time. It researches
+the previous day's finance news, adds one or two sourced stories to
+`news/items.json`, refreshes `CAL` key dates in `news/news.js` when official
+calendars add new releases, swaps the fund spotlight on Mondays, rebuilds with
+`node tools/build-news.js`, and pushes.

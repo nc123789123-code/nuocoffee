@@ -183,6 +183,32 @@ h1{font-family:var(--display);font-weight:800;letter-spacing:-.03em;line-height:
 .btn.primary{background:var(--grad);color:var(--ink);border:0;}
 .foot{margin-top:34px;padding-top:16px;border-top:1px solid var(--line);font-family:var(--mono);font-size:.7rem;color:var(--dim);line-height:1.8;}
 .foot a{color:var(--tiffany2);}
+
+/* Fund spotlight */
+.fund{margin-top:28px;border:1px solid var(--line);border-radius:6px;padding:clamp(18px,3vw,28px);}
+.fund-k{font-family:var(--font-mono,var(--mono));font-size:.68rem;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--tiffany);margin:0;}
+.fund-t{font-family:var(--font-display,var(--display));font-weight:400;font-size:clamp(1.6rem,4vw,2.2rem);letter-spacing:-.015em;line-height:1.1;margin:10px 0 8px;display:block;color:var(--text);}
+.fund-tk{font-style:italic;color:var(--tiffany);}
+.fund-dek{color:var(--muted);font-size:1rem;line-height:1.55;margin:0;display:block;}
+.fund-facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 20px;margin:20px 0 6px;padding:16px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+.fund-facts dt{font-family:var(--font-mono,var(--mono));font-size:.64rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);}
+.fund-facts dd{margin:4px 0 0;font-size:.92rem;color:var(--text);line-height:1.45;}
+.fund-h3{font-family:var(--font-display,var(--display));font-weight:400;font-size:1.3rem;margin:22px 0 10px;}
+.fund-tl{list-style:none;margin:0;padding:0 0 0 18px;border-left:1px solid var(--line2,var(--line-2));display:flex;flex-direction:column;gap:16px;}
+.fund-tl li{position:relative;}
+.fund-tl li::before{content:"";position:absolute;left:-23px;top:.45em;width:9px;height:9px;border-radius:50%;background:var(--tiffany);}
+.fund-when{display:block;font-family:var(--font-mono,var(--mono));font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--tiffany);}
+.fund-tl p{margin:3px 0 0;color:var(--muted);font-size:.95rem;line-height:1.6;}
+.fund-cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:0 28px;}
+.fund-cols ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:7px;}
+.fund-cols li{position:relative;padding-left:15px;color:var(--muted);font-size:.93rem;line-height:1.55;}
+.fund-cols li::before{content:"";position:absolute;left:0;top:.65em;width:5px;height:5px;border-radius:50%;background:var(--tiffany);}
+.fund-src{margin:22px 0 0;font-size:.8rem;color:var(--dim);line-height:1.7;}
+.fund-src a{color:var(--tiffany);}
+.fund-card{display:block;margin-top:22px;border:1px solid var(--line);border-left:3px solid var(--tiffany);border-radius:6px;padding:18px 22px;text-decoration:none;color:inherit;}
+.fund-card:hover{border-color:var(--tiffany);}
+.fund-card .fund-t{font-size:1.6rem;margin:8px 0 6px;}
+.fund-more{display:block;margin-top:10px;font-size:.88rem;color:var(--tiffany);}
 </style>
 <link rel="stylesheet" href="/lib/editorial.css" />
 <script src="/lib/logo.js" defer></script>
@@ -230,6 +256,8 @@ h1{font-family:var(--display);font-weight:800;letter-spacing:-.03em;line-height:
     <p class="today__sub">Live headlines from financial news outlets, linked to the original.</p>
     <ul class="hls" id="hls"><li class="hl hl--empty">Loading headlines…</li></ul>
   </section>
+
+  <!--fund--><section class="fund" id="fund" aria-labelledby="fund-h"><p class="fund-k">Fund spotlight</p><h2 id="fund-h" class="fund-t">Blackstone Private Credit Fund <span class="fund-tk">BCRED</span></h2><p class="fund-dek">The flagship of private credit&#39;s push to individual investors, and this year the test of how a semi-liquid fund behaves when many holders want out at once.</p><dl class="fund-facts"><div><dt>Manager</dt><dd>Blackstone</dd></div><div><dt>Launched</dt><dd>January 2021</dd></div><div><dt>Size</dt><dd>About $43bn of net assets (June 30, 2026)</dd></div><div><dt>Structure</dt><dd>Non-traded BDC, perpetual, for individual investors</dd></div><div><dt>Liquidity</dt><dd>Quarterly buybacks, capped at 5% of shares</dd></div></dl><h3 class="fund-h3">History</h3><ol class="fund-tl"><li><span class="fund-when">Jan 2021</span><p>Launches at $25 a share, giving wealthy individuals access to Blackstone&#39;s direct lending through a fund with monthly subscriptions and quarterly repurchases.</p></li><li><span class="fund-when">Q1 2026</span><p>Repurchase requests hit a then-record of about 7.9% of shares (reported as $3.7bn to $3.8bn). All requests are met, with Blackstone and its employees putting in about $400m.</p></li><li><span class="fund-when">Q2 2026</span><p>Requests rise to about 10% of shares ($4.5bn). For the first time the fund holds to its 5% cap, paying roughly half of what was asked and leaving a backlog of about $2.3bn.</p></li><li><span class="fund-when">Q3 2026</span><p>Requests stay near 10% (about $4.3bn). The fund again fills 5%, paying about $2.13bn; after $750m of new subscriptions, net outflows are about 3% of NAV.</p></li><li><span class="fund-when">Nov 2026</span><p>Reports an 8.9% annualized net return since inception (Class I shares), and 10% EBITDA growth across its borrowers over the last twelve months.</p></li></ol><div class="fund-cols"><div><h3 class="fund-h3">Why it matters</h3><ul><li>It is the benchmark for semi-liquid private credit: how BCRED handles redemptions sets expectations for every similar fund.</li><li>The 5% cap is the design working as intended, but it means investors can wait several quarters to get all their money out.</li><li>Its returns and borrower data are one of the few regular, public windows into large-scale direct lending.</li></ul></div><div><h3 class="fund-h3">What to watch</h3><ul><li>Whether repurchase requests fall back below the 5% cap</li><li>Per-share NAV and the distribution rate</li><li>Non-accruals and PIK income as rates rise again</li></ul></div></div><p class="fund-src">Sources: <a href="https://altswire.com/bcred-caps-q3-repurchases-at-5-as-requests-hit-4-3b-about-10-of-shares/" target="_blank" rel="noopener">AltsWire (Q3)</a> · <a href="https://bluevaultpartners.com/private-credits-liquidity-test-isnt-over-bcred-repurchase-requests-remain-elevated/" target="_blank" rel="noopener">Blue Vault</a> · <a href="https://www.cnbc.com/2026/06/04/blackstone-caps-withdrawals-private-credit.html" target="_blank" rel="noopener">CNBC (Q2 cap)</a> · <a href="https://altswire.com/blackstones-bcred-meets-record-7-9-redemption-requests/" target="_blank" rel="noopener">AltsWire (Q1)</a> · <a href="https://alternativecreditinvestor.com/2026/07/23/blackstone-private-credit-strategy-returns-6-8pc-in-12-months/" target="_blank" rel="noopener">Alternative Credit Investor</a> · <a href="https://www.sec.gov/Archives/edgar/data/0001803498/000180349826000059/bcred-20261103.htm" target="_blank" rel="noopener">BCRED 8-K, Nov 2026</a> · Figures as reported; not investment advice. Updated 2026-11-23.</p></section><!--/fund-->
 
   <h2 class="brief-h">Onlu Brief <span>what happened, why it matters, our take</span></h2>
   <div class="filters" id="filters" role="group" aria-label="Filter by area"></div>

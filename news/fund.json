@@ -1,0 +1,70 @@
+{
+ "id": "bcred",
+ "updated": "2026-11-23",
+ "name": "Blackstone Private Credit Fund",
+ "ticker": "BCRED",
+ "manager": "Blackstone",
+ "type": "Non-traded BDC, perpetual, for individual investors",
+ "launched": "January 2021",
+ "size": "About $43bn of net assets (June 30, 2026)",
+ "liquidity": "Quarterly buybacks, capped at 5% of shares",
+ "dek": "The flagship of private credit's push to individual investors, and this year the test of how a semi-liquid fund behaves when many holders want out at once.",
+ "timeline": [
+  {
+   "when": "Jan 2021",
+   "what": "Launches at $25 a share, giving wealthy individuals access to Blackstone's direct lending through a fund with monthly subscriptions and quarterly repurchases."
+  },
+  {
+   "when": "Q1 2026",
+   "what": "Repurchase requests hit a then-record of about 7.9% of shares (reported as $3.7bn to $3.8bn). All requests are met, with Blackstone and its employees putting in about $400m."
+  },
+  {
+   "when": "Q2 2026",
+   "what": "Requests rise to about 10% of shares ($4.5bn). For the first time the fund holds to its 5% cap, paying roughly half of what was asked and leaving a backlog of about $2.3bn."
+  },
+  {
+   "when": "Q3 2026",
+   "what": "Requests stay near 10% (about $4.3bn). The fund again fills 5%, paying about $2.13bn; after $750m of new subscriptions, net outflows are about 3% of NAV."
+  },
+  {
+   "when": "Nov 2026",
+   "what": "Reports an 8.9% annualized net return since inception (Class I shares), and 10% EBITDA growth across its borrowers over the last twelve months."
+  }
+ ],
+ "why": [
+  "It is the benchmark for semi-liquid private credit: how BCRED handles redemptions sets expectations for every similar fund.",
+  "The 5% cap is the design working as intended, but it means investors can wait several quarters to get all their money out.",
+  "Its returns and borrower data are one of the few regular, public windows into large-scale direct lending."
+ ],
+ "watch": [
+  "Whether repurchase requests fall back below the 5% cap",
+  "Per-share NAV and the distribution rate",
+  "Non-accruals and PIK income as rates rise again"
+ ],
+ "src": [
+  {
+   "n": "AltsWire (Q3)",
+   "u": "https://altswire.com/bcred-caps-q3-repurchases-at-5-as-requests-hit-4-3b-about-10-of-shares/"
+  },
+  {
+   "n": "Blue Vault",
+   "u": "https://bluevaultpartners.com/private-credits-liquidity-test-isnt-over-bcred-repurchase-requests-remain-elevated/"
+  },
+  {
+   "n": "CNBC (Q2 cap)",
+   "u": "https://www.cnbc.com/2026/06/04/blackstone-caps-withdrawals-private-credit.html"
+  },
+  {
+   "n": "AltsWire (Q1)",
+   "u": "https://altswire.com/blackstones-bcred-meets-record-7-9-redemption-requests/"
+  },
+  {
+   "n": "Alternative Credit Investor",
+   "u": "https://alternativecreditinvestor.com/2026/07/23/blackstone-private-credit-strategy-returns-6-8pc-in-12-months/"
+  },
+  {
+   "n": "BCRED 8-K, Nov 2026",
+   "u": "https://www.sec.gov/Archives/edgar/data/0001803498/000180349826000059/bcred-20261103.htm"
+  }
+ ]
+}
