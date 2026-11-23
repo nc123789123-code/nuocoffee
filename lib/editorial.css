@@ -67,3 +67,6 @@ select option { background: #241c19 !important; color: #f2eadf !important; }
 .av { border-radius: 50%; }
 .m__o { border-left-color: var(--tiffany) !important; }
 input[type="checkbox"], input[type="radio"] { width: auto !important; accent-color: var(--tiffany); }
+
+/* headline tags as plain labels, like the homepage */
+.hl__cat { border: 0 !important; padding: 0 !important; border-radius: 0 !important; background: none !important; }
