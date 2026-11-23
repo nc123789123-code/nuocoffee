@@ -4,7 +4,7 @@
    chunky retro display type. Deliberately single (dark) theme.
    ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 
 :root {
   /* Ground — deep blue-navy, cooler and calmer than full teal */
@@ -545,3 +545,106 @@ body > *:not(.fx) { position: relative; z-index: 1; }
 @media (prefers-reduced-motion: reduce) {
   * { scroll-behavior: auto !important; animation: none !important; transition: none !important; }
 }
+
+/* ============================================================
+   Editorial theme (Nov 2026)
+   Espresso + cream, a high-contrast serif with italic teal accents,
+   mono eyebrows and hairline rules. No gradients or glows.
+   This layer overrides the tokens and components above.
+   ============================================================ */
+
+:root {
+  --bg: #1c1614; --bg-2: #15100f;
+  --surface: rgba(242, 234, 223, 0.035); --surface-2: rgba(242, 234, 223, 0.06);
+  --line: rgba(242, 234, 223, 0.13); --line-2: rgba(242, 234, 223, 0.24);
+  --text: #f2eadf; --muted: #b9ab9d; --dim: #8e8073;
+  --tiffany: #5fd4c4; --tiffany-2: #5fd4c4; --tiffany-3: #2fae9f; --mint: #5fd4c4;
+  --sky: #7fbfd8; --azure: #8aa6d8; --indigo: #a9a2d6; --violet: #b49ad6;
+  --pink: #e8819f; --tan: #c99a6a;
+  --grad: linear-gradient(0deg, var(--tiffany), var(--tiffany));
+  --grad-soft: transparent;
+  --radius: 6px; --radius-sm: 4px;
+  --shadow: none; --glow-tiffany: none; --glow-pink: none;
+  --font-display: 'Playfair Display', 'Times New Roman', serif;
+  --font-body: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'Courier New', monospace;
+}
+/* cream sections: the same tokens, inverted */
+.light {
+  --bg: #f2eadf; --surface: rgba(28, 22, 20, 0.03); --surface-2: rgba(28, 22, 20, 0.06);
+  --line: rgba(28, 22, 20, 0.14); --line-2: rgba(28, 22, 20, 0.28);
+  --text: #1c1614; --muted: #6f6359; --dim: #8e8073;
+  --tiffany: #0e7a6d; --tiffany-2: #0e7a6d; --tiffany-3: #0e7a6d; --pink: #a8284f; --tan: #b07f4f;
+  background: var(--bg); color: var(--text);
+}
+
+body { background: var(--bg); color: var(--text); }
+.fx { display: none; }
+h1, h2, h3 { font-weight: 400; letter-spacing: -0.015em; line-height: 1.02; }
+.grad, .tw-vertical .grad { background: none; -webkit-background-clip: initial; background-clip: initial; color: var(--tiffany); font-style: italic; }
+.section__title { font-size: clamp(2.6rem, 6.4vw, 4.6rem); }
+.section__title em, .hero__title em { color: var(--tiffany); font-style: italic; }
+.section__lede { color: var(--muted); }
+.eyebrow { font-weight: 500; font-size: 0.72rem; letter-spacing: 0.26em; color: var(--tiffany); }
+.eyebrow .ico { display: none; }
+
+/* nav */
+.nav { background: color-mix(in srgb, var(--bg) 88%, transparent); }
+.brand__mark { filter: none; }
+.brand__mark svg { width: 30px; height: 30px; display: block; }
+.brand__name { font-family: var(--font-display); font-size: 1.42rem; letter-spacing: -0.01em; font-weight: 400; }
+.brand__name b { font-weight: 400; font-style: italic; color: var(--tiffany); }
+
+/* buttons: flat, squared, cream on espresso */
+.btn { background: var(--text); color: var(--bg); border-radius: 4px; box-shadow: none; font-weight: 600; letter-spacing: 0.01em; }
+.btn:hover { background: var(--tiffany); color: #15100f; box-shadow: none; transform: none; }
+.btn--ghost { background: transparent; color: var(--text); border: 1px solid var(--line-2); }
+.btn--ghost:hover { background: transparent; color: var(--tiffany); border-color: var(--tiffany); }
+
+/* hero */
+.hero { padding: clamp(80px, 13vw, 160px) 0 clamp(48px, 8vw, 90px); border-bottom: 1px solid var(--line); }
+.hero__title { font-size: clamp(3.4rem, 10vw, 7.4rem); line-height: 0.96; letter-spacing: -0.025em; }
+.hero__note { font-size: 0.78rem; }
+.hero__note a { color: var(--tiffany); }
+
+/* cards and panels: hairlines instead of glow cards */
+.tw-card, .past-card, .brief-card, .today-home, .form, .vert, .step, .faq details, .mk-tile, .qt-item, .sum-card, .sum-head, .cpi, .stat, .sub, .rsvp-card {
+  background: transparent !important; box-shadow: none !important; border-radius: var(--radius) !important;
+}
+.tw-card { border: 1px solid var(--line); background-image: none !important; }
+.tw-icon { filter: none; }
+.tw-dot { box-shadow: none; }
+.tw-vertical { font-size: clamp(2.2rem, 5vw, 3.2rem) !important; }
+.tw-foot .btn { background: var(--text); color: var(--bg); box-shadow: none; }
+.tw-foot .btn:hover { background: var(--tiffany); }
+.past-card { border-left-width: 1px; }
+.past-title, .brief-title, .vert__name { font-weight: 400; font-size: 1.4rem; line-height: 1.15; }
+.past-date b { font-weight: 400; font-size: 1.6rem; }
+.strip__item, .marquee span { background: none !important; -webkit-background-clip: initial !important; background-clip: initial !important; color: var(--text) !important; font-family: var(--font-display) !important; font-style: italic; font-weight: 400 !important; }
+.stat__num { font-weight: 400; font-size: clamp(2.4rem, 5vw, 3.4rem); }
+.step__num { background: none !important; box-shadow: none !important; color: var(--tiffany) !important; font-family: var(--font-display); font-style: italic; font-weight: 400 !important; font-size: 2.6rem !important; width: auto !important; height: auto !important; border-radius: 0 !important; justify-content: flex-start !important; }
+.section--muted { background: none; }
+.section--cta { background: none !important; }
+.sub { border: 1px solid var(--line) !important; }
+.sub-row button { background: var(--text) !important; color: var(--bg) !important; border-radius: 4px !important; }
+.sub-row input { border-radius: 4px !important; }
+.field input, .field select, .field textarea { border-radius: 4px; }
+.mk-v, .qt-v, .cpi-stats b { font-family: var(--font-display) !important; font-weight: 400 !important; font-size: 1.6rem !important; letter-spacing: -0.01em !important; }
+.sub h2, .sub h3, .today-home__head h3, .mk h2 { font-weight: 400; font-size: 1.7rem; }
+.tk { background: transparent; }
+.qt-dot { box-shadow: none; }
+.footer { border-top: 1px solid var(--line); }
+
+/* how-it-works and other grids: hairline dividers, no boxes (like the IG cards) */
+.light .step { border: 0 !important; border-top: 1px solid var(--line-2) !important; border-radius: 0 !important; padding: 22px 4px 0 !important; }
+.step h3, .step__title { font-size: 1.7rem; font-weight: 400; }
+.vert { border-top-width: 1px !important; }
+.faq details { border-left: 0 !important; border-right: 0 !important; border-top: 0 !important; border-radius: 0 !important; }
+.faq summary { font-family: var(--font-display); font-weight: 400; font-size: 1.45rem; }
+.past-card { background: transparent !important; }
+.past-date { border-radius: 4px; }
+.footer .brand__mark svg { width: 30px; height: 30px; }
+/* Playfair sizes a bit larger than the condensed fallback: trim the biggest headings */
+.hero__title { font-size: clamp(3rem, 8.6vw, 6.4rem); letter-spacing: -0.03em; }
+.section__title { font-size: clamp(2.3rem, 5.6vw, 4rem); letter-spacing: -0.025em; }
+.tw-vertical { letter-spacing: -0.02em; }

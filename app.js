@@ -380,7 +380,7 @@
 
     host.innerHTML =
       '<p class="eyebrow eyebrow--center">Upcoming</p>' +
-      '<h2 class="section__title">Pull up a chair.</h2>' +
+      '<h2 class="section__title">Pull up a <em>chair.</em></h2>' +
       '<p class="section__lede">Coffees, dinners and small closed-door panels in NYC, always kept small. Grab a seat.</p>' +
       '<div class="tw-list">' + cards + "</div>";
     section.hidden = false;
